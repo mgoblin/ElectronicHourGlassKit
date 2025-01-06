@@ -15,8 +15,6 @@ board_model = 'STC15W204S'
 path = f'{home}/.platformio/packages/toolchain-sdcc/bin'
 os.environ["PATH"] += os.pathsep + path
 env = DefaultEnvironment(ENV = os.environ)
-print('PATH is ', env['ENV']['PATH'])
-
 
 env.Append(
     ASFLAGS=["-l", "-s"],
@@ -40,8 +38,6 @@ env.Append(
         "--out-fmt-ihx",
     ],
 )
-
-print("Build stage examples")
 
 pioenv = board_model
 env['PIOENV'] = pioenv
