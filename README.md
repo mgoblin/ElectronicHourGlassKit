@@ -160,6 +160,15 @@ where file file is name of firmware hex file.
 
 # Electrical schema
 
+The hourglass board has 57 LEDs, any combination of which the microcontroller can light, using just 12 I/O pins: the whole chip only has sixteen pins, and some of those are used for power, and sensing the push button.
+
+Take a look at the circuit diagram
+
+![Schema](images/Electrical_schema.jpg)
+
+LEDs are grouped into 12 lines. Each line excepth the last have 5 LEDs that drives by P3 and P1 pins.
+
+
 # LED driving algorithms
 
 ## Stage 1
