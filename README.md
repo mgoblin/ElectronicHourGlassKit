@@ -13,6 +13,8 @@ Electronic houglass kit is 57 LEDs driven by STC15W204S (or STC15W201S)
 
 [Electronic houglass kit](https://www.icstation.com/hourglass-shaped-flashing-light-kits-simple-lamp-electronics-soldering-practice-stem-teaching-kits-p-12309.html)
 
+![Electronic houglass kit image](https://www.icstation.com/images/template/bg_ics.png)
+
 ## Additional hardware
 To upload firmware you need USB-2-TTL adapter. I use CHG340g.
 
