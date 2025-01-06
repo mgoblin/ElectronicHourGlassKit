@@ -1,0 +1,15 @@
+Import('env')
+
+
+prog = env.Program('stage1',
+                    source = 'led_main', 
+                    LIBS = ['leds1', 'hal'], 
+                    LIBPATH = [
+                        '#.pio/build/STC15W204S/lib/leds1', 
+                        '#.pio/build/STC15W204S/lib/hal'])
+
+env.Default (
+    env.Object('led_main'),
+    prog,
+    env.Install('#firmware', prog)
+), 

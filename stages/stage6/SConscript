@@ -1,0 +1,16 @@
+Import('env')
+
+
+prog = env.Program('stage6',
+                source = 'page_timer', 
+                LIBS = ['hal', 'ehgk_page'], 
+                LIBPATH = [
+                    '#.pio/build/STC15W204S/lib/hal',
+                    '#.pio/build/STC15W204S/lib/ehgk_page'
+                    ])
+
+env.Default (
+    env.Object('page_timer'),
+    prog,
+    env.Install('#firmware', prog)
+), 

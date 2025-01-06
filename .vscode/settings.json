@@ -1,0 +1,24 @@
+{
+    "files.associations": {
+        "sys.h": "c",
+        "frequency.h": "c",
+        "leds1.h": "c",
+        "page.h": "c",
+        "stdlib.h": "c",
+        "compare": "cpp",
+        "ehgk_page.h": "c",
+        "ehgk_leds.h": "c",
+        "stddef.h": "c",
+        "ehgk_page_iterator_test.h": "c",
+        "stdio.h": "c",
+        "timer0_mode0.h": "c",
+        "ehgk_page_iterator.h": "c",
+        "pin.h": "c",
+        "eghk_page_iterator_test_utils.h": "c",
+        "delay.h": "c",
+        "timer2_mode0.h": "c",
+        "uart.h": "c",
+        "interrupt.h": "c"
+    },
+    "C_Cpp.errorSquiggles": "enabled"
+}

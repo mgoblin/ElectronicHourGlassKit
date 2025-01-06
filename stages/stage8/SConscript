@@ -1,0 +1,16 @@
+Import('env')
+
+
+prog = env.Program('stage8',
+                source = 'button_press_handler', 
+                LIBS = ['hal', 'ehgk_page'], 
+                LIBPATH = [
+                    '#.pio/build/STC15W204S/lib/hal',
+                    '#.pio/build/STC15W204S/lib/ehgk_page'
+                    ])
+
+env.Default (
+    env.Object('button_press_handler'),
+    prog,
+    env.Install('#firmware', prog)
+), 

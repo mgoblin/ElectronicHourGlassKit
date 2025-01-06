@@ -1,0 +1,15 @@
+Import('env')
+
+prog = env.Program('stage7',
+                source = 'page_main_animation', 
+                LIBS = ['hal', 'ehgk_page'], 
+                LIBPATH = [
+                    '#.pio/build/STC15W204S/lib/hal',
+                    '#.pio/build/STC15W204S/lib/ehgk_page'
+                    ])
+
+env.Default (
+    env.Object('page_main_animation'),
+    prog,
+    env.Install('#firmware', prog)
+), 

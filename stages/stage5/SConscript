@@ -1,0 +1,16 @@
+Import('env')
+
+
+prog = env.Program('stage5',
+                source = 'page_main', 
+                LIBS = ['hal', 'ehgk_page'], 
+                LIBPATH = [
+                    '#.pio/build/STC15W204S/lib/hal',
+                    '#.pio/build/STC15W204S/lib/ehgk_page'
+                    ])
+
+env.Default (
+    env.Object('page_main'),
+    prog,
+    env.Install('#firmware', prog)
+), 

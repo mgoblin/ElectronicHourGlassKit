@@ -1,0 +1,6 @@
+Import('env')
+
+env.Default(
+    env.Object('ehgk_page_iterator'),
+    env.Library('ehgk_page', ['ehgk_page_iterator']),
+)

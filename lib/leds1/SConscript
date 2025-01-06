@@ -1,0 +1,6 @@
+Import('env')
+
+env.Default(
+    env.Object('leds1', source = ['leds1.c']),
+    env.Library('leds1'),
+)

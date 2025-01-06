@@ -1,0 +1,13 @@
+Import('env')
+
+prog = env.Program('stage3',
+                source = 'line_timer', 
+                LIBS = ['hal'], 
+                LIBPATH = [
+                    '#.pio/build/STC15W204S/lib/hal'])
+
+env.Default (
+    env.Object('line_timer'),
+    prog,
+    env.Install('#firmware', prog)
+), 

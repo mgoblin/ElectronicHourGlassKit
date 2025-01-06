@@ -1,0 +1,19 @@
+Import('env')
+Import('stc_hal_lib_src_path')
+Import('build_path')
+
+
+src = Glob(f"#{stc_hal_lib_src_path}/*.c")
+lib_build_path = f"{build_path}/lib/hal"
+hal_lib_name = 'hal'
+
+env.Default(
+    env.Object(
+        source = src, 
+        build_dir = f'#{lib_build_path}', 
+        target = f'#{lib_build_path}/{hal_lib_name}'),
+    
+    env.Library(
+        source = f'#{lib_build_path}/{hal_lib_name}.rel', 
+        target = f"#{lib_build_path}/{hal_lib_name}"),
+) 

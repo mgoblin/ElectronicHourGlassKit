@@ -1,0 +1,86 @@
+Import('env')
+
+stc_hal_lib_name = 'STC15 hardware'
+leds1_lib_name = 'leds1'
+ehgk_page_lib_name = 'ehgk_page'
+
+pio_libs_path = f".pio/libdeps/{env['PIOENV']}"
+project_libs_path = 'lib'
+
+project_include = 'include'
+stc_hal_lib_include = f"{pio_libs_path}/{stc_hal_lib_name}/include"
+leds1_lib_include = f"{project_libs_path}/{leds1_lib_name}"
+ehgk_page_lib_include = f"{project_libs_path}/{ehgk_page_lib_name}"
+
+leds1_lib_src_path = f"{project_libs_path}/{leds1_lib_name}"
+ehgk_page_lib_src_path = f"{project_libs_path}/{ehgk_page_lib_name}"
+stc_hal_lib_src_path = f"{pio_libs_path}/{stc_hal_lib_name}/src"
+
+build_path = f".pio/build/{env['PIOENV']}"
+
+env.Append(
+    CCFLAGS=[
+        f"-I{project_include}",
+        f"-I{stc_hal_lib_include}", 
+        f"-I{leds1_lib_include}",
+        f"-I{ehgk_page_lib_include}",
+    ],
+)
+
+env.Replace(
+    AR="sdar",
+    AS="sdas8051",
+    CC="sdcc",
+    LD="sdld",
+    RANLIB="sdranlib",
+    OBJCOPY="sdobjcopy",
+    OBJSUFFIX=".rel",
+    LIBSUFFIX=".lib",
+    LIBLINKSUFFIX='.lib',
+    PROGNAME="firmware",
+    PROGSUFFIX=".hex",
+    LIBPREFIX = 'lib',
+    LIBLINKPREFIX = 'lib',
+)
+
+verbose = int(ARGUMENTS.get('PIOVERBOSE', 0))
+env.SetOption('silent', not verbose)
+
+
+# Build leds1 lib
+SConscript(
+    f"#{leds1_lib_src_path}/SConscript",
+    exports = 'env',
+    variant_dir =  f"#{build_path}/{project_libs_path}/{leds1_lib_name}",
+    duplicate = 0 
+)
+
+# Build eghk_page lib
+SConscript(
+    f"#{ehgk_page_lib_src_path}/SConscript",
+    exports = 'env',
+    variant_dir =  f"#{build_path}/{project_libs_path}/{ehgk_page_lib_name}",
+    duplicate = 0 
+)
+
+# Build stc hal library
+SConscript(
+    "STC_HAL_SConscript",
+    exports = 'env stc_hal_lib_src_path build_path',
+    variant_dir =  f"#{build_path}/{project_libs_path}/{stc_hal_lib_name}",
+    duplicate = 0 
+)
+
+
+ 
+stages = ['stage0', 'stage1', 'stage2', 'stage3', 
+          'stage4', 'stage5', 'stage6', 'stage7', 'stage8', 
+          'stage9']
+
+for stage in stages:
+    SConscript (
+        f'{stage}/SConscript', 
+        exports = 'env', 
+        variant_dir = f"#{build_path}/{stage}", 
+        duplicate = 0
+    )
