@@ -89,11 +89,40 @@ pipx install stcgal
 
 ## How to build examples
 
+There are three ways to build the code.
+
 ### Build from Platformio IDE
+Simpliest way to build firmware is to use Platformio IDE.
+
+Run Platformio IDE.
+
+![Build firmware](images/Build_from_IDE.png)
+
+You can also run local library tests.
+
+![Run tests](images/Run_tests.png)
+
 
 ### Build from command line using Platfromio core
 
-### Build from command line
+To build firmware from root directory run in terminal 
+
+```bash
+pio run -e STC15W204S
+```
+
+For tests run 
+```bash
+pio test -e Native
+```
+
+### Build from command line using only SCons
+To build firmware from root directory run in terminal
+```bash
+scons
+```
+
+Tests run doesnt supported yet.
 
 ## Upload firmware
 
