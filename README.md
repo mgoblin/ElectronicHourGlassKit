@@ -40,33 +40,66 @@ To upload firmare follow this steps
 8. Enjoy :)  
 
 # Deep dive
+Build tested in by me on Debian 12. You can build source code using Platformio IDE (recommended way) or from command line.
+
 ## Build examples prerequisites
 
 This examples was developed in [Platformio IDE](https://platformio.org/) using C programming language.
 
 You can build source code using Platformio IDE (recommended way) or from command line.
 
-Build tested in by me on Debian 12. 
-
 ### Platformio (mandatory)
 Follow instructions from [Platformio IDE](https://platformio.org/).
-
+Run Platformio IDE and install 'c' and 'Native' platforms.
 
 ### SDCC compiler (optional)
+SDCC is a C-compiler for small devices including STC microchips.
+Its installed with Platformio Intel MCS-51 (8051) platform.
+But you can install it separately for using in the command line.
+On Debian SDCC can be installed via apt. 
+
+Install need superuser permissions.
+```bash
+apt-get install sdcc
+```
 
 ### gcc compiler (optional)
+GCC used for run tests. I wonder why you dont install gcc yet. 
 
 ### Scons (optional)
+[SCons](https://scons.org/) is build tool used inside Platfromio. 
+SCons based on Python
+
+But you can install it separately for using in the command line.
+
+```bash
+pipx install scons
+```
+
 
 ### stcgal (optional)
+Stcgal is a firmware upload tool. Its installed inside and used by Platfromio.
+Stcgal is written on Python and can be install separately from Platfromio. 
+
+```bash
+pipx install stcgal
+```
 
 ## How to build examples
 
 ### Build from Platformio IDE
 
+### Build from command line using Platfromio core
+
 ### Build from command line
 
 ## Upload firmware
+
+### Upload from Platformio IDE
+
+### Upload from command line using Platfromio core
+
+### Upload from command line
 
 # Electrical schema
 
