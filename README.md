@@ -128,9 +128,34 @@ Tests run doesnt supported yet.
 
 ### Upload from Platformio IDE
 
+1. Connect USB-2-TTL adapter to hourglass kit board except GND
+2. Select upload menu item from Platformio STC15W204S environment.
+![Upload](images/Firmware_upload.png) and waiting for ```Cycling power: done``` output
+3. Connect USB-2-TTL adapter GND pin to hourglass kit board except GND pin. 
+
 ### Upload from command line using Platfromio core
 
+1. Connect USB-2-TTL adapter to hourglass kit board except GND
+2. In the terminal from root folder run command
+```bash
+pio run -t upload -e STC15W204S
+```
+and waiting for ```Cycling power: done``` output
+
+3. Connect USB-2-TTL adapter GND pin to hourglass kit board except GND pin.
+
 ### Upload from command line
+
+Before upload firmware should be builded.
+
+1. Connect USB-2-TTL adapter to hourglass kit board except GND
+2. In the terminal from root folder run command
+```bash
+stcgal <file>
+```
+where file file is name of firmware hex file.
+3. Waiting for ```Cycling power: done``` output
+4. Connect USB-2-TTL adapter GND pin to hourglass kit board except GND pin.
 
 # Electrical schema
 
