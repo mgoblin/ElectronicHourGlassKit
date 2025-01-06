@@ -154,6 +154,7 @@ Before upload firmware should be builded.
 stcgal <file>
 ```
 where file file is name of firmware hex file.
+
 3. Waiting for ```Cycling power: done``` output
 4. Connect USB-2-TTL adapter GND pin to hourglass kit board except GND pin.
 
