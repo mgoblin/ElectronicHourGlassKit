@@ -166,8 +166,67 @@ Take a look at the circuit diagram
 
 ![Schema](images/Electrical_schema.jpg)
 
-LEDs are grouped into 12 lines. Each line excepth the last have 5 LEDs that drives by P3 and P1 pins.
+LEDs are grouped into 12 lines. Line numeration started from 0.
+Each line excepth the last have 5 LEDs. Last line with number 11 have 2 LEDs.
+Inside the line LEDs grouped by columns. There are 5 columns with numbers 0..4.
 
+LEDs are driven by P3 and P1 pins. P1[0..6] and P30, P31, P33, P36, P37 used.
+P1 select line and P3 select column.
+
+P32 is used to connect push button.
+
+LEDs doesnt have current-limiting resistors. MCU have total maximum current ~90mA. One MCU pin have maximum current ~20mA. Pin current is enough to drive LED, but in one moment only one LED should be turn on. The LEDs are multiplexed.
+
+Even lines 0, 2, 4...10 are direct and odd lines 1, 3, 5.. 11 are reverse. 
+
+To turn on LED in direct line P1x pin should have LOW value (logical zero) and P3x should have HIGH value (logical 1).
+To turn on LED in reverse line P1x pin should have HIGH value (logical 1) and P3.x pin should have LOW value (logical 0).
+
+To control this kind of matrix, the I/O pins have to be 'tri-state' type.
+The microcontroller must be able to power each pin high, power the same pin low, or put that same pin into a high impedance ‘input’ state, where it effectively blocks any significant current from flowing in or out of it.
+
+The STC15 chips achieve the tri-state operation (and more) for their I/O pins, by having PxM0 and PxM1 special function registers. That registers allow to control pins 
+mode. There are four modes
+
+| P1M1[0..7] | P1M0[0..7] | Mode                         |
+|------------|------------|------------------------------|
+|  0         |  0         |  quasi bidirectional         |
+|  0         |  1         |  push-pull                   |
+|  1         |  0         |  input-only (high-impedance )|
+|  1         |  1         |  open Drain                  |
+
+| P1M3[0..7] | P3M0[0..7] | Mode                         |
+|------------|------------|------------------------------|
+|  0         |  0         |  quasi bidirectional         |
+|  0         |  1         |  push-pull                   |
+|  1         |  0         |  input-only (high-impedance )|
+|  1         |  1         |  open Drain                  |
+
+We need push pull mode to turn LED on/off and input only otherwise.
+
+For example for L1: line 0 driven by P10 and column 0 driven by P30. 
+Line 0 is direct. L1 driven by P10 and P30.
+
+Set the following values:
+
+* P1M1 bit 0 to 0
+* P1M0 bit 0 to 1
+* P10 to 0
+* P3M1 bit 0 to 0
+* P3M0 bit 0 to 1
+* P30 to 1 
+
+Other bits of P1M1 = 1, P1M0 = 0
+
+For L8: line is 1 and column 2. Line 1 is reverse. L8 driven by P11 and P33.
+Set the following values:
+
+* P1M1 bit 1 to 0
+* P1M1 bit 0 to 1
+* P11 to 1
+* P3M1 bit 3 to 0
+* P3M0 bit 3 to 1
+* P33 to 0
 
 # LED driving algorithms
 
@@ -188,6 +247,8 @@ LEDs are grouped into 12 lines. Each line excepth the last have 5 LEDs that driv
 ## Stage 8
 
 ## Stage 9
+
+# Similar DIY projects
 
 # Next ideas
 
