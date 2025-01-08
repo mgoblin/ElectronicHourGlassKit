@@ -230,6 +230,16 @@ Set the following values:
 
 # LED driving algorithms
 
+C or assembler can be used to programming STC MCU. This examples is written on C programming language.
+
+There are two popular C language compilers for 8051 MCU architecture: Keil and SDCC.
+Keil is commertial, SDCC is free opensource compiler. Both have custom extensions. Keil C-language extentions doesnt compatible with SDCC, but may be easy translated.
+
+This examples developed with STC15204S and STC15W201S compatibility in mind. 
+Therefore maximum firmware size is less 1024 bytes. 
+
+Examples split to stages. Stages demonstrate the growth of functionalty from simple to more complex levels. 
+
 ## Stage 1
 
 ## Stage 2
