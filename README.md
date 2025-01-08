@@ -240,7 +240,70 @@ Therefore maximum firmware size is less 1024 bytes.
 
 Examples split to stages. Stages demonstrate the growth of functionalty from simple to more complex levels. 
 
-## Stage 1
+Stages source code is placed in stages subfolders.
+
+## Stage 0. Install/configure sources and tools
+
+Install and configure tools and build firmware from empty C language program. 
+
+## Stage 1. Turn single LED on. 
+
+***Step 1. Add STC hardware library.***  
+Platfromio maintains centralized library registry. 
+
+To programming STC MCU add STC15 hardware library. This library includes MCU registers definition and covinient routines to manipulate with MCU resources (frequency, timers and so on). 
+
+Add to platfrom.io file lines
+```ini
+lib_deps = https://github.com/mgoblin/STC15lib.git#0.9.0
+```
+
+***Step 2. Create local library 'leds1' to turn led on/off*** 
+A library is a way to manage complexity and separation of concerns.
+Local libraries in platformio are located in the libs folder.
+
+As an example of good firmware structure LEDs manipulation lib was created. Main method use library.
+
+Leds1 library declares in leds1.h to functions:
+ - ```void leds_off()``` to turn all leds off
+ - ```void led_1_on()``` to turn on LED1.
+
+ The STC hardware library makes implementation of the leds1 library functions very clear and straightforward.
+
+ ```C
+void leds_off()
+{
+    // All P3 and P1 pins should be in input only mode.
+    // Pins in nnput only mode have high impedance and low current consuption.  
+    pin_port_input_only_init(P3);
+    pin_port_input_only_init(P1);
+}
+ ```
+
+ See [STC hardware library pin module docs](https://mgoblin.github.io/STC15lib/docs/html/group__pin.html) for additional details.
+
+***Step 3. Fast led on/off***  
+All details of LED state manipulation is under the hood in the leds1 library. Main method of firmware is simple
+
+```C
+void main()
+{
+    while (1)
+    {
+        // Put all LEDs off 
+        leds_off();
+        f_delay_ms(LED_BLINK_DELAY_MS);
+        
+        // Put L1 on
+        led_1_on();
+        f_delay_ms(LED_BLINK_DELAY_MS);
+    }
+}
+```
+Rapid switching of the LED on and off is perceived by the human eye as the LED being constantly on.
+
+>[!NOTE]
+> LED1 and some other LEDs are biased by USB-2-TTL adapter. After firmware upload diconnect Rx and Tx pins from USB-2-TTL adapter.   
 
 ## Stage 2
 

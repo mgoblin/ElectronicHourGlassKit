@@ -47,7 +47,5 @@ void main()
         // Put L1 on
         led_1_on();
         f_delay_ms(LED_BLINK_DELAY_MS);
-
     }
-    
 }
