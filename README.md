@@ -412,6 +412,85 @@ The timer 0 interrupt period is set small enough to give the impression that all
 
 ## Stage 4. Turn on all LEDs.
 
+To turn on all leds main function doesnt changed, only timer 0 interrupt handler should be modified.
+
+First of all `uint8_t led_column` and `uint8_t led_line` variables added to store current column and line.
+
+The timer0 interrupt handler code is obvious, all details are moved to utility functions.
+
+```C
+void timerISR() __interrupt(1)
+{
+    turn_led_on(led_column, led_line);
+
+    if (is_line_iterated(led_column))
+    { 
+        led_column = 0;
+        next_line();
+    } 
+    else 
+    {
+        led_column++;
+    }
+}
+```
+
+***Step1. Turn led on by column and line***
+
+Lets see `turn_led_on` function code. 
+
+```C
+void turn_led_on(uint8_t column, uint8_t line)
+{
+    uint8_t line_idx = line >> 1; // get P1 pin number into line_idx variable
+
+    // Set P1.<line_idx> pin to push pull mode 
+    pin_port_input_only_init(P1);
+    pin_push_pull_init(P1, line_idx);
+
+    if ((line & 0x01) == 0) // Is line odd or even?
+    {
+        // Line is even. P1 values need to be inverted
+        P3 = P3_pins[column];
+        P1 = ~P1_pins[line_idx];
+    }
+    else 
+    {
+        // Line is odd. P3 values need to be inverted
+        P3 = ~P3_pins[column]; 
+        P1 = P1_pins[line_idx];
+    }
+}
+```
+
+P1 pin number is equals to line/2.  
+
+For even line LED P3 pin should have HIGH value (encoded in P3_pins[column]) and P1 should have LOW value. HIGH values for P1 are encoded in P1_pins[line_idx], therefore P1_pins[line_idx] value bits should be inverted. 
+
+For odd lines P3[column] should be inverted to get P3 value and P1_pins[line_idx] not.
+
+***Step 2. Change and store column and line for the next interrupt handler call***
+
+Last part of interrupt handler is about changing line and column for the next handler call.
+
+If all leds in then cureent line iteratred we need increment line nubmer and set column to 0 to start iterate next line, otherwise only increments column number.   
+If we interate all lines line set to 0.
+
+Function `is_line_iterated` implementation is very simple.
+
+```C
+bool is_line_iterated(uint8_t column) { return column == P3_PINS_COUNT - 1; }
+```
+
+And the next_line function is cyclically increment line number.
+
+```C
+void next_line()
+{
+    led_line = led_line == (P1_PINS_COUNT << 1) - 1 ? 0 : led_line + 1;
+}
+```
+
 ## Stage 5
 
 ## Stage 6

@@ -69,14 +69,14 @@ uint8_t led_line = 0;
  * 
  * @return true if column is last column in line.
  */
-inline bool is_last_line_led(uint8_t column) { return column == P3_PINS_COUNT - 1; }
+bool is_line_iterated(uint8_t column) { return column == P3_PINS_COUNT - 1; }
 
 /**
  * Cyclically increment led_line from 0 to 11
  */
-inline void next_line()
+void next_line()
 {
-    led_line = led_line == (P1_PINS_COUNT << 1) - 1 ? 0 : ++led_line;
+    led_line = led_line == (P1_PINS_COUNT << 1) - 1 ? 0 : led_line + 1;
 }
 
 /**
@@ -86,20 +86,23 @@ inline void next_line()
  * @param column LEDs column in range [0..4]
  * @param line LEDs line in range [0..11] 
  */
-inline void turn_led_on(uint8_t column, uint8_t line)
+void turn_led_on(uint8_t column, uint8_t line)
 {
-    uint8_t line_idx = line >> 1;
+    uint8_t line_idx = line >> 1; // get P1 pin number into line_idx variable
 
+    // Set P1.<line_idx> pin to push pull mode 
     pin_port_input_only_init(P1);
     pin_push_pull_init(P1, line_idx);
 
-    if ((line & 0x01) == 0)
+    if ((line & 0x01) == 0) // Is line odd or even?
     {
+        // Line is even. P1 values need to be inverted
         P3 = P3_pins[column];
         P1 = ~P1_pins[line_idx];
     }
     else 
     {
+        // Line is odd. P3 values need to be inverted
         P3 = ~P3_pins[column]; 
         P1 = P1_pins[line_idx];
     }
@@ -114,7 +117,8 @@ void timerISR() __interrupt(1)
 {
     turn_led_on(led_column, led_line);
 
-    if (is_last_line_led(led_column))
+    // Change line and column for the next interrupt handler call
+    if (is_line_iterated(led_column))
     { 
         led_column = 0;
         next_line();
@@ -141,13 +145,12 @@ void timerISR() __interrupt(1)
  */
 void main()
 {
-    // Initialzie P3 pins
+    // Initialzie P3 pins to push pull mode and LOW value
     pin_port_pull_push_init(P3);
     P3 = LOW;
 
-    // Initialzie P1 pins
+    // Initialzie P1 pins in input only mode
     pin_port_input_only_init(P1);
-    pin_push_pull_init(P1, 0);
     P1 = LOW;
 
     // Initialize and start timer 0 for sequentially LEDs turn on
