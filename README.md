@@ -307,6 +307,56 @@ Rapid switching of the LED on and off is perceived by the human eye as the LED b
 
 ## Stage 2
 
+In the stage1 led on/of code was placed in the main function and fast blinking was implemented using delays.
+
+In stage2 code is moved to timer interrupt service routine.
+
+*** Step1. Initialize and start timer 0. *** 
+As a first step timer is initialized and started in main function and main function go to endles waiting.
+
+```C
+void main()
+{
+    timer0_mode0_1T_init();
+    timer0_mode0_start(TIMER_TICKS);
+
+    while (1) {}
+}
+```
+
+Timer interrupt routine is declared as 
+```C
+void timerISR() __interrupt(1) __naked
+```
+
+SDCC keyword `__interrupt` means that this is interrupt handler and argument 1 is interrupt number. Timer0 has interrupt number 1.
+
+The second SDCC keyword `__naked` means that compiler shouled not generate prolog and epilog with stack pop/push for register save/restore and other auxiliary code. This allows you to reduce the firmware size, but requires explicit code to rerun from interrup`reti`.
+
+We will not use `__naked` interrupt handlers in the next stages because it need manual controlling save/restore registers. But its possible.
+
+*** Step2. Implement timer0 interrupt handler. ***
+The second of the programming techniques is using bit flag variable inside interrupt handler (interrupt serive routine).
+
+```C
+__bit is_led_1_on = 0; // L1 On/Off bit flag 
+```
+
+STC15 have special SRAM bit addressable area and SDCC compiler have keyword `__bit` for bit flag type.
+
+Alternative way to implement "memoizing" L1 state is check P3.0 and P1.0 pin values and mode. See the pseudo code below.
+
+```C
+bool is_led1_on()
+{
+    return P10 == 0 && P3.0 == 1 && <check P10 and P30 mode is push pull>
+}
+```
+
+This way doesnt need additional SRAM, but increase code size.
+
+We have the requirement to frimware size less then 1K and we dont exhause SRAM. Therefore bit flag is more preferable way to implement "memoizing" L1 state in this firmware.
+
 ## Stage 3
 
 ## Stage 4
