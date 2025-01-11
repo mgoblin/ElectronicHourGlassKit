@@ -141,13 +141,16 @@ void timerISR() __interrupt(1)
  */
 void main()
 {
+    // Initialzie P3 pins
     pin_port_pull_push_init(P3);
     P3 = LOW;
 
+    // Initialzie P1 pins
     pin_port_input_only_init(P1);
     pin_push_pull_init(P1, 0);
-    P11 = HIGH;
+    P1 = LOW;
 
+    // Initialize and start timer 0 for sequentially LEDs turn on
     timer0_mode0_1T_init();
     timer0_mode0_start(TICKS_COUNT);
 

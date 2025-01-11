@@ -377,7 +377,7 @@ void main()
     // Initialzie P1 pins
     pin_port_input_only_init(P1);
     pin_push_pull_init(P1, 0);
-    P10 = LOW;
+    P1 = LOW;
 
     // Initialize and start timer 0 for L1-L5 turn on
     timer0_mode0_1T_init();
