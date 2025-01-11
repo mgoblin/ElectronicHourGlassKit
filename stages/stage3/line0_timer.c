@@ -1,5 +1,5 @@
 /**
- * @file line_timer.c
+ * @file line0_timer.c
  * 
  * @brief STC electronic hourglass kit. Stage 3.
  * 

@@ -311,7 +311,8 @@ In the stage1 led on/of code was placed in the main function and fast blinking w
 
 In stage2 code is moved to timer interrupt service routine.
 
-*** Step1. Initialize and start timer 0. *** 
+***Step1. Initialize and start timer 0.***
+
 As a first step timer is initialized and started in main function and main function go to endles waiting.
 
 ```C
@@ -335,7 +336,8 @@ The second SDCC keyword `__naked` means that compiler shouled not generate prolo
 
 We will not use `__naked` interrupt handlers in the next stages because it need manual controlling save/restore registers. But its possible.
 
-*** Step2. Implement timer0 interrupt handler. ***
+***Step2. Implement timer0 interrupt handler.***
+
 The second of the programming techniques is using bit flag variable inside interrupt handler (interrupt serive routine).
 
 ```C
@@ -358,6 +360,12 @@ This way doesnt need additional SRAM, but increase code size.
 We have the requirement to frimware size less then 1K and we dont exhause SRAM. Therefore bit flag is more preferable way to implement "memoizing" L1 state in this firmware.
 
 ## Stage 3
+
+Stage 3 demostrate how to turn on line 0. Line 0 consists of L1, L2, L3, L4, L5. Line 0 is even line.
+
+***Step 1. Initialize pins mode and timer 0***
+
+***Step 2. Turn L1-L5 on***
 
 ## Stage 4
 
