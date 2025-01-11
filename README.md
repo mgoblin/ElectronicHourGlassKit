@@ -305,7 +305,7 @@ Rapid switching of the LED on and off is perceived by the human eye as the LED b
 >[!NOTE]
 > LED1 and some other LEDs are biased by USB-2-TTL adapter. After firmware upload diconnect Rx and Tx pins from USB-2-TTL adapter.   
 
-## Stage 2
+## Stage 2. Turn single LED on using timer.
 
 In the stage1 led on/of code was placed in the main function and fast blinking was implemented using delays.
 
@@ -359,7 +359,7 @@ This way doesnt need additional SRAM, but increase code size.
 
 We have the requirement to frimware size less then 1K and we dont exhause SRAM. Therefore bit flag is more preferable way to implement "memoizing" L1 state in this firmware.
 
-## Stage 3
+## Stage 3. Turn on line 0 consists of L1-L5 LEDs. 
 
 Stage 3 demostrate how to turn on line 0. Line 0 consists of L1, L2, L3, L4, L5. Line 0 is even line.
 
@@ -410,7 +410,7 @@ void timerISR() __interrupt(1)
 
 The timer 0 interrupt period is set small enough to give the impression that all LEDs are on.
 
-## Stage 4
+## Stage 4. Turn on all LEDs.
 
 ## Stage 5
 
