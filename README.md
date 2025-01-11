@@ -365,7 +365,50 @@ Stage 3 demostrate how to turn on line 0. Line 0 consists of L1, L2, L3, L4, L5.
 
 ***Step 1. Initialize pins mode and timer 0***
 
+Lets see the main function code. Its obviousю
+
+```C
+void main()
+{
+    // Initialzie P3 pins
+    pin_port_pull_push_init(P3);
+    P3 = LOW;
+
+    // Initialzie P1 pins
+    pin_port_input_only_init(P1);
+    pin_push_pull_init(P1, 0);
+    P10 = LOW;
+
+    // Initialize and start timer 0 for L1-L5 turn on
+    timer0_mode0_1T_init();
+    timer0_mode0_start(TICKS_COUNT);
+
+    while (1) {}
+}
+```
+
+All P3 pins set to push pull mode and LOW (logical 0) value.
+Only P10 pin initialized to push pull mode, other P1 pins is in input only mode.  
+This combinataion of P1 and P3 modes is enabling put L1-L5 leds on/off by changing only P3 pins value. 
+
+
 ***Step 2. Turn L1-L5 on***
+
+Timer 0 interrupt handler is responsible for cyclically fast sequentialy on/off one of L1-L5.
+
+The P3 values ​​corresponding to the L1-L5 on/off states are stored in the P3_pins array. The current LED index is stored in the pins_idx variable.
+
+The timer 0 interrupt handler sets the P3 value and increments pins_idx. In the case of L5 on, pins_idx is cleared to the initial value of 0.
+
+```C
+void timerISR() __interrupt(1)
+{
+    P3 = P3_pins[pins_idx];
+    pins_idx == P3_PINS_COUNT - 1 ? pins_idx = 0 : pins_idx++;
+}
+```
+
+The timer 0 interrupt period is set small enough to give the impression that all LEDs are on.
 
 ## Stage 4
 

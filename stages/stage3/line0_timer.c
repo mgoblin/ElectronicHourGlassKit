@@ -55,8 +55,8 @@ uint8_t pins_idx = 0;
  */
 void timerISR() __interrupt(1)
 {
-    P3 = P3_pins[pins_idx];
-    pins_idx == P3_PINS_COUNT - 1 ? pins_idx = 0 : pins_idx++;
+    P3 = P3_pins[pins_idx]; // set P3 value for turn on current L1-L5 led
+    pins_idx == P3_PINS_COUNT - 1 ? pins_idx = 0 : pins_idx++; // Increment pin_idx or set it to 0 if L5 is on.
 }
 
 /**
@@ -75,13 +75,16 @@ void timerISR() __interrupt(1)
  */
 void main()
 {
+    // Initialzie P3 pins
     pin_port_pull_push_init(P3);
     P3 = LOW;
 
+    // Initialzie P1 pins
     pin_port_input_only_init(P1);
     pin_push_pull_init(P1, 0);
     P10 = LOW;
 
+    // Initialize and start timer 0 for L1-L5 turn on
     timer0_mode0_1T_init();
     timer0_mode0_start(TICKS_COUNT);
 
