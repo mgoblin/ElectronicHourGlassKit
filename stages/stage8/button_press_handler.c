@@ -18,9 +18,12 @@
  * 
  * @author Michael Golovanov (mike.golovanov@gmail.com)
  */
+
+/*======================== STC15 HAL headers ====================================*/
 #include <pin.h>
 #include <interrupt.h>
 #include <frequency.h>
+/*========================End of STC15 HAL headers ==============================*/
 
 #include <ehgk_page_iterator.h>
 

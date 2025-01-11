@@ -15,8 +15,11 @@
  * 
  * @author Michael Golovanov (mike.golovanov@gmail.com)
  */
+
+/*======================== STC15 HAL headers ====================================*/
 #include <pin.h>
 #include <timer0_mode0.h>
+/*========================End of STC15 HAL headers ==============================*/
 
 #include <ehgk_page_iterator.h>
 

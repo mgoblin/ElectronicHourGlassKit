@@ -25,7 +25,11 @@
  * 
  * @author Michael Golovanov (mike.golovanov@gmail.com)
  */
+
+/*======================== STC15 HAL headers ====================================*/
 #include <pin.h>
+/*========================End of STC15 HAL headers ==============================*/
+
 #include <ehgk_page_iterator.h>
 
 extern ehgk_iterator_t iterator;
