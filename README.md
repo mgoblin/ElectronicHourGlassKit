@@ -632,7 +632,41 @@ The implementation of iterator methods is discussed in the next step.
 
 ***Step 4. Puts all together into the library***
 
-***Step5. Main program***
+The implementation of iterator methods is reused in this and next stages. Therefore, it makes sense to move them to a separate library. This library is placed to lib/ehgk_page folder.
+
+Library files are:
+| File                  | Description                                   |
+|-----------------------|-----------------------------------------------|
+| ehgk_page.h           | page_t and page manipulation macroses         |
+| ehgk_page_iterator.h  | iterator structures and methods declarations  |
+| ehgk_page_iterator.c  | iterator methods implementation               |
+
+Lets see iterator mehtods implementation.
+
+Init method is simple. Its store page value into internal iterator state, make initial led mask value corresponding to L1 mask (bit0 is 1) and reset column and line values.
+
+```C
+void ehgk_iterator_init(ehgk_page_t page)
+{
+   //Save page and reset iterator state
+   iterator.page = page;
+   iterator.led_mask = 1;
+   iterator.column_idx = 0;
+   iterator.line_idx = 0;
+}
+```
+
+Method next is more complex. Its consists of two parts
+ - Generate P1 and P3 pins values and modes 
+ - Prepare to the next iteraction. Increment internal state.
+
+The first part fills iter_result variable. The second part shift left led_mask and increment column and line indexes.   
+Both parts used algorithms from previous stage. The iterate_result calculation algorithm takes into account the need to leave contact P32 always in the input only mode.  
+
+***Step5. Unit tests***
+
+
+***Step6. Main program***
 
 ## Stage 6
 
