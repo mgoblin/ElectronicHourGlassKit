@@ -491,7 +491,91 @@ void next_line()
 }
 ```
 
-## Stage 5
+## Stage 5. Desсribe page and iterate through
+
+So far so good, now it's time to finish the experiments and start the final implementation of the firmware.
+
+First part of puzzle is how to describe the page? The second part is how to display page and the last puzzle part is how to change pages.
+
+At this stage, the first and second parts of the puzzle will be solved.
+
+***Step 1. Abstractions and design***
+
+Animation is the series of pages. 
+
+The page represents the on/off state of all 57 LEDs. 
+
+Page display algorithm is: 
+
+- get L1 state (on/off)
+- if L1 state is on - turn on only this LED, other LEDs are off
+- if L1 state is off - turn all LEDs off
+- get next LED state
+- if all 57 LEDs are iterated start over
+
+Ok, how to describe "only this LED is on  or all LEDs off" in terms of electrical houglass kit? There is a state of P1M0, P1M1, P1, P3M0, PM31 and P3 registers.
+
+How to implement the algorithm for displaying a page? And how to abstract the calculation of the next state of the LEDs from the application of the calculated state?
+
+One possible answer is the iterator pattern.
+
+Iterator is initialized with page description and has method next that return next state for displaying page. The state is a struct with P1M0, P1M1, P1, P3M0, PM31 and P3 fields. Iterator is endless, calling next to iterate page LEDs  over and over.
+
+
+***Step 2. Page description format***
+
+Each LED state is encoded as a bit. 1 - LED turn on state and 0 LED is off state.
+Page is a set of bits. bit 0 is encode L1, bit 1 - L2 and so on, bit 56 endcode L57 state. Therefore page could be declare as a follows:
+
+```C
+typedef uint64_t ehgk_page_t;
+```
+First 57 bits (0-56) encode LED states and high bits from 57 to 63 are unused and always 0.
+
+Some ofter used page templates could be declared as
+
+```C
+#define EMPTY_PAGE (uint64_t)0
+#define ALL_LEDS_PAGE (uint64_t) 0x1FFFFFFFFFFFFF
+```
+
+Two page manipulation macros are defied as 
+
+```C
+#define ehgk_page_add_led(p, led)       (p |= led)
+#define ehgk_page_delete_led(p, led)    (p &= ~led)
+```
+
+But for initial describe the page bitwise or operation will be used.
+For convenience LED enum is declared as 
+
+```C
+typedef enum led_t
+{
+    L1  = (uint64_t) 0x1,
+    L2  = (uint64_t) 0x2,
+    L3  = (uint64_t) 0x4,
+    L4  = (uint64_t) 0x8,
+    L5  = (uint64_t) 0x10,
+    L6  = (uint64_t) 0x20,
+    L7  = (uint64_t) 0x40,
+    L8  = (uint64_t) 0x80,
+    ...
+    L56 = (uint64_t) 0x80000000000000,
+    L57 = (uint64_t) 0x100000000000000,
+} led_t;
+```
+
+Using led_t enum page could be described as follows:
+
+```C
+page_t page = L1 | L2; // Page with only L1 and L2 turn on.
+```
+
+***Step 3. Page iterator***
+
+
+***Step 4. Puts all together into the library***
 
 ## Stage 6
 
