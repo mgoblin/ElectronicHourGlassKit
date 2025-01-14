@@ -569,13 +569,70 @@ typedef enum led_t
 Using led_t enum page could be described as follows:
 
 ```C
-page_t page = L1 | L2; // Page with only L1 and L2 turn on.
+ehgk_page_t page = L1 | L2; // Page with only L1 and L2 turn on.
 ```
 
 ***Step 3. Page iterator***
 
+Page iterator should have two methods
+- init for intiialize iterator with page 
+- next for getting next state
+
+This methods are declared as follows:
+
+```C
+void ehgk_iterator_init(ehgk_page_t page);
+ehgk_iter_result_t* ehgk_iterator_next();
+```
+
+where ehgk_iter_result_t is
+
+```C
+typedef struct ehgk_iter_result_t
+{
+    uint8_t p3;
+    uint8_t p1;
+    uint8_t p3m0;
+    uint8_t p3m1;
+    uint8_t p1m0;
+    uint8_t p1m1;
+} ehgk_iter_result_t;
+```
+
+The iterator itself is declared as
+
+```C
+typedef struct ehgk_iterator_t
+{
+    ehgk_page_t page;
+    uint64_t led_mask;
+    uint8_t column_idx;
+    uint8_t line_idx;
+} ehgk_iterator_t;
+```
+
+where page is store page_t definition, led_mask stores iterated LED position, columnt_idx and line_idx stores iterated LED column and line numbers.
+
+Iterator module implementation is contains declaration of variables
+
+```C
+/**
+ * Module iterator instance
+ */
+ehgk_iterator_t iterator;
+
+/**
+ * Module last iteration result instance
+ */
+ehgk_iter_result_t iter_result;
+
+```
+
+The implementation of iterator methods is discussed in the next step.
 
 ***Step 4. Puts all together into the library***
+
+***Step5. Main program***
 
 ## Stage 6
 
