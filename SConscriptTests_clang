@@ -9,7 +9,7 @@ test_src_path =         "#test"
 test_include_path =     "test"
 ehgk_src_path =         "#lib/ehgk_page"
 ehgk_include_path =     "lib/ehgk_page"
-test_build_path =       f"#.pio/build/Native/test/{compiler_name}"
+test_build_path =       f".pio/build/Native/test/{compiler_name}"
 
 test_env = Environment(ENV = os.environ)
 
@@ -26,8 +26,7 @@ test_env.Replace(
 )
 
 # Build test program
-test_env.Default(
-    test_env.Program(
+prg = test_env.Program(
         target = f"{test_build_path}/{compiler_name}_test", 
         source = [
             test_env.Object(source = f"{unity_src_path}/unity.c", target = f"{test_build_path}/unity"),
@@ -41,5 +40,19 @@ test_env.Default(
             test_env.Object(source = f"{test_src_path}/ehgk_page_iterator_once_test.c", target = f"{test_build_path}/ehgk_page_iterator_once_test"),
 
             test_env.Object(source = f"{test_src_path}/main.c", target = f"{test_build_path}/main"),
-        ]),
+        ]
+    )
+
+run_tests = test_env.Command(
+    target = f"run_tests_{compiler_name}",
+    source = f"{test_build_path}/{compiler_name}_test",
+    action = [f"./{test_build_path}/{compiler_name}_test"]
 )
+
+test_env.Depends( run_tests, prg )
+
+test_env.Default(
+    run_tests
+)
+
+
