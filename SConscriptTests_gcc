@@ -1,0 +1,17 @@
+import os
+from SCons.Script import Environment
+
+test_env = Environment(ENV = os.environ)
+
+test_env.Replace(
+    CC = "gcc"
+)
+
+# Build unity library
+
+unity_src_path = ".pio/libdeps/Native/Unity/src"
+unity_lib_build_path = ".pio/build/Native/libs/unity"
+
+test_env.Default(
+    test_env.Object(target = f"{unity_lib_build_path}/unity", source = f"{unity_src_path}/unity.c"),
+)

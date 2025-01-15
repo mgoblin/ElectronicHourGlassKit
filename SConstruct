@@ -46,3 +46,8 @@ SConscript (
     'stages/SConscript', 
     exports = 'env'
 )
+
+# Build tests
+SConscript (
+    'SConscriptTests_gcc', 
+)

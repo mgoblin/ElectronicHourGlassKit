@@ -665,6 +665,8 @@ Both parts used algorithms from previous stage. The iterate_result calculation a
 
 ***Step5. Unit tests***
 
+One of the advantages of separating the computation of state and its applying is possibility to unit testing of library.
+
 
 ***Step6. Main program***
 
