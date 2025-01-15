@@ -9,6 +9,7 @@ Examples written on C language and compiled with [SDCC](https://sdcc.sourceforge
 
 
 ## What is electronic hourglass kit
+
 Electronic houglass kit is 57 LEDs driven by STC15W204S (or STC15W201S)
 
 [Electronic houglass kit](https://www.icstation.com/hourglass-shaped-flashing-light-kits-simple-lamp-electronics-soldering-practice-stem-teaching-kits-p-12309.html)
@@ -16,6 +17,7 @@ Electronic houglass kit is 57 LEDs driven by STC15W204S (or STC15W201S)
 ![Electronic houglass kit image](http://www.icstation.com/images/uploads/12309_1.jpg)
 
 ## Additional hardware
+
 To upload firmware you need USB-2-TTL adapter. I use CHG340g.
 
 ![CHG340g](https://github.com/mgoblin/STC-programmator/blob/main/images/ch340g.jpeg)
@@ -42,6 +44,7 @@ To upload firmare follow this steps
 8. Enjoy :)  
 
 # Deep dive
+
 Build tested in by me on Debian 12. You can build source code using Platformio IDE (recommended way) or from command line.
 
 ## Build examples prerequisites
@@ -51,10 +54,12 @@ This examples was developed in [Platformio IDE](https://platformio.org/) using C
 You can build source code using Platformio IDE (recommended way) or from command line.
 
 ### Platformio (mandatory)
+
 Follow instructions from [Platformio IDE](https://platformio.org/).
 Run Platformio IDE and install 'c' and 'Native' platforms.
 
 ### SDCC compiler (optional)
+
 SDCC is a C-compiler for small devices including STC microchips.
 Its installed with Platformio Intel MCS-51 (8051) platform.
 But you can install it separately for using in the command line.
@@ -66,7 +71,12 @@ apt-get install sdcc
 ```
 
 ### gcc compiler (optional)
-GCC used for run tests. I wonder why you dont install gcc yet. 
+
+GCC compiler used for build unit tests. I wonder why you dont install gcc yet. 
+
+### clang compiler (optional)
+
+Clang compiler used for build unit tests.
 
 ### Scons (optional)
 [SCons](https://scons.org/) is build tool used inside Platfromio. 
