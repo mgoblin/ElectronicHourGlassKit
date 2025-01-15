@@ -56,7 +56,7 @@ You can build source code using Platformio IDE (recommended way) or from command
 ### Platformio (mandatory)
 
 Follow instructions from [Platformio IDE](https://platformio.org/).
-Run Platformio IDE and install 'c' and 'Native' platforms.
+Run Platformio IDE and install 'Intel MCS-51 (8051)' and 'Native' platforms.
 
 ### SDCC compiler (optional)
 
@@ -131,8 +131,6 @@ To build firmware from root directory run in terminal
 ```bash
 scons
 ```
-
-Tests run doesnt supported yet.
 
 ## Upload firmware
 
@@ -673,10 +671,84 @@ Method next is more complex. Its consists of two parts
 The first part fills iter_result variable. The second part shift left led_mask and increment column and line indexes.   
 Both parts used algorithms from previous stage. The iterate_result calculation algorithm takes into account the need to leave contact P32 always in the input only mode.  
 
-***Step5. Unit tests***
+***Step 5. Unit tests***
 
-One of the advantages of separating the computation of state and its applying is possibility to unit testing of library.
+One of the advantages of separating the computation of state and its applying is possibility to unit testing of ehgk_page library.
 
+There are few approaches to microcontroller unit testing
+- testing on embedded target (on real mcu deive)
+- testing on emulator
+- testing on native platfrom (for example linux) 
+
+First to approaches is unavailable or hard in STC platform.
+
+Native tests are intended for the project components that are independent of physical hardware. 
+
+ehgk_page library is independed from hardware, because it not use direct MCU registers getting/setting. Library can be build with gcc or clang for native plaform (in my case linux ) with unit test library dependency. [Unity](http://throwtheswitch.org/) used as unit test library. 
+
+Platformio has Unity testing support "from the box". All you need place unit tests code in test folder. But this is not big deal to build and run tests from command line.
+
+The first approach start plaformio from command line
+
+```bash
+pio test -e Native
+```
+
+The second approach is build tests to executable binary and run it 
+
+Both approaches supported. 
+
+Unit tests sources entry point is test/main.c
+
+```C
+#include <unity.h>
+#include "ehgk_page_test.h"
+#include "ehgk_page_iterator_test.h"
+
+void setUp(void) {
+    // set stuff up here
+}
+
+void tearDown(void) {
+    // clean stuff up here
+}
+
+int main( int argc, char **argv) {
+    UNITY_BEGIN();
+
+    RUN_TEST(test_ehgk_page_value_is_empty_after_init);
+    RUN_TEST(test_ehgk_page_add_led1);
+    RUN_TEST(test_ehgk_page_add_led2);
+    RUN_TEST(test_ehgk_page_add_leds_1_2);
+
+    RUN_TEST(test_ehgk_page_delete_led1_from_empty_page);
+    RUN_TEST(test_ehgk_page_delete_led1);
+    RUN_TEST(test_ehgk_page_delete_led2);
+    RUN_TEST(test_ehgk_page_delete_led_1_2);
+
+    RUN_TEST(test_iterator_init);
+    RUN_TEST(test_iterate_once_empty_page);
+    RUN_TEST(test_iterate_once_one_led_page);
+    
+    RUN_TEST(test_iterate_line0_columns_empty_page);
+    RUN_TEST(test_iterate_line0_columns_L1_page);
+    RUN_TEST(test_iterate_line0_columns_L2_page);
+    RUN_TEST(test_iterate_line0_columns_L3_page);
+    RUN_TEST(test_iterate_line0_columns_L4_page);
+    RUN_TEST(test_iterate_line0_columns_L5_page);
+
+    RUN_TEST(test_iterate_line0_columns_L2_L3_page);
+
+    RUN_TEST(test_iterate_line1_empty_page);
+    RUN_TEST(test_iterate_line1_all_columns_page);
+    RUN_TEST(test_iterate_all_lines_empty_page);
+
+    UNITY_END();
+}
+```
+
+Its imports untiy.h header and Run test cases. Testcases split into to suites - page tests and iterator tests.    
+Test suite is C source file with test cases. Test case is a C function that use Unity macroses to asserting expected and actual values. 
 
 ***Step6. Main program***
 
