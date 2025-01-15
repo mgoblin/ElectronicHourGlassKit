@@ -1,17 +1,45 @@
 import os
 from SCons.Script import Environment
 
+compiler_name =         "clang"
+
+unity_src_path =        "#.pio/libdeps/Native/Unity/src"
+unity_include_path =    ".pio/libdeps/Native/Unity/src"
+test_src_path =         "#test"
+test_include_path =     "test"
+ehgk_src_path =         "#lib/ehgk_page"
+ehgk_include_path =     "lib/ehgk_page"
+test_build_path =       f"#.pio/build/Native/test/{compiler_name}"
+
 test_env = Environment(ENV = os.environ)
 
 test_env.Replace(
-    CC = "clang"
+    CC = f"{compiler_name}"
 )
 
-# Build unity library
+test_env.Replace(
+    CCFLAGS=[
+        f"-I{unity_include_path}",
+        f"-I{test_include_path}",
+        f"-I{ehgk_include_path}",
+    ],
+)
 
-unity_src_path = ".pio/libdeps/Native/Unity/src"
-unity_lib_build_path = ".pio/build/Native/libs/clang/unity"
-
+# Build test program
 test_env.Default(
-    test_env.Object(target = f"{unity_lib_build_path}/unity", source = f"{unity_src_path}/unity.c"),
+    test_env.Program(
+        target = f"{test_build_path}/{compiler_name}_test", 
+        source = [
+            test_env.Object(source = f"{unity_src_path}/unity.c", target = f"{test_build_path}/unity"),
+            test_env.Object(source = f"{ehgk_src_path}/ehgk_page_iterator.c", target = f"{test_build_path}/ehgk_page_iterator"),
+            test_env.Object(source = f"{test_src_path}/eghk_page_iterator_test_utils.c", target = f"{test_build_path}/eghk_page_iterator_test_utils"),
+            test_env.Object(source = f"{test_src_path}/ehgk_iterator_lines_test.c", target = f"{test_build_path}/ehgk_iterator_lines_test"),
+            test_env.Object(source = f"{test_src_path}/ehgk_page_add_led_test.c", target = f"{test_build_path}/ehgk_page_add_led_test"),
+            test_env.Object(source = f"{test_src_path}/ehgk_page_delete_led_test.c", target = f"{test_build_path}/ehgk_page_delete_led_test"),
+            test_env.Object(source = f"{test_src_path}/ehgk_page_iterator_column_leds_test.c", target = f"{test_build_path}/ehgk_page_iterator_column_leds_test"),
+            test_env.Object(source = f"{test_src_path}/ehgk_page_iterator_column_one_led_test.c", target = f"{test_build_path}/ehgk_page_iterator_column_one_led_test"),
+            test_env.Object(source = f"{test_src_path}/ehgk_page_iterator_once_test.c", target = f"{test_build_path}/ehgk_page_iterator_once_test"),
+
+            test_env.Object(source = f"{test_src_path}/main.c", target = f"{test_build_path}/main"),
+        ]),
 )

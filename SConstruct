@@ -49,9 +49,9 @@ SConscript (
 
 # Build tests
 SConscript (
-    'SConscriptTests_gcc' 
+    'SConscriptTests_gcc',
 )
 
 SConscript (
-    'SConscriptTests_clang' 
+    'SConscriptTests_clang', 
 )
