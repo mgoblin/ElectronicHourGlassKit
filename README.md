@@ -863,13 +863,37 @@ void main()
 }
 ```
 
-## Stage 7
+## Stage 7. Animate picture inside main function
 
-## Stage 8
+Now we can describe and statically displaying one page. Lets start animation.
 
-## Stage 9
+***Step 1. Keeping page sequence***
+
+***Step 2. Animate pages***
+
+## Stage 8. Changing animation speed
+
+***Step 1. Button push handler stub***
+
+***Step 2. Changing animation speed using clock frequency divider***
+
+## Stage 9. New animation pattern
+
+Creating new aniamations.
 
 # Similar DIY projects
 
+## Ceptimus firmware
+
+## Rick-100 firmware
+
 # Next ideas
+
+## Other ways to changing animation speed
+ 
+## Using idle mode to reduce power consumption
+
+## Storing pages into the EEPROM
+
+## Creating pages and animation visual editor
 
