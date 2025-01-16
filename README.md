@@ -869,7 +869,65 @@ Now we can describe and statically displaying one page. Lets start animation.
 
 ***Step 1. Keeping page sequence***
 
+A page animation is simply an array of pages. It is declared in the separate header file `pages_definition.h`. 
+
+There are two page animations. The first one is main animation of upper and lower triangles and the second one is LED29-LED30 auxialiary animation for the sand flow.    
+The main animation have 29 pages and sand flow animation have only two pages. The main animation is very similar but not the same as ogiginal firmwares. I deliberately did not repeat the algorithm for turning on and off the LEDs from the original firmware, but you can easily make the necessary changes to the main animation
+
 ***Step 2. Animate pages***
+
+Here we step back and implements page displaing and swaping pages in main function. This decision take smaller firmware size, but not such elegant as using timer to page displaying. 
+
+First lets see function to display page for some time 
+
+```C
+void displayPage(uint16_t iteration_delay_ticks)
+{
+    // Iterate through page LEDs and on/of LEDs according to page definition
+    for(uint16_t i = 0; i < iteration_delay_ticks; i++)
+    {
+        ehgk_iterator_next();
+
+        P1 = iter_result.p1;
+        P3 = iter_result.p3;
+
+        P1M0 = iter_result.p1m0;
+        P1M1 = iter_result.p1m1;
+        P3M0 = iter_result.p3m0;
+        P3M1 = iter_result.p3m1;
+    }
+}
+```
+
+Time to dispalyaing page get in the function parameter and using as iterations count.
+
+The main funtion is straigforward and easy readable
+
+```C
+void main()
+{
+    while (1)
+    {
+        // Iterate through pages
+        for(uint8_t page_idx = 0; page_idx < PAGES_COUNT; page_idx++)
+        {
+            // Select next page to display
+            ehgk_iterator_init(pages[page_idx]);
+            // Display current page
+            displayPage(ORDINAL_PAGE_DELAY);
+            
+            // Animate sand flow
+            for(uint8_t idx = 0; idx < L29_L30_PAGES_COUNT; idx++)
+            {
+                ehgk_iterator_init(pages[page_idx] | l29_l30_pages[idx]);
+                displayPage(SAND_FLOW_DELAY);
+            }
+        }
+    }
+}
+```
+The firware size is 965 bytes. Good enough.
+
 
 ## Stage 8. Changing animation speed
 

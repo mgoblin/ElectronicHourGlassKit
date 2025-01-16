@@ -40,12 +40,12 @@ extern ehgk_iter_result_t iter_result;
 /**
  * @brief Display current page
  * 
- * @param iteration_delay uint16_t display page in MCU cycles
+ * @param iteration_delay_ticks uint16_t display page in MCU cycles
  */
-void displayPage(uint16_t iteration_delay)
+void displayPage(uint16_t iteration_delay_ticks)
 {
     // Iterate through page LEDs and on/of LEDs according to page definition
-    for(uint16_t i = 0; i < iteration_delay; i++)
+    for(uint16_t i = 0; i < iteration_delay_ticks; i++)
     {
         ehgk_iterator_next();
 
@@ -64,7 +64,7 @@ void main()
     while (1)
     {
         // Iterate through pages
-        for(uint16_t page_idx = 0; page_idx < PAGES_COUNT; page_idx++)
+        for(uint8_t page_idx = 0; page_idx < PAGES_COUNT; page_idx++)
         {
             // Select next page to display
             ehgk_iterator_init(pages[page_idx]);
