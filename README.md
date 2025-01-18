@@ -932,7 +932,7 @@ void main()
 ```
 The firware size is 965 bytes. Good enough.
 
-[![Stage 7 video](images/stages/stage7/stage7.jpg | width=200)](https://rutube.ru/video/private/adc7e955e35f0e294c2e2894f9f63e6f/?p=Ry4-NDUrZ8dM7rssz0WkrA)
+[![Stage 7 video](images/stages/stage7/stage7.jpg)](https://rutube.ru/video/private/adc7e955e35f0e294c2e2894f9f63e6f/?p=Ry4-NDUrZ8dM7rssz0WkrA)
 
 ## Stage 8. Changing animation speed
 
