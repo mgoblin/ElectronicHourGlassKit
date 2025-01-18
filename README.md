@@ -1,5 +1,9 @@
 # Electronic hourglass kit programming examples  
 
+
+https://github.com/user-attachments/assets/13744928-08e3-41ca-b9e3-a2f66c4d6d51
+
+
 This repository contains programming examples for electronic hourglass kit.
 
 Examples written on C language and compiled with [SDCC](https://sdcc.sourceforge.net/)
@@ -928,7 +932,7 @@ void main()
 ```
 The firware size is 965 bytes. Good enough.
 
-[![Stage 7 video](images/stages/stage7/stage7.jpg)](https://github.com/mgoblin/ElectronicHourGlassKit/assets/images/stages/stage7/state7.mp4)
+[![Stage 7 video](images/stages/stage7/stage7.jpg)](https://github.com/user-attachments/assets/13744928-08e3-41ca-b9e3-a2f66c4d6d51)
 
 ## Stage 8. Changing animation speed
 
