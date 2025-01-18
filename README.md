@@ -928,7 +928,7 @@ void main()
 ```
 The firware size is 965 bytes. Good enough.
 
-[![Stage 7 video](images/stages/stage7/stage7.jpg)](raw.githubusercontent.com/mgoblin/yourrepositoryElectronicHourGlassKit/main/images/stage7.mp4)
+[![Stage 7 video](images/stages/stage7/stage7.jpg)](raw.githubusercontent.com/mgoblin/ElectronicHourGlassKit/main/images/stage7.mp4)
 
 ## Stage 8. Changing animation speed
 
