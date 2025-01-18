@@ -992,7 +992,37 @@ void int0_ISR() __interrupt(0)
 Creating new aniamations now is easy.   
 As an example new pattern is imlemented.
 
+Firmware video (clickable)    
 [![See pattern video](images/stages/stage9/stage9.jpg)](https://rutube.ru/shorts/8395865b3d4660c745af35dafddf4a17/)
+
+This pattern have only one animation (no L9-L30 animaption). And the page displaying and changing code is similar to the previuos one.
+
+```C
+void main()
+{
+    // Configure button handler
+    enable_mcu_interrupts();
+    enable_int0_interrupt();
+    set_int0_interrupt_trigger(ONLY_FALLING_EDGE);
+
+    // Set animation speed
+    set_frequency_divider_scale(MAX_CPU_FREQ_DIVIDER);
+
+    while (1)
+    {
+        // Iterate through pages
+        for(uint16_t page_idx = 0; page_idx < PAGES_COUNT; page_idx++)
+        {
+            // Select next page to display
+            ehgk_iterator_init(pages[page_idx]);
+            // Display page
+            displayPage(ORDINAL_PAGE_DELAY);
+        }
+    }
+}
+```
+
+Major changes is in the `pages_definition.h` header. There is a place where pages are described - pages array. Animation contains 15 pages and firmware size is 791 byte.
 
 # Similar DIY projects
 

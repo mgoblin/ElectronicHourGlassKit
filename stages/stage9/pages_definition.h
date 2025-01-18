@@ -14,9 +14,6 @@
 
 #include <ehgk_page.h>
 
-#define L29_L30_PAGES_COUNT 2
-const uint64_t l29_l30_pages[L29_L30_PAGES_COUNT] = { L29, L30 };
-
 #define PAGES_COUNT 15
 const uint64_t pages[PAGES_COUNT] = {
     // Page 0
