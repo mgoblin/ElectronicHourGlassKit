@@ -936,7 +936,29 @@ The firware size is 965 bytes. Good enough.
 
 ## Stage 8. Changing animation speed
 
+This is last puzzle part to emulate original firmware - button from electronic hourglass kit. Pressing the button changes the animation speed.
+
+The button is connected to pin P3.2. Pin P3.2 has a general purpose and also interrupt 0 (INT0).
+
 ***Step 1. Button push handler stub***
+
+To enable INT0, you must first enable the microcontroller interrupts. INTO can be thrown on only falling edge or on rasing and falling edges. STC hardware libraty routines are used for INT0 configruation.
+
+```C
+void int0_ISR() __interrupt(0)
+{
+    ...
+}
+
+void main()
+{
+    // Configure button press handler
+    enable_mcu_interrupts();
+    enable_int0_interrupt();
+    set_int0_interrupt_trigger(ONLY_FALLING_EDGE);
+    ...
+}
+```
 
 ***Step 2. Changing animation speed using clock frequency divider***
 
