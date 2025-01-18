@@ -928,6 +928,7 @@ void main()
 ```
 The firware size is 965 bytes. Good enough.
 
+[![Stage 7 video](images/stages/stage7/stage7.jpg)](images/stages/stage7/state7.mp4)
 
 ## Stage 8. Changing animation speed
 
