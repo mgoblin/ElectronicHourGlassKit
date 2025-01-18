@@ -932,7 +932,8 @@ void main()
 ```
 The firware size is 965 bytes. Good enough.
 
-[![Stage 7 video](images/stages/stage7/stage7.jpg)](https://rutube.ru/video/private/adc7e955e35f0e294c2e2894f9f63e6f/?p=Ry4-NDUrZ8dM7rssz0WkrA)
+Firmware video (clickable)
+[![Stage 7 video](images/stages/stage7/stage7.jpg)](https://rutube.ru/video/adc7e955e35f0e294c2e2894f9f63e6f/)
 
 ## Stage 8. Changing animation speed
 
@@ -988,7 +989,10 @@ void int0_ISR() __interrupt(0)
 
 ## Stage 9. New animation pattern
 
-Creating new aniamations.
+Creating new aniamations now is easy.   
+As an example new pattern is imlemented.
+
+[![See pattern video](images/stages/stage9/stage9.jpg)](https://rutube.ru/shorts/8395865b3d4660c745af35dafddf4a17/)
 
 # Similar DIY projects
 
