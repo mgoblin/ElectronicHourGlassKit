@@ -962,6 +962,30 @@ void main()
 
 ***Step 2. Changing animation speed using clock frequency divider***
 
+The speed of page animation is determined by the values ​​of the `displayPage` function argument.
+
+The first idea that comes to mind is to create variable for store delay value and change this variable inside INT0 handler. 
+
+But there is another way - to speed up/slow down the MCU as a whole. This way dont need variables, MCU has special frequency divider register CLK_DIV. Low three bits of CLK_DIV are encode MCU frequency divider value in range 1..128.    
+Incrementing CLK_DIV speed down MCU on 2^n. By default 'lowest speed' value is set using `set_frequency_divider_scale` call.
+
+Button press handler source code is below:
+
+```C
+void int0_ISR() __interrupt(0)
+{
+    // Three low CLK_DIV bits are frequency divider scaler 
+    if(CLK_DIV == MIN_CPU_FREQ_DIVIDER) 
+    { 
+        CLK_DIV = MAX_CPU_FREQ_DIVIDER; 
+    } 
+    else 
+    { 
+        CLK_DIV--;
+    }
+}
+```
+
 ## Stage 9. New animation pattern
 
 Creating new aniamations.
