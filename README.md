@@ -932,7 +932,7 @@ void main()
 ```
 The firware size is 965 bytes. Good enough.
 
-Firmware video (clickable)
+Firmware video (clickable)    
 [![Stage 7 video](images/stages/stage7/stage7.jpg)](https://rutube.ru/video/adc7e955e35f0e294c2e2894f9f63e6f/)
 
 ## Stage 8. Changing animation speed
