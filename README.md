@@ -1026,9 +1026,20 @@ Major changes is in the `pages_definition.h` header. There is a place where page
 
 # Similar DIY projects
 
+I am not first who reprogramming electronical hourglass kit.I would like to express my gratitude to the authors of the following projects
+
 ## Ceptimus firmware
 
+[LED hourglass kit programming](https://ceptimus.co.uk/index.php/2022/06/22/led-hourglass-kit-programming/)
+
+This project was initial point of my journey with electonic hourglass kit.    
+The project has a good and detailed description of electrical shceme and LED control principle.
+
 ## Rick-100 firmware
+
+[Github repo](https://github.com/Rick-100/STC-hourglass-kit)
+
+This implementation use EEPROM to store page animations. The source code has detailed comments. Pages visual editor is available.
 
 # Next ideas
 
