@@ -1043,11 +1043,33 @@ This implementation use EEPROM to store page animations. The source code has det
 
 # Next ideas
 
+In my humble opinion, every firmware is not final and can be improved. Below some improvments ideas are described.
+
 ## Other ways to changing animation speed
+
+- Store page displaying delay into the variable and changing variable value on button pressed. 
+- Moving page displaying code to timer0 interrupt, moving page swapping to timer2 interrupt. 
  
 ## Using idle mode to reduce power consumption
 
+Now the MCU is constantly executing code and consuming power. The MCU spends most of its time in delay cycles.
+
+MCU idle mode can be used to sleep betwwen page swappings. This approach need to moving most of code to the timers interrupts. In the idle mode power consumption is reduced.
+
 ## Storing pages into the EEPROM
 
+In the current firmware, page definitions are stored in the microcontroller's flash memory along with the page manipulation code.
+
+STC15 MCU have EEPROM memory. Its a good place to store page definitions. Moving page definitions to EEPROM frees up flash memory space and the firmware code can be larger.
+
+STC15W201S have 1k flash and 4k EEPROM, STC15W204S have 4k flash and 1k EEPROM.
+
+For STC15W204S, page definition storage can be done jointly in EEPROM and flash memory.
+
 ## Creating pages and animation visual editor
+
+Page defintion is not complex with array and bitwise OR inside page. But visual page and animaption editor is more easy.
+
+
+Thanx for reading. With best regards, Michael.
 
