@@ -1,5 +1,5 @@
 /**
- * @file page_timer_animation.c
+ * @file button_press_handler.c
  * 
  * @brief STC electronic hourglass kit. Stage 8.
  * 
@@ -49,7 +49,7 @@ extern ehgk_iterator_t iterator;
 /**
  * @brief Display current page
  * 
- * @param iteration_delay uint16_t display page in MCU cycles
+ * @param iteration_delay uint16_t display page period in MCU cycles
  */
 void displayPage(uint16_t iteration_delay)
 {
@@ -67,7 +67,16 @@ void displayPage(uint16_t iteration_delay)
         P3M1 = iter_result.p3m1;
     }
 }
-
+/**
+ * @brief Animation speed button press handler
+ * 
+ * @details 
+ * Button configured to trigger interrupt 0 when released. 
+ * 
+ * This is an INT0 handler. Decreases MCU frequency for slow down 
+ * pages animation.
+ *  
+ */
 void int0_ISR() __interrupt(0)
 {
     // Three low CLK_DIV bits are frequency divider scaler 
@@ -88,6 +97,7 @@ void main()
     enable_int0_interrupt();
     set_int0_interrupt_trigger(ONLY_FALLING_EDGE);
 
+    // Set animation initial speed
     set_frequency_divider_scale(MAX_CPU_FREQ_DIVIDER);
 
     while (1)
@@ -97,7 +107,7 @@ void main()
         {
             // Select next page to display
             ehgk_iterator_init(pages[page_idx]);
-            // Display current page
+            // Display selected page
             displayPage(ORDINAL_PAGE_DELAY);
             
             // Animate sand flow

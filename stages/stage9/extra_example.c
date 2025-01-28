@@ -38,7 +38,7 @@ extern ehgk_iter_result_t iter_result;
 /**
  * @brief Display current page
  * 
- * @param iteration_delay uint16_t display page in MCU cycles
+ * @param iteration_delay uint16_t display page period in MCU cycles
  */
 void displayPage(uint16_t iteration_delay)
 {
@@ -77,7 +77,7 @@ void main()
     enable_int0_interrupt();
     set_int0_interrupt_trigger(ONLY_FALLING_EDGE);
 
-    // Set animation speed
+    // Set animation initial speed
     set_frequency_divider_scale(MAX_CPU_FREQ_DIVIDER);
 
     while (1)
@@ -87,7 +87,7 @@ void main()
         {
             // Select next page to display
             ehgk_iterator_init(pages[page_idx]);
-            // Display page
+            // Display selected page
             displayPage(ORDINAL_PAGE_DELAY);
         }
     }
