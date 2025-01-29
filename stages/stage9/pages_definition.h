@@ -15,7 +15,7 @@
 #include <ehgk_page.h>
 
 #define PAGES_COUNT 15
-const uint64_t pages[PAGES_COUNT] = {
+const ehgk_page_t pages[PAGES_COUNT] = {
     // Page 0
     L1 | L2 | L3 | L4 | L5 | L6 | L7,
 
