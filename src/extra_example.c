@@ -18,7 +18,7 @@
  * 
  * @author Michael Golovanov (mike.golovanov@gmail.com)
  */
-#include <pin.h>
+#include <gpio.h>
 #include <interrupt.h>
 #include <frequency.h>
 

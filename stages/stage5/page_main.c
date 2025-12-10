@@ -27,7 +27,7 @@
  */
 
 /*======================== STC15 HAL headers ====================================*/
-#include <pin.h>
+#include <gpio.h>
 /*========================End of STC15 HAL headers ==============================*/
 
 #include <ehgk_page_iterator.h>

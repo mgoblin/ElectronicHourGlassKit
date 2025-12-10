@@ -20,7 +20,7 @@
 /*======================== STC15 HAL headers ====================================*/
 #include <sys.h>
 #include <delay.h>
-#include <pin.h>
+#include <gpio.h>
 /*========================End of STC15 HAL headers ==============================*/
 
 #include <leds1.h> // custom library header for led pins manipulations 

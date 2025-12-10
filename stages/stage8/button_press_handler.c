@@ -20,7 +20,7 @@
  */
 
 /*======================== STC15 HAL headers ====================================*/
-#include <pin.h>
+#include <gpio.h>
 #include <interrupt.h>
 #include <frequency.h>
 /*========================End of STC15 HAL headers ==============================*/

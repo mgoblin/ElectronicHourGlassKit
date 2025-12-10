@@ -12,7 +12,7 @@
  * @author Michael Golovanov (mike.golovanov@gmail.com)
  */
 /*======================== STC15 HAL headers ====================================*/
-#include <pin.h>
+#include <gpio.h>
 #include <timer0_mode0.h>
 /*========================End of STC15 HAL headers ==============================*/
 

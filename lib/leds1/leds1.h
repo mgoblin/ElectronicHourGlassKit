@@ -9,7 +9,7 @@
  */
 
 #include <sys.h>
-#include <pin.h>
+#include <gpio.h>
 
 /**
  * @brief Turns off all leds of electronic hourglass kit
