@@ -1,13 +1,15 @@
 #!/usr/bin/ruby
-#
-# unity_to_junit.rb
-#
+# =========================================================================
+#   Unity - A Test Framework for C
+#   ThrowTheSwitch.org
+#   Copyright (c) 2007-25 Mike Karlesky, Mark VanderVoord, & Greg Williams
+#   SPDX-License-Identifier: MIT
+# =========================================================================
+
 require 'fileutils'
 require 'optparse'
 require 'ostruct'
 require 'set'
-
-require 'pp'
 
 VERSION = 1.0
 

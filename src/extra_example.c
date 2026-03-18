@@ -22,8 +22,10 @@
 #include <interrupt.h>
 #include <frequency.h>
 
-#include <ehgk_page_iterator.h>
+#include <uart.h>
+#include <stdio.h>
 
+#include <ehgk_page_iterator.h>
 #include "pages_definition.h" // page animation definitions
 
 #define MAX_CPU_FREQ_DIVIDER 2
@@ -33,45 +35,49 @@
 #define ORDINAL_PAGE_DELAY 10000
 
 // Current iteration P1 and P3 state and mode
-extern ehgk_iter_result_t iter_result;
+// extern ehgk_iter_result_t iter_result;
 
 /**
  * @brief Display current page
  * 
  * @param iteration_delay uint16_t display page in MCU cycles
  */
-void displayPage(uint16_t iteration_delay)
-{
-    // Iterate through page LEDs and on/of LEDs according to page definition
-    for(uint16_t i = 0; i < iteration_delay; i++)
-    {
-        ehgk_iterator_next();
+// void displayPage(uint16_t iteration_delay)
+// {
+//     // Iterate through page LEDs and on/of LEDs according to page definition
+//     for(uint16_t i = 0; i < iteration_delay; i++)
+//     {
+//         ehgk_iterator_next();
 
-        P1 = iter_result.p1;
-        P3 = iter_result.p3;
+//         P1 = iter_result.p1;
+//         P3 = iter_result.p3;
 
-        P1M0 = iter_result.p1m0;
-        P1M1 = iter_result.p1m1;
-        P3M0 = iter_result.p3m0;
-        P3M1 = iter_result.p3m1;
-    }
-}
+//         P1M0 = iter_result.p1m0;
+//         P1M1 = iter_result.p1m1;
+//         P3M0 = iter_result.p3m0;
+//         P3M1 = iter_result.p3m1;
+//     }
+// }
 
-void int0_ISR() __interrupt(0)
-{
-    // Three low CLK_DIV bits are frequency divider scaler 
-    if(CLK_DIV == MIN_CPU_FREQ_DIVIDER) 
-    { 
-        CLK_DIV = MAX_CPU_FREQ_DIVIDER; 
-    } 
-    else 
-    { 
-        CLK_DIV--; // Speec up animation
-    }
-}
+// void int0_ISR() __interrupt(0)
+// {
+//     // Three low CLK_DIV bits are frequency divider scaler 
+//     if(CLK_DIV == MIN_CPU_FREQ_DIVIDER) 
+//     { 
+//         CLK_DIV = MAX_CPU_FREQ_DIVIDER; 
+//     } 
+//     else 
+//     { 
+//         CLK_DIV--; // Speed up animation
+//     }
+// }
+
 
 void main()
 {
+    pin_quasi_bidiretional_init(P3, 2);
+    P32 = 1;
+
     // Configure button handler
     enable_mcu_interrupts();
     enable_int0_interrupt();
@@ -80,15 +86,20 @@ void main()
     // Set animation speed
     set_frequency_divider_scale(MAX_CPU_FREQ_DIVIDER);
 
+    uart1_init(9600);
+
     while (1)
     {
         // Iterate through pages
-        for(uint16_t page_idx = 0; page_idx < PAGES_COUNT; page_idx++)
+        for(uint8_t page_idx = 0; page_idx < PAGES_COUNT; page_idx++)
         {
+            printf_tiny("Hello World!\r\n");
+            // ehgk_page_t page = pages[page_idx];
+
             // Select next page to display
-            ehgk_iterator_init(pages[page_idx]);
+            // ehgk_iterator_init(page);
             // Display page
-            displayPage(ORDINAL_PAGE_DELAY);
+            // displayPage(ORDINAL_PAGE_DELAY);
         }
     }
 }

@@ -1,8 +1,9 @@
-# ==========================================
-#   Unity Project - A Test Framework for C
-#   Copyright (c) 2007 Mike Karlesky, Mark VanderVoord, Greg Williams
-#   [Released under MIT License. Please refer to license.txt for details]
-# ==========================================
+# =========================================================================
+#   Unity - A Test Framework for C
+#   ThrowTheSwitch.org
+#   Copyright (c) 2007-25 Mike Karlesky, Mark VanderVoord, & Greg Williams
+#   SPDX-License-Identifier: MIT
+# =========================================================================
 
 # This script creates all the files with start code necessary for a new module.
 # A simple module only requires a source file, header file, and test file.
@@ -159,7 +160,7 @@ class UnityModuleGenerator
           boilerplate: cfg[:boilerplate],
           includes: case (cfg[:inc])
                     when :src then (@options[:includes][:src] || []) | (pattern_traits[:inc].map { |f| format(f, module_name) })
-                    when :inc then (@options[:includes][:inc] || [])
+                    when :inc then  @options[:includes][:inc] || []
                     when :tst then (@options[:includes][:tst] || []) | (pattern_traits[:inc].map { |f| format("#{@options[:mock_prefix]}#{f}", module_name) })
                     end
         }
