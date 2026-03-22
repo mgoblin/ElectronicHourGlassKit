@@ -1,3 +1,6 @@
+import ctypes
+
+
 class Ehgk_to_Bytes_Serializer:
 
     '''
@@ -5,7 +8,7 @@ class Ehgk_to_Bytes_Serializer:
     to bytes
     '''
     
-    def pages_to_bytes(self, pages):
+    def pages_to_bytes(self, pages: list[ctypes.c_uint64]) -> bytes:
         '''
         Converts list of ctypes.c_uint64 to bytes.
 
