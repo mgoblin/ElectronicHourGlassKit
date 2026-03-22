@@ -1,0 +1,26 @@
+// A bunch of pages
+start: page* page_line				
+
+// Page is a LEDs or empty screen
+page: page_line ","
+
+page_line: (leds | empty)
+
+// LEDs page
+leds:  "L" NUMBER ("|" "L" NUMBER)*  
+
+// Empty page
+empty: "EMPTY_PAGE" -> empty
+
+COMMENT: C_LINE_COMMENT | C_BLOCK_COMMENT
+
+C_LINE_COMMENT: "//" /.*/
+C_BLOCK_COMMENT: "/*" /(.|\\n)*?/ "*/"
+
+%import common.WORD   
+%import common.WS   
+%import common.NUMBER
+
+// Disregard spaces in text
+%ignore WS           
+%ignore COMMENT

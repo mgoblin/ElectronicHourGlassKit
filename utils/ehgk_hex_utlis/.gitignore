@@ -1,0 +1,30 @@
+# Byte-code files
+*.pyc
+__pycache__/
+venv/
+
+# Virtual environment
+# .venv/ is a common alternative name
+.venv/
+env/
+ENV/
+build/
+develop-eggs/
+dist/
+*.egg-info/
+
+# Editors/IDEs
+.idea/          # For PyCharm
+.vscode/        # For VS Code
+*.swp           # For Vim
+
+# OS-generated files
+.DS_Store       # For macOS
+thumbs.db       # For Windows
+
+# Specific to testing/tooling
+.pytest_cache/
+.coverage
+
+# Specific to data science
+.ipynb_checkpoints

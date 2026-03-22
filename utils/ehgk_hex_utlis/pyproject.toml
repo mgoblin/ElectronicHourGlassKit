@@ -1,0 +1,20 @@
+[project]
+name = "ehgk_utils"
+description = "electronical hourglass kit config package"
+version = "0.1"
+authors = [
+    { name = "Michael Golovanov", email = "mike.golovanov@gmail.com" }
+]
+
+dependencies = [
+    "intelhex",
+    "lark"
+]
+
+[project.optional-dependencies]
+dev = [
+]
+
+[build-system]
+requires = ["setuptools>=61.0"] # Minimum version for pyproject.toml support
+build-backend = "setuptools.build_meta"
