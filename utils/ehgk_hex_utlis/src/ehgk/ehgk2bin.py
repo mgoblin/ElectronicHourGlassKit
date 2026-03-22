@@ -101,7 +101,7 @@ class Ehgk2BinApp:
 
 
 if __name__ == '__main__':
-    # Create the parser
+    # Create the command line args parser
     parser = argparse.ArgumentParser(
         description="Converts EHGK pages description to binary representation"
     )
@@ -118,7 +118,7 @@ if __name__ == '__main__':
     parser.add_argument(
         "-o", "--output", 
         default="output.bin", 
-        help="ehgk pages binary file name (default: output.bin)",
+        help="binary file name (default: output.bin)",
         required=False
     )
 
