@@ -12,6 +12,7 @@ class Ehgk2BinApp:
 
     Attributes:
         INPUT_FILE_NOT_FOUND_ERROR (int): error code for input file not found
+        OUTPUT_FILE_IO_ERROR (int): error code for output file IO error
         UNKNOWN_ERROR (int): error code for general error
     '''
 

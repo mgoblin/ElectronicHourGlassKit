@@ -1,4 +1,5 @@
 import ctypes
+from intelhex import IntelHex
 
 
 class Ehgk_to_Bytes_Serializer:
@@ -23,3 +24,17 @@ class Ehgk_to_Bytes_Serializer:
             )
         )
         return b''.join(bytes_list)
+    
+class Ehgk_to_Hex_Serializer:
+    def pages_to_hex(self, pages: list[ctypes.c_uint64]) -> None:
+        bytes_list = list(
+            map(
+                lambda x: x.value.to_bytes(8, byteorder='big'), pages
+            )
+        )
+
+        b: bytes = b''.join(bytes_list)
+
+        ih = IntelHex()
+        ih.frombytes(b)
+        ih.write_hex_file('out.hex')
