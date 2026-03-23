@@ -15,4 +15,4 @@ class Ehgk_to_Bytes_Serializer_Test(unittest.TestCase):
         page = [one, two]
         serialized_value = self.serializer.pages_to_bytes(page)
         
-        self.assertEqual(serialized_value, b'\x00\x00\x00\x00\x00\x00\x00\x01\x00\x00\x00\x00\x00\x00\x00\x02')
+        self.assertEqual(serialized_value, b'\x01\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00')

@@ -20,7 +20,7 @@ class Ehgk_to_Bytes_Serializer:
         '''
         bytes_list = list(
             map(
-                lambda x: x.value.to_bytes(8, byteorder='big'), pages
+                lambda x: x.value.to_bytes(8, byteorder='little'), pages
             )
         )
         return b''.join(bytes_list)
@@ -29,7 +29,7 @@ class Ehgk_to_Hex_Serializer:
     def pages_to_hex(self, pages: list[ctypes.c_uint64]) -> None:
         bytes_list = list(
             map(
-                lambda x: x.value.to_bytes(8, byteorder='big'), pages
+                lambda x: x.value.to_bytes(8, byteorder='little'), pages
             )
         )
 
