@@ -66,7 +66,7 @@ void int0_ISR() __interrupt(0)
     } 
     else 
     { 
-        CLK_DIV--; // Speec up animation
+        CLK_DIV--; // Speed up animation
     }
 }
 

@@ -1,4 +1,5 @@
 #pragma once
+
 /**
  * @file ehgk_page_iterator.h
  * 
@@ -102,3 +103,7 @@ void ehgk_iterator_init(ehgk_page_t page);
  * @return iteration result with P1 and P3 page values and modes
  */
 ehgk_iter_result_t* ehgk_iterator_next(void);
+
+#ifdef __SDCC_mcs51
+  void ehgk_apply_iterator_result();
+#endif

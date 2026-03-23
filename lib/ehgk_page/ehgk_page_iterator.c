@@ -1,3 +1,7 @@
+#ifdef __SDCC_mcs51
+#include <sys.h>
+#endif
+
 #include <ehgk_page_iterator.h>
 
 #define COLUMN_LEDS_COUNT 5
@@ -131,3 +135,16 @@ ehgk_iter_result_t*  ehgk_iterator_next(void)
 
    return &iter_result;
 }
+
+#ifdef __SDCC_mcs51
+void ehgk_apply_iterator_result()
+{
+   P1 = iter_result.p1;
+   P3 = iter_result.p3;
+
+   P1M0 = iter_result.p1m0;
+   P1M1 = iter_result.p1m1;
+   P3M0 = iter_result.p3m0;
+   P3M1 = iter_result.p3m1;
+}
+#endif
