@@ -14,11 +14,11 @@
 #define MAX_CPU_FREQ_DIVIDER 2
 #define MIN_CPU_FREQ_DIVIDER 0
 
+ehgk_page_t page = 0;
 
-ehgk_page_t eeprom_ehgk_page_read(uint8_t addr_h, uint8_t addr_low)
+void eeprom_ehgk_page_read(uint8_t addr_h, uint8_t addr_low)
 {
-    ehgk_page_t page = 0;
-
+    page = 0;
     for(uint8_t i = 0; i < UINT64_BYTES_SIZE; i++)
     {
         uint8_t value = 0;
@@ -26,20 +26,19 @@ ehgk_page_t eeprom_ehgk_page_read(uint8_t addr_h, uint8_t addr_low)
         eeprom_read_byte(addr_h, addr_low + i, &value, &error);
         page |= ((uint64_t) value) << (i << 3); 
     }
-    return page;
 }
 
-void displayPage(uint16_t iteration_delay)
+void displayPage()
 {
     // Iterate through page LEDs and on/of LEDs according to page definition
-    for(uint16_t i = 0; i < iteration_delay; i++)
+    for(uint16_t i = 0; i < ORDINAL_PAGE_DELAY; i++)
     {
         ehgk_iterator_next();
         ehgk_apply_iterator_result();
     }
 }
 
-void int0_ISR() __interrupt(INTERRUPT_INT0)
+void on_button_pressed() __interrupt(INTERRUPT_INT0)
 {
     // Three low CLK_DIV bits are frequency divider scaler 
     if(CLK_DIV == MIN_CPU_FREQ_DIVIDER) 
@@ -67,9 +66,9 @@ void main(void)
     {
         for(uint8_t addr = 0; addr < sizeof(uint64_t) * PAGES_COUNT; addr += sizeof(uint64_t))
         {
-            ehgk_page_t page = eeprom_ehgk_page_read(ADDR_H, addr);
+            eeprom_ehgk_page_read(ADDR_H, addr);
             ehgk_iterator_init(page);
-            displayPage(ORDINAL_PAGE_DELAY);
+            displayPage();
         }
     }
 }
