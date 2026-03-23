@@ -11,8 +11,8 @@
 #define ORDINAL_PAGE_DELAY 10000
 #define PAGES_COUNT 5 
 
-// Current iteration P1 and P3 state and mode
-extern ehgk_iter_result_t iter_result;
+#define MAX_CPU_FREQ_DIVIDER 2
+#define MIN_CPU_FREQ_DIVIDER 0
 
 
 ehgk_page_t eeprom_ehgk_page_read(uint8_t addr_h, uint8_t addr_low)
@@ -35,20 +35,21 @@ void displayPage(uint16_t iteration_delay)
     for(uint16_t i = 0; i < iteration_delay; i++)
     {
         ehgk_iterator_next();
-
-        P1 = iter_result.p1;
-        P3 = iter_result.p3;
-
-        P1M0 = iter_result.p1m0;
-        P1M1 = iter_result.p1m1;
-        P3M0 = iter_result.p3m0;
-        P3M1 = iter_result.p3m1;
+        ehgk_apply_iterator_result();
     }
 }
 
 void int0_ISR() __interrupt(INTERRUPT_INT0)
 {
-
+    // Three low CLK_DIV bits are frequency divider scaler 
+    if(CLK_DIV == MIN_CPU_FREQ_DIVIDER) 
+    { 
+        CLK_DIV = MAX_CPU_FREQ_DIVIDER; 
+    } 
+    else 
+    { 
+        CLK_DIV--; // Speed up animation
+    }
 }
 
 void main(void) 
@@ -59,6 +60,8 @@ void main(void)
     set_int0_interrupt_trigger(ONLY_FALLING_EDGE);
 
     power_low_voltage_flag_clear();
+
+    CLK_DIV = MAX_CPU_FREQ_DIVIDER;
 
     while(1)
     {
