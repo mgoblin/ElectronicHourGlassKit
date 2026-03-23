@@ -83,7 +83,7 @@ typedef struct ehgk_iter_result_t
  * 
  * @return page iterator ref 
  */
-ehgk_iterator_t* ehgk_iterator();
+ehgk_iterator_t* ehgk_iterator(void);
 
 /**
  * @brief Initialize iterator
@@ -101,4 +101,4 @@ void ehgk_iterator_init(ehgk_page_t page);
  * 
  * @return iteration result with P1 and P3 page values and modes
  */
-ehgk_iter_result_t* ehgk_iterator_next();
+ehgk_iter_result_t* ehgk_iterator_next(void);

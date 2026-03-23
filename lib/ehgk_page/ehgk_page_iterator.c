@@ -23,7 +23,7 @@ const uint8_t p3_pin_values[5] = { 1, 2, 8, 64, 128 };
  */
 const uint8_t p1_pin_values[6] = { 1, 2, 4, 8, 16, 32 };
 
-ehgk_iterator_t* ehgk_iterator()
+ehgk_iterator_t* ehgk_iterator(void)
 {
    return &iterator;
 }
@@ -37,7 +37,7 @@ void ehgk_iterator_init(ehgk_page_t page)
    iterator.line_idx = 0;
 }
 
-ehgk_iter_result_t*  ehgk_iterator_next()
+ehgk_iter_result_t*  ehgk_iterator_next(void)
 {
    /* 
    ================================================== 

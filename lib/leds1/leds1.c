@@ -4,7 +4,7 @@
 #define HIGH 1
 
 
-void leds_off()
+void leds_off(void)
 {
     // All P3 and P1 pins should be in input only mode.
     // Pins in nnput only mode have high impedance and low current consuption.  
@@ -12,7 +12,7 @@ void leds_off()
     pin_port_input_only_init(P1);
 }
 
-void led_1_on()
+void led_1_on(void)
 {
     /**  
      * For turning L1 led on:

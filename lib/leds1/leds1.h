@@ -14,9 +14,9 @@
 /**
  * @brief Turns off all leds of electronic hourglass kit
  */
-void leds_off();
+void leds_off(void);
 
 /**
  * @brief Turns on L1 led of electronic hourglass kit  
  */
-void led_1_on();
+void led_1_on(void);
