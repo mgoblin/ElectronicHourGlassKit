@@ -56,6 +56,7 @@ void main()
 
     
     timer0_mode0_1T_init();
+    enable_timer0_interrupt();
     timer0_mode0_direct_start(0xF5, 0x00);
 
     while (1)

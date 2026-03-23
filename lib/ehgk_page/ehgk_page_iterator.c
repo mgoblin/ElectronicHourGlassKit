@@ -147,4 +147,6 @@ void ehgk_apply_iterator_result()
    P3M0 = iter_result.p3m0;
    P3M1 = iter_result.p3m1;
 }
+#else
+void ehgk_apply_iterator_result() {}
 #endif
