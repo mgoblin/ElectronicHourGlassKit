@@ -80,13 +80,6 @@ typedef struct ehgk_iter_result_t
 } ehgk_iter_result_t;
 
 /**
- * @brief Get page iterator
- * 
- * @return page iterator ref 
- */
-ehgk_iterator_t* ehgk_iterator(void);
-
-/**
  * @brief Initialize iterator
  * 
  * @details Reset internal iterator state and get ready to iterate though page
