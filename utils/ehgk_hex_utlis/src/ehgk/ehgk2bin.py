@@ -4,6 +4,8 @@ import os
 from ehgk.parser import Eghk_Pages_Parser
 from ehgk.serializer import Ehgk_to_Bytes_Serializer
 
+__version__ = "0.0.1"
+
 class Ehgk2BinApp:
     '''
     Ehgk2Bin Application class
@@ -109,6 +111,15 @@ if __name__ == '__main__':
         description="Converts EHGK pages description to binary representation"
     )
 
+    # Add version argument
+    parser.add_argument(
+        '-v',
+        '--version',
+        action='version',
+        version=f'%(prog)s {__version__}',
+        help="Show the program's version number and exit."
+    )
+    
     # Add output argument
     parser.add_argument(
         "-o", "--output", 
