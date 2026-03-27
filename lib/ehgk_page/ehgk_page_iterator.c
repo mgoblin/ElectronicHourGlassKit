@@ -145,4 +145,9 @@ void ehgk_apply_iterator_result()
 }
 #else
 void ehgk_apply_iterator_result() {}
+ehgk_iterator_t* ehgk_iterator()
+{
+   return &iterator;
+} 
 #endif
+

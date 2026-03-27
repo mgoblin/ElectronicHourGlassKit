@@ -48,7 +48,7 @@ This repository contains programming examples for electronic hourglass kit.
 Examples written on C language and compiled with [SDCC](https://sdcc.sourceforge.net/)
 
 > [!CAUTION]
-> There is no way to download and save original firmware of the microcontroller.After first firmware upload orignal firmware was removed. 
+> There is no way to download and save original firmware from the microcontroller. After first firmware upload orignal firmware was removed. 
 
 
 ## What is electronic hourglass kit

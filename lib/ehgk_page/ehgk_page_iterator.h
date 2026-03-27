@@ -97,6 +97,8 @@ void ehgk_iterator_init(ehgk_page_t page);
  */
 ehgk_iter_result_t* ehgk_iterator_next(void);
 
-#ifdef __SDCC_mcs51
-  void ehgk_apply_iterator_result();
+#ifndef __SDCC_mcs51
+ehgk_iterator_t* ehgk_iterator(); 
 #endif
+
+void ehgk_apply_iterator_result();
