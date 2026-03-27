@@ -1,4 +1,5 @@
 import argparse
+import os
 
 from ehgk.parser import Eghk_Pages_Parser
 from ehgk.serializer import Ehgk_to_Bytes_Serializer
@@ -108,27 +109,24 @@ if __name__ == '__main__':
         description="Converts EHGK pages description to binary representation"
     )
 
-    # Add input argument
-    parser.add_argument(
-        "-i", "--input", 
-        default="input.pd", 
-        help="ehgk pages description file name (default: input.pd)",
-        required=False
-    )
-
     # Add output argument
     parser.add_argument(
         "-o", "--output", 
-        default="output.bin", 
-        help="binary file name (default: output.bin)",
-        required=False
+        default=None, 
+        help="binary file name (default: output.bin)"
+    )
+
+    # Add input argument
+    parser.add_argument(
+        "input", 
+        help="ehgk pages description file name",
     )
 
     # Parse the arguments
     args = parser.parse_args()
+    if args.output is None:
+        root, extention = os.path.splitext(args.input)
+        args.output = root + ".bin"
     
-    if args.input == parser.get_default("input") and args.output == parser.get_default("output"):
-        parser.print_help()
-
     app = Ehgk2BinApp(args.input, args.output)
     app.run()    
