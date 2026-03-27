@@ -52,14 +52,15 @@ class Ehgk2BinApp:
             print(f"An error occurred: {e}")
             exit(Ehgk2BinApp.UNKNOWN_ERROR)
 
-    def _convert_pages_to_binary(self, pages_description) -> bytes:
+    def _convert_pages_to_binary(self, pages_description) -> tuple[bytes, int]:
         '''
         Converts text pages description to binary representation
 
         Parameters:
             pages_description (str): pages description
 
-        Returns: binary representation of pages description
+        Returns: tuple with binary representation of pages description 
+            and pages count as tuple[bytes, int] 
         '''
         # Create parser and serializer objects
         parser = Eghk_Pages_Parser()
@@ -67,9 +68,9 @@ class Ehgk2BinApp:
 
         # Parse pages description and convert to bytes
         ctype_pages = parser.parse(pages_description)
-        return serializer.pages_to_bytes(ctype_pages)
+        return (serializer.pages_to_bytes(ctype_pages), len(ctype_pages))
 
-    def _write_bin_to_output_file(self, pages_bin):
+    def _write_bin_to_output_file(self, pages_bin: bytes):
         '''
         Writes bytes to output file. Returns number of bytes written
 
@@ -96,9 +97,9 @@ class Ehgk2BinApp:
         print(f"\n\nNow starts the job with {self.input_filename} as input file and {self.output_filename} as output file")
 
         pages_description = self._read_input_file()
-        pages_bin = self._convert_pages_to_binary(pages_description)
-        bytes_written = self._write_bin_to_output_file(pages_bin)
-        print(f"Wrote {bytes_written} bytes to {self.output_filename}")
+        (pages_bin, pages_count) = self._convert_pages_to_binary(pages_description)
+        self._write_bin_to_output_file(pages_bin)
+        print(f"Wrote {pages_count} pages to {self.output_filename}")
 
 
 if __name__ == '__main__':

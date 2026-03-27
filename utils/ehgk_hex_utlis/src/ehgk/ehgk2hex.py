@@ -55,7 +55,7 @@ class Ehgk2HexApp:
             print(f"An error occurred: {e}")
             exit(Ehgk2HexApp.UNKNOWN_ERROR)
 
-    def _convert_pages_to_binary(self, pages_description) -> bytes:
+    def _convert_pages_to_binary(self, pages_description) -> tuple[bytes, int]:
         '''
         Converts text pages description to binary representation
 
@@ -70,7 +70,7 @@ class Ehgk2HexApp:
 
         # Parse pages description and convert to bytes
         ctype_pages = parser.parse(pages_description)
-        return serializer.pages_to_bytes(ctype_pages)
+        return (serializer.pages_to_bytes(ctype_pages), len(ctype_pages))
 
 
     def run(self):
@@ -80,14 +80,14 @@ class Ehgk2HexApp:
         print(f"\n\nNow starts the job with {self.input_filename} as input file and {self.output_filename} as output file")
 
         pages_description = self._read_input_file()
-        pages_bin = self._convert_pages_to_binary(pages_description)
+        (pages_bin, pages_count) = self._convert_pages_to_binary(pages_description)
 
         ih = IntelHex()
         ih.frombytes(pages_bin)
 
         ih.write_hex_file(self.output_filename)
         ih.get_memory_size()
-        print(f"Wrote {len(pages_bin)} bytes to {self.output_filename}")
+        print(f"Wrote {pages_count} pages to {self.output_filename}")
 
 
 
