@@ -1,4 +1,5 @@
 import argparse
+from ctypes import c_uint64
 import os
 
 from ehgk.parser import Eghk_Pages_Parser
@@ -23,7 +24,7 @@ class Ehgk2BinApp:
     OUTPUT_FILE_IO_ERROR: int = 2
     UNKNOWN_ERROR: int = 7
 
-    def __init__(self, input_filename, output_filename):
+    def __init__(self, input_filename, output_filename, save_header):
         '''
         Costruct application object.
         Method run() starts the job.
@@ -34,6 +35,7 @@ class Ehgk2BinApp:
         '''
         self.input_filename = input_filename
         self.output_filename = output_filename
+        self.save_header = save_header
 
     def _read_input_file(self) -> str:
         '''
@@ -71,7 +73,13 @@ class Ehgk2BinApp:
 
         # Parse pages description and convert to bytes
         ctype_pages = parser.parse(pages_description)
-        return (serializer.pages_to_bytes(ctype_pages), len(ctype_pages))
+        pages_count = len(ctype_pages)
+        
+        # Prepend pages count to pages list
+        if self.save_header:
+            ctype_pages = [c_uint64(pages_count)] + ctype_pages
+
+        return (serializer.pages_to_bytes(ctype_pages), pages_count)
 
     def _write_bin_to_output_file(self, pages_bin: bytes):
         '''
@@ -117,7 +125,7 @@ if __name__ == '__main__':
         '--version',
         action='version',
         version=f'%(prog)s {__version__}',
-        help="Show the program's version number and exit."
+        help="show the program's version number and exit."
     )
     
     # Add output argument
@@ -133,6 +141,15 @@ if __name__ == '__main__':
         help="ehgk pages description file name",
     )
 
+    # Add a disable write header boolean flag
+    parser.add_argument(
+        '-nc', '--no-pages-count',
+        action='store_true',
+        dest = 'no_pages_count',
+        help='dont save pages count to output (default: False)'
+    )
+
+
     # Parse the arguments
     args = parser.parse_args()
     
@@ -140,5 +157,5 @@ if __name__ == '__main__':
         root, extention = os.path.splitext(args.input)
         args.output = root + ".bin"
     
-    app = Ehgk2BinApp(args.input, args.output)
+    app = Ehgk2BinApp(args.input, args.output, not args.no_pages_count)
     app.run()    
