@@ -1,9 +1,12 @@
 import argparse
+import os
 
 from ehgk.parser import Eghk_Pages_Parser
 from ehgk.serializer import Ehgk_to_Bytes_Serializer
 
 from intelhex import IntelHex
+
+__version__ = "0.0.1"
 
 class Ehgk2HexApp:
 
@@ -97,27 +100,34 @@ if __name__ == '__main__':
         description="Converts EHGK pages description to Intel HEX representation"
     )
 
+    # Add version argument
+    parser.add_argument(
+        '-v',
+        '--version',
+        action='version',
+        version=f'%(prog)s {__version__}',
+        help="Show the program's version number and exit."
+    )
+
     # Add input argument
     parser.add_argument(
-        "-i", "--input", 
-        default="input.pd", 
+        "input", 
         help="ehgk pages description file name (default: input.pd)",
-        required=False
     )
 
     # Add output argument
     parser.add_argument(
         "-o", "--output", 
-        default="output.bin", 
-        help="binary file name (default: output.bin)",
-        required=False
+        default=None, 
+        help="binary file name (default: {input file name}.hex)",
     )
 
     # Parse the arguments
     args = parser.parse_args()
     
-    if args.input == parser.get_default("input") and args.output == parser.get_default("output"):
-        parser.print_help()
+    if args.output is None:
+        root, extention = os.path.splitext(args.input)
+        args.output = root + ".hex"
 
     app = Ehgk2HexApp(args.input, args.output)
     app.run()        

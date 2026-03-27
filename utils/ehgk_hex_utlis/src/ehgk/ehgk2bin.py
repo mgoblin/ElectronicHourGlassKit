@@ -124,7 +124,7 @@ if __name__ == '__main__':
     parser.add_argument(
         "-o", "--output", 
         default=None, 
-        help="binary file name (default: output.bin)"
+        help="binary file name (default: {input file name}.bin)"
     )
 
     # Add input argument
@@ -135,6 +135,7 @@ if __name__ == '__main__':
 
     # Parse the arguments
     args = parser.parse_args()
+    
     if args.output is None:
         root, extention = os.path.splitext(args.input)
         args.output = root + ".bin"
