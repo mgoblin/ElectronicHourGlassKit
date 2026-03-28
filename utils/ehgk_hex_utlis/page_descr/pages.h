@@ -3,7 +3,7 @@
 
 #include <ehgk_page.h>
 
-#define PAGES_COUNT {{ pages_count }}
+#define PAGES_COUNT 5
 
 const ehgk_page_t pages[PAGES_COUNT] =
 {
