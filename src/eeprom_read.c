@@ -27,6 +27,8 @@
 #include <ehgk_page.h>
 #include <ehgk_page_iterator.h>
 
+typedef unsigned char uint8_t;
+
 /**
  * @brief EEPROM start page address high byte
  */

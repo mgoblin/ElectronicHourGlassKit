@@ -9,6 +9,7 @@
  * 
  * @author Michael Golovanov mike.golovanov@gmail.com
  */
+#include <stdint.h>
 #include <ehgk_page.h>
 
 /**
@@ -98,7 +99,7 @@ void ehgk_iterator_init(ehgk_page_t page);
 ehgk_iter_result_t* ehgk_iterator_next(void);
 
 #ifndef __SDCC_mcs51
-ehgk_iterator_t* ehgk_iterator(); 
+ehgk_iterator_t* ehgk_iterator(void); 
 #endif
 
-void ehgk_apply_iterator_result();
+void ehgk_apply_iterator_result(void);

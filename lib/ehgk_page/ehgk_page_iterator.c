@@ -144,8 +144,8 @@ void ehgk_apply_iterator_result()
    P3M1 = iter_result.p3m1;
 }
 #else
-void ehgk_apply_iterator_result() {}
-ehgk_iterator_t* ehgk_iterator()
+void ehgk_apply_iterator_result(void) {}
+ehgk_iterator_t* ehgk_iterator(void)
 {
    return &iterator;
 } 
