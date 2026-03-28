@@ -1,5 +1,9 @@
 import argparse
+from ctypes import c_uint64
 import os
+
+from ehgk.parser import Eghk_Pages_Parser
+from ehgk.serializer import Ehgk_to_Bytes_Serializer
 
 __version__ = "0.0.1"
 
@@ -54,6 +58,22 @@ class Ehgk2CApp:
             print(f"An error occurred: {e}")
             exit(Ehgk2CApp.UNKNOWN_ERROR)
 
+    def _convert_pages_to_list(self, pages_description) -> list[c_uint64]:
+        '''
+        Converts text pages description to binary representation
+
+        Parameters:
+            pages_description (str): pages description
+
+        Returns: c_uint64 list  
+        '''
+        # Create parser and serializer objects
+        parser = Eghk_Pages_Parser()
+
+        # Parse pages description and convert to bytes
+        ctype_pages = parser.parse(pages_description)
+        
+        return ctype_pages
 
     def run(self):
         '''
@@ -63,7 +83,12 @@ class Ehgk2CApp:
         print(f"\n\nNow starts the job with {self.input_filename} as input file and {self.output_filename} as output file")
         pages_description = self._read_input_file()
 
-        # TODO (pages_bin, pages_count) = self._convert_pages_to_binary(pages_description)
+        pages = self._convert_pages_to_list(pages_description)
+
+        # TODO generate header file
+        print(pages)
+        
+        print(f"Wrote {len(pages)} pages to {self.output_filename}")
 
 if __name__ == '__main__':
 

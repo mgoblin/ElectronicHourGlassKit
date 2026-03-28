@@ -8,7 +8,8 @@ authors = [
 
 dependencies = [
     "intelhex",
-    "lark"
+    "lark",
+    "jinja2"
 ]
 
 [project.optional-dependencies]
