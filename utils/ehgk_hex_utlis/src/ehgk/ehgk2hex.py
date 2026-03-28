@@ -87,7 +87,7 @@ class Ehgk2HexApp:
 
     def run(self):
         '''
-        Reads the input file, converts pages to binary, writes to output file.
+        Reads the input file, converts pages to Intel Hex, writes to output file.
         '''
         print(f"\n\nNow starts the job with {self.input_filename} as input file and {self.output_filename} as output file")
 

@@ -4,8 +4,66 @@ import os
 __version__ = "0.0.1"
 
 class Ehgk2CApp:
+    '''
+    Ehgk2C Application class
+
+    Converts EHGK pages description to c language header file
+    Use files as input and output.
+
+    Attributes:
+        INPUT_FILE_NOT_FOUND_ERROR (int): error code for input file not found
+        OUTPUT_FILE_IO_ERROR (int): error code for output file IO error
+        UNKNOWN_ERROR (int): error code for general error
+    '''
+
+    INPUT_FILE_NOT_FOUND_ERROR: int = 1
+    OUTPUT_FILE_IO_ERROR: int = 2
+    UNKNOWN_ERROR: int = 7
+
+    def __init__(self, input_filename, output_filename, save_header):
+        '''
+        Costruct application object.
+        Method run() starts the job.
+
+        Parameters:
+            input_filename (str): input file name
+            output_filename (str): output file name
+            save_header (bool): save pages count to output
+        '''
+        self.input_filename = input_filename
+        self.output_filename = output_filename
+        self.save_header = save_header
+
+    def _read_input_file(self) -> str:
+        '''
+        Reads input file content.
+
+        Returns: input file content as string
+        '''
+        try:
+            with open(self.input_filename, 'r') as file:
+                file_content_string = file.read()
+    
+            # You can now use the file_content_string variable
+            return file_content_string
+
+        except FileNotFoundError:
+            print(f"Error: The input file '{self.input_filename}' was not found.")
+            exit(Ehgk2CApp.INPUT_FILE_NOT_FOUND_ERROR)
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            exit(Ehgk2CApp.UNKNOWN_ERROR)
+
+
     def run(self):
-        pass
+        '''
+        Reads the input file, converts pages to c language header file, writes to output file.
+        '''
+        
+        print(f"\n\nNow starts the job with {self.input_filename} as input file and {self.output_filename} as output file")
+        pages_description = self._read_input_file()
+
+        # TODO (pages_bin, pages_count) = self._convert_pages_to_binary(pages_description)
 
 if __name__ == '__main__':
 
@@ -51,5 +109,5 @@ if __name__ == '__main__':
         root, extention = os.path.splitext(args.input)
         args.output = root + ".h"
 
-    app = Ehgk2CApp()
+    app = Ehgk2CApp(args.input, args.output, not args.no_pages_count)
     app.run()    
