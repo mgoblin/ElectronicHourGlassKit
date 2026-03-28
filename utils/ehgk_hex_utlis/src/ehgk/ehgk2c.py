@@ -2,6 +2,8 @@ import argparse
 from ctypes import c_uint64
 import os
 
+from jinja2 import Environment, FileSystemLoader
+
 from ehgk.parser import Eghk_Pages_Parser
 from ehgk.serializer import Ehgk_to_Bytes_Serializer
 
@@ -75,6 +77,17 @@ class Ehgk2CApp:
         
         return ctype_pages
 
+    def _render_template_from_file(self, template_dir, template_file, context):
+        # Set up the Jinja2 environment with a file system loader
+        env = Environment(loader=FileSystemLoader(template_dir))
+        
+        # Load the template file
+        template = env.get_template(template_file)
+        
+        # Render the template with the provided context data
+        output = template.render(context)
+        return output
+
     def run(self):
         '''
         Reads the input file, converts pages to c language header file, writes to output file.
@@ -86,7 +99,8 @@ class Ehgk2CApp:
         pages = self._convert_pages_to_list(pages_description)
 
         # TODO generate header file
-        print(pages)
+        output_str = self._render_template_from_file('templates', 'ehgk_pages.j2', {'name': 'Mike'})
+        print(output_str)
         
         print(f"Wrote {len(pages)} pages to {self.output_filename}")
 
