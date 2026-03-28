@@ -32,6 +32,7 @@ class Ehgk2BinApp:
         Parameters:
             input_filename (str): input file name
             output_filename (str): output file name
+            save_header (bool): save pages count to output
         '''
         self.input_filename = input_filename
         self.output_filename = output_filename

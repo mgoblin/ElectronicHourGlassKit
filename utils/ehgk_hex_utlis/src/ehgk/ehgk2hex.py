@@ -1,4 +1,5 @@
 import argparse
+from ctypes import c_uint64
 import os
 
 from ehgk.parser import Eghk_Pages_Parser
@@ -26,7 +27,7 @@ class Ehgk2HexApp:
     OUTPUT_FILE_IO_ERROR: int = 2
     UNKNOWN_ERROR: int = 7
 
-    def __init__(self, input_filename, output_filename):
+    def __init__(self, input_filename, output_filename, save_header):
         '''
         Costruct application object.
         Method run() starts the job.
@@ -34,9 +35,11 @@ class Ehgk2HexApp:
         Parameters:
             input_filename (str): input file name
             output_filename (str): output file name
+            save_header (bool): save pages count to output
         '''
         self.input_filename = input_filename
         self.output_filename = output_filename
+        self.save_header = save_header
 
     def _read_input_file(self) -> str:
         '''
@@ -65,7 +68,8 @@ class Ehgk2HexApp:
         Parameters:
             pages_description (str): pages description
 
-        Returns: binary representation of pages description
+        Returns: tuple with binary representation of pages description 
+            and pages count as tuple[bytes, int] 
         '''
         # Create parser and serializer objects
         parser = Eghk_Pages_Parser()
@@ -73,7 +77,12 @@ class Ehgk2HexApp:
 
         # Parse pages description and convert to bytes
         ctype_pages = parser.parse(pages_description)
-        return (serializer.pages_to_bytes(ctype_pages), len(ctype_pages))
+        pages_count = len(ctype_pages)
+
+        if self.save_header:
+            ctype_pages = [c_uint64(pages_count)] + ctype_pages
+            
+        return (serializer.pages_to_bytes(ctype_pages), pages_count)
 
 
     def run(self):
@@ -91,7 +100,6 @@ class Ehgk2HexApp:
         ih.write_hex_file(self.output_filename)
         ih.get_memory_size()
         print(f"Wrote {pages_count} pages to {self.output_filename}")
-
 
 
 if __name__ == '__main__':
@@ -122,6 +130,14 @@ if __name__ == '__main__':
         help="binary file name (default: {input file name}.hex)",
     )
 
+    # Add a disable write header boolean flag
+    parser.add_argument(
+        '-nc', '--no-pages-count',
+        action='store_true',
+        dest = 'no_pages_count',
+        help='dont save pages count to output (default: False)'
+    )
+
     # Parse the arguments
     args = parser.parse_args()
     
@@ -129,6 +145,6 @@ if __name__ == '__main__':
         root, extention = os.path.splitext(args.input)
         args.output = root + ".hex"
 
-    app = Ehgk2HexApp(args.input, args.output)
+    app = Ehgk2HexApp(args.input, args.output, not args.no_pages_count)
     app.run()        
 
