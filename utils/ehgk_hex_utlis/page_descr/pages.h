@@ -7,7 +7,17 @@
 
 const ehgk_page_t pages[PAGES_COUNT] =
 {
-
+    
+        3ULL,
+    
+        549756338177ULL,
+    
+        72057594037927936ULL,
+    
+        0ULL,
+    
+        9ULL,
+    
 };
 
 #endif

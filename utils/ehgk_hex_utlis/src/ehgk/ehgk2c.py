@@ -26,7 +26,7 @@ class Ehgk2CApp:
     OUTPUT_FILE_IO_ERROR: int = 2
     UNKNOWN_ERROR: int = 7
 
-    def __init__(self, input_filename, output_filename, save_header):
+    def __init__(self, input_filename, output_filename):
         '''
         Costruct application object.
         Method run() starts the job.
@@ -38,7 +38,6 @@ class Ehgk2CApp:
         '''
         self.input_filename = input_filename
         self.output_filename = output_filename
-        self.save_header = save_header
 
     def _read_input_file(self) -> str:
         '''
@@ -123,7 +122,7 @@ class Ehgk2CApp:
         ehgk_pages_c = self._render_template_from_file(
             'templates', 
             'ehgk_pages.j2', 
-            {'pages': pages, 'pages_count': len(pages), 'generate_pages_count_def': self.save_header})
+            {'pages': pages, 'pages_count': len(pages)})
         self._write_to_output_file(ehgk_pages_c)
         
         print(f"Wrote {len(pages)} pages to {self.output_filename}")
@@ -164,5 +163,5 @@ if __name__ == '__main__':
         root, extention = os.path.splitext(args.input)
         args.output = root + ".h"
 
-    app = Ehgk2CApp(args.input, args.output, not args.no_pages_count)
+    app = Ehgk2CApp(args.input, args.output)
     app.run()    

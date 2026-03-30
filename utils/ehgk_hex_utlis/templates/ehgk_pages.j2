@@ -7,7 +7,9 @@
 
 const ehgk_page_t pages[PAGES_COUNT] =
 {
-
+    {% for page in pages %}
+        {{ page.value }}ULL,
+    {% endfor %}
 };
 
 #endif
