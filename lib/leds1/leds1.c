@@ -7,7 +7,7 @@
 void leds_off(void)
 {
     // All P3 and P1 pins should be in input only mode.
-    // Pins in nnput only mode have high impedance and low current consuption.  
+    // Pins in input only mode have high impedance and low current consuption.  
     pin_port_input_only_init(P3);
     pin_port_input_only_init(P1);
 }

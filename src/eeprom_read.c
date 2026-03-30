@@ -17,11 +17,11 @@
  * 
  * @author Michael Golovanov (mike.golovanov@gmail.com)
  */
-#include <stdint.h>
+#include <stdbool.h>
+
 #include <eeprom.h>
 #include <interrupt.h>
 #include <timer0_mode0.h>
-#include <timer2_mode0.h>
 #include <frequency.h>
 
 #include <ehgk_page.h>
@@ -30,14 +30,14 @@
 typedef unsigned char uint8_t;
 
 /**
- * @brief EEPROM start page address high byte
+ * @brief EEPROM start pages definition address high byte
  */
-#define ADDR_H 0x00
+#define ADDR_H      0x00
 
 /**
- * @brief Number of pages in EEPROM
+ * @brief EEPROM start pages definition address low byte
  */
-#define PAGES_COUNT 5 
+#define ADDR_LOW    0x00
 
 /**
  * @brief Max CPU frequency divider. Slowest page animation.
@@ -47,6 +47,11 @@ typedef unsigned char uint8_t;
  * @brief Min CPU frequency divider. Fastest page animation.
  */
 #define MIN_CPU_FREQ_DIVIDER 0
+
+/**
+ * @brief pages count in EEPROM
+ */
+uint8_t pages_count; 
 
 /**
  * @brief Current page
@@ -77,6 +82,7 @@ void eeprom_ehgk_page_read(uint8_t addr_h, uint8_t addr_low)
     }
 }
 
+volatile bool load_page_flag = false;
 /**
  * @brief Timer0 interrupt handler
  * 
@@ -84,9 +90,7 @@ void eeprom_ehgk_page_read(uint8_t addr_h, uint8_t addr_low)
  */
 void timer0_ISR() __interrupt(INTERRUPT_TIMER0)
 {
-    eeprom_ehgk_page_read(ADDR_H, page_index * sizeof(uint64_t));
-    ehgk_iterator_init(page);
-    if (page_index == PAGES_COUNT - 1) page_index = 0; else page_index++;
+    if (load_page_flag == false) { load_page_flag = true; }
 }
 
 /**
@@ -119,10 +123,22 @@ void main(void)
     enable_int0_interrupt();
     set_int0_interrupt_trigger(ONLY_FALLING_EDGE);
 
+    eeprom_ehgk_page_read(ADDR_H, ADDR_LOW);
+    pages_count = page;
+    page = EMPTY_PAGE;
+
     timer0_mode0_start(0xFFFF);
     
     while(1) 
     {
+        if (load_page_flag)
+        {
+            eeprom_ehgk_page_read(ADDR_H, (page_index + 1) * sizeof(uint64_t));
+            ehgk_iterator_init(page);
+            if (page_index == pages_count - 1) page_index = 0; else page_index++;
+
+            load_page_flag = false;
+        }
         // Show page
         ehgk_iterator_next();
         ehgk_apply_iterator_result();
