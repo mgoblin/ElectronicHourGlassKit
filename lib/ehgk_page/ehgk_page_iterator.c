@@ -133,7 +133,7 @@ ehgk_iter_result_t*  ehgk_iterator_next(void)
 }
 
 #ifdef __SDCC_mcs51
-void ehgk_apply_iterator_result()
+void ehgk_apply_iterator_result(void)
 {
    P1 = iter_result.p1;
    P3 = iter_result.p3;

@@ -18,12 +18,13 @@ env = DefaultEnvironment(ENV = os.environ)
 
 env.Append(
     ASFLAGS=["-l", "-s"],
-    CFLAGS=["--std-sdcc11"],
+    CFLAGS=["--std-c23"],
     CCFLAGS=[
         "--opt-code-size",  # optimize for size
         "--peep-return",  # peephole optimization for return instructions
         "-m%s" % build_cpu,
         "--Werror", 
+        "-DENABLE_C23_ENUM",
 
     ],
     CPPDEFINES=["F_CPU=" + board_f_cpu, "HEAP_SIZE=" + size_heap],
@@ -53,5 +54,5 @@ SConscript (
 )
 
 SConscript (
-    'SConscriptTests_clang', 
+   'SConscriptTests_clang', 
 )

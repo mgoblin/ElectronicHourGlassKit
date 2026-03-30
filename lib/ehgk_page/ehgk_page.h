@@ -67,7 +67,10 @@ typedef uint64_t ehgk_page_t;
  * 
  * @see ehgk_page_t
  */
-typedef enum led_t
+typedef enum led_t 
+#ifdef ENABLE_C23_ENUM
+ : uint64_t
+#endif
 {
     L1  = (uint64_t) 0x1,
     L2  = (uint64_t) 0x2,
