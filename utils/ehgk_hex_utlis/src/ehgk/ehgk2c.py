@@ -157,14 +157,6 @@ if __name__ == '__main__':
         help="binary file name (default: {input file name}.h)"
     )
 
-    # Add a disable write header boolean flag
-    parser.add_argument(
-        '-nc', '--no-pages-count',
-        action='store_true',
-        dest = 'no_pages_count',
-        help='dont save pages count to output (default: False)'
-    )
-
     # Parse the arguments
     args = parser.parse_args()
 
