@@ -144,6 +144,3 @@ void main(void)
         ehgk_apply_iterator_result();
     }
 }
-
-// TODO build examples with SDCC 4.5
-// TODO Refresh documentation in README.md

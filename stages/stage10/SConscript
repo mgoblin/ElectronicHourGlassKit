@@ -1,0 +1,18 @@
+Import('env')
+
+
+prog = env.Program('stage10',
+                source = 'eeprom_read', 
+                LIBS = ['hal', 'ehgk_page'], 
+                LIBPATH = [
+                    '#.pio/build/STC15W204S/lib/hal',
+                    '#.pio/build/STC15W204S/lib/ehgk_page'
+                    ])
+
+env.Default (
+    env.Object('eeprom_read'),
+    prog,
+    env.Install('#firmware', prog),
+    env.Install('#firmware', '#stages/stage10/eeprom_data.hex'),
+    env.Install('#.pio/build/STC15W204S/stage10', '#stages/stage10/eeprom_data.hex')
+), 
