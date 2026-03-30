@@ -31,6 +31,7 @@
     * [Stage 7. Animate picture inside main function](https://github.com/mgoblin/ElectronicHourGlassKit?tab=readme-ov-file#stage-7-animate-picture-inside-main-function)
     * [Stage 8. Changing animation speed](https://github.com/mgoblin/ElectronicHourGlassKit?tab=readme-ov-file#stage-7-animate-picture-inside-main-function)
     * [Stage 9. New animation pattern](https://github.com/mgoblin/ElectronicHourGlassKit?tab=readme-ov-file#stage-9-new-animation-pattern)
+    * [Stage 10. Move pages definition to EEPROM](https://github.com/mgoblin/ElectronicHourGlassKit?tab=readme-ov-file#stage-10-move-pages-definition-to-eeprom)
 * [Similar DIY projects](https://github.com/mgoblin/ElectronicHourGlassKit?tab=readme-ov-file#similar-diy-projects)
     * [Ceptimus firmware](https://github.com/mgoblin/ElectronicHourGlassKit?tab=readme-ov-file#ceptimus-firmware)
     * [Rick-100 firmware](https://github.com/mgoblin/ElectronicHourGlassKit?tab=readme-ov-file#rick-100-firmware)
@@ -1062,6 +1063,9 @@ void main()
 ```
 
 Major changes is in the `pages_definition.h` header. There is a place where pages are described - pages array. Animation contains 15 pages and firmware size is 791 byte.
+
+## Stage 10. Move pages definition to EEPROM
+Test
 
 # Similar DIY projects
 
