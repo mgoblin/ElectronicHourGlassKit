@@ -1065,7 +1065,50 @@ void main()
 Major changes is in the `pages_definition.h` header. There is a place where pages are described - pages array. Animation contains 15 pages and firmware size is 791 byte.
 
 ## Stage 10. Move pages definition to EEPROM
-Test
+We're moving the page definitions from pages_definition.h (which is in SRAM) over to EEPROM. The first 8 bytes (uint64_t) in EEPROM will store how big the page definitions are, and the rest of the space will hold the actual page data.
+
+When timer0 set load_page_flag main program load next page. Otherwise current page displayed. 
+
+Firmware size is 894 bytes and could be uploaded into STC15W201S/STC15W204S MCUs.
+
+EEPROM content could be prepapared as a file with special EHGK format.
+
+Pages separated by comma. Each page contains LEDs separated by |
+Line comment starts with //. And block comment is /* */.
+EMPTY_PAGE defines a page where none of the LEDs are on.
+
+EHGK file example:
+
+```
+/*
+* This is ehgk file example
+*
+* 5 pages defined.
+* 
+* You can remove all comments
+*/
+
+// First page. 
+L1 | L2,
+
+// Second page. The LED numbers may be in any order and not consecutive. 
+L20 | L40 | L1,
+
+L57, // Third page contains only one LED.
+
+EMPTY_PAGE, // Forth page. None LEDs are turn on.
+
+// Last fifth page
+L1 | L4
+```
+ehgk2hex utility (placed at utils/ehgk_hex_utils) used for translate ehgk file to EEPROM Intel hex.
+
+To upload firmware including EEPROM data use stcgal with two arguments
+The first is firmware hex file name and the second is eeprom hex file name.
+
+```
+stcgal .pio/build/STC15W204S/stage10/stage10.hex .pio/build/STC15W204S/stage10/eeprom_data.hex
+```
 
 # Similar DIY projects
 
@@ -1089,8 +1132,6 @@ This implementation use EEPROM to store page animations. The source code has det
 In my humble opinion, every firmware is not final and can be improved. Below some improvments ideas are described.
 
 ## Other ways to changing animation speed
-
-- Store page displaying delay into the variable and changing variable value on button pressed. 
 - Moving page displaying code to timer0 interrupt, moving page swapping to timer2 interrupt. 
  
 ## Using idle mode to reduce power consumption
@@ -1099,20 +1140,19 @@ Now the MCU is constantly executing code and consuming power. The MCU spends mos
 
 MCU idle mode can be used to sleep betwwen page swappings. This approach need to moving most of code to the timers interrupts. In the idle mode power consumption is reduced.
 
-## Storing pages into the EEPROM
-
-In the current firmware, page definitions are stored in the microcontroller's flash memory along with the page manipulation code.
-
-STC15 MCU have EEPROM memory. Its a good place to store page definitions. Moving page definitions to EEPROM frees up flash memory space and the firmware code can be larger.
-
-STC15W201S have 1k flash and 4k EEPROM, STC15W204S have 4k flash and 1k EEPROM.
-
-For STC15W204S, page definition storage can be done jointly in EEPROM and flash memory.
-
 ## Creating pages and animation visual editor
 
 Page defintion is not complex with array and bitwise OR inside page. But visual page and animaption editor is more easy.
 
 
 Thanx for reading. With best regards, Michael.
+
+TODO separate README.md on two parts
+* for page designers
+* for firmware developers
+
+TODO Aggregate ehgk2bin, ehgk2hex, ehgk2c to one utility. The export format will be selected using the command line key.
+TODO Publish utils. Utils could be run from console outside venv and IDE
+TODO Support led names (L1..L57) on ehgk2c converter export
+
 

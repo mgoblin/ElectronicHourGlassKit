@@ -118,7 +118,7 @@ class Ehgk2CApp:
 
         pages = self._convert_pages_to_list(pages_description)
 
-        # TODO generate header file
+        # generate header file
         ehgk_pages_c = self._render_template_from_file(
             'templates', 
             'ehgk_pages.j2', 

@@ -1,6 +1,20 @@
-// Pages example
+/*
+* This is ehgk file example
+*
+* 5 pages defined.
+* 
+* You can remove all comments
+*/
+
+// First page. 
 L1 | L2,
-L20 | L40 | L1, 
-L57,
-EMPTY_PAGE,
+
+// Second page. The LED numbers may be in any order and not consecutive. 
+L20 | L40 | L1,
+
+L57, // Third page contains only one LED.
+
+EMPTY_PAGE, // Forth page. None LEDs are turn on.
+
+// Last fifth page
 L1 | L4

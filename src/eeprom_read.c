@@ -139,9 +139,11 @@ void main(void)
 
             load_page_flag = false;
         }
-        // Show page
-        ehgk_iterator_next();
-        ehgk_apply_iterator_result();
+        else
+        {
+            // Show page
+            ehgk_iterator_next();
+            ehgk_apply_iterator_result();
+        }
     }
 }
-// TODO Refresh documentation in README.md. Add stage10 description. 
