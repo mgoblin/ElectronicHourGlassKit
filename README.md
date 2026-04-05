@@ -1147,6 +1147,9 @@ Page defintion is not complex with array and bitwise OR inside page. But visual 
 
 Thanx for reading. With best regards, Michael.
 
+
+FIX ADDR_H always equals to 0. Read only first 256 bytes from EEPROM. 
+
 TODO separate README.md on two parts
 * for page designers
 * for firmware developers
