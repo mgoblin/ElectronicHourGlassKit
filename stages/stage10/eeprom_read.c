@@ -61,7 +61,7 @@ ehgk_page_t page = EMPTY_PAGE;
 /**
  * @brief Current page index in pages array
  */
-uint8_t page_index = 0;
+uint16_t page_index = 0;
 
 /**
  * @brief Read page from EEPROM
@@ -133,7 +133,10 @@ void main(void)
     {
         if (load_page_flag)
         {
-            eeprom_ehgk_page_read(ADDR_H, (page_index + 1) * sizeof(uint64_t));
+            uint16_t addr = (page_index + 1) * sizeof(uint64_t);
+            uint8_t addr_low = addr & 0xFF;
+            uint8_t addr_high = (uint8_t)(addr >> 8);
+            eeprom_ehgk_page_read(addr_high, addr_low);
             ehgk_iterator_init(page);
             if (page_index == pages_count - 1) page_index = 0; else page_index++;
 
