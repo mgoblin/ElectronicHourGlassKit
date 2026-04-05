@@ -1148,6 +1148,8 @@ Page defintion is not complex with array and bitwise OR inside page. But visual 
 Thanx for reading. With best regards, Michael.
 
 
+FIX at last page of running snake animation all LEDs is on
+
 TODO separate README.md on two parts
 * for page designers
 * for firmware developers
