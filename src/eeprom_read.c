@@ -90,7 +90,7 @@ volatile bool load_page_flag = false;
  */
 void timer0_ISR() __interrupt(INTERRUPT_TIMER0)
 {
-    if (load_page_flag == false) { load_page_flag = true; }
+    load_page_flag = true;
 }
 
 /**
@@ -110,10 +110,10 @@ void button_press_handler() __interrupt(INTERRUPT_INT0)
     }
 }
 
+extern ehgk_iterator_t iterator;
+
 void main(void) 
 {
-    CLK_DIV = MAX_CPU_FREQ_DIVIDER;
-
     power_low_voltage_flag_clear();
 
     timer0_mode0_12T_init();
@@ -126,27 +126,30 @@ void main(void)
     eeprom_ehgk_page_read(ADDR_H, ADDR_LOW);
     pages_count = page;
     page = EMPTY_PAGE;
+    ehgk_iterator_init(page);
 
     timer0_mode0_start(0xFFFF);
+
+    CLK_DIV = MAX_CPU_FREQ_DIVIDER;
     
     while(1) 
     {
         if (load_page_flag)
         {
+            page_index++;
+            if (page_index == pages_count) page_index = 0;
+
             uint16_t addr = (page_index + 1) * sizeof(uint64_t);
             uint8_t addr_low = addr & 0xFF;
             uint8_t addr_high = (uint8_t)(addr >> 8);
             eeprom_ehgk_page_read(addr_high, addr_low);
             ehgk_iterator_init(page);
-            if (page_index == pages_count - 1) page_index = 0; else page_index++;
 
             load_page_flag = false;
         }
-        else
-        {
-            // Show page
-            ehgk_iterator_next();
-            ehgk_apply_iterator_result();
-        }
+
+        // Show page
+        ehgk_iterator_next();
+        ehgk_apply_iterator_result();
     }
 }

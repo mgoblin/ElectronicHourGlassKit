@@ -100,6 +100,14 @@ void timer0_ISR() __interrupt(INTERRUPT_TIMER0)
  */ 
 void button_press_handler() __interrupt(INTERRUPT_INT0)
 {
+    if (CLK_DIV == MAX_CPU_FREQ_DIVIDER) 
+    {
+        CLK_DIV = MIN_CPU_FREQ_DIVIDER; 
+    }
+    else 
+    {
+        CLK_DIV++;
+    }
 }
 
 extern ehgk_iterator_t iterator;
@@ -121,13 +129,15 @@ void main(void)
     ehgk_iterator_init(page);
 
     timer0_mode0_start(0xFFFF);
+
+    CLK_DIV = MAX_CPU_FREQ_DIVIDER;
     
     while(1) 
     {
         if (load_page_flag)
         {
             page_index++;
-            if (page_index == pages_count) page_index = pages_count - 1;
+            if (page_index == pages_count) page_index = 0;
 
             uint16_t addr = (page_index + 1) * sizeof(uint64_t);
             uint8_t addr_low = addr & 0xFF;
