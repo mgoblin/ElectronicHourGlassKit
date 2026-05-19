@@ -4,5 +4,5 @@ prog = env.Program('stage0', source = 'empty', LIBS = [])
 env.Default (
     env.Object('empty'),
     prog,
-    env.Install('#firmware', prog)
+    env.Install('#bin', prog)
 )

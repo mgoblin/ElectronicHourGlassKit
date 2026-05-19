@@ -12,5 +12,5 @@ prog = env.Program('stage6',
 env.Default (
     env.Object('page_timer'),
     prog,
-    env.Install('#firmware', prog)
+    env.Install('#bin', prog)
 ), 

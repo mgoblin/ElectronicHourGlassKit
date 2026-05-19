@@ -9,5 +9,5 @@ prog = env.Program('stage3',
 env.Default (
     env.Object('line0_timer'),
     prog,
-    env.Install('#firmware', prog)
+    env.Install('#bin', prog)
 ), 

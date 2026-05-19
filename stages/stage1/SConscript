@@ -11,5 +11,5 @@ prog = env.Program('stage1',
 env.Default (
     env.Object('led_main'),
     prog,
-    env.Install('#firmware', prog)
+    env.Install('#bin', prog)
 ), 

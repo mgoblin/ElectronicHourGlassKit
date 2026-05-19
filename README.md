@@ -71,7 +71,7 @@ STC programmator is optional, but recommended for use.
 
 # Fast track
 
-All examples are prebuilded in firmware folder. You need stage8.hex or stage9.hex in your choice.
+All examples are prebuilded in bin folder. You need stage8.hex or stage9.hex in your choice.
 
 To upload firmare follow this steps
 1. Install [stcgal](https://github.com/grigorig/stcgal)
@@ -79,7 +79,7 @@ To upload firmare follow this steps
 4. Clone this code repository and open terminal in the cloned repository root directory
 5. Run command 
 ```bash
-    stcgal firmware/stage9.hex
+    stcgal bin/stage9.hex
 ```
 6. Waiting for stcgal output 
 ``` Waiting for MCU, please cycle power: ``` and connect USB-2-TTL adapter GND to hourglass kit board GND. Waiting for stcgal output 

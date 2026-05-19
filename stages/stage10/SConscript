@@ -12,7 +12,7 @@ prog = env.Program('stage10',
 env.Default (
     env.Object('eeprom_read'),
     prog,
-    env.Install('#firmware', prog),
-    env.Install('#firmware', '#stages/stage10/eeprom_data.hex'),
+    env.Install('#bin', prog),
+    env.Install('#bin', '#stages/stage10/eeprom_data.hex'),
     env.Install('#.pio/build/STC15W204S/stage10', '#stages/stage10/eeprom_data.hex')
 ), 

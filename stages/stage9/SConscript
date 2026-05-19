@@ -12,5 +12,5 @@ prog = env.Program('stage9',
 env.Default (
     env.Object('extra_example'),
     prog,
-    env.Install('#firmware', prog)
+    env.Install('#bin', prog)
 ), 

@@ -12,5 +12,5 @@ prog = env.Program('stage8',
 env.Default (
     env.Object('button_press_handler'),
     prog,
-    env.Install('#firmware', prog)
+    env.Install('#bin', prog)
 ), 
