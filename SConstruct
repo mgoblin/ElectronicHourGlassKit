@@ -44,7 +44,7 @@ pioenv = board_model
 env['PIOENV'] = pioenv
 
 SConscript (
-    'stages/SConscript', 
+    'src/stages/SConscript', 
     exports = 'env'
 )
 
