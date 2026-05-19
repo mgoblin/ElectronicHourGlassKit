@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CONFIG>
+  <Makefile Value="2"/>
+  <Params Value="-Fu.;/usr/lib/lazarus/4.0/packager/units/$(CPU_TARGET)-$(OS_TARGET);/usr/lib/lazarus/4.0/components/lazutils/lib/$(CPU_TARGET)-$(OS_TARGET);/usr/lib/lazarus/4.0/components/freetype/lib/$(CPU_TARGET)-$(OS_TARGET);/usr/lib/lazarus/4.0/lcl/units/$(CPU_TARGET)-$(OS_TARGET);/usr/lib/lazarus/4.0/lcl/units/$(CPU_TARGET)-$(OS_TARGET)/$(LCL_PLATFORM) -MObjFPC -Scghi -O1 -g -gl -l -vewnhibq -dLCL -dLCL$(LCL_PLATFORM) ledcontrol.pas"/>
+</CONFIG>
