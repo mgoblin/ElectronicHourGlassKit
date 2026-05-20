@@ -20,6 +20,9 @@
     </RunParams>
     <RequiredPackages>
       <Item>
+        <PackageName Value="LCL"/>
+      </Item>
+      <Item>
         <PackageName Value="LedControl"/>
       </Item>
       <Item>
