@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Install Lazarus
-        uses: sxmxta/lazarus@v1
+        uses: sxmxta/lazarus@v1.0.18
         with:
           lazarus-version: 'stable' # or a specific version like '2.2.6'
           with-cache: true
