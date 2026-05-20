@@ -352,7 +352,7 @@ endif
 endif
 export LCL_PLATFORM
 ifndef LAZARUS_BASE
-LAZARUS_BASE=/usr/lib/lazarus/default
+LAZARUS_BASE=/usr/share/lazarus/2.2.6
 endif
 export LAZARUS_BASE
 ifeq ($(FULL_TARGET),i386-linux)
