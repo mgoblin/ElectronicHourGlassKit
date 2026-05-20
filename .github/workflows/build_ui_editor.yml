@@ -15,5 +15,5 @@ jobs:
         with-cache: false
         
     - run: lazbuild src/utils/ui_editor/lazarus/led_control/ledcontrol.lpk
-    - run: lazbuild src/utils/ui_editor/lazarus/led_control/test/led_unittests.lpi
+    - run: make -C src/utils/ui_editor/lazarus/led_control/test all
     - run: src/utils/ui_editor/lazarus/led_control/test/led_unittests --all --format=XML --file=result.xml
