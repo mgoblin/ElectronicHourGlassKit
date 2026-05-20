@@ -3,15 +3,32 @@ program led_unittests;
 {$mode objfpc}{$H+}
 
 uses
-  Interfaces, Forms, GuiTestRunner,
-  SimplifiedLedConstructorTestCase,
-  SimplifiedLedClickTestCase;
+  Classes, Interfaces, SimplifiedLedClickTestCase, SimplifiedLedConstructorTestCase,
+  consoletestrunner, fpcunittestinsight, jsonparser;
 
-{$R *.res}
+type
+
+  { TMyTestRunner }
+
+  TMyTestRunner = class(TTestRunner)
+  protected
+  // override the protected methods of TTestRunner to customize its behavior
+  end;
+
+var
+  Application: TMyTestRunner;
 
 begin
-  Application.Initialize;
-  Application.CreateForm(TGuiTestRunner, TestRunner);
-  Application.Run;
+  if IsTestInsightListening() then
+    RunRegisteredTests('','')
+  else
+    begin
+    DefaultRunAllTests:=True;
+    DefaultFormat:=fXML;
+    Application := TMyTestRunner.Create(nil);
+    Application.Initialize;
+    Application.Title := 'FPCUnit Console test runner';
+    Application.Run;
+    Application.Free;
+    end;
 end.
-
