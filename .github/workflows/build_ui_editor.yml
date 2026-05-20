@@ -15,6 +15,6 @@ jobs:
         with-cache: false
         
     - run: lazbuild src/utils/ui_editor/lazarus/led_control/ledcontrol.lpk
-    - run: ls -la /usr/share/lazarus/2.2.6/components/fpcunit
+    - run: ls -la /usr/share/lazarus/2.2.6/components/fpcunit/testinsight/lib
     - run: make -C src/utils/ui_editor/lazarus/led_control/test all
     # - run: src/utils/ui_editor/lazarus/led_control/test/led_unittests --all --format=XML --file=result.xml
