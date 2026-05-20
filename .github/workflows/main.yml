@@ -1,0 +1,19 @@
+name: Build Lazarus EGHK UI Editor
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest  # Also supports windows-latest and macos-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install Lazarus
+        uses: gcarreno/setup-lazarus@v3.2.22
+        with:
+          lazarus-version: 'stable' # or a specific version like '2.2.6'
+          with-cache: true
+
+      - name: Build Project
+        run: lazbuild --build-all src/utils/ui_editor/lazarus/led_control/ledcontrol.lpk
