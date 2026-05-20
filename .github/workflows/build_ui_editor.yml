@@ -11,6 +11,7 @@ jobs:
     - uses: sxmxta/lazarus@v1.0.18
       with:
         lazarus-version: "2.2.6"
+        include-packages: "LazTestInsight"
         with-cache: false
         
     - run: lazbuild src/utils/ui_editor/lazarus/led_control/ledcontrol.lpk
