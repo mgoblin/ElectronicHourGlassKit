@@ -10,7 +10,7 @@ version=0.0
 
 [compiler]
 unittargetdir=lib/$(CPU_TARGET)-$(OS_TARGET)
-unitdir=. /usr/lib/lazarus/4.0/packager/units/$(CPU_TARGET)-$(OS_TARGET) /usr/lib/lazarus/4.0/components/lazutils/lib/$(CPU_TARGET)-$(OS_TARGET) /usr/lib/lazarus/4.0/components/freetype/lib/$(CPU_TARGET)-$(OS_TARGET) /usr/lib/lazarus/4.0/lcl/units/$(CPU_TARGET)-$(OS_TARGET) /usr/lib/lazarus/4.0/lcl/units/$(CPU_TARGET)-$(OS_TARGET)/$(LCL_PLATFORM)
+unitdir=. $(LAZARUS_BASE)/packager/units/$(CPU_TARGET)-$(OS_TARGET) $(LAZARUS_BASE)/components/lazutils/lib/$(CPU_TARGET)-$(OS_TARGET) $(LAZARUS_BASE)/components/freetype/lib/$(CPU_TARGET)-$(OS_TARGET) $(LAZARUS_BASE)/lcl/units/$(CPU_TARGET)-$(OS_TARGET) $(LAZARUS_BASE)/lcl/units/$(CPU_TARGET)-$(OS_TARGET)/$(LCL_PLATFORM)
 options=-MObjFPC -Scghi -O1 -g -gl -l -vewnhibq -dLCL -dLCL$(LCL_PLATFORM) $(DBG_OPTIONS)
 
 [target]
@@ -48,6 +48,11 @@ DBG_OPTIONS=
 ifeq ($(OS_TARGET),darwin)
 DBG_OPTIONS=-gw
 endif
+
+ifndef LAZARUS_BASE
+LAZARUS_BASE=/usr/lib/lazarus/4.0
+endif
+export LAZARUS_BASE
 
 [rules]
 .PHONY: cleartarget compiled all
