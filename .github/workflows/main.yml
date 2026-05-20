@@ -12,6 +12,6 @@ jobs:
       with:
         lazarus-version: "stable"
         include-packages: "Synapse 40.1"
-        with-cache: true
+        with-cache: false
     - run: lazbuild YourTestProject.lpi
     - run: YourTestProject
