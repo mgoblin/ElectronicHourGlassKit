@@ -13,5 +13,5 @@ jobs:
         lazarus-version: "stable"
         include-packages: "Synapse 40.1"
         with-cache: false
-    - run: lazbuild YourTestProject.lpi
-    - run: YourTestProject
+        
+    - run: lazbuild src/utils/ui_editor/lazarus/led_control/ledcontrol.lpk
