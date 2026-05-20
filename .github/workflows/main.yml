@@ -8,7 +8,7 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - uses: sxmxta/lazarus@v1
+    - uses: sxmxta/lazarus@v1.0.18
       with:
         lazarus-version: "stable"
         include-packages: "Synapse 40.1"
