@@ -12,7 +12,7 @@ jobs:
       - name: Install Lazarus
         uses: sxmxta/lazarus@v1.0.18
         with:
-          lazarus-version: 'stable' # or a specific version like '2.2.6'
+          lazarus-version: '4.0' # or a specific version like '2.2.6'
           with-cache: true
 
       - name: Build Project
