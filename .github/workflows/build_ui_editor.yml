@@ -15,4 +15,4 @@ jobs:
         
     - run: lazbuild src/utils/ui_editor/lazarus/led_control/ledcontrol.lpk
     - run: lazbuild --add-package-link=src/utils/ui_editor/lazarus/led_control/ledcontrol.lpk /src/utils/ui_editor/lazarus/led_control/led_unittest.lpi
-    - run: ./led_unittests --all --format=XML --file=result.xml
+    - run: /src/utils/ui_editor/lazarus/led_control/led_unittests --all --format=XML --file=result.xml
