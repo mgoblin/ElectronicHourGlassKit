@@ -5,11 +5,13 @@ on: [push, pull_request]
 jobs:
   build:
     runs-on: ubuntu-latest  # Also supports windows-latest and macos-latest
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
 
-      - name: Install Lazarus
-        uses: sxmxta/lazarus@v1.0.18
-        with:
-          lazarus-version: 'stable' # or a specific version like '2.2.6'
+    steps:
+    - uses: actions/checkout@v3
+    - uses: sxmxta/lazarus@v1
+      with:
+        lazarus-version: "stable"
+        include-packages: "Synapse 40.1"
+        with-cache: true
+    - run: lazbuild YourTestProject.lpi
+    - run: YourTestProject
