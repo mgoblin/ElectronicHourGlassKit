@@ -10,7 +10,7 @@ jobs:
     - uses: actions/checkout@v3
     - uses: sxmxta/lazarus@v1.0.18
       with:
-        lazarus-version: "4.0"
+        lazarus-version: "3.6.0"
         with-cache: false
         
     - run: lazbuild src/utils/ui_editor/lazarus/led_control/ledcontrol.lpk
