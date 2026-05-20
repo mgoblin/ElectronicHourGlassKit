@@ -20,15 +20,6 @@
     </RunParams>
     <RequiredPackages>
       <Item>
-        <PackageName Value="LCL"/>
-      </Item>
-      <Item>
-        <PackageName Value="LedControl"/>
-      </Item>
-      <Item>
-        <PackageName Value="laztestinsight"/>
-      </Item>
-      <Item>
         <PackageName Value="FCL"/>
       </Item>
     </RequiredPackages>
@@ -36,16 +27,6 @@
       <Unit>
         <Filename Value="led_unittests.lpr"/>
         <IsPartOfProject Value="True"/>
-      </Unit>
-      <Unit>
-        <Filename Value="simplifiedledclicktestcase.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="SimplifiedLedClickTestCase"/>
-      </Unit>
-      <Unit>
-        <Filename Value="simplifiedledconstructortestcase.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="SimplifiedLedConstructorTestCase"/>
       </Unit>
     </Units>
   </ProjectOptions>
