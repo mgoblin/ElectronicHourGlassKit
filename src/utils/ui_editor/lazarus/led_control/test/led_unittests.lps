@@ -9,7 +9,7 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <CursorPos X="12" Y="6"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -18,7 +18,7 @@
         <UnitName Value="SimplifiedLedClickTestCase"/>
         <EditorIndex Value="1"/>
         <CursorPos X="62" Y="8"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -29,10 +29,23 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/lib/lazarus/4.0/components/fpcunit/testinsight/laztestinsight.pas"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/lib/lazarus/4.0/components/fpcunit/testinsight/testinsightclient.pas"/>
+        <UnitName Value="TestInsightClient"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="106"/>
+        <CursorPos X="5" Y="107"/>
+        <UsageCount Value="10"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="2">
+    <JumpHistory HistoryIndex="4">
       <Position>
         <Filename Value="led_unittests.lpr"/>
         <Caret Line="7" Column="52"/>
@@ -44,6 +57,14 @@
       <Position>
         <Filename Value="led_unittests.lpr"/>
         <Caret Line="34" TopLine="18"/>
+      </Position>
+      <Position>
+        <Filename Value="simplifiedledclicktestcase.pas"/>
+        <Caret Line="8" Column="62"/>
+      </Position>
+      <Position>
+        <Filename Value="led_unittests.lpr"/>
+        <Caret Line="6" Column="12"/>
       </Position>
     </JumpHistory>
     <RunParams>
