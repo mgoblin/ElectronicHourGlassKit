@@ -51,3 +51,7 @@ jobs:
       - name: Build LED control package unit tests
         run: |  
           lazbuild src/utils/ui_editor/lazarus/led_control/test/led_unittests.lpi
+      
+      - name: Run LED control unit tests
+       run: |
+          src/utils/ui_editor/lazarus/led_control/test/led_unittests --all --format=XML --file=result.xml
