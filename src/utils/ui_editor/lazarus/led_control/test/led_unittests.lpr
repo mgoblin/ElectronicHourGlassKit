@@ -17,7 +17,6 @@ var
 begin
   Application.Initialize;
   Application.CreateForm(TGuiTestRunner, TestRunner);
-  WriteLn('Run unit tests');
   TestRunner.Show;
   TestRunner.RunExecute(TestRunner);
   TestRunner.XMLSynEdit.Lines.SaveToFile(ResultFileName);
