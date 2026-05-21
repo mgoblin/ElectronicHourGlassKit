@@ -36,6 +36,7 @@ jobs:
         with:
           laz-url: ${{ matrix.config.laz-url }}
           fpc-url: ${{ matrix.config.fpc-url }}
+          use-cache: true
       
       - name: Test Installation
         run: |

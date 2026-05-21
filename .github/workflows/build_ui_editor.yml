@@ -12,7 +12,7 @@ jobs:
       with:
         lazarus-version: "2.2.6"
         include-packages: "LazTestInsight"
-        with-cache: true
+        with-cache: false
         
     - run: lazbuild src/utils/ui_editor/lazarus/led_control/ledcontrol.lpk
     - run: make -C src/utils/ui_editor/lazarus/led_control/test all
