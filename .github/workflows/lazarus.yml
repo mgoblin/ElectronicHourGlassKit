@@ -40,6 +40,9 @@ jobs:
           laz-url: ${{ matrix.config.laz-url }}
           fpc-url: ${{ matrix.config.fpc-url }}
           use-cache: true
+
+      - name: Checkout sources
+        uses: actions/checkout@v3
       
       - name: Build LED control package
         run: |
