@@ -9,9 +9,8 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="4"/>
-        <CursorPos Y="20"/>
-        <UsageCount Value="23"/>
+        <CursorPos X="29" Y="12"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -20,7 +19,7 @@
         <UnitName Value="SimplifiedLedClickTestCase"/>
         <TopLine Value="4"/>
         <CursorPos X="34" Y="12"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -31,7 +30,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="23"/>
+        <UsageCount Value="24"/>
       </Unit>
       <Unit>
         <Filename Value="/usr/lib/lazarus/4.0/components/fpcunit/guitestrunner.pas"/>
