@@ -54,7 +54,7 @@ jobs:
       
       - name: Run LED control unit tests
         run: |
-          src/utils/ui_editor/lazarus/led_control/test/led_unittests --all --format=XML --file=result.xml
+          src/utils/ui_editor/lazarus/led_control/test/led_unittests --all --format=XML --file=src/utils/ui_editor/lazarus/led_control/test/result.xml
       - name: Echo 
         run: |
           ls -la src/utils/ui_editor/lazarus/led_control/test 
