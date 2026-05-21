@@ -55,3 +55,11 @@ jobs:
       - name: Run LED control unit tests
         run: |
           src/utils/ui_editor/lazarus/led_control/test/led_unittests --all --format=XML --file=result.xml
+
+      - name: Publish Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v2.23.0
+        if: (!cancelled())
+        with:
+          files: |
+            src/utils/ui_editor/lazarus/led_control/test/result.xml
+
