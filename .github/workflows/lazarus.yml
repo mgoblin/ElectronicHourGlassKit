@@ -50,7 +50,7 @@ jobs:
       
       - name: Build LED control package unit tests
         run: |  
-          lazbuild --ws=win64 src/utils/ui_editor/lazarus/led_control/test/led_unittests.lpi
+          lazbuild --ws=win32 src/utils/ui_editor/lazarus/led_control/test/led_unittests.lpi
       
       - name: Run LED control unit tests
         run: |
