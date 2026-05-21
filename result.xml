@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TestResults>
+  <!-- Generated using FPCUnit on 2026-05-21 20:52:02-->
+  <TestListing>
+    <TestSuite Name="" ElapsedTime="00:00:00.129" NumberOfErrors="0" NumberOfFailures="0" NumberOfRunTests="5" NumberOfIgnoredTests="0">
+      <TestSuite Name="TSimplifiedLedClickTestCase" ElapsedTime="00:00:00.123" NumberOfErrors="0" NumberOfFailures="0" NumberOfRunTests="4" NumberOfIgnoredTests="0">
+        <Test Name="TestCreateAndDblClick" Result="OK" ElapsedTime="00:00:00.012"/>
+        <Test Name="TestSetStateOffAndDblClick" Result="OK" ElapsedTime="00:00:00.014"/>
+        <Test Name="TestSetStateOnAndDblClick" Result="OK" ElapsedTime="00:00:00.015"/>
+        <Test Name="TestDblClickTwice" Result="OK" ElapsedTime="00:00:00.004"/>
+      </TestSuite>
+      <TestSuite Name="TSimplifiedLedConstructorTestCase" ElapsedTime="00:00:00.006" NumberOfErrors="0" NumberOfFailures="0" NumberOfRunTests="1" NumberOfIgnoredTests="0">
+        <Test Name="TestConstructor" Result="OK" ElapsedTime="00:00:00.004"/>
+      </TestSuite>
+    </TestSuite>
+  </TestListing>
+  <NumberOfRunTests>5</NumberOfRunTests>
+  <NumberOfErrors>0</NumberOfErrors>
+  <NumberOfFailures>0</NumberOfFailures>
+  <NumberOfIgnoredTests>0</NumberOfIgnoredTests>
+  <TotalElapsedTime>00:00:00.130</TotalElapsedTime>
+  <DateTimeRan>2026-05-21 20:52:02</DateTimeRan>
+</TestResults>

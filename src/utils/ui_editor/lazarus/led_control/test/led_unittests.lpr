@@ -3,26 +3,35 @@ program led_unittests;
 {$mode objfpc}{$H+}
 
 uses
-  Classes, consoletestrunner;
+  Interfaces, SysUtils, Forms, GuiTestRunner, SimplifiedLedClickTestCase,
+  SimplifiedLedConstructorTestCase;
 
-type
-
-  { TMyTestRunner }
-
-  TMyTestRunner = class(TTestRunner)
-  protected
-  // override the protected methods of TTestRunner to customize its behavior
-  end;
+{$R *.res}
+const
+  TestsDurationSeconds: Integer = 10;
+  ResultFileName: String = 'result.xml';
 
 var
-  Application: TMyTestRunner;
+  StartTime: TDateTime;
 
 begin
-  DefaultRunAllTests:=True;
-  DefaultFormat:=fXML;
-  Application := TMyTestRunner.Create(nil);
   Application.Initialize;
-  Application.Title := 'FPCUnit Console test runner';
-  Application.Run;
-  Application.Free;
+  Application.CreateForm(TGuiTestRunner, TestRunner);
+  TestRunner.Show;
+  TestRunner.RunExecute(TestRunner);
+  TestRunner.XMLSynEdit.Lines.SaveToFile(ResultFileName);
+
+  StartTime := Now;
+  while (Now - StartTime) < (TestsDurationSeconds / 86400) do
+  begin
+    Application.ProcessMessages;  // Keep UI responsive
+    Sleep(10);
+  end;
+
+  // Programmatically close
+  TestRunner.Close;
+
+  // Or force application termination
+  Application.Terminate;
 end.
+

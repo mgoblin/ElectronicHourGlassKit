@@ -8,29 +8,82 @@
         <Filename Value="led_unittests.lpr"/>
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
         <TopLine Value="11"/>
-        <UsageCount Value="20"/>
+        <CursorPos X="56" Y="22"/>
+        <UsageCount Value="21"/>
         <Loaded Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="simplifiedledclicktestcase.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="SimplifiedLedClickTestCase"/>
+        <TopLine Value="4"/>
+        <CursorPos X="61" Y="12"/>
+        <UsageCount Value="21"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="simplifiedledconstructortestcase.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="SimplifiedLedConstructorTestCase"/>
+        <EditorIndex Value="-1"/>
+        <WindowIndex Value="-1"/>
+        <TopLine Value="-1"/>
+        <CursorPos X="-1" Y="-1"/>
+        <UsageCount Value="21"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/lib/lazarus/4.0/components/fpcunit/guitestrunner.pas"/>
+        <ComponentName Value="GUITestRunner"/>
+        <HasResources Value="True"/>
+        <ResourceBaseClass Value="Form"/>
+        <UnitName Value="GuiTestRunner"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="411"/>
+        <CursorPos X="33" Y="415"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+        <LoadedDesigner Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/lib/lazarus/4.0/lcl/forms.pp"/>
+        <UnitName Value="Forms"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1597"/>
+        <CursorPos X="15" Y="1603"/>
+        <UsageCount Value="10"/>
+      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="-1"/>
+    <JumpHistory HistoryIndex="5">
+      <Position>
+        <Filename Value="led_unittests.lpr"/>
+        <Caret Line="14" Column="19"/>
+      </Position>
+      <Position>
+        <Filename Value="led_unittests.lpr"/>
+        <Caret Line="13" Column="23"/>
+      </Position>
+      <Position>
+        <Filename Value="led_unittests.lpr"/>
+        <Caret Line="25" Column="13" TopLine="12"/>
+      </Position>
+      <Position>
+        <Filename Value="led_unittests.lpr"/>
+        <Caret Line="18" Column="34" TopLine="12"/>
+      </Position>
+      <Position>
+        <Filename Value="/usr/lib/lazarus/4.0/components/fpcunit/guitestrunner.pas"/>
+        <Caret Line="124" Column="36" TopLine="121"/>
+      </Position>
+      <Position>
+        <Filename Value="led_unittests.lpr"/>
+        <Caret Line="12" Column="39"/>
+      </Position>
+    </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
-      <Modes ActiveMode="default">
-        <Mode Name="default">
-          <local>
-            <LaunchingApplication Use="True"/>
-          </local>
-        </Mode>
-      </Modes>
+      <Modes ActiveMode=""/>
     </RunParams>
-    <HistoryLists>
-      <List Name="WorkingDirectory" Type="File" Count="1"/>
-      <List Name="LaunchingApplication" Type="File" Count="2">
-        <Item1 Value="/usr/bin/xterm -T &apos;Lazarus Run Output&apos; -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
-        <Item2 Value="/usr/bin/gnome-terminal -t &apos;Lazarus Run Output&apos; -e &apos;$(LazarusDir)/tools/runwait.sh $(TargetCmdLine)&apos;"/>
-      </List>
-      <List Name="CommandLineParameters" Count="1"/>
-    </HistoryLists>
   </ProjectSession>
 </CONFIG>
