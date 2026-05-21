@@ -1,4 +1,7 @@
+name: Build UI editor
+
 on: [push, pull_request]
+
 jobs:
   test:
     name: ${{ matrix.config.name }}
@@ -38,7 +41,7 @@ jobs:
           fpc-url: ${{ matrix.config.fpc-url }}
           use-cache: true
       
-      - name: Test Installation
+      - name: Build LED control package
         run: |
-          lazbuild --version
+          lazbuild src/utils/ui_editor/lazarus/led_control/ledcontrol.lpk
           
