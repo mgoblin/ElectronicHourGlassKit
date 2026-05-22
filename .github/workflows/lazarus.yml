@@ -61,19 +61,19 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y xvfb
       
-      - name: Run LED control unit tests with virtual display
+      - name: Run LED control unit tests
         run: |
           if [ "${{ matrix.config.name }}" == "Linux 64" ]; then
             xvfb-run -a src/utils/ui_editor/lazarus/led_control/test/led_unittests
           else
             src/utils/ui_editor/lazarus/led_control/test/led_unittests
           fi
-      
-      - name: Publish unit tests result (result.xml) to workflow summary  
-        run: |
+
+          ls -la .
+
           if grep -q '<NumberOfErrors>0</NumberOfErrors>' result.txt; then
             echo "## Execution Results 🚀" >> $GITHUB_STEP_SUMMARY
             echo "The build finished successfully at $(date)" >> $GITHUB_STEP_SUMMARY
             cat result.xml >> $GITHUB_STEP_SUMMARY
           fi  
-
+          
