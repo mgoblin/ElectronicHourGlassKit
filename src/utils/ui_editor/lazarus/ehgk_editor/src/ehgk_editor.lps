@@ -8,7 +8,7 @@
         <Filename Value="ehgk_editor.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="22"/>
       </Unit>
       <Unit>
         <Filename Value="main.pas"/>
@@ -20,7 +20,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="21"/>
         <CursorPos Y="72"/>
-        <UsageCount Value="21"/>
+        <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -33,15 +33,16 @@
         <UnitName Value="DataModule"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <CursorPos X="15" Y="16"/>
-        <UsageCount Value="21"/>
+        <CursorPos X="17" Y="11"/>
+        <UsageCount Value="22"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
         <UnitName Value="EhgkPage"/>
-        <CursorPos X="27" Y="28"/>
+        <TopLine Value="20"/>
+        <CursorPos X="22" Y="20"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>
@@ -59,10 +60,14 @@
         <UsageCount Value="10"/>
       </Unit>
     </Units>
-    <JumpHistory>
+    <JumpHistory HistoryIndex="1">
       <Position>
         <Filename Value="datamodule.pas"/>
         <Caret Line="12" Column="15"/>
+      </Position>
+      <Position>
+        <Filename Value="../../page_components/src/ehgkpage.pas"/>
+        <Caret Line="22" Column="24" TopLine="11"/>
       </Position>
     </JumpHistory>
     <RunParams>
