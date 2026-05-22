@@ -16,10 +16,12 @@ jobs:
           - os: windows-latest
             name: Windows 64
             laz-url: https://sourceforge.net/projects/lazarus/files/Lazarus Windows 64 bits/Lazarus 4.2/lazarus-4.2-fpc-3.2.2-win64.exe
-            
+            widgetset: win32 
+
           - os: windows-latest
             name: Windows 32
             laz-url: https://sourceforge.net/projects/lazarus/files/Lazarus Windows 32 bits/Lazarus 4.2/lazarus-4.2-fpc-3.2.2-win32.exe
+            widgetset: win32 
 
           - os: ubuntu-latest
             name: Linux 64
@@ -27,12 +29,13 @@ jobs:
             fpc-url: |
               https://sourceforge.net/projects/lazarus/files/Lazarus Linux amd64 DEB/Lazarus 4.2/fpc-laz_3.2.2-210709_amd64.deb
               https://sourceforge.net/projects/lazarus/files/Lazarus Linux amd64 DEB/Lazarus 4.2/fpc-src_3.2.2-210709_amd64.deb
-            
+            widgetset: gtk2 
+
           - os: macos-latest
             name: MacOS 64
             laz-url: https://sourceforge.net/projects/lazarus/files/Lazarus macOS x86-64/Lazarus 4.2/lazarus-darwin-x86_64-4.2.zip
             fpc-url: https://sourceforge.net/projects/lazarus/files/Lazarus macOS x86-64/Lazarus 4.2/fpc-3.2.2.intelarm64-macosx.dmg
-        
+            widgetset: cocoa
     steps:
       - name: Install Lazarus
         uses: ollydev/setup-lazarus@v4
