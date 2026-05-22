@@ -71,6 +71,8 @@ jobs:
       
       - name: Publish unit tests result (result.xml) to workflow summary  
         run: |
-          echo "## Execution Results 🚀" >> $GITHUB_STEP_SUMMARY
-          echo "The build finished successfully at $(date)" >> $GITHUB_STEP_SUMMARY
+          if [[grep -q '<NumberOfErrors>0</NumberOfErrors>' result.txt]]; then
+            echo "## Execution Results 🚀" >> $GITHUB_STEP_SUMMARY
+            echo "The build finished successfully at $(date)" >> $GITHUB_STEP_SUMMARY
+          fi  
 
