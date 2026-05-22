@@ -1,6 +1,9 @@
-name: Build UI editor
+name: Build LED visual control component
 
-on: [push, pull_request]
+on: 
+  push:
+    paths:
+      - 'utils/ui_editor/lazarus/led_control'
 
 jobs:
   test:
