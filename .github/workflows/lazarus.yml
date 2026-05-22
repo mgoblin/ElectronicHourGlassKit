@@ -74,7 +74,7 @@ jobs:
           if grep -q '<NumberOfErrors>0</NumberOfErrors>' result.xml && grep -q '<NumberOfFailures>0</NumberOfFailures>' result.xml; then
             echo "The build finished successfully at $(date)" >> $GITHUB_STEP_SUMMARY
           else
-            echo "The build failed at $(date)" >> $GITHUB_STEP_SUMMARY
+            echo "Unit tests failed at $(date)" >> $GITHUB_STEP_SUMMARY
             exit 1
           fi  
 

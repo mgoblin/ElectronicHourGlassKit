@@ -79,6 +79,9 @@
         </Win32>
       </Options>
     </Linking>
+    <Other>
+      <CustomOptions Value="-gv -gl"/>
+    </Other>
   </CompilerOptions>
   <Debugging>
     <Exceptions>

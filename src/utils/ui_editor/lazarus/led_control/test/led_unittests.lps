@@ -9,8 +9,8 @@
         <IsPartOfProject Value="True"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <CursorPos X="29" Y="12"/>
-        <UsageCount Value="24"/>
+        <CursorPos Y="18"/>
+        <UsageCount Value="30"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -19,7 +19,7 @@
         <UnitName Value="SimplifiedLedClickTestCase"/>
         <TopLine Value="4"/>
         <CursorPos X="34" Y="12"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="30"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -30,7 +30,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="24"/>
+        <UsageCount Value="30"/>
       </Unit>
       <Unit>
         <Filename Value="/usr/lib/lazarus/4.0/components/fpcunit/guitestrunner.pas"/>
@@ -41,7 +41,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="411"/>
         <CursorPos X="18" Y="413"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit>
       <Unit>
         <Filename Value="/usr/lib/lazarus/4.0/lcl/forms.pp"/>
@@ -49,17 +49,25 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="1597"/>
         <CursorPos X="15" Y="1603"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit>
       <Unit>
         <Filename Value="/usr/lib/lazarus/4.0/lcl/include/customform.inc"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="2075"/>
         <CursorPos Y="2059"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/lib/lazarus/4.0/lcl/lresources.pp"/>
+        <UnitName Value="LResources"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="705"/>
+        <CursorPos Y="713"/>
+        <UsageCount Value="9"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="6">
+    <JumpHistory HistoryIndex="9">
       <Position>
         <Filename Value="led_unittests.lpr"/>
         <Caret Line="14" Column="19"/>
@@ -88,13 +96,25 @@
         <Filename Value="led_unittests.lpr"/>
         <Caret Line="21" Column="6" TopLine="15"/>
       </Position>
+      <Position>
+        <Filename Value="led_unittests.lpr"/>
+        <Caret Line="12" Column="29"/>
+      </Position>
+      <Position>
+        <Filename Value="led_unittests.lpr"/>
+        <Caret Line="18" TopLine="7"/>
+      </Position>
+      <Position>
+        <Filename Value="led_unittests.lpr"/>
+        <Caret Line="19" TopLine="7"/>
+      </Position>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode="default">
         <Mode Name="default">
           <local>
-            <LaunchingApplication Use="True"/>
+            <LaunchingApplication PathPlusParams="/usr/bin/gnome-terminal -t &apos;Lazarus Run Output&apos; -e &apos;$(LazarusDir)/tools/runwait.sh $(TargetCmdLine)&apos;"/>
           </local>
         </Mode>
       </Modes>
@@ -102,8 +122,8 @@
     <HistoryLists>
       <List Name="WorkingDirectory" Type="File" Count="1"/>
       <List Name="LaunchingApplication" Type="File" Count="2">
-        <Item1 Value="/usr/bin/xterm -T &apos;Lazarus Run Output&apos; -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
-        <Item2 Value="/usr/bin/gnome-terminal -t &apos;Lazarus Run Output&apos; -e &apos;$(LazarusDir)/tools/runwait.sh $(TargetCmdLine)&apos;"/>
+        <Item1 Value="/usr/bin/gnome-terminal -t &apos;Lazarus Run Output&apos; -e &apos;$(LazarusDir)/tools/runwait.sh $(TargetCmdLine)&apos;"/>
+        <Item2 Value="/usr/bin/xterm -T &apos;Lazarus Run Output&apos; -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </List>
       <List Name="CommandLineParameters" Count="1"/>
     </HistoryLists>
