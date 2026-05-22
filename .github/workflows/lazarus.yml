@@ -69,10 +69,11 @@ jobs:
             src/utils/ui_editor/lazarus/led_control/test/led_unittests
           fi
 
-          ls -la .
-
+          echo "## Unit tests Results 🚀" >> $GITHUB_STEP_SUMMARY
           if grep -q '<NumberOfErrors>0</NumberOfErrors>' result.xml; then
-            echo "## Execution Results 🚀" >> $GITHUB_STEP_SUMMARY
             echo "The build finished successfully at $(date)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "The build finished failed at $(date)" >> $GITHUB_STEP_SUMMARY
+            exit 1
           fi  
 
