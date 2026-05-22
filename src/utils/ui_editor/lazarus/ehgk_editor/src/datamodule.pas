@@ -5,10 +5,14 @@ unit DataModule;
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, EhgkPage;
 
 type
+
+  { TMainDataModule }
+
   TMainDataModule = class(TDataModule)
+    EhgkPage1: TEhgkPage;
   private
 
   public

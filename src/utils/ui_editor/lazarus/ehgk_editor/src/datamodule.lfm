@@ -4,4 +4,8 @@ object MainDataModule: TMainDataModule
   HorizontalOffset = 248
   VerticalOffset = 177
   Width = 363
+  object EhgkPage1: TEhgkPage
+    Left = 53
+    Top = 33
+  end
 end
