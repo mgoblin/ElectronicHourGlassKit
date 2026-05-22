@@ -47,7 +47,6 @@ endif
 export LAZARUS_BASE
 
 
-
 # fpcmake -Tall -w
 # make clean all LCL_PLATFORM=gtk2
 # make clean all && make clean all -C ./test LCL_PLATFORM=gtk2
