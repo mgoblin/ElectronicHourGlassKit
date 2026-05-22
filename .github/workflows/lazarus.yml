@@ -53,7 +53,7 @@ jobs:
       
       - name: Build LED control package unit tests
         run: |  
-          lazbuild src/utils/ui_editor/lazarus/led_control/test/led_unittests.lpi
+          lazbuild --ws=${{ matrix.config.widgetset }} src/utils/ui_editor/lazarus/led_control/test/led_unittests.lpi
 
       - name: Install virtual screen package from Ubuntu repo
         run: |
