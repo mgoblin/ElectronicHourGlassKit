@@ -12,6 +12,7 @@ const
   DefaultHeight:Integer = 30;
 
 type
+
   TLEDState = (ledOff, ledOn);
 
   TSimplifiedLed = class(TCustomControl)

@@ -7,10 +7,11 @@
       <Unit>
         <Filename Value="ehgk_editor.lpr"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="19"/>
         <CursorPos X="20" Y="34"/>
-        <UsageCount Value="27"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -23,7 +24,7 @@
         <EditorIndex Value="2"/>
         <TopLine Value="83"/>
         <CursorPos X="51" Y="96"/>
-        <UsageCount Value="27"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -36,18 +37,17 @@
         <UnitName Value="DataModule"/>
         <EditorIndex Value="3"/>
         <TopLine Value="5"/>
-        <CursorPos X="20" Y="12"/>
-        <UsageCount Value="27"/>
+        <CursorPos X="14" Y="13"/>
+        <UsageCount Value="28"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
         <UnitName Value="EhgkPage"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="53"/>
         <CursorPos X="13" Y="65"/>
-        <UsageCount Value="13"/>
+        <UsageCount Value="14"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
