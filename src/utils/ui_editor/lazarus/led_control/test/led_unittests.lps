@@ -8,7 +8,7 @@
         <Filename Value="led_unittests.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="11"/>
+        <TopLine Value="16"/>
         <CursorPos Y="17"/>
         <UsageCount Value="31"/>
       </Unit>
@@ -72,9 +72,23 @@
       <Unit>
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
         <UnitName Value="EhgkPage"/>
-        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="12"/>
         <CursorPos X="17" Y="28"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../src/ledcontrol.pas"/>
+        <UnitName Value="LedControl"/>
+        <EditorIndex Value="-1"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../src/simplifiedled.pas"/>
+        <UnitName Value="SimplifiedLed"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="37"/>
+        <CursorPos X="11" Y="45"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>

@@ -15,10 +15,6 @@
         <HasRegisterProc Value="True"/>
         <UnitName Value="SimplifiedLed"/>
       </Item>
-      <Item>
-        <Filename Value="ledcontrol.pas"/>
-        <UnitName Value="LedControl"/>
-      </Item>
     </Files>
     <RequiredPkgs>
       <Item>
