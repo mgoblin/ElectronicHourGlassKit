@@ -34,6 +34,8 @@ type
     property Value: TEhgkPageValue read FValue write SetValue;
   end;
 
+  { TEhgkPageValuePropertyEditor }
+
   TEhgkPageValuePropertyEditor = class(TIntegerPropertyEditor)
   public
     procedure Edit; override;
