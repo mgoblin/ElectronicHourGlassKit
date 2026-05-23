@@ -1,9 +1,9 @@
 name: Build EHGK Page components
 
-on: push
-  # push:
-  #   paths:
-  #     - 'src/utils/ui_editor/lazarus/page_components/**'
+on:
+  push:
+    paths:
+      - 'src/utils/ui_editor/lazarus/page_components/**'
 
 jobs:
   test:
