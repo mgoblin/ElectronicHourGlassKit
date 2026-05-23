@@ -11,4 +11,5 @@
 !**/lib/.getkeep
 
 src/utils/ui_editor/lazarus/ehgk_editor/src/ehgk_editor
+**/EhgkPageUnitTests
 
