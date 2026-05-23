@@ -1,0 +1,82 @@
+name: Build EHGK Page components
+
+on: 
+  push:
+    paths:
+      - 'src/utils/ui_editor/lazarus/page_components/**'
+
+jobs:
+  test:
+    name: ${{ matrix.config.name }}
+    runs-on: ${{ matrix.config.os }}
+    defaults:
+      run:
+        shell: bash
+    strategy:
+      fail-fast: false
+      matrix:
+        config:
+          - os: windows-latest
+            name: Windows 64
+            laz-url: https://sourceforge.net/projects/lazarus/files/Lazarus Windows 64 bits/Lazarus 4.2/lazarus-4.2-fpc-3.2.2-win64.exe
+            widgetset: win32 
+
+          - os: windows-latest
+            name: Windows 32
+            laz-url: https://sourceforge.net/projects/lazarus/files/Lazarus Windows 32 bits/Lazarus 4.2/lazarus-4.2-fpc-3.2.2-win32.exe
+            widgetset: win32 
+
+          - os: ubuntu-latest
+            name: Linux 64
+            laz-url: https://sourceforge.net/projects/lazarus/files/Lazarus Linux amd64 DEB/Lazarus 4.2/lazarus-project_4.2.0-0_amd64.deb
+            fpc-url: |
+              https://sourceforge.net/projects/lazarus/files/Lazarus Linux amd64 DEB/Lazarus 4.2/fpc-laz_3.2.2-210709_amd64.deb
+              https://sourceforge.net/projects/lazarus/files/Lazarus Linux amd64 DEB/Lazarus 4.2/fpc-src_3.2.2-210709_amd64.deb
+            widgetset: gtk2 
+
+          - os: macos-latest
+            name: MacOS 64
+            laz-url: https://sourceforge.net/projects/lazarus/files/Lazarus macOS x86-64/Lazarus 4.2/lazarus-darwin-x86_64-4.2.zip
+            fpc-url: https://sourceforge.net/projects/lazarus/files/Lazarus macOS x86-64/Lazarus 4.2/fpc-3.2.2.intelarm64-macosx.dmg
+            widgetset: cocoa
+    steps:
+      - name: Install Lazarus
+        uses: ollydev/setup-lazarus@v4
+        with:
+          laz-url: ${{ matrix.config.laz-url }}
+          fpc-url: ${{ matrix.config.fpc-url }}
+          use-cache: true
+
+      - name: Checkout sources
+        uses: actions/checkout@v3
+      
+      - name: Build LED control package
+        run: |
+          lazbuild src/utils/ui_editor/lazarus/page_components/src/pagecomponents.lpk
+      
+      - name: Build LED control package unit tests
+        run: |  
+          lazbuild --ws=${{ matrix.config.widgetset }} src/utils/ui_editor/lazarus/page_components/test/src/utils/ui_editor/lazarus/page_components/test/EhgkPageUnitTests.lpi
+
+      - name: Install virtual screen package from Ubuntu repo
+        if: matrix.config.name == 'Linux 64'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y xvfb
+      
+      - name: Run LED control unit tests
+        run: |
+          if [ "${{ matrix.config.name }}" == "Linux 64" ]; then
+            xvfb-run -a src/utils/ui_editor/lazarus/page_components/test/EhgkPageUnitTests
+          else
+            src/utils/ui_editor/lazarus/page_components/test/EhgkPageUnitTests
+          fi
+
+          echo "## Unit tests Results 🚀" >> $GITHUB_STEP_SUMMARY
+          if grep -q '<NumberOfErrors>0</NumberOfErrors>' result.xml && grep -q '<NumberOfFailures>0</NumberOfFailures>' result.xml; then
+            echo "The build finished successfully at $(date)" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "Unit tests failed at $(date)" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi  
+
