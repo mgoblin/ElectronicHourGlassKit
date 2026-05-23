@@ -1,9 +1,9 @@
 name: Build EHGK Page components
 
-on: 
-  push:
-    paths:
-      - 'src/utils/ui_editor/lazarus/page_components/**'
+on: push
+  # push:
+  #   paths:
+  #     - 'src/utils/ui_editor/lazarus/page_components/**'
 
 jobs:
   test:
@@ -50,11 +50,11 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v3
       
-      - name: Build LED control package
+      - name: Build EhgkPage component package
         run: |
           lazbuild src/utils/ui_editor/lazarus/page_components/src/pagecomponents.lpk
       
-      - name: Build LED control package unit tests
+      - name: Build EhgkPage component package unit tests
         run: |  
           lazbuild --ws=${{ matrix.config.widgetset }} src/utils/ui_editor/lazarus/page_components/test/src/utils/ui_editor/lazarus/page_components/test/EhgkPageUnitTests.lpi
 
