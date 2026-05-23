@@ -39,9 +39,8 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="testcases.pas"/>
+        <Filename Value="EhgkPageTestCases.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="TestCases"/>
       </Unit>
     </Units>
   </ProjectOptions>

@@ -1,4 +1,4 @@
-unit TestCases;
+unit EhgkPageTestCases;
 
 {$mode objfpc}{$H+}
 {$R+}
@@ -34,10 +34,10 @@ implementation
 
 procedure TCreateEhgkPageTestCase.TestCreate;
 var
-  EhgkPage: TEhgkPage;
+  EhgkPageLocal: TEhgkPage;
 begin
-  EhgkPage := TEhgkPage.Create(Nil);
-  AssertNotNull('EhgkPage should be not nil after creation', EhgkPage);
+  EhgkPageLocal := TEhgkPage.Create(Nil);
+  AssertNotNull('EhgkPage should be not nil after creation', EhgkPageLocal);
 end;
 
 { TBitsEhgkPageTestCase }
@@ -92,6 +92,9 @@ procedure TBitsEhgkPageTestCase.TestLedToggle;
 begin
   EhgkPage.LedByIndexToggle(3);
   AssertEquals('For LED3 on value should be equals to 4', 4, EhgkPage.Value);
+  EhgkPage.LedByIndexToggle(3);
+  AssertEquals('For LED3 off value should be equals to 0', 0, EhgkPage.Value);
+
 end;
 
 
