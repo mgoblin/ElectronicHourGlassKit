@@ -44,8 +44,8 @@
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
         <UnitName Value="EhgkPage"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="56"/>
-        <CursorPos Y="57"/>
+        <TopLine Value="17"/>
+        <CursorPos Y="26"/>
         <UsageCount Value="14"/>
         <Loaded Value="True"/>
       </Unit>

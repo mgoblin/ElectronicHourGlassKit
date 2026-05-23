@@ -23,7 +23,6 @@ type
   TEhgkPage = class(TComponent)
   private
     FValue: TEhgkPageValue;
-
   public
     procedure LedByIndexOn(const Index: TEhgkLedNumber);
     procedure LedByIndexOff(const Index: TEhgkLedNumber);
