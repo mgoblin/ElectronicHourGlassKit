@@ -11,19 +11,18 @@ uses
 
 const
   EhgkLedCountMax = 57;
-  EhgkPageValueMax = $01FFFFFFFFFFFFFF;
+  EGHK_MAX_PAGE_VALUE = $01FFFFFFFFFFFFFF;
 
 type
 
   TEhgkLedNumber = 1..EhgkLedCountMax;
-  TEhgkPageValue = 0..EhgkPageValueMax;
+  TEhgkPageValue = 0..EGHK_MAX_PAGE_VALUE;
 
   { TEhgkPage }
 
   TEhgkPage = class(TComponent)
   private
     FValue: TEhgkPageValue;
-    procedure SetValue(AValue: TEhgkPageValue);
 
   public
     procedure LedByIndexOn(const Index: TEhgkLedNumber);
@@ -31,20 +30,22 @@ type
     procedure LedByIndexToggle(const Index: TEhgkLedNumber);
 
   published
-    property Value: TEhgkPageValue read FValue write SetValue;
+    property Value: TEhgkPageValue read FValue write FValue;
   end;
 
   { TEhgkPageValuePropertyEditor }
 
   TEhgkPageValuePropertyEditor = class(TIntegerPropertyEditor)
   public
-    procedure Edit; override;
-    function GetAttributes: TPropertyAttributes; override;
+    function OrdValueToVisualValue(OrdValue: longint): string; override;
+    procedure SetValue(const NewValue: ansistring);  override;
   end;
 
 procedure Register;
 
 implementation
+
+uses TypInfo, RtlConsts;
 
 procedure Register;
 begin
@@ -52,14 +53,7 @@ begin
   RegisterPropertyEditor(TypeInfo(TEhgkPageValue), TEhgkPage, 'Value', TEhgkPageValuePropertyEditor);
 end;
 
-
-
-procedure TEhgkPage.SetValue(AValue: TEhgkPageValue);
-begin
-  if AValue = FValue then Exit;
-
-  FValue := AValue;
-end;
+{ TEhgkPage }
 
 procedure TEhgkPage.LedByIndexOn(const Index: TEhgkLedNumber);
 var
@@ -85,23 +79,34 @@ begin
   FValue := val.ToggleBit(Index - 1);
 end;
 
+{ TEhgkPage }
+
 { TEhgkPageValuePropertyEditor }
 
-procedure TEhgkPageValuePropertyEditor.Edit;
-var
-  NewValue: String;
+function TEhgkPageValuePropertyEditor.OrdValueToVisualValue(OrdValue: longint): string;
 begin
-  // Create a simple input dialog
-  NewValue := GetValue;
-
-  if InputQuery('Edit Page Value', 'Enter value (0..$01FFFFFFFFFFFFFF)', NewValue) then
-     SetValue(NewValue);
+  Result:= UIntToStr(QWord(OrdValue));
 end;
 
-function TEhgkPageValuePropertyEditor.GetAttributes: TPropertyAttributes;
+procedure TEhgkPageValuePropertyEditor.SetValue(const NewValue: ansistring);
+
+  procedure Error(const Args: array of const);
+  begin
+    raise EPropertyError.CreateResFmt(@SOutOfRange, Args);
+  end;
+
+var
+  L: UInt64;
 begin
-  // paDialog shows the "..." button
-  Result := [paDialog];
+  with GetTypeData(GetPropType)^ do
+    if TryStrToUInt64(NewValue, L) and not ((L < MinQWordValue) or (L > EGHK_MAX_PAGE_VALUE)) then
+    begin
+       SetOrdValue(UInt64(L));
+    end else
+    begin
+       Error([MinQWordValue, EGHK_MAX_PAGE_VALUE]);
+       Exit;
+    end;
 end;
 
 end.

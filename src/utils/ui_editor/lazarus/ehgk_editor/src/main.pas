@@ -93,7 +93,7 @@ uses
 
 procedure TMainForm.Button1Click(Sender: TObject);
 begin
-  DataModule.MainDataModule.EhgkPage1.Value := $01FFFFFFFFFFFFFF;
+  ShowMessage(UIntToStr(DataModule.MainDataModule.EhgkPage1.Value));
 end;
 
 end.
