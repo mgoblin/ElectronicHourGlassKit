@@ -5,13 +5,15 @@ unit Main;
 interface
 
 uses
-  Classes, SysUtils, SimplifiedLed, Forms, Controls, Graphics, Dialogs;
+  Classes, SysUtils, SimplifiedLed, Forms, Controls, Graphics, Dialogs,
+  StdCtrls;
 
 type
 
   { TMainForm }
 
   TMainForm = class(TForm)
+    Button1: TButton;
     LED29: TSimplifiedLed;
     LED30: TSimplifiedLed;
     LED31: TSimplifiedLed;
@@ -69,6 +71,7 @@ type
     LED14: TSimplifiedLed;
     LED15: TSimplifiedLed;
     LED16: TSimplifiedLed;
+    procedure Button1Click(Sender: TObject);
   private
 
   public
@@ -82,8 +85,16 @@ implementation
 
 {$R *.lfm}
 
+uses
+  DataModule;
+
 { TMainForm }
 
+
+procedure TMainForm.Button1Click(Sender: TObject);
+begin
+  DataModule.MainDataModule.EhgkPage1.Value := $01FFFFFFFFFFFFFF;
+end;
 
 end.
 

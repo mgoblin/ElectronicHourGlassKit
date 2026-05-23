@@ -3,26 +3,13 @@ program EhgkPageUnitTests;
 {$mode objfpc}{$H+}
 
 uses
-  Classes, consoletestrunner, TestCases;
+  Interfaces, Forms, GuiTestRunner, TestCases;
 
-type
-
-  { TMyTestRunner }
-
-  TMyTestRunner = class(TTestRunner)
-  protected
-  // override the protected methods of TTestRunner to customize its behavior
-  end;
-
-var
-  Application: TMyTestRunner;
+{$R *.res}
 
 begin
-  DefaultRunAllTests:=True;
-  DefaultFormat:=fXML;
-  Application := TMyTestRunner.Create(nil);
   Application.Initialize;
-  Application.Title := 'FPCUnit Console test runner';
+  Application.CreateForm(TGuiTestRunner, TestRunner);
   Application.Run;
-  Application.Free;
 end.
+

@@ -1,12 +1,13 @@
 unit EhgkPage;
 
 {$mode ObjFPC}{$H+}
-{$modeswitch typehelpers}{$R+}
+{$modeswitch typehelpers}
+{$R+}
 
 interface
 
 uses
-  Classes, SysUtils;
+  Classes, SysUtils, Dialogs, PropEdits;
 
 const
   EhgkLedCountMax = 57;
@@ -14,27 +15,29 @@ const
 
 type
 
-  EIndexOutOfBounds = class(Exception);
-
-  TEhgkPageIndex = 1..EhgkLedCountMax;
+  TEhgkLedNumber = 1..EhgkLedCountMax;
   TEhgkPageValue = 0..EhgkPageValueMax;
-
-  { TEhgkPageValueHelper }
-
-  TEhgkPageValueHelper = Type Helper for TEhgkPageValue
-  public
-    function LedByIndexOn(const Index: TEhgkPageIndex): TEhgkPageValue;
-  end;
 
   { TEhgkPage }
 
   TEhgkPage = class(TComponent)
   private
     FValue: TEhgkPageValue;
+    procedure SetValue(AValue: TEhgkPageValue);
+
+  public
+    procedure LedByIndexOn(const Index: TEhgkLedNumber);
+    procedure LedByIndexOff(const Index: TEhgkLedNumber);
+    procedure LedByIndexToggle(const Index: TEhgkLedNumber);
 
   published
-    property Value: TEhgkPageValue read FValue write FValue;
+    property Value: TEhgkPageValue read FValue write SetValue;
+  end;
 
+  TEhgkPageValuePropertyEditor = class(TIntegerPropertyEditor)
+  public
+    procedure Edit; override;
+    function GetAttributes: TPropertyAttributes; override;
   end;
 
 procedure Register;
@@ -44,20 +47,59 @@ implementation
 procedure Register;
 begin
   RegisterComponents('EHGK',[TEhgkPage]);
+  RegisterPropertyEditor(TypeInfo(TEhgkPageValue), TEhgkPage, 'Value', TEhgkPageValuePropertyEditor);
 end;
 
-{ TEhgkPageValueHelper }
 
-function TEhgkPageValueHelper.LedByIndexOn(const Index: TEhgkPageIndex): TEhgkPageValue; inline;
+
+procedure TEhgkPage.SetValue(AValue: TEhgkPageValue);
 begin
-     Result := UInt64(Self).SetBit(Index - 1);
+  if AValue = FValue then Exit;
+
+  FValue := AValue;
 end;
 
-{ TEhgkPageValueHelper }
+procedure TEhgkPage.LedByIndexOn(const Index: TEhgkLedNumber);
+var
+  val: UInt64;
+begin
+  val := FValue;
+  FValue := val.SetBit(Index - 1);
+end;
 
-{ TEhgkPage }
+procedure TEhgkPage.LedByIndexOff(const Index: TEhgkLedNumber);
+var
+  val: UInt64;
+begin
+  val := FValue;
+  FValue := val.ClearBit(Index - 1);
+end;
 
+procedure TEhgkPage.LedByIndexToggle(const Index: TEhgkLedNumber);
+var
+  val: UInt64;
+begin
+  val := FValue;
+  FValue := val.ToggleBit(Index - 1);
+end;
 
-{ TEhgkPage }
+{ TEhgkPageValuePropertyEditor }
+
+procedure TEhgkPageValuePropertyEditor.Edit;
+var
+  NewValue: String;
+begin
+  // Create a simple input dialog
+  NewValue := GetValue;
+
+  if InputQuery('Edit Page Value', 'Enter value (0..$01FFFFFFFFFFFFFF)', NewValue) then
+     SetValue(NewValue);
+end;
+
+function TEhgkPageValuePropertyEditor.GetAttributes: TPropertyAttributes;
+begin
+  // paDialog shows the "..." button
+  Result := [paDialog];
+end;
 
 end.

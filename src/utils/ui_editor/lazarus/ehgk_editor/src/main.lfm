@@ -2,10 +2,10 @@ object MainForm: TMainForm
   Left = 248
   Height = 505
   Top = 177
-  Width = 240
+  Width = 487
   Caption = 'EHGK Editor'
   ClientHeight = 505
-  ClientWidth = 240
+  ClientWidth = 487
   LCLVersion = '4.0.0.4'
   object LED8: TSimplifiedLed
     Left = 24
@@ -348,5 +348,14 @@ object MainForm: TMainForm
     Height = 30
     Top = 440
     Width = 30
+  end
+  object Button1: TButton
+    Left = 298
+    Height = 25
+    Top = 152
+    Width = 75
+    Caption = 'Button1'
+    TabOrder = 57
+    OnClick = Button1Click
   end
 end

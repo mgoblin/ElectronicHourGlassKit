@@ -26,6 +26,8 @@ type
     procedure TearDown; override;
   published
     procedure TestLedOn;
+    procedure TestLefOff;
+    procedure TestLedToggle;
   end;
 
 implementation
@@ -53,23 +55,43 @@ end;
 
 procedure TBitsEhgkPageTestCase.TestLedOn;
 const
-  BitIndex: TEhgkPageIndex = 57;
+  BitIndex: TEhgkLedNumber = 57;
 begin
   AssertEquals('Initial value should be equals to 0', 0, EhgkPage.Value);
 
-  EhgkPage.Value.LedByIndexOn(1);
+  EhgkPage.LedByIndexOn(1);
   AssertEquals('Value for LED1 should be equals to 1', 1, EhgkPage.Value);
 
-  EhgkPage.Value.LedByIndexOn(2);
+  EhgkPage.LedByIndexOn(2);
   AssertEquals('Value for LED1 and LED2 should be equals to 3', 3, EhgkPage.Value);
 
   EhgkPage.Value := 0;
-  EhgkPage.Value.LedByIndexOn(BitIndex);
+  EhgkPage.LedByIndexOn(BitIndex);
   AssertEquals(
     'Value for LED57 should be equals to maximum',
-    $0100000000000000,
+    QWord($0100000000000000),
     EhgkPage.Value
   );
+
+end;
+
+procedure TBitsEhgkPageTestCase.TestLefOff;
+begin
+  EhgkPage.Value := 1;
+  AssertEquals('Value should be equals to 1', 1, EhgkPage.Value);
+
+  EhgkPage.LedByIndexOff(1);
+  AssertEquals('Value should be equals to 0 after LED1 off', 0, EhgkPage.Value);
+
+  EhgkPage.LedByIndexOn(EhgkLedCountMax);
+  EhgkPage.LedByIndexOff(EhgkLedCountMax);
+  AssertEquals('Value should be equals to 0 after LED1 off', 0, EhgkPage.Value);
+end;
+
+procedure TBitsEhgkPageTestCase.TestLedToggle;
+begin
+  EhgkPage.LedByIndexToggle(3);
+  AssertEquals('For LED3 on value should be equals to 4', 4, EhgkPage.Value);
 end;
 
 
