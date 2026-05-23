@@ -8,7 +8,7 @@
         <Filename Value="led_unittests.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="17"/>
+        <TopLine Value="11"/>
         <CursorPos Y="17"/>
         <UsageCount Value="30"/>
         <Loaded Value="True"/>
@@ -18,8 +18,8 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="SimplifiedLedTestCases"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="52"/>
-        <CursorPos Y="58"/>
+        <TopLine Value="60"/>
+        <CursorPos X="7" Y="68"/>
         <UsageCount Value="30"/>
         <Loaded Value="True"/>
       </Unit>
@@ -65,8 +65,15 @@
         <CursorPos Y="713"/>
         <UsageCount Value="9"/>
       </Unit>
+      <Unit>
+        <Filename Value="/usr/share/fpcsrc/3.2.2/packages/fcl-fpcunit/src/fpcunit.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="202"/>
+        <CursorPos X="15" Y="209"/>
+        <UsageCount Value="10"/>
+      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="10">
+    <JumpHistory HistoryIndex="17">
       <Position>
         <Filename Value="led_unittests.lpr"/>
         <Caret Line="14" Column="19"/>
@@ -110,6 +117,34 @@
       <Position>
         <Filename Value="led_unittests.lpr"/>
         <Caret Line="17" TopLine="17"/>
+      </Position>
+      <Position>
+        <Filename Value="simplifiedledtestcases.pas"/>
+        <Caret Line="21" Column="25" TopLine="17"/>
+      </Position>
+      <Position>
+        <Filename Value="simplifiedledtestcases.pas"/>
+        <Caret Line="22" Column="16" TopLine="17"/>
+      </Position>
+      <Position>
+        <Filename Value="simplifiedledtestcases.pas"/>
+        <Caret Line="75" Column="10" TopLine="67"/>
+      </Position>
+      <Position>
+        <Filename Value="simplifiedledtestcases.pas"/>
+        <Caret Line="79" Column="18" TopLine="73"/>
+      </Position>
+      <Position>
+        <Filename Value="simplifiedledtestcases.pas"/>
+        <Caret Line="104" Column="17" TopLine="98"/>
+      </Position>
+      <Position>
+        <Filename Value="simplifiedledtestcases.pas"/>
+        <Caret Line="72" Column="10" TopLine="60"/>
+      </Position>
+      <Position>
+        <Filename Value="simplifiedledtestcases.pas"/>
+        <Caret Line="68" Column="16" TopLine="60"/>
       </Position>
     </JumpHistory>
     <RunParams>

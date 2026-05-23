@@ -14,7 +14,13 @@ type
     procedure TestConstructor;
   end;
 
+  { TSimplifiedLedClickTestCase }
+
   TSimplifiedLedClickTestCase = class(TTestCase)
+  protected
+    LED: TSimplifiedLed;
+    procedure SetUp; override;    // Called before each test
+    procedure TearDown; override; // Called after each test
   published
     procedure TestCreateAndDblClick;
     procedure TestSetStateOffAndDblClick;
@@ -57,66 +63,47 @@ begin
   end;
 end;
 
-procedure TSimplifiedLedClickTestCase.TestCreateAndDblClick;
-var
-  LED: TSimplifiedLed;
+procedure TSimplifiedLedClickTestCase.SetUp;
 begin
-     LED := TSimplifiedLed.Create(Nil);
-     try
-        AssertTrue('Start LED state is led off', LED.State = TLEDState.ledOff);
+  LED := TSimplifiedLed.Create(Nil);
+end;
 
-        LED.DblClick;
-        AssertTrue('LED state after dblClick should be led on', LED.State = TLEDState.ledOn);
+procedure TSimplifiedLedClickTestCase.TearDown;
+begin
+  FreeAndNil(LED);
+end;
 
-     finally
-       FreeAndNil(LED);
-     end;
+procedure TSimplifiedLedClickTestCase.TestCreateAndDblClick;
+begin
+  AssertTrue('Start LED state is led off', LED.State = TLEDState.ledOff);
+
+  LED.DblClick;
+  AssertTrue('LED state after dblClick should be led on', LED.State = TLEDState.ledOn);
 end;
 
 procedure TSimplifiedLedClickTestCase.TestSetStateOffAndDblClick;
-var
-  LED: TSimplifiedLed;
 begin
-     LED := TSimplifiedLed.Create(Nil);
-     try
-       LED.State := TLEDState.ledOff;
-       LED.DblClick;
+   LED.State := TLEDState.ledOff;
+   LED.DblClick;
 
-       AssertTrue('LED state should be toggled after dbl click', LED.State = TLEDState.ledOn);
-     finally
-       FreeAndNil(LED);
-     end;
+   AssertTrue('LED state should be toggled after dbl click', LED.State = TLEDState.ledOn);
 end;
 
 procedure TSimplifiedLedClickTestCase.TestSetStateOnAndDblClick;
-var
-   LED: TSimplifiedLed;
 begin
-     LED := TSimplifiedLed.Create(Nil);
-     try
-       LED.State := TLEDState.ledOn;
-       LED.DblClick;
+   LED.State := TLEDState.ledOn;
+   LED.DblClick;
 
-       AssertTrue('LED state should be toggled after dbl click', LED.State = TLEDState.ledOff);
-     finally
-       FreeAndNil(LED);
-     end;
+   AssertTrue('LED state should be toggled after dbl click', LED.State = TLEDState.ledOff);
 end;
 
 procedure TSimplifiedLedClickTestCase.TestDblClickTwice;
-var
-   LED: TSimplifiedLed;
 begin
-   LED := TSimplifiedLed.Create(Nil);
-   try
-     LED.DblClick;
-     AssertTrue('LED state should be toggled after first dbl click', LED.State = TLEDState.ledOn);
+  LED.DblClick;
+  AssertTrue('LED state should be toggled after first dbl click', LED.State = TLEDState.ledOn);
 
-     LED.DblClick;
-     AssertTrue('LED state should be toggled back after second dbl click', LED.State = TLEDState.ledOff);
-   finally
-     FreeAndNil(LED);
-   end;
+  LED.DblClick;
+  AssertTrue('LED state should be toggled back after second dbl click', LED.State = TLEDState.ledOff);
 end;
 
 initialization
