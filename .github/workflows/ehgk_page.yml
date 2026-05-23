@@ -56,7 +56,7 @@ jobs:
       
       - name: Build EhgkPage component package unit tests
         run: |  
-          lazbuild --ws=${{ matrix.config.widgetset }} src/utils/ui_editor/lazarus/page_components/test/src/utils/ui_editor/lazarus/page_components/test/EhgkPageUnitTests.lpi
+          lazbuild --ws=${{ matrix.config.widgetset }} src/utils/ui_editor/lazarus/page_components/test/EhgkPageUnitTests.lpi
 
       - name: Install virtual screen package from Ubuntu repo
         if: matrix.config.name == 'Linux 64'
@@ -64,7 +64,7 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y xvfb
       
-      - name: Run LED control unit tests
+      - name: Run Page component unit tests
         run: |
           if [ "${{ matrix.config.name }}" == "Linux 64" ]; then
             xvfb-run -a src/utils/ui_editor/lazarus/page_components/test/EhgkPageUnitTests
