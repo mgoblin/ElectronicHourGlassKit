@@ -52,11 +52,11 @@ jobs:
       
       - name: Build LED control package
         run: |
-          lazbuild src/utils/ui_editor/lazarus/led_control/ledcontrol.lpk
+          lazbuild src/utils/ui_editor/lazarus/led_control/src/ledcontrol.lpk
       
       - name: Build LED control package unit tests
         run: |  
-          lazbuild --ws=${{ matrix.config.widgetset }} src/utils/ui_editor/lazarus/led_control/test/led_unittests.lpi
+          lazbuild --ws=${{ matrix.config.widgetset }} src/utils/ui_editor/lazarus/led_control/test/LedUnitTests.lpi
 
       - name: Install virtual screen package from Ubuntu repo
         if: matrix.config.name == 'Linux 64'
@@ -67,9 +67,9 @@ jobs:
       - name: Run LED control unit tests
         run: |
           if [ "${{ matrix.config.name }}" == "Linux 64" ]; then
-            xvfb-run -a src/utils/ui_editor/lazarus/led_control/test/led_unittests
+            xvfb-run -a src/utils/ui_editor/lazarus/led_control/test/LedUnitTests
           else
-            src/utils/ui_editor/lazarus/led_control/test/led_unittests
+            src/utils/ui_editor/lazarus/led_control/test/LedUnitTests
           fi
 
           echo "## Unit tests Results 🚀" >> $GITHUB_STEP_SUMMARY

@@ -1,4 +1,4 @@
-program led_unittests;
+program LedUnitTests;
 
 {$mode objfpc}{$H+}
 

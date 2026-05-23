@@ -5,12 +5,14 @@
     <BuildModes Active="Default"/>
     <Units>
       <Unit>
-        <Filename Value="led_unittests.lpr"/>
+        <Filename Value="LedUnitTests.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="-1"/>
-        <TopLine Value="16"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="20"/>
         <CursorPos Y="17"/>
         <UsageCount Value="31"/>
+        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="simplifiedledtestcases.pas"/>
@@ -86,8 +88,6 @@
       <Unit>
         <Filename Value="../src/simplifiedled.pas"/>
         <UnitName Value="SimplifiedLed"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="37"/>
         <CursorPos X="11" Y="45"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>

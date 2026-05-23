@@ -12,6 +12,6 @@
 
 src/utils/ui_editor/lazarus/ehgk_editor/src/ehgk_editor
 **/EhgkPageUnitTests
-**/led_unittests
+**/LedUnitTests
 **/result.xml
 

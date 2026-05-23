@@ -4,7 +4,7 @@
     <Version Value="12"/>
     <General>
       <SessionStorage Value="InProjectDir"/>
-      <Title Value="led_unittests"/>
+      <Title Value="LedUnitTests"/>
       <ResourceType Value="res"/>
       <UseXPManifest Value="True"/>
       <XPManifest>
@@ -44,7 +44,7 @@
     </RequiredPackages>
     <Units>
       <Unit>
-        <Filename Value="led_unittests.lpr"/>
+        <Filename Value="LedUnitTests.lpr"/>
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
@@ -57,7 +57,7 @@
   <CompilerOptions>
     <Version Value="11"/>
     <Target>
-      <Filename Value="led_unittests"/>
+      <Filename Value="LedUnitTests"/>
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir)"/>
