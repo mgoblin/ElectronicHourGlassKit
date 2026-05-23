@@ -7,29 +7,28 @@
       <Unit>
         <Filename Value="led_unittests.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <CursorPos Y="18"/>
+        <TopLine Value="17"/>
+        <CursorPos Y="17"/>
         <UsageCount Value="30"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="simplifiedledclicktestcase.pas"/>
+        <Filename Value="simplifiedledtestcases.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="SimplifiedLedClickTestCase"/>
-        <TopLine Value="4"/>
-        <CursorPos X="34" Y="12"/>
+        <UnitName Value="SimplifiedLedTestCases"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="52"/>
+        <CursorPos Y="58"/>
         <UsageCount Value="30"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="simplifiedledconstructortestcase.pas"/>
-        <IsPartOfProject Value="True"/>
         <UnitName Value="SimplifiedLedConstructorTestCase"/>
         <EditorIndex Value="-1"/>
-        <WindowIndex Value="-1"/>
-        <TopLine Value="-1"/>
-        <CursorPos X="-1" Y="-1"/>
+        <TopLine Value="35"/>
+        <CursorPos Y="49"/>
         <UsageCount Value="30"/>
       </Unit>
       <Unit>
@@ -67,7 +66,7 @@
         <UsageCount Value="9"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="9">
+    <JumpHistory HistoryIndex="10">
       <Position>
         <Filename Value="led_unittests.lpr"/>
         <Caret Line="14" Column="19"/>
@@ -108,6 +107,10 @@
         <Filename Value="led_unittests.lpr"/>
         <Caret Line="19" TopLine="7"/>
       </Position>
+      <Position>
+        <Filename Value="led_unittests.lpr"/>
+        <Caret Line="17" TopLine="17"/>
+      </Position>
     </JumpHistory>
     <RunParams>
       <FormatVersion Value="2"/>
@@ -120,12 +123,10 @@
       </Modes>
     </RunParams>
     <HistoryLists>
-      <List Name="WorkingDirectory" Type="File" Count="1"/>
       <List Name="LaunchingApplication" Type="File" Count="2">
         <Item1 Value="/usr/bin/gnome-terminal -t &apos;Lazarus Run Output&apos; -e &apos;$(LazarusDir)/tools/runwait.sh $(TargetCmdLine)&apos;"/>
         <Item2 Value="/usr/bin/xterm -T &apos;Lazarus Run Output&apos; -e $(LazarusDir)/tools/runwait.sh $(TargetCmdLine)"/>
       </List>
-      <List Name="CommandLineParameters" Count="1"/>
     </HistoryLists>
   </ProjectSession>
 </CONFIG>

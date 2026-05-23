@@ -3,8 +3,7 @@ program led_unittests;
 {$mode objfpc}{$H+}
 
 uses
-  Interfaces, SysUtils, Forms, GuiTestRunner, SimplifiedLedClickTestCase,
-  SimplifiedLedConstructorTestCase;
+  Interfaces, SysUtils, Forms, GuiTestRunner, SimplifiedLedTestCases;
 
 {$R *.res}
 const

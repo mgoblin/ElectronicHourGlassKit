@@ -48,14 +48,9 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="simplifiedledclicktestcase.pas"/>
+        <Filename Value="simplifiedledtestcases.pas"/>
         <IsPartOfProject Value="True"/>
-        <UnitName Value="SimplifiedLedClickTestCase"/>
-      </Unit>
-      <Unit>
-        <Filename Value="simplifiedledconstructortestcase.pas"/>
-        <IsPartOfProject Value="True"/>
-        <UnitName Value="SimplifiedLedConstructorTestCase"/>
+        <UnitName Value="SimplifiedLedTestCases"/>
       </Unit>
     </Units>
   </ProjectOptions>
