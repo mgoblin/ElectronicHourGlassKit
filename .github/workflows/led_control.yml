@@ -65,7 +65,6 @@ jobs:
           sudo apt-get install -y xvfb
       
       - name: Run LED control unit tests
-        if: always() # Ensures this runs even if previous steps failed
         run: |
           if [ "${{ matrix.config.name }}" == "Linux 64" ]; then
             xvfb-run -a src/utils/ui_editor/lazarus/led_control/test/led_unittests

@@ -7,7 +7,6 @@
       <Unit>
         <Filename Value="ehgk_editor.lpr"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="19"/>
         <CursorPos X="20" Y="34"/>
@@ -21,7 +20,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Main"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="83"/>
         <CursorPos X="51" Y="96"/>
         <UsageCount Value="28"/>
@@ -35,7 +34,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="DataModule"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="4"/>
         <TopLine Value="5"/>
         <CursorPos X="14" Y="13"/>
         <UsageCount Value="28"/>
@@ -60,8 +59,12 @@
       <Unit>
         <Filename Value="../../led_control/simplifiedled.pas"/>
         <UnitName Value="SimplifiedLed"/>
-        <EditorIndex Value="-1"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="103"/>
+        <CursorPos X="3" Y="15"/>
         <UsageCount Value="10"/>
+        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="datamodule.lfm"/>
