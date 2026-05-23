@@ -92,8 +92,10 @@ uses
 
 
 procedure TMainForm.Button1Click(Sender: TObject);
+const
+  S: String = '$05FFFFFFFFFFFFFF';
 begin
-  ShowMessage(UIntToStr(DataModule.MainDataModule.EhgkPage1.Value));
+  DataModule.MainDataModule.EhgkPage1.Value := StrToUInt64(S);
 end;
 
 end.

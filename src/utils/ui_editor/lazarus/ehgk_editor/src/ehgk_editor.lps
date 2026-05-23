@@ -10,7 +10,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="19"/>
         <CursorPos X="20" Y="34"/>
-        <UsageCount Value="28"/>
+        <UsageCount Value="29"/>
       </Unit>
       <Unit>
         <Filename Value="main.pas"/>
@@ -21,8 +21,8 @@
         <UnitName Value="Main"/>
         <EditorIndex Value="1"/>
         <TopLine Value="84"/>
-        <CursorPos X="19" Y="96"/>
-        <UsageCount Value="28"/>
+        <CursorPos X="24" Y="97"/>
+        <UsageCount Value="29"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -34,8 +34,9 @@
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="DataModule"/>
         <EditorIndex Value="2"/>
-        <CursorPos X="8" Y="10"/>
-        <UsageCount Value="28"/>
+        <TopLine Value="8"/>
+        <CursorPos X="13" Y="21"/>
+        <UsageCount Value="29"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -43,8 +44,8 @@
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
         <UnitName Value="EhgkPage"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="96"/>
-        <CursorPos X="8" Y="102"/>
+        <TopLine Value="56"/>
+        <CursorPos Y="57"/>
         <UsageCount Value="14"/>
         <Loaded Value="True"/>
       </Unit>
@@ -66,7 +67,7 @@
       <Unit>
         <Filename Value="datamodule.lfm"/>
         <EditorIndex Value="-1"/>
-        <CursorPos X="14" Y="8"/>
+        <CursorPos X="14" Y="6"/>
         <UsageCount Value="10"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit>
@@ -160,7 +161,7 @@
         <UsageCount Value="10"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="21">
+    <JumpHistory HistoryIndex="25">
       <Position>
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
         <Caret Line="42" Column="24" TopLine="39"/>
@@ -248,6 +249,22 @@
       <Position>
         <Filename Value="main.pas"/>
         <Caret Line="96" Column="70" TopLine="83"/>
+      </Position>
+      <Position>
+        <Filename Value="../../page_components/src/ehgkpage.pas"/>
+        <Caret Line="34" Column="62" TopLine="19"/>
+      </Position>
+      <Position>
+        <Filename Value="../../page_components/src/ehgkpage.pas"/>
+        <Caret Line="65" Column="19" TopLine="56"/>
+      </Position>
+      <Position>
+        <Filename Value="../../page_components/src/ehgkpage.pas"/>
+        <Caret Line="63" Column="63" TopLine="52"/>
+      </Position>
+      <Position>
+        <Filename Value="datamodule.pas"/>
+        <Caret Line="15" TopLine="13"/>
       </Position>
     </JumpHistory>
     <RunParams>
