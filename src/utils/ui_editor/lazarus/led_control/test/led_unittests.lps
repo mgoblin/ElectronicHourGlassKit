@@ -7,21 +7,18 @@
       <Unit>
         <Filename Value="led_unittests.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="11"/>
         <CursorPos Y="17"/>
-        <UsageCount Value="30"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="31"/>
       </Unit>
       <Unit>
         <Filename Value="simplifiedledtestcases.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="SimplifiedLedTestCases"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="60"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="7" Y="68"/>
-        <UsageCount Value="30"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="31"/>
       </Unit>
       <Unit>
         <Filename Value="simplifiedledconstructortestcase.pas"/>
@@ -72,81 +69,17 @@
         <CursorPos X="15" Y="209"/>
         <UsageCount Value="10"/>
       </Unit>
+      <Unit>
+        <Filename Value="../../page_components/src/ehgkpage.pas"/>
+        <UnitName Value="EhgkPage"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="12"/>
+        <CursorPos X="17" Y="28"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="17">
-      <Position>
-        <Filename Value="led_unittests.lpr"/>
-        <Caret Line="14" Column="19"/>
-      </Position>
-      <Position>
-        <Filename Value="led_unittests.lpr"/>
-        <Caret Line="13" Column="23"/>
-      </Position>
-      <Position>
-        <Filename Value="led_unittests.lpr"/>
-        <Caret Line="25" Column="13" TopLine="12"/>
-      </Position>
-      <Position>
-        <Filename Value="led_unittests.lpr"/>
-        <Caret Line="18" Column="34" TopLine="12"/>
-      </Position>
-      <Position>
-        <Filename Value="led_unittests.lpr"/>
-        <Caret Line="12" Column="39"/>
-      </Position>
-      <Position>
-        <Filename Value="led_unittests.lpr"/>
-        <Caret Line="20" Column="6" TopLine="15"/>
-      </Position>
-      <Position>
-        <Filename Value="led_unittests.lpr"/>
-        <Caret Line="21" Column="6" TopLine="15"/>
-      </Position>
-      <Position>
-        <Filename Value="led_unittests.lpr"/>
-        <Caret Line="12" Column="29"/>
-      </Position>
-      <Position>
-        <Filename Value="led_unittests.lpr"/>
-        <Caret Line="18" TopLine="7"/>
-      </Position>
-      <Position>
-        <Filename Value="led_unittests.lpr"/>
-        <Caret Line="19" TopLine="7"/>
-      </Position>
-      <Position>
-        <Filename Value="led_unittests.lpr"/>
-        <Caret Line="17" TopLine="17"/>
-      </Position>
-      <Position>
-        <Filename Value="simplifiedledtestcases.pas"/>
-        <Caret Line="21" Column="25" TopLine="17"/>
-      </Position>
-      <Position>
-        <Filename Value="simplifiedledtestcases.pas"/>
-        <Caret Line="22" Column="16" TopLine="17"/>
-      </Position>
-      <Position>
-        <Filename Value="simplifiedledtestcases.pas"/>
-        <Caret Line="75" Column="10" TopLine="67"/>
-      </Position>
-      <Position>
-        <Filename Value="simplifiedledtestcases.pas"/>
-        <Caret Line="79" Column="18" TopLine="73"/>
-      </Position>
-      <Position>
-        <Filename Value="simplifiedledtestcases.pas"/>
-        <Caret Line="104" Column="17" TopLine="98"/>
-      </Position>
-      <Position>
-        <Filename Value="simplifiedledtestcases.pas"/>
-        <Caret Line="72" Column="10" TopLine="60"/>
-      </Position>
-      <Position>
-        <Filename Value="simplifiedledtestcases.pas"/>
-        <Caret Line="68" Column="16" TopLine="60"/>
-      </Position>
-    </JumpHistory>
+    <JumpHistory HistoryIndex="-1"/>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode="default">
