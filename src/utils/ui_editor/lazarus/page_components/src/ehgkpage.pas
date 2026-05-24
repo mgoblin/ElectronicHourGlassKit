@@ -23,12 +23,12 @@ uses
 const
 
   EHGK_LED_COUNT_MAX = 57;
-  EGHK_MAX_PAGE_VALUE = $01FFFFFFFFFFFFFF;
+  EHGK_PAGE_VALUE_MAX = $01FFFFFFFFFFFFFF;
 
 type
 
   TEhgkLedNumber = 1..EHGK_LED_COUNT_MAX;
-  TEhgkPageValue = 0..EGHK_MAX_PAGE_VALUE;
+  TEhgkPageValue = 0..EHGK_PAGE_VALUE_MAX;
 
   { Describes 57 LED on/off state }
   TEhgkPage = class(TComponent)
@@ -89,9 +89,9 @@ procedure TEhgkPageValuePropertyEditor.SetValue(const NewValue: ansistring);
 var
   L: UInt64;
 begin
-    if (not TryStrToUInt64(NewValue, L)) or (L > EGHK_MAX_PAGE_VALUE) then
+    if (not TryStrToUInt64(NewValue, L)) or (L > EHGK_PAGE_VALUE_MAX) then
     begin
-      Error([QWord.MinValue, EGHK_MAX_PAGE_VALUE]);
+      Error([QWord.MinValue, EHGK_PAGE_VALUE_MAX]);
     end
     else
     begin
