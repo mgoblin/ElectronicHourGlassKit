@@ -28,6 +28,7 @@ type
     procedure TestLedOn;
     procedure TestLedOff;
     procedure TestLedToggle;
+    procedure TestIsLedOn;
   end;
 
 implementation
@@ -95,6 +96,19 @@ begin
   EhgkPage.ToggleLed(3);
   AssertEquals('For LED3 off value should be equals to 0', 0, EhgkPage.Value);
 
+end;
+
+procedure TBitsEhgkPageTestCase.TestIsLedOn;
+const
+  LedNumber: TEhgkLedNumber = 5;
+begin
+  AssertFalse('LED5 should be off', EhgkPage.IsLedOn(LedNumber));
+
+  EhgkPage.ToggleLed(LedNumber);
+  AssertTrue('LED5 should be on', EhgkPage.IsLedOn(LedNumber));
+
+  EhgkPage.ToggleLed(LedNumber);
+  AssertFalse('LED5 should be on', EhgkPage.IsLedOn(LedNumber));
 end;
 
 

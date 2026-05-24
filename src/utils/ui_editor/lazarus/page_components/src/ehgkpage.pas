@@ -23,14 +23,16 @@ uses
 const
 
   EHGK_LED_COUNT_MAX = 57;
-  EHGK_PAGE_VALUE_MAX = $01FFFFFFFFFFFFFF;
+  EHGK_PAGE_VALUE_MAX = (UInt64(1) shl EHGK_LED_COUNT_MAX) - 1;
 
 type
 
+  { LED numbers in range 1..57 }
   TEhgkLedNumber = 1..EHGK_LED_COUNT_MAX;
+
   TEhgkPageValue = 0..EHGK_PAGE_VALUE_MAX;
 
-  { Describes 57 LED on/off state }
+  { Describes 57 LEDs on/off state }
   TEhgkPage = class(TComponent)
   private
     FValue: TEhgkPageValue;
@@ -38,6 +40,7 @@ type
     procedure TurnLedOn(const Index: TEhgkLedNumber);
     procedure TurnLedOff(const Index: TEhgkLedNumber);
     procedure ToggleLed(const Index: TEhgkLedNumber);
+    function IsLedOn(const Index: TEhgkLedNumber): Boolean;
 
   published
     property Value: TEhgkPageValue read FValue write FValue;
@@ -75,6 +78,11 @@ end;
 procedure TEhgkPage.ToggleLed(const Index: TEhgkLedNumber);
 begin
   FValue := UInt64(FValue).ToggleBit(Index - 1);
+end;
+
+function TEhgkPage.IsLedOn(const Index: TEhgkLedNumber): Boolean;
+begin
+  Result := UInt64(FValue).TestBit(Index - 1);
 end;
 
 { TEhgkPageValuePropertyEditor }
