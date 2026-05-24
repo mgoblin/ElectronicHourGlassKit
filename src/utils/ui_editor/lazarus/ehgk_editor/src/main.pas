@@ -92,10 +92,23 @@ uses
 
 
 procedure TMainForm.Button1Click(Sender: TObject);
-const
-  S: String = '$05FFFFFFFFFFFFFF';
+  function BoolToLedState(Value: Boolean): TLedState;
+  begin
+    if Value then Result:= TLEDState.ledOn else Result:= TLEDState.ledOff;
+  end;
+
+var
+  i: Integer;
+  LED: TComponent;
 begin
-  DataModule.MainDataModule.EhgkPage1.Value := StrToUInt64(S);
+  for i := 1 to DataModule.MainDataModule.EhgkPage1.LedCount do
+  begin
+    LED := MainForm.FindComponent(Format('LED%u', [i]));
+    if LED <> Nil then
+    begin
+      (LED as TSimplifiedLed).State := BoolToLedState(DataModule.MainDataModule.EhgkPage1.IsLedOn(i));
+    end;
+  end;
 end;
 
 end.
