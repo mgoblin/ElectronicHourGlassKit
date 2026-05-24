@@ -1,4 +1,15 @@
+{
+ Electronic hourglass kit page (Ehgk) components unit.
+
+ An electronic hourglass is a simple electronic device you can assemble yourself.
+ It contains 57 LEDs located on a circuit board.
+ The LEDs are sequentially switched on and off according to the firmware.
+ The state of all the LEDs is called a Page.
+
+ This unit implements page components.
+}
 unit EhgkPage;
+
 
 {$mode ObjFPC}{$H+}
 {$modeswitch typehelpers}
@@ -10,16 +21,16 @@ uses
   Classes, SysUtils, Dialogs, PropEdits;
 
 const
-  EhgkLedCountMax = 57;
+
+  EHGK_LED_COUNT_MAX = 57;
   EGHK_MAX_PAGE_VALUE = $01FFFFFFFFFFFFFF;
 
 type
 
-  TEhgkLedNumber = 1..EhgkLedCountMax;
+  TEhgkLedNumber = 1..EHGK_LED_COUNT_MAX;
   TEhgkPageValue = 0..EGHK_MAX_PAGE_VALUE;
 
-  { TEhgkPage }
-
+  { Describes 57 LED on/off state }
   TEhgkPage = class(TComponent)
   private
     FValue: TEhgkPageValue;
@@ -32,11 +43,8 @@ type
     property Value: TEhgkPageValue read FValue write FValue;
   end;
 
-  { TEhgkPageValuePropertyEditor }
-
-  TEhgkPageValuePropertyEditor = class(TIntegerPropertyEditor)
+  TEhgkPageValuePropertyEditor = class(TQWordPropertyEditor)
   public
-    function OrdValueToVisualValue(OrdValue: longint): string; override;
     procedure SetValue(const NewValue: ansistring);  override;
   end;
 
@@ -78,14 +86,7 @@ begin
   FValue := val.ToggleBit(Index - 1);
 end;
 
-{ TEhgkPage }
-
 { TEhgkPageValuePropertyEditor }
-
-function TEhgkPageValuePropertyEditor.OrdValueToVisualValue(OrdValue: longint): string;
-begin
-  Result:= UIntToStr(QWord(OrdValue));
-end;
 
 procedure TEhgkPageValuePropertyEditor.SetValue(const NewValue: ansistring);
 
@@ -97,14 +98,13 @@ procedure TEhgkPageValuePropertyEditor.SetValue(const NewValue: ansistring);
 var
   L: UInt64;
 begin
-  with GetTypeData(GetPropType)^ do
-    if TryStrToUInt64(NewValue, L) and not ((L < MinQWordValue) or (L > EGHK_MAX_PAGE_VALUE)) then
+    if (not TryStrToUInt64(NewValue, L)) or (L > EGHK_MAX_PAGE_VALUE) then
     begin
-       SetOrdValue(UInt64(L));
-    end else
+      Error([QWord.MinValue, EGHK_MAX_PAGE_VALUE]);
+    end
+    else
     begin
-       Error([MinQWordValue, EGHK_MAX_PAGE_VALUE]);
-       Exit;
+       inherited SetValue(NewValue);
     end;
 end;
 

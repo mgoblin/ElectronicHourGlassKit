@@ -26,7 +26,7 @@ type
     procedure TearDown; override;
   published
     procedure TestLedOn;
-    procedure TestLefOff;
+    procedure TestLedOff;
     procedure TestLedToggle;
   end;
 
@@ -75,7 +75,7 @@ begin
 
 end;
 
-procedure TBitsEhgkPageTestCase.TestLefOff;
+procedure TBitsEhgkPageTestCase.TestLedOff;
 begin
   EhgkPage.Value := 1;
   AssertEquals('Value should be equals to 1', 1, EhgkPage.Value);
@@ -83,8 +83,8 @@ begin
   EhgkPage.LedByIndexOff(1);
   AssertEquals('Value should be equals to 0 after LED1 off', 0, EhgkPage.Value);
 
-  EhgkPage.LedByIndexOn(EhgkLedCountMax);
-  EhgkPage.LedByIndexOff(EhgkLedCountMax);
+  EhgkPage.LedByIndexOn(EHGK_LED_COUNT_MAX);
+  EhgkPage.LedByIndexOff(EHGK_LED_COUNT_MAX);
   AssertEquals('Value should be equals to 0 after LED1 off', 0, EhgkPage.Value);
 end;
 
