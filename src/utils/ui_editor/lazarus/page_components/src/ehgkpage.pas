@@ -47,6 +47,7 @@ type
     procedure ToggleLed(const Index: TEhgkLedNumber);
     function IsLedOn(const Index: TEhgkLedNumber): Boolean;
     procedure TurnAllLedsOn();
+    procedure TurnAllLedsOff();
 
     property LedCount: Integer read GetLedCount;
 
@@ -101,6 +102,11 @@ end;
 procedure TEhgkPage.TurnAllLedsOn();
 begin
   FValue := EHGK_PAGE_VALUE_MAX;
+end;
+
+procedure TEhgkPage.TurnAllLedsOff();
+begin
+  FValue := 0;
 end;
 
 { TEhgkPageValuePropertyEditor }
