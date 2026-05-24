@@ -52,11 +52,11 @@ jobs:
       
       - name: Build EhgkPage component package
         run: |
-          lazbuild src/utils/ui_editor/lazarus/page_components/src/pagecomponents.lpk
+          lazbuild -B src/utils/ui_editor/lazarus/page_components/src/pagecomponents.lpk
       
       - name: Build EhgkPage component package unit tests
         run: |  
-          lazbuild --ws=${{ matrix.config.widgetset }} src/utils/ui_editor/lazarus/page_components/test/EhgkPageUnitTests.lpi
+          lazbuild -B --ws=${{ matrix.config.widgetset }} src/utils/ui_editor/lazarus/page_components/test/EhgkPageUnitTests.lpi
 
       - name: Install virtual screen package from Ubuntu repo
         if: matrix.config.name == 'Linux 64'
