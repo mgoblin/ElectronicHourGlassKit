@@ -12,7 +12,6 @@ unit EhgkPage;
 
 
 {$mode ObjFPC}{$H+}
-{$modeswitch typehelpers}
 {$R+}
 
 interface
@@ -48,8 +47,8 @@ type
     procedure TurnOffLed(const Index: TEhgkLedNumber);
     procedure ToggleLed(const Index: TEhgkLedNumber);
     function IsLedOn(const Index: TEhgkLedNumber): Boolean;
-    procedure TurnOnAllLeds();
-    procedure TurnOffAllLeds();
+    procedure TurnOnAllLeds;
+    procedure TurnOffAllLeds;
 
     property LedCount: Integer read GetLedCount stored False default EHGK_LED_COUNT_MAX;
 
