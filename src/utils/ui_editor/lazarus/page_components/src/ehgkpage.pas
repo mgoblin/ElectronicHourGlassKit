@@ -43,14 +43,14 @@ type
   TEhgkPage = class(TComponent)
   private
     FValue: TEhgkPageValue;
-    procedure SetValue(const AValue: TEhgkPageValue); inline;
+    procedure SetValue(const AValue: TEhgkPageValue);
 
-    function GetLedCount: Integer;
     procedure SetLedState(const Index: TEhgkLedNumber; AValue: Boolean);
 
     function LedMask(const Index: TEhgkLedNumber): UInt64; inline;
 
   public
+    const LedCount = EHGK_LED_COUNT_MAX;
     constructor Create(AOwner: TComponent); override;
 
     procedure TurnOnLed(const Index: TEhgkLedNumber);
@@ -60,14 +60,16 @@ type
     procedure TurnOnAllLeds;
     procedure TurnOffAllLeds;
 
-    property LedCount: Integer read GetLedCount stored False default EHGK_LED_COUNT_MAX;
     property Led[Index: TEhgkLedNumber]: Boolean read IsLedOn write SetLedState;
 
   published
     property Value: TEhgkPageValue read FValue write SetValue;
   end;
 
-  { Separated only for propery editor value validation testability purposes }
+  {
+   TEhgkPageValuePropertyEditor can not be created in fpcunit environment.
+   Validation logic moved to this class for unit testing purposes.
+  }
   TEhgkValueValidator = class(TObject)
   public
     class function IsValid(const AValue: String): Boolean;
@@ -111,11 +113,6 @@ begin
   Result := (UInt64(1) shl (Index - 1));
 end;
 
-function TEhgkPage.GetLedCount: Integer;
-begin
-  Result := EHGK_LED_COUNT_MAX;
-end;
-
 procedure TEhgkPage.SetLedState(const Index: TEhgkLedNumber; AValue: Boolean);
 begin
   if AValue then
@@ -157,13 +154,14 @@ end;
 { TEhgkValueValidator }
 
 class function TEhgkValueValidator.IsValid(const AValue: String): Boolean;
+var
+  Trimmed: String;
+  Value: UInt64;
 begin
-    try
-       Result := StrToUInt64(AValue) <= EHGK_PAGE_VALUE_MAX;
-    except
-      on E: EConvertError do Exit(False);
-      on E: EOverflow do Exit(False);
-    end;
+  Trimmed := Trim(AValue);
+  if Trimmed = '' then Exit(False);
+  if not TryStrToUInt64(Trimmed, Value) then Exit(False);
+  Result := Value <= EHGK_PAGE_VALUE_MAX;
 end;
 
 { TEhgkPageValuePropertyEditor }
