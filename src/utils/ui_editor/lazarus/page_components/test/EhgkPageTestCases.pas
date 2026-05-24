@@ -59,14 +59,14 @@ const
 begin
   AssertEquals('Initial value should be equals to 0', 0, EhgkPage.Value);
 
-  EhgkPage.LedByIndexOn(1);
+  EhgkPage.TurnLedOn(1);
   AssertEquals('Value for LED1 should be equals to 1', 1, EhgkPage.Value);
 
-  EhgkPage.LedByIndexOn(2);
+  EhgkPage.TurnLedOn(2);
   AssertEquals('Value for LED1 and LED2 should be equals to 3', 3, EhgkPage.Value);
 
   EhgkPage.Value := 0;
-  EhgkPage.LedByIndexOn(BitIndex);
+  EhgkPage.TurnLedOn(BitIndex);
   AssertEquals(
     'Value for LED57 should be equals to maximum',
     QWord($0100000000000000),
@@ -83,7 +83,7 @@ begin
   EhgkPage.LedByIndexOff(1);
   AssertEquals('Value should be equals to 0 after LED1 off', 0, EhgkPage.Value);
 
-  EhgkPage.LedByIndexOn(EHGK_LED_COUNT_MAX);
+  EhgkPage.TurnLedOn(EHGK_LED_COUNT_MAX);
   EhgkPage.LedByIndexOff(EHGK_LED_COUNT_MAX);
   AssertEquals('Value should be equals to 0 after LED1 off', 0, EhgkPage.Value);
 end;
