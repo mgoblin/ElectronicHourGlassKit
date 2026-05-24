@@ -83,8 +83,8 @@ begin
   EhgkPage.LedByIndexOff(1);
   AssertEquals('Value should be equals to 0 after LED1 off', 0, EhgkPage.Value);
 
-  EhgkPage.LedByIndexOn(EhgkLedCountMax);
-  EhgkPage.LedByIndexOff(EhgkLedCountMax);
+  EhgkPage.LedByIndexOn(EHGK_LED_COUNT_MAX);
+  EhgkPage.LedByIndexOff(EHGK_LED_COUNT_MAX);
   AssertEquals('Value should be equals to 0 after LED1 off', 0, EhgkPage.Value);
 end;
 
