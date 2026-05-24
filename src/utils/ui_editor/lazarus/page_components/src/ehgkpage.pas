@@ -41,6 +41,7 @@ type
   private
     FValue: TEhgkPageValue;
     function GetLedCount: Integer;
+    procedure SetLed(Index: TEhgkLedNumber; AValue: Boolean);
 
   public
     procedure TurnOnLed(const Index: TEhgkLedNumber);
@@ -51,6 +52,7 @@ type
     procedure TurnOffAllLeds;
 
     property LedCount: Integer read GetLedCount stored False default EHGK_LED_COUNT_MAX;
+    property Led[Index: TEhgkLedNumber]: Boolean read IsLedOn write SetLed;
 
   published
     property Value: TEhgkPageValue read FValue write FValue;
@@ -83,6 +85,14 @@ end;
 function TEhgkPage.GetLedCount: Integer;
 begin
   Result := EHGK_LED_COUNT_MAX;
+end;
+
+procedure TEhgkPage.SetLed(Index: TEhgkLedNumber; AValue: Boolean);
+begin
+  if AValue <> IsLedOn(Index) then
+  begin
+    if AValue then TurnOnLed(Index) else TurnOffLed(Index);
+  end;
 end;
 
 procedure TEhgkPage.TurnOnLed(const Index: TEhgkLedNumber);
