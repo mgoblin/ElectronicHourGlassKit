@@ -90,9 +90,9 @@ end;
 
 procedure TBitsEhgkPageTestCase.TestLedToggle;
 begin
-  EhgkPage.LedByIndexToggle(3);
+  EhgkPage.ToggleLed(3);
   AssertEquals('For LED3 on value should be equals to 4', 4, EhgkPage.Value);
-  EhgkPage.LedByIndexToggle(3);
+  EhgkPage.ToggleLed(3);
   AssertEquals('For LED3 off value should be equals to 0', 0, EhgkPage.Value);
 
 end;
