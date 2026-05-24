@@ -33,9 +33,7 @@ type
   { The on/off state of the LEDs is encoded in the positional value of the bit }
   TEhgkPageValue = 0..EHGK_PAGE_VALUE_MAX;
 
-  { Describes 57 LEDs on/off state }
-
-  { TEhgkPage }
+  { TEhgkPage describes 57 LEDs on/off state }
 
   TEhgkPage = class(TComponent)
   private
@@ -53,6 +51,11 @@ type
 
   published
     property Value: TEhgkPageValue read FValue write FValue;
+  end;
+
+  TEhgkValueValidator = class(TObject)
+  public
+    class function IsValid(const AValue: ansistring): Boolean;
   end;
 
   TEhgkPageValuePropertyEditor = class(TQWordPropertyEditor)
@@ -109,6 +112,21 @@ begin
   FValue := 0;
 end;
 
+{ TEhgkValueValidator }
+
+class function TEhgkValueValidator.IsValid(const AValue: ansistring): Boolean;
+var
+  Value: UInt64;
+begin
+    try
+       Value := StrToUInt64(AValue);
+       Result := Value < EHGK_PAGE_VALUE_MAX + 1;
+    except
+      on E: EConvertError do
+         Result := False;
+    end;
+end;
+
 { TEhgkPageValuePropertyEditor }
 
 procedure TEhgkPageValuePropertyEditor.SetValue(const NewValue: ansistring);
@@ -118,16 +136,14 @@ procedure TEhgkPageValuePropertyEditor.SetValue(const NewValue: ansistring);
     raise EPropertyError.CreateResFmt(@SOutOfRange, Args);
   end;
 
-var
-  L: UInt64;
 begin
-    if (not TryStrToUInt64(NewValue, L)) or (L > EHGK_PAGE_VALUE_MAX) then
+    if TEhgkValueValidator.IsValid(NewValue) then
     begin
-      Error([QWord.MinValue, EHGK_PAGE_VALUE_MAX]);
+      inherited SetValue(NewValue);
     end
     else
     begin
-       inherited SetValue(NewValue);
+       raise EPropertyError.CreateResFmt(@SOutOfRange, [QWord.MinValue, EHGK_PAGE_VALUE_MAX]);
     end;
 end;
 

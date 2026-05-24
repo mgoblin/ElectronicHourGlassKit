@@ -42,6 +42,11 @@
         <Filename Value="EhgkPageTestCases.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="ehgkpagevaluepropertytestcase.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="EhgkPageValuePropertyTestCase"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
