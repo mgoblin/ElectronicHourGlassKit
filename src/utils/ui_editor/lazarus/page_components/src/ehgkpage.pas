@@ -27,15 +27,15 @@ const
   { Circuit board LED count }
   EHGK_LED_COUNT_MAX = 57;
 
-  { Maximum value: all 57 LEDs are turned on → (1 shl 57) - 1 }
-  EHGK_PAGE_VALUE_MAX = (UInt64(1) shl EHGK_LED_COUNT_MAX) - 1;
+  { Maximum value: all 57 LEDs are turned on }
+  EHGK_PAGE_VALUE_MAX = $01FFFFFFFFFFFFFFF; // 57 ones in binary
 
 type
 
   { LEDs on circuit board enumerated from 1 to 57 }
   TEhgkLedNumber = 1..EHGK_LED_COUNT_MAX;
 
-  { The on/off state of the LEDs is encoded in the positional value of the bit }
+  { LED 1 corresponds to bit 0 (LSB), LED 57 to bit 56 — total 57 bits }
   TEhgkPageValue = 0..EHGK_PAGE_VALUE_MAX;
 
   { The state of all the LEDs is called a EhgkPage }
@@ -43,7 +43,7 @@ type
   TEhgkPage = class(TComponent)
   private
     FValue: TEhgkPageValue;
-    procedure SetValue(const AValue: TEhgkPageValue);
+    procedure SetValue(const AValue: TEhgkPageValue); inline;
 
     function GetLedCount: Integer;
     procedure SetLedState(const Index: TEhgkLedNumber; AValue: Boolean);
@@ -101,7 +101,7 @@ end;
 procedure TEhgkPage.SetValue(const AValue: TEhgkPageValue);
 begin
   if AValue > EHGK_PAGE_VALUE_MAX then
-    raise ERangeError.Create('Value exceeds maximum allowed LED pattern');
+    raise ERangeError.CreateResFmt(@SOutOfRange, [0, EHGK_PAGE_VALUE_MAX]);
 
   FValue := AValue;
 end;
