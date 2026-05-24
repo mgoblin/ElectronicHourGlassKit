@@ -63,14 +63,14 @@ const
 begin
   AssertEquals('Initial value should be equals to 0', 0, EhgkPage.Value);
 
-  EhgkPage.TurnLedOn(1);
+  EhgkPage.TurnOnLed(1);
   AssertEquals('Value for LED1 should be equals to 1', 1, EhgkPage.Value);
 
-  EhgkPage.TurnLedOn(2);
+  EhgkPage.TurnOnLed(2);
   AssertEquals('Value for LED1 and LED2 should be equals to 3', 3, EhgkPage.Value);
 
   EhgkPage.Value := 0;
-  EhgkPage.TurnLedOn(BitIndex);
+  EhgkPage.TurnOnLed(BitIndex);
   AssertEquals(
     'Value for LED57 should be equals to maximum',
     QWord($0100000000000000),
@@ -84,11 +84,11 @@ begin
   EhgkPage.Value := 1;
   AssertEquals('Value should be equals to 1', 1, EhgkPage.Value);
 
-  EhgkPage.TurnLedOff(1);
+  EhgkPage.TurnOffLed(1);
   AssertEquals('Value should be equals to 0 after LED1 off', 0, EhgkPage.Value);
 
-  EhgkPage.TurnLedOn(EHGK_LED_COUNT_MAX);
-  EhgkPage.TurnLedOff(EHGK_LED_COUNT_MAX);
+  EhgkPage.TurnOnLed(EHGK_LED_COUNT_MAX);
+  EhgkPage.TurnOffLed(EHGK_LED_COUNT_MAX);
   AssertEquals('Value should be equals to 0 after LED1 off', 0, EhgkPage.Value);
 end;
 
@@ -123,16 +123,16 @@ procedure TBitsEhgkPageTestCase.TestTurnAllLedsOn();
 begin
   AssertEquals('After construction all Leds must be off', 0, EhgkPage.Value);
 
-  EhgkPage.TurnAllLedsOn();
+  EhgkPage.TurnOnAllLeds();
   AssertEquals('After construction all Leds must be on', EHGK_PAGE_VALUE_MAX, EhgkPage.Value);
 end;
 
 procedure TBitsEhgkPageTestCase.TestTurnAllLedsOff();
 begin
-  EhgkPage.TurnAllLedsOn();
+  EhgkPage.TurnOnAllLeds();
   AssertEquals('After construction all Leds must be on', EHGK_PAGE_VALUE_MAX, EhgkPage.Value);
 
-  EhgkPage.TurnAllLedsOff();
+  EhgkPage.TurnOffAllLeds();
   AssertEquals('After TurnAllLedsOff() all Leds must be off', 0, EhgkPage.Value);
 end;
 

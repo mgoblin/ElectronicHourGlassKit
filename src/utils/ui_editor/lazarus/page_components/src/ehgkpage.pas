@@ -22,30 +22,33 @@ uses
 
 const
 
+  // Electrical houglass kit has 57 LEDs on circuit board
   EHGK_LED_COUNT_MAX = 57;
+
+  { Maximum value: all 57 LEDs on → (1 shl 57) - 1 }
   EHGK_PAGE_VALUE_MAX = (UInt64(1) shl EHGK_LED_COUNT_MAX) - 1;
 
 type
 
-  { LED numbers in range 1..57 }
+  { Represents LED numbers in range 1..57 }
   TEhgkLedNumber = 1..EHGK_LED_COUNT_MAX;
 
   { The on/off state of the LEDs is encoded in the positional value of the bit }
   TEhgkPageValue = 0..EHGK_PAGE_VALUE_MAX;
 
-  { TEhgkPage describes 57 LEDs on/off state }
+  { TEhgkPage represents 57 LEDs on/off state }
 
   TEhgkPage = class(TComponent)
   private
     FValue: TEhgkPageValue;
     function GetLedCount: Integer;
   public
-    procedure TurnLedOn(const Index: TEhgkLedNumber);
-    procedure TurnLedOff(const Index: TEhgkLedNumber);
+    procedure TurnOnLed(const Index: TEhgkLedNumber);
+    procedure TurnOffLed(const Index: TEhgkLedNumber);
     procedure ToggleLed(const Index: TEhgkLedNumber);
     function IsLedOn(const Index: TEhgkLedNumber): Boolean;
-    procedure TurnAllLedsOn();
-    procedure TurnAllLedsOff();
+    procedure TurnOnAllLeds();
+    procedure TurnOffAllLeds();
 
     property LedCount: Integer read GetLedCount;
 
@@ -82,18 +85,21 @@ begin
   Result := EHGK_LED_COUNT_MAX;
 end;
 
-procedure TEhgkPage.TurnLedOn(const Index: TEhgkLedNumber);
+procedure TEhgkPage.TurnOnLed(const Index: TEhgkLedNumber);
 begin
+  Assert((UInt8(Index) >= 1) and (UInt8(Index) <= EHGK_LED_COUNT_MAX));
   FValue := UInt64(FValue).SetBit(Index - 1);
 end;
 
-procedure TEhgkPage.TurnLedOff(const Index: TEhgkLedNumber);
+procedure TEhgkPage.TurnOffLed(const Index: TEhgkLedNumber);
 begin
+  Assert((UInt8(Index) >= 1) and (UInt8(Index) <= EHGK_LED_COUNT_MAX));
   FValue := UInt64(FValue).ClearBit(Index - 1);
 end;
 
 procedure TEhgkPage.ToggleLed(const Index: TEhgkLedNumber);
 begin
+  Assert((UInt8(Index) >= 1) and (UInt8(Index) <= EHGK_LED_COUNT_MAX));
   FValue := UInt64(FValue).ToggleBit(Index - 1);
 end;
 
@@ -102,12 +108,12 @@ begin
   Result := UInt64(FValue).TestBit(Index - 1);
 end;
 
-procedure TEhgkPage.TurnAllLedsOn();
+procedure TEhgkPage.TurnOnAllLeds();
 begin
   FValue := EHGK_PAGE_VALUE_MAX;
 end;
 
-procedure TEhgkPage.TurnAllLedsOff();
+procedure TEhgkPage.TurnOffAllLeds();
 begin
   FValue := 0;
 end;
@@ -120,9 +126,9 @@ var
 begin
     try
        Value := StrToUInt64(AValue);
-       Result := Value < EHGK_PAGE_VALUE_MAX + 1;
+       Result := Value <= EHGK_PAGE_VALUE_MAX;
     except
-      on E: EConvertError do
+      on E: Exception do
          Result := False;
     end;
 end;
@@ -130,12 +136,6 @@ end;
 { TEhgkPageValuePropertyEditor }
 
 procedure TEhgkPageValuePropertyEditor.SetValue(const NewValue: ansistring);
-
-  procedure Error(const Args: array of const);
-  begin
-    raise EPropertyError.CreateResFmt(@SOutOfRange, Args);
-  end;
-
 begin
     if TEhgkValueValidator.IsValid(NewValue) then
     begin
@@ -143,7 +143,7 @@ begin
     end
     else
     begin
-       raise EPropertyError.CreateResFmt(@SOutOfRange, [QWord.MinValue, EHGK_PAGE_VALUE_MAX]);
+       raise EPropertyError.CreateResFmt(@SOutOfRange, [0, EHGK_PAGE_VALUE_MAX]);
     end;
 end;
 
