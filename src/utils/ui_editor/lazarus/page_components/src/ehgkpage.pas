@@ -33,14 +33,20 @@ type
   TEhgkPageValue = 0..EHGK_PAGE_VALUE_MAX;
 
   { Describes 57 LEDs on/off state }
+
+  { TEhgkPage }
+
   TEhgkPage = class(TComponent)
   private
     FValue: TEhgkPageValue;
+    function GetLedCount: Integer;
   public
     procedure TurnLedOn(const Index: TEhgkLedNumber);
     procedure TurnLedOff(const Index: TEhgkLedNumber);
     procedure ToggleLed(const Index: TEhgkLedNumber);
     function IsLedOn(const Index: TEhgkLedNumber): Boolean;
+
+    property LedCount: Integer read GetLedCount;
 
   published
     property Value: TEhgkPageValue read FValue write FValue;
@@ -64,6 +70,11 @@ begin
 end;
 
 { TEhgkPage }
+
+function TEhgkPage.GetLedCount: Integer;
+begin
+  Result := EHGK_LED_COUNT_MAX;
+end;
 
 procedure TEhgkPage.TurnLedOn(const Index: TEhgkLedNumber);
 begin
