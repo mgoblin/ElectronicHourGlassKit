@@ -80,11 +80,11 @@ begin
   EhgkPage.Value := 1;
   AssertEquals('Value should be equals to 1', 1, EhgkPage.Value);
 
-  EhgkPage.LedByIndexOff(1);
+  EhgkPage.TurnLedOff(1);
   AssertEquals('Value should be equals to 0 after LED1 off', 0, EhgkPage.Value);
 
   EhgkPage.TurnLedOn(EHGK_LED_COUNT_MAX);
-  EhgkPage.LedByIndexOff(EHGK_LED_COUNT_MAX);
+  EhgkPage.TurnLedOff(EHGK_LED_COUNT_MAX);
   AssertEquals('Value should be equals to 0 after LED1 off', 0, EhgkPage.Value);
 end;
 

@@ -36,7 +36,7 @@ type
     FValue: TEhgkPageValue;
   public
     procedure TurnLedOn(const Index: TEhgkLedNumber);
-    procedure LedByIndexOff(const Index: TEhgkLedNumber);
+    procedure TurnLedOff(const Index: TEhgkLedNumber);
     procedure LedByIndexToggle(const Index: TEhgkLedNumber);
 
   published
@@ -67,7 +67,7 @@ begin
   FValue := UInt64(FValue).SetBit(Index - 1);
 end;
 
-procedure TEhgkPage.LedByIndexOff(const Index: TEhgkLedNumber);
+procedure TEhgkPage.TurnLedOff(const Index: TEhgkLedNumber);
 begin
   FValue := UInt64(FValue).ClearBit(Index - 1);
 end;
