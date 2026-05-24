@@ -20,6 +20,9 @@ type
     procedure TestReadEmpty;
     procedure TestReadAfterTurnLedOn;
     procedure TestReadAfterTurnOnAllLeds;
+
+    procedure TestWriteEmpty;
+    procedure TestIsLedOn;
   end;
 
 implementation
@@ -67,6 +70,40 @@ begin
     AssertTrue('All leds are turned on after TurnOnAllLeds call', EhgkPage.Led[EhgkPage.LedCount]);
   end;
 
+end;
+
+procedure TEhgkPageLedsIndexedPropertyTestCase.TestWriteEmpty;
+var
+  i: Integer;
+begin
+  for i:= 1 to EhgkPage.LedCount do
+  begin
+    EhgkPage.Led[i] := True;
+    AssertTrue('Set and Get via indexed property must be consistent', EhgkPage.Led[i]);
+  end;
+
+  for i:= 1 to EhgkPage.LedCount do
+  begin
+    EhgkPage.Led[1] := False;
+    AssertFalse('Set and Get via indexed property must be consistent', EhgkPage.Led[1]);
+  end;
+end;
+
+procedure TEhgkPageLedsIndexedPropertyTestCase.TestIsLedOn;
+var
+  i: Integer;
+begin
+  for i := 1 to EhgkPage.LedCount do
+  begin
+    EhgkPage.Led[i] := True;
+    AssertTrue('Write via indexed Led roperty must be consistent with IsLedOn', EhgkPage.IsLedOn(i));
+  end;
+
+  for i := 1 to EhgkPage.LedCount do
+  begin
+    EhgkPage.Led[i] := False;
+    AssertFalse('Write via indexed Led roperty must be consistent with IsLedOn', EhgkPage.IsLedOn(i));
+  end;
 end;
 
 
