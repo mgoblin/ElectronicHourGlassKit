@@ -18,7 +18,7 @@ unit EhgkPage;
 interface
 
 uses
-  Classes, SysUtils, Dialogs, PropEdits;
+  Classes, SysUtils, PropEdits;
 
 const
 
@@ -42,6 +42,7 @@ type
   private
     FValue: TEhgkPageValue;
     function GetLedCount: Integer;
+
   public
     procedure TurnOnLed(const Index: TEhgkLedNumber);
     procedure TurnOffLed(const Index: TEhgkLedNumber);
@@ -50,7 +51,7 @@ type
     procedure TurnOnAllLeds();
     procedure TurnOffAllLeds();
 
-    property LedCount: Integer read GetLedCount;
+    property LedCount: Integer read GetLedCount stored False default EHGK_LED_COUNT_MAX;
 
   published
     property Value: TEhgkPageValue read FValue write FValue;
@@ -87,25 +88,22 @@ end;
 
 procedure TEhgkPage.TurnOnLed(const Index: TEhgkLedNumber);
 begin
-  Assert((UInt8(Index) >= 1) and (UInt8(Index) <= EHGK_LED_COUNT_MAX));
-  FValue := UInt64(FValue).SetBit(Index - 1);
+  FValue := FValue or (UInt64(1) shl (Index - 1));
 end;
 
 procedure TEhgkPage.TurnOffLed(const Index: TEhgkLedNumber);
 begin
-  Assert((UInt8(Index) >= 1) and (UInt8(Index) <= EHGK_LED_COUNT_MAX));
-  FValue := UInt64(FValue).ClearBit(Index - 1);
+  FValue := FValue and not (UInt64(1) shl (Index - 1));
 end;
 
 procedure TEhgkPage.ToggleLed(const Index: TEhgkLedNumber);
 begin
-  Assert((UInt8(Index) >= 1) and (UInt8(Index) <= EHGK_LED_COUNT_MAX));
-  FValue := UInt64(FValue).ToggleBit(Index - 1);
+  FValue := FValue xor (UInt64(1) shl (Index - 1));
 end;
 
 function TEhgkPage.IsLedOn(const Index: TEhgkLedNumber): Boolean;
 begin
-  Result := UInt64(FValue).TestBit(Index - 1);
+  Result := (FValue and (UInt64(1) shl (Index - 1))) <> 0;
 end;
 
 procedure TEhgkPage.TurnOnAllLeds();
@@ -140,8 +138,7 @@ begin
     if TEhgkValueValidator.IsValid(NewValue) then
     begin
       inherited SetValue(NewValue);
-    end
-    else
+    end else
     begin
        raise EPropertyError.CreateResFmt(@SOutOfRange, [0, EHGK_PAGE_VALUE_MAX]);
     end;
