@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - 'src/utils/ui_editor/lazarus/page_components/**'
-        '.github/workflows/ehgk_page.yml'
+      - '.github/workflows/ehgk_page.yml'
 
 jobs:
   test:
