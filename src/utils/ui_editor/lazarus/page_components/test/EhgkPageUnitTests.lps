@@ -7,19 +7,17 @@
       <Unit>
         <Filename Value="EhgkPageUnitTests.lpr"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="20"/>
         <CursorPos X="64" Y="6"/>
         <UsageCount Value="22"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="EhgkPageTestCases.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="76"/>
-        <CursorPos X="21" Y="86"/>
+        <CursorPos X="36" Y="78"/>
         <UsageCount Value="21"/>
         <Loaded Value="True"/>
       </Unit>
@@ -40,8 +38,9 @@
       <Unit>
         <Filename Value="../src/ehgkpage.pas"/>
         <UnitName Value="EhgkPage"/>
-        <TopLine Value="28"/>
-        <CursorPos X="44" Y="36"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="64"/>
+        <CursorPos X="34" Y="71"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>
@@ -55,22 +54,27 @@
       <Unit>
         <Filename Value="/usr/lib/lazarus/4.0/components/ideintf/propedits.pp"/>
         <UnitName Value="PropEdits"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="542"/>
         <CursorPos X="15" Y="550"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/share/fpcsrc/3.2.2/rtl/objpas/sysutils/syshelph.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="571"/>
+        <CursorPos X="14" Y="579"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/share/fpcsrc/3.2.2/rtl/objpas/sysutils/syshelpo.inc"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="86"/>
+        <CursorPos X="3" Y="89"/>
+        <UsageCount Value="10"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="27">
-      <Position>
-        <Filename Value="../src/ehgkpage.pas"/>
-        <Caret Line="39" Column="43" TopLine="29"/>
-      </Position>
-      <Position>
-        <Filename Value="../src/ehgkpage.pas"/>
-        <Caret Line="18" Column="3" TopLine="13"/>
-      </Position>
       <Position>
         <Filename Value="../src/ehgkpage.pas"/>
         <Caret Line="43" Column="54" TopLine="34"/>
@@ -145,10 +149,6 @@
         <Caret Line="40" Column="20" TopLine="31"/>
       </Position>
       <Position>
-        <Filename Value="/usr/lib/lazarus/4.0/components/ideintf/propedits.pp"/>
-        <Caret Line="550" Column="15" TopLine="542"/>
-      </Position>
-      <Position>
         <Filename Value="../src/ehgkpage.pas"/>
         <Caret Line="40" Column="17" TopLine="31"/>
       </Position>
@@ -171,6 +171,18 @@
       <Position>
         <Filename Value="EhgkPageTestCases.pas"/>
         <Caret Line="70" Column="18" TopLine="63"/>
+      </Position>
+      <Position>
+        <Filename Value="../src/ehgkpage.pas"/>
+        <Caret Line="38" Column="19" TopLine="31"/>
+      </Position>
+      <Position>
+        <Filename Value="../src/ehgkpage.pas"/>
+        <Caret Line="78" Column="26" TopLine="65"/>
+      </Position>
+      <Position>
+        <Filename Value="../src/ehgkpage.pas"/>
+        <Caret Line="38" Column="21" TopLine="36"/>
       </Position>
     </JumpHistory>
     <RunParams>

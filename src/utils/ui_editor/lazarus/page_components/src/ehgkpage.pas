@@ -63,27 +63,18 @@ end;
 { TEhgkPage }
 
 procedure TEhgkPage.LedByIndexOn(const Index: TEhgkLedNumber);
-var
-  val: UInt64;
 begin
-  val := FValue;
-  FValue := val.SetBit(Index - 1);
+  FValue := UInt64(FValue).SetBit(Index - 1);
 end;
 
 procedure TEhgkPage.LedByIndexOff(const Index: TEhgkLedNumber);
-var
-  val: UInt64;
 begin
-  val := FValue;
-  FValue := val.ClearBit(Index - 1);
+  FValue := UInt64(FValue).ClearBit(Index - 1);
 end;
 
 procedure TEhgkPage.LedByIndexToggle(const Index: TEhgkLedNumber);
-var
-  val: UInt64;
 begin
-  val := FValue;
-  FValue := val.ToggleBit(Index - 1);
+  FValue := UInt64(FValue).ToggleBit(Index - 1);
 end;
 
 { TEhgkPageValuePropertyEditor }
