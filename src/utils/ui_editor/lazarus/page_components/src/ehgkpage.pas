@@ -30,6 +30,7 @@ type
   { LED numbers in range 1..57 }
   TEhgkLedNumber = 1..EHGK_LED_COUNT_MAX;
 
+  { The on/off state of the LEDs is encoded in the positional value of the bit }
   TEhgkPageValue = 0..EHGK_PAGE_VALUE_MAX;
 
   { Describes 57 LEDs on/off state }
@@ -45,6 +46,7 @@ type
     procedure TurnLedOff(const Index: TEhgkLedNumber);
     procedure ToggleLed(const Index: TEhgkLedNumber);
     function IsLedOn(const Index: TEhgkLedNumber): Boolean;
+    procedure TurnAllLedsOn();
 
     property LedCount: Integer read GetLedCount;
 
@@ -94,6 +96,11 @@ end;
 function TEhgkPage.IsLedOn(const Index: TEhgkLedNumber): Boolean;
 begin
   Result := UInt64(FValue).TestBit(Index - 1);
+end;
+
+procedure TEhgkPage.TurnAllLedsOn();
+begin
+  FValue := EHGK_PAGE_VALUE_MAX;
 end;
 
 { TEhgkPageValuePropertyEditor }

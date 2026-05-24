@@ -16,8 +16,8 @@
         <Filename Value="EhgkPageTestCases.pas"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="110"/>
-        <CursorPos X="23" Y="122"/>
+        <TopLine Value="116"/>
+        <CursorPos X="55" Y="126"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
       </Unit>
@@ -39,8 +39,8 @@
         <Filename Value="../src/ehgkpage.pas"/>
         <UnitName Value="EhgkPage"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="73"/>
-        <CursorPos X="55" Y="84"/>
+        <TopLine Value="22"/>
+        <CursorPos X="80" Y="33"/>
         <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit>
@@ -75,20 +75,6 @@
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="../src/ehgkpage.pas"/>
-      </Position>
-      <Position>
-        <Filename Value="../src/ehgkpage.pas"/>
-        <Caret Line="56" Column="44" TopLine="42"/>
-      </Position>
-      <Position>
-        <Filename Value="../src/ehgkpage.pas"/>
-      </Position>
-      <Position>
-        <Filename Value="../src/ehgkpage.pas"/>
-        <Caret Line="30" Column="28" TopLine="22"/>
-      </Position>
       <Position>
         <Filename Value="../src/ehgkpage.pas"/>
         <Caret Line="74" Column="22" TopLine="62"/>
@@ -192,6 +178,22 @@
       <Position>
         <Filename Value="EhgkPageTestCases.pas"/>
         <Caret Line="32" Column="28" TopLine="26"/>
+      </Position>
+      <Position>
+        <Filename Value="../src/ehgkpage.pas"/>
+        <Caret Line="48" Column="19" TopLine="39"/>
+      </Position>
+      <Position>
+        <Filename Value="../src/ehgkpage.pas"/>
+        <Caret Line="102" Column="13" TopLine="100"/>
+      </Position>
+      <Position>
+        <Filename Value="EhgkPageTestCases.pas"/>
+        <Caret Line="32" Column="20" TopLine="27"/>
+      </Position>
+      <Position>
+        <Filename Value="EhgkPageTestCases.pas"/>
+        <Caret Line="33" Column="35" TopLine="27"/>
       </Position>
     </JumpHistory>
     <RunParams>

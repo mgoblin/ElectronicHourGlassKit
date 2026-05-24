@@ -30,6 +30,7 @@ type
     procedure TestLedToggle;
     procedure TestIsLedOn;
     procedure TestLedCount;
+    procedure TestTurnAllLedsOn();
   end;
 
 implementation
@@ -115,6 +116,14 @@ end;
 procedure TBitsEhgkPageTestCase.TestLedCount;
 begin
   AssertEquals('LED count must be 57', 57, EhgkPage.LedCount);
+end;
+
+procedure TBitsEhgkPageTestCase.TestTurnAllLedsOn();
+begin
+  AssertEquals('After construction all Leds must be off', 0, EhgkPage.Value);
+
+  EhgkPage.TurnAllLedsOn();
+  AssertEquals('After construction all Leds must be on', EHGK_PAGE_VALUE_MAX, EhgkPage.Value);
 end;
 
 
