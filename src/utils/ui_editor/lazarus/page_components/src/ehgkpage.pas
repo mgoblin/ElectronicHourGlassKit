@@ -75,7 +75,7 @@ type
 
   TEhgkPageValuePropertyEditor = class(TQWordPropertyEditor)
   public
-    procedure SetValue(const NewValue: ansistring);  override;
+    procedure SetValue(const NewValue: String);  override;
   end;
 
 procedure Register;
@@ -106,6 +106,11 @@ begin
   FValue := AValue;
 end;
 
+function TEhgkPage.LedMask(const Index: TEhgkLedNumber): UInt64; inline;
+begin
+  Result := (UInt64(1) shl (Index - 1));
+end;
+
 function TEhgkPage.GetLedCount: Integer;
 begin
   Result := EHGK_LED_COUNT_MAX;
@@ -113,12 +118,10 @@ end;
 
 procedure TEhgkPage.SetLedState(const Index: TEhgkLedNumber; AValue: Boolean);
 begin
-  if AValue then TurnOnLed(Index) else TurnOffLed(Index);
-end;
-
-function TEhgkPage.LedMask(const Index: TEhgkLedNumber): UInt64; inline;
-begin
-  Result := (UInt64(1) shl (Index - 1));
+  if AValue then
+    FValue := FValue or LedMask(Index)
+  else
+    FValue := FValue and not LedMask(Index);
 end;
 
 procedure TEhgkPage.TurnOnLed(const Index: TEhgkLedNumber);
@@ -153,20 +156,19 @@ end;
 
 { TEhgkValueValidator }
 
-class function TEhgkValueValidator.IsValid(const AValue: ansistring): Boolean;
+class function TEhgkValueValidator.IsValid(const AValue: String): Boolean;
 begin
     try
        Result := StrToUInt64(AValue) <= EHGK_PAGE_VALUE_MAX;
     except
-      on EConvertError do Exit(False);
-      on ERangeError do Exit(False);
-      on EOverflow do Exit(False);
+      on E: EConvertError do Exit(False);
+      on E: EOverflow do Exit(False);
     end;
 end;
 
 { TEhgkPageValuePropertyEditor }
 
-procedure TEhgkPageValuePropertyEditor.SetValue(const NewValue: ansistring);
+procedure TEhgkPageValuePropertyEditor.SetValue(const NewValue: String);
 begin
     if TEhgkValueValidator.IsValid(NewValue) then
     begin
