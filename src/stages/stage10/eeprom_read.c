@@ -23,6 +23,7 @@
 #include <interrupt.h>
 #include <timer0_mode0.h>
 #include <frequency.h>
+#include <power_management.h>
 
 #include <ehgk_page.h>
 #include <ehgk_page_iterator.h>
@@ -114,7 +115,7 @@ extern ehgk_iterator_t iterator;
 
 void main(void) 
 {
-    power_low_voltage_flag_clear();
+    clear_power_low_voltage_flag();
 
     timer0_mode0_12T_init();
     enable_timer0_interrupt();

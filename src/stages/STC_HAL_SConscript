@@ -9,11 +9,58 @@ hal_lib_name = 'hal'
 
 env.Default(
     env.Object(
-        source = src, 
+        source = f'#{stc_hal_lib_src_path}/uart.c', 
         build_dir = f'#{lib_build_path}', 
-        target = f'#{lib_build_path}/{hal_lib_name}'),
-    
+        target = f'#{lib_build_path}/uart'
+    ),
+
+    env.Object(
+        source = f'#{stc_hal_lib_src_path}/timer_ticks_to_ms.c', 
+        build_dir = f'#{lib_build_path}', 
+        target = f'#{lib_build_path}/timer_ticks_to_ms'
+    ),
+
+    env.Object(
+        source = f'#{stc_hal_lib_src_path}/timer_ticks_to_Hz.c', 
+        build_dir = f'#{lib_build_path}', 
+        target = f'#{lib_build_path}/timer_ticks_to_Hz'
+    ),
+
+    env.Object(
+        source = f'#{stc_hal_lib_src_path}/timer_ms_to_ticks.c', 
+        build_dir = f'#{lib_build_path}', 
+        target = f'#{lib_build_path}/timer_ms_to_ticks'
+    ),
+
+    env.Object(
+        source = f'#{stc_hal_lib_src_path}/timer_Hz_to_ticks_8bit.c', 
+        build_dir = f'#{lib_build_path}', 
+        target = f'#{lib_build_path}/timer_Hz_to_ticks_8bit'
+    ),
+
+    env.Object(
+        source = f'#{stc_hal_lib_src_path}/timer_Hz_to_ticks.c', 
+        build_dir = f'#{lib_build_path}', 
+        target = f'#{lib_build_path}/timer_Hz_to_ticks'
+    ),
+
+    env.Object(
+        source = f'#{stc_hal_lib_src_path}/timer8bit_ticks_to_mcs.c', 
+        build_dir = f'#{lib_build_path}', 
+        target = f'#{lib_build_path}/timer8bit_ticks_to_mcs'
+    ),
+
     env.Library(
-        source = f'#{lib_build_path}/{hal_lib_name}.rel', 
-        target = f"#{lib_build_path}/{hal_lib_name}"),
+        source = 
+        [
+            f'#{lib_build_path}/uart.rel',
+            f'#{lib_build_path}/timer_ticks_to_ms.rel',
+            f'#{lib_build_path}/timer_ticks_to_Hz.rel',
+            f'#{lib_build_path}/timer_ms_to_ticks.rel',
+            f'#{lib_build_path}/timer_Hz_to_ticks_8bit.rel',
+            f'#{lib_build_path}/timer_Hz_to_ticks.rel',
+            f'#{lib_build_path}/timer8bit_ticks_to_mcs.rel',
+        ], 
+        target = f"#{lib_build_path}/{hal_lib_name}"
+    ),
 ) 
