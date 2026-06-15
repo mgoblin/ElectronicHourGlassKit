@@ -350,13 +350,22 @@ object MainForm: TMainForm
     Top = 440
     Width = 30
   end
-  object Button1: TButton
-    Left = 298
+  object BtnPageToLeds: TButton
+    Left = 274
     Height = 25
     Top = 152
-    Width = 75
-    Caption = 'Button1'
+    Width = 171
+    Caption = 'Copy Leds from page'
     TabOrder = 57
-    OnClick = Button1Click
+    OnClick = BtnPageToLedsClick
+  end
+  object BtnPageInc: TButton
+    Left = 272
+    Height = 25
+    Top = 184
+    Width = 171
+    Caption = 'Increment page value'
+    TabOrder = 58
+    OnClick = BtnPageIncClick
   end
 end

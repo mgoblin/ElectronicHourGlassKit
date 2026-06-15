@@ -10,7 +10,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="19"/>
         <CursorPos X="20" Y="34"/>
-        <UsageCount Value="29"/>
+        <UsageCount Value="30"/>
       </Unit>
       <Unit>
         <Filename Value="main.pas"/>
@@ -19,11 +19,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Main"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="105"/>
-        <CursorPos X="23" Y="117"/>
-        <UsageCount Value="29"/>
+        <TopLine Value="90"/>
+        <CursorPos X="25" Y="122"/>
+        <UsageCount Value="30"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -34,17 +33,19 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="DataModule"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <CursorPos X="60" Y="17"/>
-        <UsageCount Value="29"/>
+        <TopLine Value="22"/>
+        <CursorPos X="31" Y="34"/>
+        <UsageCount Value="30"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
         <UnitName Value="EhgkPage"/>
-        <TopLine Value="87"/>
-        <CursorPos X="16" Y="100"/>
+        <TopLine Value="19"/>
+        <CursorPos X="22" Y="31"/>
         <UsageCount Value="14"/>
         <Loaded Value="True"/>
       </Unit>
@@ -164,7 +165,7 @@
         <UnitName Value="SimplifiedLed"/>
         <EditorIndex Value="2"/>
         <TopLine Value="68"/>
-        <CursorPos X="33" Y="74"/>
+        <CursorPos X="23" Y="74"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>
@@ -172,123 +173,123 @@
     <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
-        <Caret Line="106" Column="10" TopLine="98"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="96" Column="70" TopLine="83"/>
+        <Caret Line="49" Column="73" TopLine="42"/>
       </Position>
       <Position>
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
-        <Caret Line="34" Column="62" TopLine="19"/>
+        <Caret Line="105" Column="13" TopLine="97"/>
       </Position>
       <Position>
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
-        <Caret Line="65" Column="19" TopLine="56"/>
+        <Caret Line="106" Column="5" TopLine="98"/>
       </Position>
       <Position>
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
-        <Caret Line="63" Column="63" TopLine="52"/>
+        <Caret Line="55" Column="35" TopLine="43"/>
+      </Position>
+      <Position>
+        <Filename Value="../../page_components/src/ehgkpage.pas"/>
+        <Caret Line="125" Column="8" TopLine="121"/>
+      </Position>
+      <Position>
+        <Filename Value="../../page_components/src/ehgkpage.pas"/>
+        <Caret Line="51" Column="21" TopLine="40"/>
+      </Position>
+      <Position>
+        <Filename Value="../../page_components/src/ehgkpage.pas"/>
+        <Caret Line="138" Column="44" TopLine="133"/>
+      </Position>
+      <Position>
+        <Filename Value="../../page_components/src/ehgkpage.pas"/>
+        <Caret Line="116" Column="13" TopLine="108"/>
+      </Position>
+      <Position>
+        <Filename Value="../../page_components/src/ehgkpage.pas"/>
+        <Caret Line="152" Column="42" TopLine="144"/>
+      </Position>
+      <Position>
+        <Filename Value="../../page_components/src/ehgkpage.pas"/>
+        <Caret Line="50" Column="15" TopLine="42"/>
+      </Position>
+      <Position>
+        <Filename Value="../../page_components/src/ehgkpage.pas"/>
+        <Caret Line="167" Column="32" TopLine="156"/>
+      </Position>
+      <Position>
+        <Filename Value="../../page_components/src/ehgkpage.pas"/>
+        <Caret Line="50" Column="15" TopLine="42"/>
       </Position>
       <Position>
         <Filename Value="datamodule.pas"/>
-        <Caret Line="15" TopLine="13"/>
-      </Position>
-      <Position>
-        <Filename Value="../../page_components/src/ehgkpage.pas"/>
-        <Caret Line="84" TopLine="32"/>
-      </Position>
-      <Position>
-        <Filename Value="../../page_components/src/ehgkpage.pas"/>
-        <Caret Line="39" Column="17" TopLine="32"/>
-      </Position>
-      <Position>
-        <Filename Value="../../page_components/src/ehgkpage.pas"/>
-        <Caret Line="94" Column="17" TopLine="90"/>
-      </Position>
-      <Position>
-        <Filename Value="../../page_components/src/ehgkpage.pas"/>
-        <Caret Line="98" Column="32" TopLine="90"/>
-      </Position>
-      <Position>
-        <Filename Value="../../page_components/src/ehgkpage.pas"/>
-        <Caret Line="94" Column="45" TopLine="89"/>
+        <Caret Line="18" Column="60" TopLine="2"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="97" Column="24" TopLine="85"/>
+        <Caret Line="117" Column="23" TopLine="104"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="98" Column="53" TopLine="88"/>
+        <Caret Line="105" Column="3" TopLine="100"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="103" Column="7" TopLine="87"/>
+        <Caret Line="108" Column="45"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="100" Column="14" TopLine="89"/>
+        <Caret Line="105" Column="3" TopLine="102"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="101" Column="21" TopLine="90"/>
+        <Caret Column="11"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="9" Column="11" TopLine="4"/>
+        <Caret Line="8" Column="71"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="104" Column="55" TopLine="94"/>
+        <Caret Column="62"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="97" Column="74" TopLine="87"/>
+        <Caret Line="8" Column="81" TopLine="7"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="95" Column="53" TopLine="87"/>
-      </Position>
-      <Position>
-        <Filename Value="../../led_control/src/simplifiedled.pas"/>
-        <Caret Line="24" Column="21" TopLine="20"/>
-      </Position>
-      <Position>
-        <Filename Value="../../led_control/src/simplifiedled.pas"/>
-        <Caret Line="90" Column="28" TopLine="79"/>
-      </Position>
-      <Position>
-        <Filename Value="../../led_control/src/simplifiedled.pas"/>
-        <Caret Line="24" Column="43" TopLine="13"/>
-      </Position>
-      <Position>
-        <Filename Value="../../led_control/src/simplifiedled.pas"/>
-        <Caret Line="90" Column="28" TopLine="82"/>
-      </Position>
-      <Position>
-        <Filename Value="../../led_control/src/simplifiedled.pas"/>
-        <Caret Line="92" TopLine="85"/>
-      </Position>
-      <Position>
-        <Filename Value="../../led_control/src/simplifiedled.pas"/>
-        <Caret Line="97" Column="13" TopLine="86"/>
-      </Position>
-      <Position>
-        <Filename Value="../../led_control/src/simplifiedled.pas"/>
-        <Caret Line="24" Column="20" TopLine="16"/>
-      </Position>
-      <Position>
-        <Filename Value="../../led_control/src/simplifiedled.pas"/>
-        <Caret Line="92" Column="17" TopLine="85"/>
-      </Position>
-      <Position>
-        <Filename Value="../../led_control/src/simplifiedled.pas"/>
-        <Caret Line="22" Column="17" TopLine="16"/>
+        <Caret Column="11"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>
-        <Caret Line="103" Column="52" TopLine="100"/>
+        <Caret Line="117" Column="3" TopLine="104"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="105" Column="3" TopLine="89"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="115" TopLine="106"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="116" Column="21" TopLine="106"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="76" TopLine="68"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="120" TopLine="112"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="118" Column="48" TopLine="110"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="15" Column="49" TopLine="64"/>
       </Position>
     </JumpHistory>
     <RunParams>

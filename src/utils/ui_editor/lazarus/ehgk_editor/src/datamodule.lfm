@@ -6,6 +6,7 @@ object MainDataModule: TMainDataModule
   Width = 363
   object EhgkPage1: TEhgkPage
     Value = 15
+    OnChange = EhgkPage1Change
     Left = 124
     Top = 48
   end

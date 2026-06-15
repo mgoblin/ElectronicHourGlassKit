@@ -6,14 +6,15 @@ interface
 
 uses
   Classes, SysUtils, SimplifiedLed, Forms, Controls, Graphics, Dialogs,
-  StdCtrls;
+  StdCtrls, EhgkPage;
 
 type
 
   { TMainForm }
 
   TMainForm = class(TForm)
-    Button1: TButton;
+    BtnPageInc: TButton;
+    BtnPageToLeds: TButton;
     LED29: TSimplifiedLed;
     LED30: TSimplifiedLed;
     LED31: TSimplifiedLed;
@@ -71,7 +72,8 @@ type
     LED14: TSimplifiedLed;
     LED15: TSimplifiedLed;
     LED16: TSimplifiedLed;
-    procedure Button1Click(Sender: TObject);
+    procedure BtnPageIncClick(Sender: TObject);
+    procedure BtnPageToLedsClick(Sender: TObject);
     procedure LED1Change(Sender: TObject);
   private
 
@@ -92,7 +94,7 @@ uses
 { TMainForm }
 
 
-procedure TMainForm.Button1Click(Sender: TObject);
+procedure TMainForm.BtnPageToLedsClick(Sender: TObject);
   function BoolToLedState(Value: Boolean): TLedState;
   begin
     if Value then Result:= TLEDState.ledOn else Result:= TLEDState.ledOff;
@@ -111,6 +113,16 @@ begin
     end;
   end;
 end;
+
+procedure TMainForm.BtnPageIncClick(Sender: TObject);
+begin
+  if MainDataModule.EhgkPage1.Value < EHGK_PAGE_VALUE_MAX then
+  begin
+    MainDataModule.EhgkPage1.Value := MainDataModule.EhgkPage1.Value + 1;
+    BtnPageToLeds.Click;
+  end;
+end;
+
 
 procedure TMainForm.LED1Change(Sender: TObject);
 begin

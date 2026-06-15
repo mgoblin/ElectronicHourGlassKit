@@ -40,14 +40,19 @@ type
 
   { The state of all the LEDs is called a EhgkPage }
 
+  { TEhgkPage }
+
   TEhgkPage = class(TComponent)
   private
     FValue: TEhgkPageValue;
+    FOnChange: TNotifyEvent;
+
     procedure SetValue(const AValue: TEhgkPageValue);
-
     procedure SetLedState(const Index: TEhgkLedNumber; AValue: Boolean);
-
     function LedMask(const Index: TEhgkLedNumber): UInt64; inline;
+
+  protected
+    procedure DoOnChange; virtual;
 
   public
     const LedCount = EHGK_LED_COUNT_MAX;
@@ -62,8 +67,11 @@ type
 
     property Led[Index: TEhgkLedNumber]: Boolean read IsLedOn write SetLedState;
 
-  published
+  published // Properties
     property Value: TEhgkPageValue read FValue write SetValue;
+
+  published // Events
+    property OnChange: TNotifyEvent read FOnChange write FOnChange;
   end;
 
   {
@@ -105,7 +113,11 @@ begin
   if AValue > EHGK_PAGE_VALUE_MAX then
     raise ERangeError.CreateResFmt(@SOutOfRange, [0, EHGK_PAGE_VALUE_MAX]);
 
-  FValue := AValue;
+  if (FValue <> AValue) then
+  begin
+    FValue := AValue;
+    DoOnChange;
+  end;
 end;
 
 function TEhgkPage.LedMask(const Index: TEhgkLedNumber): UInt64; inline;
@@ -113,27 +125,39 @@ begin
   Result := (UInt64(1) shl (Index - 1));
 end;
 
+procedure TEhgkPage.DoOnChange;
+begin
+  if Assigned(FOnChange) then
+  begin
+    FOnChange(Self);
+  end;
+end;
+
 procedure TEhgkPage.SetLedState(const Index: TEhgkLedNumber; AValue: Boolean);
 begin
   if AValue then
-    FValue := FValue or LedMask(Index)
+  begin
+    SetValue(FValue or LedMask(Index));
+  end
   else
-    FValue := FValue and not LedMask(Index);
+  begin
+    SetValue(FValue and not LedMask(Index));
+  end;
 end;
 
 procedure TEhgkPage.TurnOnLed(const Index: TEhgkLedNumber);
 begin
-  FValue := FValue or LedMask(Index);
+  SetValue(FValue or LedMask(Index));
 end;
 
 procedure TEhgkPage.TurnOffLed(const Index: TEhgkLedNumber);
 begin
-  FValue := FValue and not LedMask(Index);
+  SetValue(FValue and not LedMask(Index));
 end;
 
 procedure TEhgkPage.ToggleLed(const Index: TEhgkLedNumber);
 begin
-  FValue := FValue xor LedMask(Index);
+  SetValue(FValue xor LedMask(Index));
 end;
 
 function TEhgkPage.IsLedOn(const Index: TEhgkLedNumber): Boolean;
@@ -143,12 +167,12 @@ end;
 
 procedure TEhgkPage.TurnOnAllLeds;
 begin
-  FValue := EHGK_PAGE_VALUE_MAX;
+  SetValue(EHGK_PAGE_VALUE_MAX);
 end;
 
 procedure TEhgkPage.TurnOffAllLeds;
 begin
-  FValue := 0;
+  SetValue(0);
 end;
 
 { TEhgkValueValidator }
