@@ -15,6 +15,10 @@
         <HasRegisterProc Value="True"/>
         <UnitName Value="SimplifiedLed"/>
       </Item>
+      <Item>
+        <Filename Value="simplifiedled.lrs"/>
+        <Type Value="LRS"/>
+      </Item>
     </Files>
     <RequiredPkgs>
       <Item>

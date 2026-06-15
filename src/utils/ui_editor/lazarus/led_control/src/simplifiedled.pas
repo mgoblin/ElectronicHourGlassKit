@@ -41,6 +41,8 @@ procedure Register;
 
 implementation
 
+uses LResources;
+
 const
   DefaultPenWidth: Integer = 1;
 
@@ -129,5 +131,8 @@ begin
   Canvas.Brush.Color := LEDColor;
   Canvas.Ellipse(CenterX - Radius, CenterY - Radius, CenterX + Radius, CenterY + Radius);
 end;
+
+initialization
+  {$I simplifiedled.lrs}
 
 end.

@@ -92,13 +92,14 @@ procedure Register;
 
 implementation
 
-uses TypInfo, RtlConsts;
+uses TypInfo, RtlConsts, LResources;
 
 procedure Register;
 begin
   RegisterComponents('EHGK',[TEhgkPage]);
   RegisterPropertyEditor(TypeInfo(TEhgkPageValue), TEhgkPage, 'Value', TEhgkPageValuePropertyEditor);
 end;
+
 
 { TEhgkPage }
 
@@ -200,5 +201,8 @@ begin
        raise EPropertyError.CreateResFmt(@SOutOfRange, [0, EHGK_PAGE_VALUE_MAX]);
     end;
 end;
+
+initialization
+  {$I ehgkpage.lrs}
 
 end.
