@@ -18,8 +18,10 @@ type
   TSimplifiedLed = class(TCustomControl)
   private
     FState: TLEDState;
+    FOnChange: TNotifyEvent;
     procedure SetState(AValue: TLEDState);
   protected
+    procedure DoOnChange; virtual;
     procedure DoOnChangeBounds; override;
     procedure Paint; override;
   public
@@ -32,6 +34,7 @@ type
     property Visible;
   published // Events
     property OnDblClick;
+    property OnChange: TNotifyEvent read FOnChange write FOnChange;
   end;
 
 procedure Register;
@@ -58,9 +61,12 @@ end;
 
 procedure TSimplifiedLED.SetState(AValue: TLEDState);
 begin
-  if FState = AValue then Exit;
-  FState := AValue;
-  Invalidate;  // triggers repaint
+  if FState <> AValue then
+  begin
+    FState := AValue;
+    DoOnChange;
+    Invalidate;  // triggers repaint
+  end;
 end;
 
 procedure TSimplifiedLed.DblClick;
@@ -83,6 +89,14 @@ begin
 
   // Triggers the Paint method on the next cycle
   Invalidate;
+end;
+
+procedure TSimplifiedLED.DoOnChange;
+begin
+  if Assigned(FOnChange) then
+  begin
+    FOnChange(Self);
+  end;
 end;
 
 procedure TSimplifiedLED.Paint;

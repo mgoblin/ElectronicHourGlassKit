@@ -72,6 +72,7 @@ type
     LED15: TSimplifiedLed;
     LED16: TSimplifiedLed;
     procedure Button1Click(Sender: TObject);
+    procedure LED1Change(Sender: TObject);
   private
 
   public
@@ -109,6 +110,11 @@ begin
       (LED as TSimplifiedLed).State := BoolToLedState(DataModule.MainDataModule.EhgkPage1.IsLedOn(i));
     end;
   end;
+end;
+
+procedure TMainForm.LED1Change(Sender: TObject);
+begin
+  ShowMessage('Changed');
 end;
 
 end.
