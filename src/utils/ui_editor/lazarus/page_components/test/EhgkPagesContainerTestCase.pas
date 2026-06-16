@@ -21,6 +21,7 @@ type
 
     procedure TestIndex;
     procedure TestIndexOutOfBounds;
+    procedure TestAdd;
   end;
 
 implementation
@@ -61,6 +62,20 @@ begin
     end
     else Fail('fgl.EListError must be raised');
   end;
+end;
+
+procedure TEhgkPagesContainerTestCase.TestAdd;
+var
+  Index: Integer;
+begin
+  Index := PagesContainer.Add;
+  AssertEquals('Second added page must have index 1', 1, Index);
+
+  PagesContainer.Page[0].Value := 0;
+  PagesContainer.Page[1].Value := 1;
+
+  AssertEquals('Page[0] should be equals to 0', 0, PagesContainer.Page[0].Value);
+  AssertEquals('Page[1] should be equals to 1', 1, PagesContainer.Page[1].Value);
 end;
 
 procedure TEhgkPagesContainerTestCase.SetUp;

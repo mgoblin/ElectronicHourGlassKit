@@ -26,6 +26,8 @@ type
 
     function Count: Integer;
 
+    function Add: Integer;
+
     property Page[Index: UInt8]: TEhgkPage read GetPageByIndex;
   published
 
@@ -69,6 +71,11 @@ end;
 function TEhgkPagesContainer.Count: Integer;
 begin
   Result := FPagesList.Count;
+end;
+
+function TEhgkPagesContainer.Add: Integer;
+begin
+  Result := FPagesList.Add(TEhgkPage.Create(Nil));
 end;
 
 initialization
