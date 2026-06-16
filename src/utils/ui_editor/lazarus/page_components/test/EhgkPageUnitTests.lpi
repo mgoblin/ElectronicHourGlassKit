@@ -50,6 +50,10 @@
         <Filename Value="EhgkPageLedsIndexedPropertyTestCase.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="EhgkPagesContainerTestCase.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>

@@ -3,8 +3,10 @@ program EhgkPageUnitTests;
 {$mode objfpc}{$H+}
 
 uses
-  Interfaces, SysUtils, Forms, EhgkPageTestCases, EhgkPageValuePropertyTestCase,
-  EhgkPageLedsIndexedPropertyTestCase, GuiTestRunner;
+  Interfaces, SysUtils, Forms, GuiTestRunner,
+  EhgkPageTestCases, EhgkPageValuePropertyTestCase,
+  EhgkPageLedsIndexedPropertyTestCase,
+  EhgkPagesContainerTestCase;
 
 {$R *.res}
 const
