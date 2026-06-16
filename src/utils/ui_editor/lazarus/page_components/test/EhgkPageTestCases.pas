@@ -42,6 +42,7 @@ var
 begin
   EhgkPageLocal := TEhgkPage.Create(Nil);
   AssertNotNull('EhgkPage should be not nil after creation', EhgkPageLocal);
+  FreeAndNil(EhgkPageLocal);
 end;
 
 { TBitsEhgkPageTestCase }

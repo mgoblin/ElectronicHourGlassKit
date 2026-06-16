@@ -16,7 +16,7 @@ type
   TEhgkPagesContainer = class(TComponent)
   private
     FPagesList: TEhgkPagesList;
-    function GetPageByIndex(Index: UInt8): TEhgkPage; inline;
+    function GetPageByIndex(Index: UInt8): TEhgkPage;
 
   protected
 
@@ -42,7 +42,7 @@ end;
 
 { TEhgkPagesContainer }
 
-function TEhgkPagesContainer.GetPageByIndex(Index: UInt8): TEhgkPage; inline;
+function TEhgkPagesContainer.GetPageByIndex(Index: UInt8): TEhgkPage;
 begin
   Result := FPagesList.Items[Index];
 end;
