@@ -11,6 +11,8 @@ uses
 type
   TEhgkPagesList = specialize TFPGObjectList<TEhgkPage>;
 
+  TEmptyContainerError = class(Exception);
+
   { TEhgkPagesContainer }
 
   TEhgkPagesContainer = class(TComponent)
@@ -27,6 +29,7 @@ type
     function Count: Integer;
 
     function Add: Integer;
+    procedure Delete(Index: Integer);
 
     property Page[Index: UInt8]: TEhgkPage read GetPageByIndex;
   published
@@ -76,6 +79,16 @@ end;
 function TEhgkPagesContainer.Add: Integer;
 begin
   Result := FPagesList.Add(TEhgkPage.Create(Nil));
+end;
+
+procedure TEhgkPagesContainer.Delete(Index: Integer);
+begin
+  if (FPagesList.Count = 1) and (Index = 0) then
+  begin
+    raise TEmptyContainerError.CreateFmt('Container %s can not be empty', [Self.Name]);
+  end;
+  FPagesList.Delete(Index);
+
 end;
 
 initialization
