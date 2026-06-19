@@ -31,6 +31,9 @@ EMPTY_PAGE              begin
 "|"                     begin
                           returnc(yytext[1]);
                         end;
+","                     begin
+                          returnc(yytext[1]);
+                        end;                        
 
 [ \t\n]                 begin end;
 

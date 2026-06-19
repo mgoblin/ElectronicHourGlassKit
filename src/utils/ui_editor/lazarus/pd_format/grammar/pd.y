@@ -10,7 +10,7 @@ end;
 
 %}    
 
-%start leds
+%start page
 
 %token <Integer> LED EMPTY_PAGE
 
@@ -18,13 +18,17 @@ end;
 %type <Integer> empty
 
 %%
-leds: empty
-      | led 
+page: page_line
+      | page ',' page_line;
+
+page_line: leds | empty;
+
+leds: led 
       | leds '|' led;
       
 led: LED { $$ := $1; };
 
-empty: EMPTY_PAGE;
+empty: EMPTY_PAGE { $$ := $1; };
 
 %%
 
