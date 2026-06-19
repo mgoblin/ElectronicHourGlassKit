@@ -17,13 +17,18 @@
 <C_BLOCK_COMMENT>.      begin end;
 
 L[0-9]+                 begin 
-                          WriteLn(Format('LED:%s', [yytext])); 
+                          WriteLn(Format('LED: %s', [yytext]));
+                          yylval.yyInteger := StrToInt(yytext[2..Length(yytext)]);
                           return(LED);
                         end;
 
 EMPTY_PAGE              begin 
                           WriteLn(yytext);
-                        end;  
+                        end; 
+
+"|"                     begin
+                          returnc(yytext[1]);
+                        end;
 
 [ \t\n]                 begin end;
 

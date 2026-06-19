@@ -10,12 +10,15 @@ end;
 
 %}    
 
-%start led
-%token LED
+%start leds
+%token <Integer> LED
+%type <Integer> led
 
 %%
-
-led: LED;
+leds: led
+      | leds '|' led;
+      
+led: LED { $$ := $1; };
 
 %%
 
