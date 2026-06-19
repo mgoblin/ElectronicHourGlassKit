@@ -24,6 +24,8 @@ L[0-9]+                 begin
 
 EMPTY_PAGE              begin 
                           WriteLn(yytext);
+                          yylval.yyInteger := 0;
+                          return(EMPTY_PAGE);
                         end; 
 
 "|"                     begin
