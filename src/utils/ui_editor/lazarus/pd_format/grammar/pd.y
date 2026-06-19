@@ -16,6 +16,8 @@ end;
 
 %type <UInt64> led
 %type <UInt64> empty
+%type <UInt64> leds
+%type <UInt64> page_line
 
 %%
 start : pages { Writeln('Done'); yyaccept; }
@@ -26,11 +28,21 @@ pages :   page_line
       ;
 
 page_line :   leds 
-            | empty
+            | empty { 
+                $$ := $1; 
+                WriteLn(Format('Empty LEDs line: %d', [$$])); 
+              }
           ;
 
-leds  :   led 
-        | leds '|' led
+leds  :   led   { 
+                  $$ := $1;
+                  WriteLn(Format('One LED line: %d', [$$])); 
+                }
+        | leds '|' led  
+                { 
+                  $$ := $1 + $3;
+                  WriteLn(Format('Multi LEDs line: %d', [$$])); 
+                }
       ;
       
 led: LED { if ($1 > 0) and ($1 < 58) then
