@@ -10,25 +10,39 @@ end;
 
 %}    
 
-%start page
+%start start
 
 %token <Integer> LED EMPTY_PAGE
 
-%type <Integer> led
-%type <Integer> empty
+%type <UInt64> led
+%type <UInt64> empty
 
 %%
-page: page_line
-      | page ',' page_line;
+start : pages { Writeln('Done'); yyaccept; }
+      ;
 
-page_line: leds | empty;
+pages :   page_line
+        | pages ',' page_line
+      ;
 
-leds: led 
-      | leds '|' led;
+page_line :   leds 
+            | empty
+          ;
+
+leds  :   led 
+        | leds '|' led
+      ;
       
-led: LED { $$ := $1; };
+led: LED { if ($1 > 0) and ($1 < 58) then
+              begin
+                $$ := 1 shl ($1 - 1); 
+                WriteLn(Format('L%d value: %d', [$1, $$])); 
+              end else
+              begin
+                yyerror(Format('LED index %d is out of bounds 1..56', [$1]));
+              end;  };
 
-empty: EMPTY_PAGE { $$ := $1; };
+empty: EMPTY_PAGE { $$ := $1; WriteLn(Format('EMPTY_PAGE value: %d', [$$])); };
 
 %%
 
