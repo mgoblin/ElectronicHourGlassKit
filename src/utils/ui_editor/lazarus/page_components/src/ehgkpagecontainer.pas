@@ -37,6 +37,7 @@ type
   TEhgkPageContainer = class(TComponent)
   private
     FPagesList: TEhgkPageList;
+    procedure EnsureIndexIsValid(Index: UInt8);
     function GetPageByIndex(Index: UInt8): TEhgkPage;
 
   protected
@@ -59,6 +60,11 @@ procedure Register;
 
 implementation
 
+const
+  msgEmptyError: String = 'Container %s can not be empty';
+  msgOutOfBoundsError: String = 'Index (%d) is out of bounds for container %s';
+  msgFullError: String = 'Container %s is full';
+
 procedure Register;
 begin
   RegisterComponents('EHGK',[TEhgkPageContainer]);
@@ -66,17 +72,18 @@ end;
 
 { TEhgkPageContainer }
 
+procedure TEhgkPageContainer.EnsureIndexIsValid(Index: UInt8);
+begin
+  if (FPagesList.Count > 0) and (Index > (FPagesList.Count-1)) then
+  begin
+    raise TContainerIndexOutOfBounds.CreateFmt(msgOutOfBoundsError, [Index, Self.Name]);
+  end;
+end;
+
 function TEhgkPageContainer.GetPageByIndex(Index: UInt8): TEhgkPage;
 begin
-  if (Index > FPagesList.Count-1) then
-  begin
-    raise TContainerIndexOutOfBounds.CreateFmt(
-      'Index (%d) is out of bounds for container %s', [Index, Self.Name]);
-  end
-  else
-  begin
-    Result := FPagesList.Items[Index];
-  end;
+  EnsureIndexIsValid(Index);
+  Result := FPagesList.Items[Index];
 end;
 
 constructor TEhgkPageContainer.Create(AOwner: TComponent);
@@ -111,15 +118,17 @@ begin
   end
   else
   begin
-    raise TContainerFullError.CreateFmt('Container %s is full', [Self.Name]);
+    raise TContainerFullError.CreateFmt(msgFullError, [Self.Name]);
   end;
 end;
 
 procedure TEhgkPageContainer.Delete(Index: UInt8); inline;
 begin
+  EnsureIndexIsValid(Index);
+
   if (FPagesList.Count = 1) and (Index = 0) then
   begin
-    raise TContainerEmptyError.CreateFmt('Container %s can not be empty', [Self.Name]);
+    raise TContainerEmptyError.CreateFmt(msgEmptyError, [Self.Name]);
   end;
   FPagesList.Delete(Index);
 

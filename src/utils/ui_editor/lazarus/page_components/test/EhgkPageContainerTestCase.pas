@@ -37,7 +37,7 @@ type
 implementation
 
 uses
-  Dialogs, EhgkPage, fgl;
+  Dialogs, EhgkPage;
 
 procedure TEhgkPageContainerTestCase.TestCreate;
 var
@@ -45,10 +45,10 @@ var
   Page: TEhgkPage;
 begin
   Container := TEhgkPageContainer.Create(Nil);
-  AssertNotNull('EhgkPagesContainer should be not nil after creation', Container);
-  AssertEquals('EhgkPagesContainer count must be 1 after creation', 1, Container.Count);
+  AssertNotNull('EhgkPageContainer should be not nil after creation', Container);
+  AssertEquals('EhgkPageContainer count must be 1 after creation', 1, Container.Count);
   Page := Container.Page[0];
-  AssertNotNull('EhgkPagesContainer first page must not be null after creation', Page);
+  AssertNotNull('EhgkPageContainer first page must not be null after creation', Page);
   FreeAndNil(Container);
 end;
 
@@ -70,7 +70,7 @@ begin
     begin
       AssertEquals(
         'Incorrect exception message',
-        'Index (1) is out of bounds for container EhgkPagesContainer1',
+        'Index (1) is out of bounds for container EhgkPageContainer1',
         E.Message
       );
     end
@@ -101,7 +101,7 @@ begin
     PageContainer.Add;
   end;
 
-  AssertEquals('Pages container nust be filled', UInt8.MaxValue, PageContainer.Count);
+  AssertEquals('Page container nust be filled', UInt8.MaxValue, PageContainer.Count);
 
   try
      PageContainer.Add;
@@ -111,7 +111,7 @@ begin
     begin
       AssertEquals(
         'Wrong error message',
-        'Container EhgkPagesContainer1 is full',
+        'Container EhgkPageContainer1 is full',
         E.Message
       );
     end
@@ -130,12 +130,12 @@ var
   Index: Integer;
 begin
   Index := PageContainer.Add;
-  AssertEquals('PagesContainer must have 2 pages', 2, PageContainer.Count);
+  AssertEquals('PageContainer must have 2 pages', 2, PageContainer.Count);
   Page := PageContainer.Page[Index];
   Page.Value := Page1Value;
 
   PageContainer.Delete(0);
-  AssertEquals('PagesContainer must have 1 page', 1, PageContainer.Count);
+  AssertEquals('PageContainer must have 1 page', 1, PageContainer.Count);
   AssertEquals(
     Format('Page value must be %d', [Page1Value]),
     Page1Value,
@@ -154,10 +154,10 @@ begin
   Page0.Value := Page0Value;
 
   Index := PageContainer.Add;
-  AssertEquals('PagesContainer must have 2 pages', 2, PageContainer.Count);
+  AssertEquals('PageContainer must have 2 pages', 2, PageContainer.Count);
 
   PageContainer.Delete(Index);
-  AssertEquals('PagesContainer must have 1 page', 1, PageContainer.Count);
+  AssertEquals('PageContainer must have 1 page', 1, PageContainer.Count);
   AssertEquals('', Page0.Value, PageContainer.Page[0].Value);
 end;
 
@@ -171,10 +171,10 @@ begin
   begin
     PageContainer.Page[Index].Value := Index;
   end;
-  AssertEquals('PagesContainer must have 3 pages', 3, PageContainer.Count);
+  AssertEquals('PageContainer must have 3 pages', 3, PageContainer.Count);
 
   PageContainer.Delete(1); // Delete not first and not last page
-  AssertEquals('PagesContainer must have 2 pages', 2, PageContainer.Count);
+  AssertEquals('PageContainer must have 2 pages', 2, PageContainer.Count);
 
   AssertEquals('Page[0] value must be equals to 0', 0, PageContainer.Page[0].Value);
   AssertEquals('Page[1] value must be equals to 2', 2, PageContainer.Page[1].Value);
@@ -184,18 +184,18 @@ procedure TEhgkPageContainerTestCase.TestDeleteIndexOutOfBounds;
 begin
   try
      PageContainer.Delete(10);
-     Fail('fgl.EListError should be raised');
+     Fail('TContainerIndexOutOfBounds should be raised');
   except
-    on E: fgl.EListError do
+    on E: TContainerIndexOutOfBounds do
     begin
       AssertEquals(
         'Wrong error message',
-        'List index (10) out of bounds',
+        'Index (10) is out of bounds for container EhgkPageContainer1',
         E.Message
       );
     end;
     on E: Exception do
-      Fail(Format('fgl.EListError should be raised but %s raised', [E.QualifiedClassName]));
+      Fail(Format('TContainerIndexOutOfBounds should be raised but %s raised', [E.QualifiedClassName]));
   end;
 end;
 
@@ -209,7 +209,7 @@ begin
     begin
       AssertEquals(
         'Wrong error message',
-        'Container EhgkPagesContainer1 can not be empty',
+        'Container EhgkPageContainer1 can not be empty',
         E.Message
       );
     end else Fail('TEmptyContainerError should be raised');
@@ -219,7 +219,7 @@ end;
 procedure TEhgkPageContainerTestCase.SetUp;
 begin
   PageContainer := TEhgkPageContainer.Create(Nil);
-  PageContainer.Name := 'EhgkPagesContainer1';
+  PageContainer.Name := 'EhgkPageContainer1';
 end;
 
 procedure TEhgkPageContainerTestCase.TearDown;
