@@ -5,7 +5,7 @@ program EhgkPageUnitTests;
 uses
   Interfaces, SysUtils, Forms, GuiTestRunner,
   EhgkPageTestCases, EhgkPageValuePropertyTestCase,
-  EhgkPageLedsIndexedPropertyTestCase, EhgkPagesContainerTestCase;
+  EhgkPageLedsIndexedPropertyTestCase, EhgkPageContainerTestCase;
 
 {$R *.res}
 const

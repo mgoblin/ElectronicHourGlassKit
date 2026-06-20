@@ -17,7 +17,7 @@ type
 
   TEhgkPageContainerTestCase = class(TTestCase)
   protected
-    PagesContainer: TEhgkPageContainer;
+    PageContainer: TEhgkPageContainer;
     procedure SetUp; override;
     procedure TearDown; override;
   published
@@ -56,19 +56,23 @@ procedure TEhgkPageContainerTestCase.TestGetIndex;
 var
   Page: TEhgkPage;
 begin
-  Page := PagesContainer.Page[0];
+  Page := PageContainer.Page[0];
   AssertNotNull('Page[0] must not be Nil', Page);
 end;
 
 procedure TEhgkPageContainerTestCase.TestGetIndexOutOfBounds;
 begin
   try
-    PagesContainer.Page[1];
+    PageContainer.Page[1];
     Fail('Index out of bounds exception must be raised');
   except
-    on E: fgl.EListError do
+    on E: TContainerIndexOutOfBounds do
     begin
-      AssertEquals('Incorrect exception message', 'List index (1) out of bounds', E.Message);
+      AssertEquals(
+        'Incorrect exception message',
+        'Index (1) is out of bounds for container EhgkPagesContainer1',
+        E.Message
+      );
     end
     else Fail('fgl.EListError must be raised');
   end;
@@ -78,14 +82,14 @@ procedure TEhgkPageContainerTestCase.TestAdd;
 var
   Index: Integer;
 begin
-  Index := PagesContainer.Add;
+  Index := PageContainer.Add;
   AssertEquals('Second added page must have index 1', 1, Index);
 
-  PagesContainer.Page[0].Value := 0;
-  PagesContainer.Page[1].Value := 1;
+  PageContainer.Page[0].Value := 0;
+  PageContainer.Page[1].Value := 1;
 
-  AssertEquals('Page[0] should be equals to 0', 0, PagesContainer.Page[0].Value);
-  AssertEquals('Page[1] should be equals to 1', 1, PagesContainer.Page[1].Value);
+  AssertEquals('Page[0] should be equals to 0', 0, PageContainer.Page[0].Value);
+  AssertEquals('Page[1] should be equals to 1', 1, PageContainer.Page[1].Value);
 end;
 
 procedure TEhgkPageContainerTestCase.TestAddToFull;
@@ -94,13 +98,13 @@ var
 begin
   for i:= 1 to UInt8.MaxValue-1 do
   begin
-    PagesContainer.Add;
+    PageContainer.Add;
   end;
 
-  AssertEquals('Pages container nust be filled', UInt8.MaxValue, PagesContainer.Count);
+  AssertEquals('Pages container nust be filled', UInt8.MaxValue, PageContainer.Count);
 
   try
-     PagesContainer.Add;
+     PageContainer.Add;
      Fail('TContainerFullError must be raised');
   except
     on E: TContainerFullError do
@@ -125,17 +129,17 @@ var
   Page: TEhgkPage;
   Index: Integer;
 begin
-  Index := PagesContainer.Add;
-  AssertEquals('PagesContainer must have 2 pages', 2, PagesContainer.Count);
-  Page := PagesContainer.Page[Index];
+  Index := PageContainer.Add;
+  AssertEquals('PagesContainer must have 2 pages', 2, PageContainer.Count);
+  Page := PageContainer.Page[Index];
   Page.Value := Page1Value;
 
-  PagesContainer.Delete(0);
-  AssertEquals('PagesContainer must have 1 page', 1, PagesContainer.Count);
+  PageContainer.Delete(0);
+  AssertEquals('PagesContainer must have 1 page', 1, PageContainer.Count);
   AssertEquals(
     Format('Page value must be %d', [Page1Value]),
     Page1Value,
-    PagesContainer.Page[0].Value
+    PageContainer.Page[0].Value
   );
 end;
 
@@ -146,40 +150,40 @@ var
   Index: Integer;
   Page0: TEhgkPage;
 begin
-  Page0 := PagesContainer.Page[0];
+  Page0 := PageContainer.Page[0];
   Page0.Value := Page0Value;
 
-  Index := PagesContainer.Add;
-  AssertEquals('PagesContainer must have 2 pages', 2, PagesContainer.Count);
+  Index := PageContainer.Add;
+  AssertEquals('PagesContainer must have 2 pages', 2, PageContainer.Count);
 
-  PagesContainer.Delete(Index);
-  AssertEquals('PagesContainer must have 1 page', 1, PagesContainer.Count);
-  AssertEquals('', Page0.Value, PagesContainer.Page[0].Value);
+  PageContainer.Delete(Index);
+  AssertEquals('PagesContainer must have 1 page', 1, PageContainer.Count);
+  AssertEquals('', Page0.Value, PageContainer.Page[0].Value);
 end;
 
 procedure TEhgkPageContainerTestCase.TestDeleteExisting;
 var
   Index: Integer;
 begin
-  PagesContainer.Add;
-  PagesContainer.Add;
-  for Index := 0 to PagesContainer.Count-1 do
+  PageContainer.Add;
+  PageContainer.Add;
+  for Index := 0 to PageContainer.Count-1 do
   begin
-    PagesContainer.Page[Index].Value := Index;
+    PageContainer.Page[Index].Value := Index;
   end;
-  AssertEquals('PagesContainer must have 3 pages', 3, PagesContainer.Count);
+  AssertEquals('PagesContainer must have 3 pages', 3, PageContainer.Count);
 
-  PagesContainer.Delete(1); // Delete not first and not last page
-  AssertEquals('PagesContainer must have 2 pages', 2, PagesContainer.Count);
+  PageContainer.Delete(1); // Delete not first and not last page
+  AssertEquals('PagesContainer must have 2 pages', 2, PageContainer.Count);
 
-  AssertEquals('Page[0] value must be equals to 0', 0, PagesContainer.Page[0].Value);
-  AssertEquals('Page[1] value must be equals to 2', 2, PagesContainer.Page[1].Value);
+  AssertEquals('Page[0] value must be equals to 0', 0, PageContainer.Page[0].Value);
+  AssertEquals('Page[1] value must be equals to 2', 2, PageContainer.Page[1].Value);
 end;
 
 procedure TEhgkPageContainerTestCase.TestDeleteIndexOutOfBounds;
 begin
   try
-     PagesContainer.Delete(10);
+     PageContainer.Delete(10);
      Fail('fgl.EListError should be raised');
   except
     on E: fgl.EListError do
@@ -198,7 +202,7 @@ end;
 procedure TEhgkPageContainerTestCase.TestDeleteSingle;
 begin
   try
-    PagesContainer.Delete(0);
+    PageContainer.Delete(0);
     Fail('TEmptyContainerError should be raised');
   except
     on E: TContainerEmptyError do
@@ -214,13 +218,13 @@ end;
 
 procedure TEhgkPageContainerTestCase.SetUp;
 begin
-  PagesContainer := TEhgkPageContainer.Create(Nil);
-  PagesContainer.Name := 'EhgkPagesContainer1';
+  PageContainer := TEhgkPageContainer.Create(Nil);
+  PageContainer.Name := 'EhgkPagesContainer1';
 end;
 
 procedure TEhgkPageContainerTestCase.TearDown;
 begin
-  FreeAndNil(PagesContainer);
+  FreeAndNil(PageContainer);
 end;
 
 initialization

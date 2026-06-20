@@ -15,8 +15,6 @@ unit EhgkPageContainer;
 
 {$mode ObjFPC}{$H+}
 
-{$inline on}
-
 // Suppress warning:
 // procedure or function marked with the inline directive cannot actually be inlined
 {$warn 6058 off}
@@ -31,6 +29,7 @@ type
 
   TContainerEmptyError = class(Exception);
   TContainerFullError = class(Exception);
+  TContainerIndexOutOfBounds = class(Exception);
 
 
   { TEhgkPageContainer }
@@ -69,7 +68,15 @@ end;
 
 function TEhgkPageContainer.GetPageByIndex(Index: UInt8): TEhgkPage;
 begin
-  Result := FPagesList.Items[Index];
+  if (Index > FPagesList.Count-1) then
+  begin
+    raise TContainerIndexOutOfBounds.CreateFmt(
+      'Index (%d) is out of bounds for container %s', [Index, Self.Name]);
+  end
+  else
+  begin
+    Result := FPagesList.Items[Index];
+  end;
 end;
 
 constructor TEhgkPageContainer.Create(AOwner: TComponent);
