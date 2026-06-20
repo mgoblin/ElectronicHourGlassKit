@@ -27,17 +27,17 @@ uses
   Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, fgl, EhgkPage;
 
 type
-  TEhgkPagesList = specialize TFPGObjectList<TEhgkPage>;
+  TEhgkPageList = specialize TFPGObjectList<TEhgkPage>;
 
   TContainerEmptyError = class(Exception);
   TContainerFullError = class(Exception);
 
 
-  { TEhgkPagesContainer }
+  { TEhgkPageContainer }
 
-  TEhgkPagesContainer = class(TComponent)
+  TEhgkPageContainer = class(TComponent)
   private
-    FPagesList: TEhgkPagesList;
+    FPagesList: TEhgkPageList;
     function GetPageByIndex(Index: UInt8): TEhgkPage;
 
   protected
@@ -62,41 +62,41 @@ implementation
 
 procedure Register;
 begin
-  RegisterComponents('EHGK',[TEhgkPagesContainer]);
+  RegisterComponents('EHGK',[TEhgkPageContainer]);
 end;
 
-{ TEhgkPagesContainer }
+{ TEhgkPageContainer }
 
-function TEhgkPagesContainer.GetPageByIndex(Index: UInt8): TEhgkPage;
+function TEhgkPageContainer.GetPageByIndex(Index: UInt8): TEhgkPage;
 begin
   Result := FPagesList.Items[Index];
 end;
 
-constructor TEhgkPagesContainer.Create(AOwner: TComponent);
+constructor TEhgkPageContainer.Create(AOwner: TComponent);
 var
   EhgkPage: TEhgkPage;
 begin
   inherited Create(AOwner);
 
-  // FPagesList own pages and responsible for free containing objectss
-  FPagesList := TEhgkPagesList.Create(True);
+  // FPagesList responsible for free containing objects
+  FPagesList := TEhgkPageList.Create(True);
 
   EhgkPage := TEhgkPage.Create(Nil);
   FPagesList.Add(EhgkPage);
 end;
 
-destructor TEhgkPagesContainer.Destroy;
+destructor TEhgkPageContainer.Destroy;
 begin
   FreeAndNil(FPagesList);
   inherited Destroy;
 end;
 
-function TEhgkPagesContainer.Count: UInt8; inline;
+function TEhgkPageContainer.Count: UInt8; inline;
 begin
   Result := FPagesList.Count;
 end;
 
-function TEhgkPagesContainer.Add: UInt8; inline;
+function TEhgkPageContainer.Add: UInt8; inline;
 begin
   if FPagesList.Count < UInt8.MaxValue then
   begin
@@ -108,7 +108,7 @@ begin
   end;
 end;
 
-procedure TEhgkPagesContainer.Delete(Index: UInt8); inline;
+procedure TEhgkPageContainer.Delete(Index: UInt8); inline;
 begin
   if (FPagesList.Count = 1) and (Index = 0) then
   begin

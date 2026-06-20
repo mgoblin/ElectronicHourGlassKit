@@ -17,7 +17,7 @@ type
 
   TEhgkPagesContainerTestCase = class(TTestCase)
   protected
-    PagesContainer: TEhgkPagesContainer;
+    PagesContainer: TEhgkPageContainer;
     procedure SetUp; override;
     procedure TearDown; override;
   published
@@ -41,10 +41,10 @@ uses
 
 procedure TEhgkPagesContainerTestCase.TestCreate;
 var
-  Container: TEhgkPagesContainer;
+  Container: TEhgkPageContainer;
   Page: TEhgkPage;
 begin
-  Container := TEhgkPagesContainer.Create(Nil);
+  Container := TEhgkPageContainer.Create(Nil);
   AssertNotNull('EhgkPagesContainer should be not nil after creation', Container);
   AssertEquals('EhgkPagesContainer count must be 1 after creation', 1, Container.Count);
   Page := Container.Page[0];
@@ -214,7 +214,7 @@ end;
 
 procedure TEhgkPagesContainerTestCase.SetUp;
 begin
-  PagesContainer := TEhgkPagesContainer.Create(Nil);
+  PagesContainer := TEhgkPageContainer.Create(Nil);
   PagesContainer.Name := 'EhgkPagesContainer1';
 end;
 
