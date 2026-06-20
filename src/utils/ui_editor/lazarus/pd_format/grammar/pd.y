@@ -1,7 +1,15 @@
 %{
 program pd_parser;
 
-uses SysUtils, yacclib, lexlib;
+{$mode ObjFPC}
+
+uses SysUtils, yacclib, lexlib, fgl;
+
+type
+  TPagesList = class(specialize TFPGList<UInt64>);
+
+var
+  PagesList: TPagesList;   
 
 procedure yyerror(s: string);  // Called by yyparse on error <- overload !
 begin

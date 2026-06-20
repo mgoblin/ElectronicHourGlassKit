@@ -35,7 +35,7 @@ EMPTY_PAGE              begin
                           returnc(yytext[1]);
                         end;                        
 
-[ \t\n]                 begin end;
+[ \t\n]                 ;
 
 .                       yyerror('Character unexpected');
 
