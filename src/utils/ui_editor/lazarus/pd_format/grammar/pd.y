@@ -31,8 +31,13 @@ end;
 start : pages { Writeln('Done'); yyaccept; }
       ;
 
-pages :   page_line
-        | pages ',' page_line
+pages :   page_line             { 
+                                  PagesList := TPagesList.Create(); 
+                                  PagesList.Add($1);
+                                }
+        | pages ',' page_line   {  
+                                  PagesList.Add($3);
+                                }
       ;
 
 page_line :   leds 
@@ -68,7 +73,15 @@ empty: EMPTY_PAGE { $$ := $1; WriteLn(Format('EMPTY_PAGE value: %d', [$$])); };
 
 {$include pd_lexer.pas}
 
+var
+  i: Integer;
 begin
   yyparse ();
+  
+  WriteLn(Format('%d pages parsed', [PagesList.Count]));
+  for i := 0 to PagesList.Count-1 do
+  begin
+    WriteLn(Format('%d => %d', [i + 1, PagesList[i]]));
+  end;
 end.
 
