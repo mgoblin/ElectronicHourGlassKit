@@ -36,7 +36,6 @@ start : pages { Writeln('Done'); yyaccept; }
       ;
 
 pages :   page_line             { 
-                                  PagesList := TPagesList.Create(); 
                                   PagesList.Add($1);
                                 }
         | pages ',' page_line   {  
@@ -77,15 +76,69 @@ empty: EMPTY_PAGE { $$ := $1; WriteLn(Format('EMPTY_PAGE value: %d', [$$])); };
 
 {$include pd_lexer.pas}
 
+function ReadStdin(): String;
 var
+  FullInput: String;
+  Line: String;
+begin
+  FullInput := '';
+
+  while not EOF do
+  begin
+    Readln(Line);
+    FullInput := FullInput + Line + LineEnding;
+  end;
+  Result := FullInput;
+end;
+
+procedure ParsePages(inputString: String; pages: TPagesList);
+const
+  fileName: String = 'parse.txt';
+var 
+  srcText: TextFile;
   i: Integer;
 begin
-  yyparse ();
-  
-  WriteLn(Format('%d pages parsed', [PagesList.Count]));
-  for i := 0 to PagesList.Count-1 do
-  begin
-    WriteLn(Format('%d => %d', [i + 1, PagesList[i]]));
+  Assign(srcText, fileName);
+  try
+    Rewrite(srcText);
+    Write(srcText, inputString);
+  finally
+    CloseFile(srcText);
   end;
+
+  Reset(srcText);
+
+  PagesList := TPagesList.Create();
+  try
+    yyinput := srcText;
+    yyparse ();
+    
+    for i := 0 to PagesList.Count-1 do
+    begin
+      pages.Add(PagesList[i]);
+    end;
+  finally
+    FreeAndNil(PagesList);
+  end;  
+end;
+
+var
+  i: Integer;
+  inputString: String;
+  pages: TPagesList; 
+begin
+  pages := TPagesList.Create();
+  try
+    inputString := ReadStdin();
+    ParsePages(inputString, pages);
+    
+    WriteLn(Format('%d pages parsed', [pages.Count]));
+    for i := 0 to pages.Count-1 do
+    begin
+      WriteLn(Format('%d => %d', [i + 1, pages[i]]));
+    end;
+  finally
+    FreeAndNil(pages);
+  end;  
 end.
 
