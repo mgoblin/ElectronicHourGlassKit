@@ -1,8 +1,24 @@
-unit EhgkPagesContainer;
+{
+ Electronic hourglass kit pages container (Ehgk) components unit.
+
+ An electronic hourglass is a simple electronic device you can assemble yourself.
+ It contains 57 LEDs located on a circuit board LED count can not be changed
+ due to circuit board design.
+ LED is drived by microcontroller (STC15W201 or STC15W2024)
+
+ Page is LEDs state description.
+
+ Pages container manage sequence of pages. Pages container size is limtited by
+ microcontroller EEPROM size. Pages container can hold 256 pages maximum.
+}
+unit EhgkPageContainer;
 
 {$mode ObjFPC}{$H+}
 
 {$inline on}
+
+// Suppress warning:
+// procedure or function marked with the inline directive cannot actually be inlined
 {$warn 6058 off}
 
 interface
@@ -61,10 +77,10 @@ var
   EhgkPage: TEhgkPage;
 begin
   inherited Create(AOwner);
-  FPagesList := TEhgkPagesList.Create();
 
-  // FPageList is responsible for destruction of its items.
-  // Container is not direct owner of pages
+  // FPagesList own pages and responsible for free containing objectss
+  FPagesList := TEhgkPagesList.Create(True);
+
   EhgkPage := TEhgkPage.Create(Nil);
   FPagesList.Add(EhgkPage);
 end;
@@ -103,6 +119,6 @@ begin
 end;
 
 initialization
-  {$I ehgkpagescontainer.lrs}
+  {$I ehgkpagecontainer.lrs}
 
 end.

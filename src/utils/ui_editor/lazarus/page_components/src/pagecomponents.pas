@@ -8,14 +8,14 @@ unit PageComponents;
 interface
 
 uses
-  EhgkPage, EhgkPagesContainer, LazarusPackageIntf;
+  EhgkPage, EhgkPageContainer, LazarusPackageIntf;
 
 implementation
 
 procedure Register;
 begin
   RegisterUnit('EhgkPage', @EhgkPage.Register);
-  RegisterUnit('EhgkPagesContainer', @EhgkPagesContainer.Register);
+  RegisterUnit('EhgkPageContainer', @EhgkPageContainer.Register);
 end;
 
 initialization

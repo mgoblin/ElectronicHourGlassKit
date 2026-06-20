@@ -9,7 +9,7 @@ unit EhgkPagesContainerTestCase;
 interface
 
 uses
-  Classes, SysUtils, fpcunit, testregistry, EhgkPagesContainer;
+  Classes, SysUtils, fpcunit, testregistry, EhgkPageContainer;
 
 type
 
@@ -99,7 +99,23 @@ begin
 
   AssertEquals('Pages container nust be filled', UInt8.MaxValue, PagesContainer.Count);
 
-  PagesContainer.Add;
+  try
+     PagesContainer.Add;
+     Fail('TContainerFullError must be raised');
+  except
+    on E: TContainerFullError do
+    begin
+      AssertEquals(
+        'Wrong error message',
+        'Container EhgkPagesContainer1 is full',
+        E.Message
+      );
+    end
+    else
+    begin
+      Fail('TContainerFullError must be raised');
+    end;
+  end;
 end;
 
 procedure TEhgkPagesContainerTestCase.TestDeleteFirst;

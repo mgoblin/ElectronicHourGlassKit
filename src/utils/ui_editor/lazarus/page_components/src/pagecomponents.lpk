@@ -25,13 +25,13 @@
         <Type Value="LRS"/>
       </Item>
       <Item>
-        <Filename Value="ehgkpagescontainer.pas"/>
-        <HasRegisterProc Value="True"/>
-        <UnitName Value="EhgkPagesContainer"/>
+        <Filename Value="ehgkpagecontainer.lrs"/>
+        <Type Value="LRS"/>
       </Item>
       <Item>
-        <Filename Value="ehgkpagescontainer.lrs"/>
-        <Type Value="LRS"/>
+        <Filename Value="ehgkpagecontainer.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="EhgkPageContainer"/>
       </Item>
     </Files>
     <RequiredPkgs>
