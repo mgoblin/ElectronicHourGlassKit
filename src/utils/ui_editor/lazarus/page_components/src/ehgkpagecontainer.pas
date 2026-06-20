@@ -4,25 +4,21 @@
  An electronic hourglass is a simple electronic device you can assemble yourself.
  It contains 57 LEDs located on a circuit board LED count can not be changed
  due to circuit board design.
- LED is drived by microcontroller (STC15W201 or STC15W2024)
+ LED state is driven by microcontroller (STC15W201 or STC15W2024)
 
  Page is LEDs state description.
 
- Pages container manage sequence of pages. Pages container size is limtited by
- microcontroller EEPROM size. Pages container can hold 256 pages maximum.
+ Pages container manage sequence of pages. Pages container size is limited by
+ microcontroller EEPROM size. Pages container can hold 255 pages maximum.
 }
 unit EhgkPageContainer;
 
 {$mode ObjFPC}{$H+}
 
-// Suppress warning:
-// procedure or function marked with the inline directive cannot actually be inlined
-{$warn 6058 off}
-
 interface
 
 uses
-  Classes, SysUtils, LResources, Forms, Controls, Graphics, Dialogs, fgl, EhgkPage;
+  Classes, SysUtils, LResources, fgl, EhgkPage;
 
 type
   TEhgkPageList = specialize TFPGObjectList<TEhgkPage>;
@@ -32,13 +28,18 @@ type
   TContainerIndexOutOfBounds = class(Exception);
 
 
-  { TEhgkPageContainer }
+  {
+   TEhgkPageContainer owns Ehgk device pages.
+   Container have at least one page and
+   the 255 pages maximum.
+  }
 
   TEhgkPageContainer = class(TComponent)
   private
     FPagesList: TEhgkPageList;
-    procedure EnsureIndexIsValid(Index: UInt8);
+    procedure CheckIndexRange(Index: UInt8);
     function GetPageByIndex(Index: UInt8): TEhgkPage;
+    function GetCount: UInt8;
 
   protected
 
@@ -46,12 +47,11 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
-    function Count: UInt8; inline;
-
-    function Add: UInt8; inline;
-    procedure Delete(Index: UInt8); inline;
+    function Add: UInt8;
+    procedure Delete(Index: UInt8);
 
     property Page[Index: UInt8]: TEhgkPage read GetPageByIndex;
+    property Count: UInt8 read GetCount;
   published
 
   end;
@@ -61,9 +61,9 @@ procedure Register;
 implementation
 
 const
-  msgEmptyError: String = 'Container %s can not be empty';
-  msgOutOfBoundsError: String = 'Index (%d) is out of bounds for container %s';
-  msgFullError: String = 'Container %s is full';
+  MsgEmptyError: String = 'Container %s can not be empty';
+  MsgOutOfBoundsError: String = 'Index (%d) is out of bounds for container %s';
+  MsgFullError: String = 'Container %s is full';
 
 procedure Register;
 begin
@@ -72,31 +72,29 @@ end;
 
 { TEhgkPageContainer }
 
-procedure TEhgkPageContainer.EnsureIndexIsValid(Index: UInt8);
+procedure TEhgkPageContainer.CheckIndexRange(Index: UInt8);
 begin
-  if (FPagesList.Count > 0) and (Index > (FPagesList.Count-1)) then
-  begin
-    raise TContainerIndexOutOfBounds.CreateFmt(msgOutOfBoundsError, [Index, Self.Name]);
-  end;
+  if (Index >= GetCount) then
+    raise TContainerIndexOutOfBounds.CreateFmt(MsgOutOfBoundsError, [Index, Self.Name]);
 end;
 
 function TEhgkPageContainer.GetPageByIndex(Index: UInt8): TEhgkPage;
 begin
-  EnsureIndexIsValid(Index);
+  CheckIndexRange(Index);
   Result := FPagesList.Items[Index];
 end;
 
+// Enforces at least one page. Do not remove.
 constructor TEhgkPageContainer.Create(AOwner: TComponent);
 var
-  EhgkPage: TEhgkPage;
+  ehgkPage: TEhgkPage;
 begin
   inherited Create(AOwner);
 
-  // FPagesList responsible for free containing objects
   FPagesList := TEhgkPageList.Create(True);
 
-  EhgkPage := TEhgkPage.Create(Nil);
-  FPagesList.Add(EhgkPage);
+  ehgkPage := TEhgkPage.Create(Nil);
+  FPagesList.Add(ehgkPage);
 end;
 
 destructor TEhgkPageContainer.Destroy;
@@ -105,33 +103,32 @@ begin
   inherited Destroy;
 end;
 
-function TEhgkPageContainer.Count: UInt8; inline;
+function TEhgkPageContainer.GetCount: UInt8;
 begin
-  Result := FPagesList.Count;
+  Result := UInt8(FPagesList.Count);
 end;
 
-function TEhgkPageContainer.Add: UInt8; inline;
+function TEhgkPageContainer.Add: UInt8;
 begin
-  if FPagesList.Count < UInt8.MaxValue then
+  if GetCount < UInt8.MaxValue then
   begin
-    Result := FPagesList.Add(TEhgkPage.Create(Nil));
+    Result := UInt8(FPagesList.Add(TEhgkPage.Create(Nil)));
   end
   else
   begin
-    raise TContainerFullError.CreateFmt(msgFullError, [Self.Name]);
+    raise TContainerFullError.CreateFmt(MsgFullError, [Self.Name]);
   end;
 end;
 
-procedure TEhgkPageContainer.Delete(Index: UInt8); inline;
+procedure TEhgkPageContainer.Delete(Index: UInt8);
 begin
-  EnsureIndexIsValid(Index);
-
-  if (FPagesList.Count = 1) and (Index = 0) then
+  if (GetCount <= 1) then
   begin
-    raise TContainerEmptyError.CreateFmt(msgEmptyError, [Self.Name]);
+    raise TContainerEmptyError.CreateFmt(MsgEmptyError, [Self.Name]);
   end;
-  FPagesList.Delete(Index);
 
+  CheckIndexRange(Index);
+  FPagesList.Delete(Index);
 end;
 
 initialization

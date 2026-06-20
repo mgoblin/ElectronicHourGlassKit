@@ -183,6 +183,7 @@ end;
 procedure TEhgkPageContainerTestCase.TestDeleteIndexOutOfBounds;
 begin
   try
+     PageContainer.Add;
      PageContainer.Delete(10);
      Fail('TContainerIndexOutOfBounds should be raised');
   except
