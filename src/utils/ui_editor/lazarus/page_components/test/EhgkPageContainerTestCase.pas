@@ -1,4 +1,4 @@
-unit EhgkPagesContainerTestCase;
+unit EhgkPageContainerTestCase;
 
 {$mode objfpc}{$H+}
 
@@ -13,9 +13,9 @@ uses
 
 type
 
-  { TEhgkPagesContainerTestCase }
+  { TEhgkPageContainerTestCase }
 
-  TEhgkPagesContainerTestCase = class(TTestCase)
+  TEhgkPageContainerTestCase = class(TTestCase)
   protected
     PagesContainer: TEhgkPageContainer;
     procedure SetUp; override;
@@ -39,7 +39,7 @@ implementation
 uses
   Dialogs, EhgkPage, fgl;
 
-procedure TEhgkPagesContainerTestCase.TestCreate;
+procedure TEhgkPageContainerTestCase.TestCreate;
 var
   Container: TEhgkPageContainer;
   Page: TEhgkPage;
@@ -52,7 +52,7 @@ begin
   FreeAndNil(Container);
 end;
 
-procedure TEhgkPagesContainerTestCase.TestGetIndex;
+procedure TEhgkPageContainerTestCase.TestGetIndex;
 var
   Page: TEhgkPage;
 begin
@@ -60,7 +60,7 @@ begin
   AssertNotNull('Page[0] must not be Nil', Page);
 end;
 
-procedure TEhgkPagesContainerTestCase.TestGetIndexOutOfBounds;
+procedure TEhgkPageContainerTestCase.TestGetIndexOutOfBounds;
 begin
   try
     PagesContainer.Page[1];
@@ -74,7 +74,7 @@ begin
   end;
 end;
 
-procedure TEhgkPagesContainerTestCase.TestAdd;
+procedure TEhgkPageContainerTestCase.TestAdd;
 var
   Index: Integer;
 begin
@@ -88,7 +88,7 @@ begin
   AssertEquals('Page[1] should be equals to 1', 1, PagesContainer.Page[1].Value);
 end;
 
-procedure TEhgkPagesContainerTestCase.TestAddToFull;
+procedure TEhgkPageContainerTestCase.TestAddToFull;
 var
   i: Integer;
 begin
@@ -118,7 +118,7 @@ begin
   end;
 end;
 
-procedure TEhgkPagesContainerTestCase.TestDeleteFirst;
+procedure TEhgkPageContainerTestCase.TestDeleteFirst;
 const
   Page1Value: TEhgkPageValue = 5;
 var
@@ -139,7 +139,7 @@ begin
   );
 end;
 
-procedure TEhgkPagesContainerTestCase.TestDeleteLast;
+procedure TEhgkPageContainerTestCase.TestDeleteLast;
 const
   Page0Value: TEhgkPageValue = 3;
 var
@@ -157,7 +157,7 @@ begin
   AssertEquals('', Page0.Value, PagesContainer.Page[0].Value);
 end;
 
-procedure TEhgkPagesContainerTestCase.TestDeleteExisting;
+procedure TEhgkPageContainerTestCase.TestDeleteExisting;
 var
   Index: Integer;
 begin
@@ -176,7 +176,7 @@ begin
   AssertEquals('Page[1] value must be equals to 2', 2, PagesContainer.Page[1].Value);
 end;
 
-procedure TEhgkPagesContainerTestCase.TestDeleteIndexOutOfBounds;
+procedure TEhgkPageContainerTestCase.TestDeleteIndexOutOfBounds;
 begin
   try
      PagesContainer.Delete(10);
@@ -195,7 +195,7 @@ begin
   end;
 end;
 
-procedure TEhgkPagesContainerTestCase.TestDeleteSingle;
+procedure TEhgkPageContainerTestCase.TestDeleteSingle;
 begin
   try
     PagesContainer.Delete(0);
@@ -212,19 +212,19 @@ begin
   end;
 end;
 
-procedure TEhgkPagesContainerTestCase.SetUp;
+procedure TEhgkPageContainerTestCase.SetUp;
 begin
   PagesContainer := TEhgkPageContainer.Create(Nil);
   PagesContainer.Name := 'EhgkPagesContainer1';
 end;
 
-procedure TEhgkPagesContainerTestCase.TearDown;
+procedure TEhgkPageContainerTestCase.TearDown;
 begin
   FreeAndNil(PagesContainer);
 end;
 
 initialization
 
-  RegisterTest(TEhgkPagesContainerTestCase);
+  RegisterTest(TEhgkPageContainerTestCase);
 end.
 

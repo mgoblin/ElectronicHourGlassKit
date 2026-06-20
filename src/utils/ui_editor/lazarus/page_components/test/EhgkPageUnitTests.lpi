@@ -51,7 +51,7 @@
         <IsPartOfProject Value="True"/>
       </Unit>
       <Unit>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
+        <Filename Value="EhgkPageContainerTestCase.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
     </Units>

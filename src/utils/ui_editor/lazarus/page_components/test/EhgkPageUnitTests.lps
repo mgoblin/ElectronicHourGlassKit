@@ -39,11 +39,10 @@
       </Unit>
       <Unit>
         <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <IsPartOfProject Value="True"/>
-        <TopLine Value="165"/>
-        <CursorPos X="85" Y="111"/>
-        <UsageCount Value="28"/>
-        <Loaded Value="True"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="112"/>
+        <CursorPos X="13" Y="18"/>
+        <UsageCount Value="27"/>
       </Unit>
       <Unit>
         <Filename Value="ehgkpagescontainertestcase.pas"/>
@@ -190,111 +189,23 @@
       <Unit>
         <Filename Value="../src/ehgkpagecontainer.pas"/>
         <UnitName Value="EhgkPageContainer"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
         <TopLine Value="25"/>
-        <CursorPos X="11" Y="38"/>
+        <CursorPos X="40" Y="32"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="EhgkPageContainerTestCase.pas"/>
+        <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="4"/>
+        <CursorPos X="14" Y="18"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
+      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="25">
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="29" Column="26" TopLine="17"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="155" Column="87" TopLine="139"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="154" Column="5" TopLine="147"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="155" Column="90" TopLine="147"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="150" Column="25" TopLine="147"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="17" Column="17" TopLine="13"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="152" Column="37" TopLine="142"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="22" Column="25" TopLine="17"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="50" Column="46" TopLine="48"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="28" Column="20" TopLine="19"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="150" Column="17" TopLine="147"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="156" Column="16" TopLine="147"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="26" Column="27" TopLine="18"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="27" Column="29" TopLine="20"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="95" Column="46" TopLine="87"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="97" Column="28" TopLine="87"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="98" Column="51" TopLine="86"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="7"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="6"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="29" Column="22" TopLine="23"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="105" Column="5" TopLine="90"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="29" Column="19" TopLine="23"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="106" Column="13" TopLine="99"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPagesContainerTestCase.pas"/>
-        <Caret Line="29" Column="24" TopLine="27"/>
-      </Position>
+    <JumpHistory HistoryIndex="2">
       <Position>
         <Filename Value="../src/ehgkpagecontainer.pas"/>
         <Caret Line="30" Column="16" TopLine="22"/>
@@ -302,6 +213,10 @@
       <Position>
         <Filename Value="../src/ehgkpagecontainer.pas"/>
         <Caret Line="38" Column="21" TopLine="25"/>
+      </Position>
+      <Position>
+        <Filename Value="EhgkPageContainerTestCase.pas"/>
+        <Caret Line="18" Column="29" TopLine="4"/>
       </Position>
     </JumpHistory>
     <RunParams>
