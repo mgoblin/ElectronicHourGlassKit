@@ -1,7 +1,9 @@
 unit EhgkPagesContainer;
 
 {$mode ObjFPC}{$H+}
+
 {$inline on}
+{$warn 6058 off}
 
 interface
 
@@ -11,7 +13,9 @@ uses
 type
   TEhgkPagesList = specialize TFPGObjectList<TEhgkPage>;
 
-  TEmptyContainerError = class(Exception);
+  TContainerEmptyError = class(Exception);
+  TContainerFullError = class(Exception);
+
 
   { TEhgkPagesContainer }
 
@@ -26,10 +30,10 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
-    function Count: Integer;
+    function Count: UInt8; inline;
 
-    function Add: Integer;
-    procedure Delete(Index: Integer);
+    function Add: UInt8; inline;
+    procedure Delete(Index: UInt8); inline;
 
     property Page[Index: UInt8]: TEhgkPage read GetPageByIndex;
   published
@@ -71,21 +75,28 @@ begin
   inherited Destroy;
 end;
 
-function TEhgkPagesContainer.Count: Integer;
+function TEhgkPagesContainer.Count: UInt8; inline;
 begin
   Result := FPagesList.Count;
 end;
 
-function TEhgkPagesContainer.Add: Integer;
+function TEhgkPagesContainer.Add: UInt8; inline;
 begin
-  Result := FPagesList.Add(TEhgkPage.Create(Nil));
+  if FPagesList.Count < UInt8.MaxValue then
+  begin
+    Result := FPagesList.Add(TEhgkPage.Create(Nil));
+  end
+  else
+  begin
+    raise TContainerFullError.CreateFmt('Container %s is full', [Self.Name]);
+  end;
 end;
 
-procedure TEhgkPagesContainer.Delete(Index: Integer);
+procedure TEhgkPagesContainer.Delete(Index: UInt8); inline;
 begin
   if (FPagesList.Count = 1) and (Index = 0) then
   begin
-    raise TEmptyContainerError.CreateFmt('Container %s can not be empty', [Self.Name]);
+    raise TContainerEmptyError.CreateFmt('Container %s can not be empty', [Self.Name]);
   end;
   FPagesList.Delete(Index);
 

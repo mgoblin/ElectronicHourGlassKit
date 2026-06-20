@@ -20,8 +20,8 @@
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Main"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="106"/>
-        <CursorPos X="25" Y="122"/>
+        <TopLine Value="108"/>
+        <CursorPos X="42" Y="113"/>
         <UsageCount Value="37"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -162,9 +162,8 @@
       <Unit>
         <Filename Value="../../led_control/src/simplifiedled.pas"/>
         <UnitName Value="SimplifiedLed"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
-        <CursorPos X="26" Y="12"/>
+        <CursorPos X="43" Y="7"/>
         <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit>
@@ -179,9 +178,10 @@
       <Unit>
         <Filename Value="../../page_components/src/ehgkpagescontainer.pas"/>
         <UnitName Value="EhgkPagesContainer"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="46"/>
-        <CursorPos X="36" Y="53"/>
+        <TopLine Value="67"/>
+        <CursorPos X="41" Y="74"/>
         <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit>

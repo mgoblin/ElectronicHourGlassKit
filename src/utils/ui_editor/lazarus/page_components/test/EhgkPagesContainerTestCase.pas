@@ -1,6 +1,10 @@
 unit EhgkPagesContainerTestCase;
 
-{$mode objfpc}{$H+}{$inline on}
+{$mode objfpc}{$H+}
+
+{$inline on}
+{$warn 6058 off}
+
 
 interface
 
@@ -22,6 +26,7 @@ type
     procedure TestGetIndex;
     procedure TestGetIndexOutOfBounds;
     procedure TestAdd;
+    procedure TestAddToFull;
     procedure TestDeleteFirst;
     procedure TestDeleteLast;
     procedure TestDeleteExisting;
@@ -81,6 +86,20 @@ begin
 
   AssertEquals('Page[0] should be equals to 0', 0, PagesContainer.Page[0].Value);
   AssertEquals('Page[1] should be equals to 1', 1, PagesContainer.Page[1].Value);
+end;
+
+procedure TEhgkPagesContainerTestCase.TestAddToFull;
+var
+  i: Integer;
+begin
+  for i:= 1 to UInt8.MaxValue-1 do
+  begin
+    PagesContainer.Add;
+  end;
+
+  AssertEquals('Pages container nust be filled', UInt8.MaxValue, PagesContainer.Count);
+
+  PagesContainer.Add;
 end;
 
 procedure TEhgkPagesContainerTestCase.TestDeleteFirst;
@@ -166,7 +185,7 @@ begin
     PagesContainer.Delete(0);
     Fail('TEmptyContainerError should be raised');
   except
-    on E: TEmptyContainerError do
+    on E: TContainerEmptyError do
     begin
       AssertEquals(
         'Wrong error message',
