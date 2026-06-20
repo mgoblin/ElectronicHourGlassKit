@@ -2,6 +2,10 @@
 program pd_parser;
 
 {$mode ObjFPC}
+{$inline on}
+
+{$push}
+{$WARN 6058 off}
 
 uses SysUtils, yacclib, lexlib, fgl;
 
