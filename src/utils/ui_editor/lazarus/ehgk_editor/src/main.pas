@@ -5,16 +5,13 @@ unit Main;
 interface
 
 uses
-  Classes, SysUtils, SimplifiedLed, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, EhgkPage;
+  Classes, SysUtils, SimplifiedLed, Forms, Controls, Graphics, Dialogs, EhgkPage;
 
 type
 
   { TMainForm }
 
   TMainForm = class(TForm)
-    BtnPageInc: TButton;
-    BtnPageToLeds: TButton;
     LED29: TSimplifiedLed;
     LED30: TSimplifiedLed;
     LED31: TSimplifiedLed;
@@ -72,9 +69,6 @@ type
     LED14: TSimplifiedLed;
     LED15: TSimplifiedLed;
     LED16: TSimplifiedLed;
-    procedure BtnPageIncClick(Sender: TObject);
-    procedure BtnPageToLedsClick(Sender: TObject);
-    procedure LED1Change(Sender: TObject);
   private
 
   public
@@ -87,47 +81,6 @@ var
 implementation
 
 {$R *.lfm}
-
-uses
-  DataModule;
-
-{ TMainForm }
-
-
-procedure TMainForm.BtnPageToLedsClick(Sender: TObject);
-  function BoolToLedState(Value: Boolean): TLedState;
-  begin
-    if Value then Result:= TLEDState.ledOn else Result:= TLEDState.ledOff;
-  end;
-
-var
-  i: Integer;
-  LED: TComponent;
-begin
-  for i := 1 to DataModule.MainDataModule.EhgkPage1.LedCount do
-  begin
-    LED := MainForm.FindComponent(Format('LED%u', [i]));
-    if LED <> Nil then
-    begin
-      (LED as TSimplifiedLed).State := BoolToLedState(DataModule.MainDataModule.EhgkPage1.IsLedOn(i));
-    end;
-  end;
-end;
-
-procedure TMainForm.BtnPageIncClick(Sender: TObject);
-begin
-  if MainDataModule.EhgkPage1.Value < EHGK_PAGE_VALUE_MAX then
-  begin
-    MainDataModule.EhgkPage1.Value := MainDataModule.EhgkPage1.Value + 1;
-    BtnPageToLeds.Click;
-  end;
-end;
-
-
-procedure TMainForm.LED1Change(Sender: TObject);
-begin
-  ShowMessage('Changed');
-end;
 
 end.
 

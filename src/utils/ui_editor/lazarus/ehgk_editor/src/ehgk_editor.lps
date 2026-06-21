@@ -19,9 +19,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Main"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="108"/>
-        <CursorPos X="42" Y="113"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="73" Y="8"/>
         <UsageCount Value="37"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -33,7 +33,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="DataModule"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="3"/>
         <TopLine Value="7"/>
         <CursorPos X="37" Y="30"/>
         <UsageCount Value="37"/>
@@ -162,8 +162,9 @@
       <Unit>
         <Filename Value="../../led_control/src/simplifiedled.pas"/>
         <UnitName Value="SimplifiedLed"/>
-        <EditorIndex Value="3"/>
-        <CursorPos X="43" Y="7"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="25"/>
+        <CursorPos X="4" Y="9"/>
         <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit>
@@ -178,12 +179,10 @@
       <Unit>
         <Filename Value="../../page_components/src/ehgkpagescontainer.pas"/>
         <UnitName Value="EhgkPagesContainer"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="67"/>
         <CursorPos X="41" Y="74"/>
         <UsageCount Value="13"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../led_control/src/ledcontrol.pas"/>
@@ -198,15 +197,7 @@
         <UsageCount Value="10"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="25">
-      <Position>
-        <Filename Value="../../page_components/src/ehgkpage.pas"/>
-        <Caret Line="152" Column="42" TopLine="144"/>
-      </Position>
-      <Position>
-        <Filename Value="../../page_components/src/ehgkpage.pas"/>
-        <Caret Line="50" Column="15" TopLine="42"/>
-      </Position>
+    <JumpHistory HistoryIndex="29">
       <Position>
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
         <Caret Line="167" Column="32" TopLine="156"/>
@@ -296,12 +287,36 @@
         <Caret Line="97" Column="8" TopLine="92"/>
       </Position>
       <Position>
-        <Filename Value="../../page_components/src/ehgkpagescontainer.pas"/>
-        <Caret Line="41" Column="9" TopLine="28"/>
-      </Position>
-      <Position>
         <Filename Value="../../led_control/src/simplifiedled.pas"/>
         <Caret Line="134" Column="24"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="113" Column="42" TopLine="108"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="112" Column="42" TopLine="107"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="111" Column="42" TopLine="106"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="92" TopLine="78"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="95" Column="3" TopLine="83"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="99" TopLine="83"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="9" Column="11"/>
       </Position>
     </JumpHistory>
     <RunParams>

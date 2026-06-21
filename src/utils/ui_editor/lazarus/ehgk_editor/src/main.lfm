@@ -2,10 +2,10 @@ object MainForm: TMainForm
   Left = 248
   Height = 505
   Top = 177
-  Width = 487
+  Width = 256
   Caption = 'EHGK Editor'
   ClientHeight = 505
-  ClientWidth = 487
+  ClientWidth = 256
   LCLVersion = '4.0.0.4'
   object LED8: TSimplifiedLed
     Left = 24
@@ -138,7 +138,6 @@ object MainForm: TMainForm
     Height = 30
     Top = 16
     Width = 30
-    OnChange = LED1Change
   end
   object LED2: TSimplifiedLed
     Left = 42
@@ -349,23 +348,5 @@ object MainForm: TMainForm
     Height = 30
     Top = 440
     Width = 30
-  end
-  object BtnPageToLeds: TButton
-    Left = 274
-    Height = 25
-    Top = 152
-    Width = 171
-    Caption = 'Copy Leds from page'
-    TabOrder = 57
-    OnClick = BtnPageToLedsClick
-  end
-  object BtnPageInc: TButton
-    Left = 272
-    Height = 25
-    Top = 184
-    Width = 171
-    Caption = 'Increment page value'
-    TabOrder = 58
-    OnClick = BtnPageIncClick
   end
 end
