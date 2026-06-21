@@ -2,7 +2,11 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="12"/>
-    <BuildModes Active="Debug"/>
+    <BuildModes Active="Release">
+      <SessionMatrixOptions Count="1">
+        <Item1 ID="379127567135" Modes="Release,Default,Debug" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt5"/>
+      </SessionMatrixOptions>
+    </BuildModes>
     <Units>
       <Unit>
         <Filename Value="ehgk_editor.lpr"/>
@@ -35,7 +39,7 @@
         <UnitName Value="DataModule"/>
         <EditorIndex Value="3"/>
         <TopLine Value="7"/>
-        <CursorPos X="37" Y="30"/>
+        <CursorPos X="20" Y="30"/>
         <UsageCount Value="37"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
@@ -44,7 +48,7 @@
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
         <UnitName Value="EhgkPage"/>
         <TopLine Value="190"/>
-        <CursorPos X="44" Y="193"/>
+        <CursorPos Y="193"/>
         <UsageCount Value="17"/>
         <Loaded Value="True"/>
       </Unit>
@@ -164,7 +168,7 @@
         <UnitName Value="SimplifiedLed"/>
         <EditorIndex Value="2"/>
         <TopLine Value="25"/>
-        <CursorPos X="4" Y="9"/>
+        <CursorPos Y="9"/>
         <UsageCount Value="13"/>
         <Loaded Value="True"/>
       </Unit>
