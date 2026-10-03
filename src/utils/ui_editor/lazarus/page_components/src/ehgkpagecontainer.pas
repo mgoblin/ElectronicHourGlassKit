@@ -38,11 +38,11 @@ type
   TEhgkPageContainer = class(TComponent)
   private
     FPagesList: TEhgkPageList;
-    procedure CheckIndexRange(Index: UInt8);
     function GetPageByIndex(Index: UInt8): TEhgkPage;
     function GetCount: UInt8;
 
   protected
+    procedure CheckIndexRange(Index: UInt8);
 
   public
     constructor Create(AOwner: TComponent); override;
@@ -52,22 +52,23 @@ type
     procedure DeletePage(Index: UInt8);
 
     property Page[Index: UInt8]: TEhgkPage read GetPageByIndex;
-    property Count: UInt8 read GetCount;
+    property PageCount: UInt8 read GetCount;
   published
 
   end;
 
-  { TEhgkPageNavigatableContainer }
+  { TEhgkPageNavigatableContainer add navigation to TEhgkPageContainer}
 
   TEhgkPageNavigatableContainer = class(TEhgkPageContainer)
   private
     FCurrentPageIndex: UInt8;
+    procedure SetCurrentPageIndex(AValue: UInt8);
 
   public
     constructor Create(AOwner: TComponent); override;
 
   published
-    property CurrentPageIndex: UInt8 read FCurrentPageIndex write FCurrentPageIndex;
+    property CurrentPageIndex: UInt8 read FCurrentPageIndex write SetCurrentPageIndex;
 
   end;
 
@@ -148,6 +149,13 @@ begin
 end;
 
 { TEhgkPageNavigatableContainer }
+
+procedure TEhgkPageNavigatableContainer.SetCurrentPageIndex(AValue: UInt8);
+begin
+  if FCurrentPageIndex = AValue then Exit;
+  CheckIndexRange(AValue);
+  FCurrentPageIndex := AValue;
+end;
 
 constructor TEhgkPageNavigatableContainer.Create(AOwner: TComponent);
 begin

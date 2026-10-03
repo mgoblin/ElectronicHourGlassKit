@@ -46,7 +46,7 @@ var
 begin
   Container := TEhgkPageContainer.Create(Nil);
   AssertNotNull('EhgkPageContainer should be not nil after creation', Container);
-  AssertEquals('EhgkPageContainer count must be 1 after creation', 1, Container.Count);
+  AssertEquals('EhgkPageContainer count must be 1 after creation', 1, Container.PageCount);
   Page := Container.Page[0];
   AssertNotNull('EhgkPageContainer first page must not be null after creation', Page);
   FreeAndNil(Container);
@@ -101,7 +101,7 @@ begin
     PageContainer.AddPage;
   end;
 
-  AssertEquals('Page container nust be filled', UInt8.MaxValue, PageContainer.Count);
+  AssertEquals('Page container nust be filled', UInt8.MaxValue, PageContainer.PageCount);
 
   try
      PageContainer.AddPage;
@@ -130,12 +130,12 @@ var
   Index: Integer;
 begin
   Index := PageContainer.AddPage;
-  AssertEquals('PageContainer must have 2 pages', 2, PageContainer.Count);
+  AssertEquals('PageContainer must have 2 pages', 2, PageContainer.PageCount);
   Page := PageContainer.Page[Index];
   Page.Value := Page1Value;
 
   PageContainer.DeletePage(0);
-  AssertEquals('PageContainer must have 1 page', 1, PageContainer.Count);
+  AssertEquals('PageContainer must have 1 page', 1, PageContainer.PageCount);
   AssertEquals(
     Format('Page value must be %d', [Page1Value]),
     Page1Value,
@@ -154,10 +154,10 @@ begin
   Page0.Value := Page0Value;
 
   Index := PageContainer.AddPage;
-  AssertEquals('PageContainer must have 2 pages', 2, PageContainer.Count);
+  AssertEquals('PageContainer must have 2 pages', 2, PageContainer.PageCount);
 
   PageContainer.DeletePage(Index);
-  AssertEquals('PageContainer must have 1 page', 1, PageContainer.Count);
+  AssertEquals('PageContainer must have 1 page', 1, PageContainer.PageCount);
   AssertEquals('', Page0.Value, PageContainer.Page[0].Value);
 end;
 
@@ -167,14 +167,14 @@ var
 begin
   PageContainer.AddPage;
   PageContainer.AddPage;
-  for Index := 0 to PageContainer.Count-1 do
+  for Index := 0 to PageContainer.PageCount-1 do
   begin
     PageContainer.Page[Index].Value := Index;
   end;
-  AssertEquals('PageContainer must have 3 pages', 3, PageContainer.Count);
+  AssertEquals('PageContainer must have 3 pages', 3, PageContainer.PageCount);
 
   PageContainer.DeletePage(1); // Delete not first and not last page
-  AssertEquals('PageContainer must have 2 pages', 2, PageContainer.Count);
+  AssertEquals('PageContainer must have 2 pages', 2, PageContainer.PageCount);
 
   AssertEquals('Page[0] value must be equals to 0', 0, PageContainer.Page[0].Value);
   AssertEquals('Page[1] value must be equals to 2', 2, PageContainer.Page[1].Value);
