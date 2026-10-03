@@ -26,7 +26,7 @@ type
 
   TContainerEmptyError = class(Exception);
   TContainerFullError = class(Exception);
-  TContainerIndexOutOfBounds = class(Exception);
+  TContainerIndexOutOfBoundsError = class(Exception);
 
 
   {
@@ -62,12 +62,22 @@ type
   TEhgkPageNavigatableContainer = class(TEhgkPageContainer)
   private
     FCurrentPageIndex: UInt8;
+    FOnPageIndexChange: TNotifyEvent;
+
     procedure SetCurrentPageIndex(AValue: UInt8);
+
+  protected
+    procedure DoPageIndexChange; virtual;
 
   public
     constructor Create(AOwner: TComponent); override;
 
   published
+    { Events }
+    property OnPageIndexChange: TNotifyEvent read FOnPageIndexChange write FOnPageIndexChange;
+
+    { Properties }
+    property PageCount;
     property CurrentPageIndex: UInt8 read FCurrentPageIndex write SetCurrentPageIndex;
 
   end;
@@ -92,7 +102,7 @@ end;
 procedure TEhgkPageContainer.CheckIndexRange(Index: UInt8);
 begin
   if (Index >= GetCount) then
-    raise TContainerIndexOutOfBounds.CreateFmt(MsgOutOfBoundsError, [Index, Self.Name]);
+    raise TContainerIndexOutOfBoundsError.CreateFmt(MsgOutOfBoundsError, [Index, Self.Name]);
 end;
 
 function TEhgkPageContainer.GetPageByIndex(Index: UInt8): TEhgkPage;
@@ -155,12 +165,20 @@ begin
   if FCurrentPageIndex = AValue then Exit;
   CheckIndexRange(AValue);
   FCurrentPageIndex := AValue;
+
+  DoPageIndexChange;
+end;
+
+procedure TEhgkPageNavigatableContainer.DoPageIndexChange;
+begin
+  if Assigned(FOnPageIndexChange) then
+    FOnPageIndexChange(Self);
 end;
 
 constructor TEhgkPageNavigatableContainer.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  FCurrentPageIndex:=0;
+  FCurrentPageIndex := 0;
 end;
 
 initialization

@@ -66,7 +66,7 @@ begin
     PageContainer.Page[1];
     Fail('Index out of bounds exception must be raised');
   except
-    on E: TContainerIndexOutOfBounds do
+    on E: TContainerIndexOutOfBoundsError do
     begin
       AssertEquals(
         'Incorrect exception message',
@@ -187,7 +187,7 @@ begin
      PageContainer.DeletePage(10);
      Fail('TContainerIndexOutOfBounds should be raised');
   except
-    on E: TContainerIndexOutOfBounds do
+    on E: TContainerIndexOutOfBoundsError do
     begin
       AssertEquals(
         'Wrong error message',

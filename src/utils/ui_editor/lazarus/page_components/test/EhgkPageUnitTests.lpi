@@ -103,6 +103,9 @@
       <Item>
         <Name Value="EAssertionFailedError"/>
       </Item>
+      <Item>
+        <Name Value="TContainerIndexOutOfBoundsError"/>
+      </Item>
     </Exceptions>
   </Debugging>
 </CONFIG>
