@@ -94,6 +94,12 @@
       <Item>
         <Name Value="TContainerIndexOutOfBounds"/>
       </Item>
+      <Item>
+        <Name Value="TContainerFullError"/>
+      </Item>
+      <Item>
+        <Name Value="TContainerEmptyError"/>
+      </Item>
     </Exceptions>
   </Debugging>
 </CONFIG>

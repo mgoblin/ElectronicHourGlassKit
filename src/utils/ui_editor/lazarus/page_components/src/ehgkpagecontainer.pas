@@ -57,9 +57,14 @@ type
 
   end;
 
+  { TEhgkPageNavigatableContainer }
+
   TEhgkPageNavigatableContainer = class(TEhgkPageContainer)
   private
     FCurrentPageIndex: UInt8;
+
+  public
+    constructor Create(AOwner: TComponent); override;
 
   published
     property CurrentPageIndex: UInt8 read FCurrentPageIndex write FCurrentPageIndex;
@@ -140,6 +145,14 @@ begin
 
   CheckIndexRange(Index);
   FPagesList.Delete(Index);
+end;
+
+{ TEhgkPageNavigatableContainer }
+
+constructor TEhgkPageNavigatableContainer.Create(AOwner: TComponent);
+begin
+  inherited Create(AOwner);
+  FCurrentPageIndex:=0;
 end;
 
 initialization
