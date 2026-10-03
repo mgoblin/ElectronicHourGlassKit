@@ -14,6 +14,7 @@
 unit EhgkPageContainer;
 
 {$mode ObjFPC}{$H+}
+{$WARN 6058 off : Call to subroutine "$1" marked as inline is not inlined}
 
 interface
 
@@ -56,7 +57,7 @@ type
 
   end;
 
-  TEhgkPageNavigalableContainer = class(TEhgkPageContainer)
+  TEhgkPageNavigatableContainer = class(TEhgkPageContainer)
   private
     FCurrentPageIndex: UInt8;
 
@@ -77,7 +78,7 @@ const
 procedure Register;
 begin
   RegisterComponents('EHGK',[TEhgkPageContainer]);
-  RegisterComponents('EHGK',[TEhgkPageNavigalableContainer]);
+  RegisterComponents('EHGK',[TEhgkPageNavigatableContainer]);
 end;
 
 { TEhgkPageContainer }
