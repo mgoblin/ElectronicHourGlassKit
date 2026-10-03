@@ -107,7 +107,7 @@ var
   R: TRect;
   CenterX, CenterY, Radius: Integer;
 begin
-  inherited Paint;
+  //inherited Paint;
 
   // Decide LED color based on state
   case FState of

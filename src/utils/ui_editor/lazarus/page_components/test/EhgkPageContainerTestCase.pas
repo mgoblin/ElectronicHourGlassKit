@@ -82,7 +82,7 @@ procedure TEhgkPageContainerTestCase.TestAdd;
 var
   Index: Integer;
 begin
-  Index := PageContainer.Add;
+  Index := PageContainer.AddPage;
   AssertEquals('Second added page must have index 1', 1, Index);
 
   PageContainer.Page[0].Value := 0;
@@ -98,13 +98,13 @@ var
 begin
   for i:= 1 to UInt8.MaxValue-1 do
   begin
-    PageContainer.Add;
+    PageContainer.AddPage;
   end;
 
   AssertEquals('Page container nust be filled', UInt8.MaxValue, PageContainer.Count);
 
   try
-     PageContainer.Add;
+     PageContainer.AddPage;
      Fail('TContainerFullError must be raised');
   except
     on E: TContainerFullError do
@@ -129,12 +129,12 @@ var
   Page: TEhgkPage;
   Index: Integer;
 begin
-  Index := PageContainer.Add;
+  Index := PageContainer.AddPage;
   AssertEquals('PageContainer must have 2 pages', 2, PageContainer.Count);
   Page := PageContainer.Page[Index];
   Page.Value := Page1Value;
 
-  PageContainer.Delete(0);
+  PageContainer.DeletePage(0);
   AssertEquals('PageContainer must have 1 page', 1, PageContainer.Count);
   AssertEquals(
     Format('Page value must be %d', [Page1Value]),
@@ -153,10 +153,10 @@ begin
   Page0 := PageContainer.Page[0];
   Page0.Value := Page0Value;
 
-  Index := PageContainer.Add;
+  Index := PageContainer.AddPage;
   AssertEquals('PageContainer must have 2 pages', 2, PageContainer.Count);
 
-  PageContainer.Delete(Index);
+  PageContainer.DeletePage(Index);
   AssertEquals('PageContainer must have 1 page', 1, PageContainer.Count);
   AssertEquals('', Page0.Value, PageContainer.Page[0].Value);
 end;
@@ -165,15 +165,15 @@ procedure TEhgkPageContainerTestCase.TestDeleteExisting;
 var
   Index: Integer;
 begin
-  PageContainer.Add;
-  PageContainer.Add;
+  PageContainer.AddPage;
+  PageContainer.AddPage;
   for Index := 0 to PageContainer.Count-1 do
   begin
     PageContainer.Page[Index].Value := Index;
   end;
   AssertEquals('PageContainer must have 3 pages', 3, PageContainer.Count);
 
-  PageContainer.Delete(1); // Delete not first and not last page
+  PageContainer.DeletePage(1); // Delete not first and not last page
   AssertEquals('PageContainer must have 2 pages', 2, PageContainer.Count);
 
   AssertEquals('Page[0] value must be equals to 0', 0, PageContainer.Page[0].Value);
@@ -183,8 +183,8 @@ end;
 procedure TEhgkPageContainerTestCase.TestDeleteIndexOutOfBounds;
 begin
   try
-     PageContainer.Add;
-     PageContainer.Delete(10);
+     PageContainer.AddPage;
+     PageContainer.DeletePage(10);
      Fail('TContainerIndexOutOfBounds should be raised');
   except
     on E: TContainerIndexOutOfBounds do
@@ -203,7 +203,7 @@ end;
 procedure TEhgkPageContainerTestCase.TestDeleteSingle;
 begin
   try
-    PageContainer.Delete(0);
+    PageContainer.DeletePage(0);
     Fail('TEmptyContainerError should be raised');
   except
     on E: TContainerEmptyError do

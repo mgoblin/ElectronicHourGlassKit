@@ -12,9 +12,9 @@
         <Filename Value="ehgk_editor.lpr"/>
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
-        <TopLine Value="19"/>
-        <CursorPos X="20" Y="34"/>
-        <UsageCount Value="37"/>
+        <TopLine Value="4"/>
+        <CursorPos Y="36"/>
+        <UsageCount Value="38"/>
       </Unit>
       <Unit>
         <Filename Value="main.pas"/>
@@ -23,12 +23,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Main"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
-        <CursorPos X="73" Y="8"/>
-        <UsageCount Value="37"/>
+        <TopLine Value="53"/>
+        <CursorPos X="10" Y="64"/>
+        <UsageCount Value="38"/>
         <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="datamodule.pas"/>
@@ -37,20 +35,19 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="DataModule"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="7"/>
-        <CursorPos X="20" Y="30"/>
-        <UsageCount Value="37"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="4"/>
+        <CursorPos Y="26"/>
+        <UsageCount Value="38"/>
         <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
         <UnitName Value="EhgkPage"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="190"/>
         <CursorPos Y="193"/>
         <UsageCount Value="17"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../led_control/ledcontrol.pas"/>
@@ -166,11 +163,10 @@
       <Unit>
         <Filename Value="../../led_control/src/simplifiedled.pas"/>
         <UnitName Value="SimplifiedLed"/>
-        <EditorIndex Value="2"/>
-        <TopLine Value="25"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="9"/>
         <CursorPos Y="9"/>
         <UsageCount Value="13"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../page_components/src/ehgkpageslist.pas"/>
@@ -200,20 +196,31 @@
         <EditorIndex Value="-1"/>
         <UsageCount Value="10"/>
       </Unit>
+      <Unit>
+        <Filename Value="/usr/lib/lazarus/4.0/components/lclextensions/include/gtk2/uses.inc"/>
+        <EditorIndex Value="-1"/>
+        <CursorPos X="22" Y="2"/>
+        <UsageCount Value="10"/>
+      </Unit>
+      <Unit>
+        <Filename Value="../../page_components/src/ehgkpagecontainer.pas"/>
+        <UnitName Value="EhgkPageContainer"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="32"/>
+        <CursorPos X="11" Y="34"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
+      <Unit>
+        <Filename Value="/usr/share/fpcsrc/3.2.2/rtl/objpas/fgl.pp"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="1135"/>
+        <CursorPos X="16" Y="1152"/>
+        <UsageCount Value="10"/>
+      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="../../page_components/src/ehgkpage.pas"/>
-        <Caret Line="167" Column="32" TopLine="156"/>
-      </Position>
-      <Position>
-        <Filename Value="../../page_components/src/ehgkpage.pas"/>
-        <Caret Line="50" Column="15" TopLine="42"/>
-      </Position>
-      <Position>
-        <Filename Value="datamodule.pas"/>
-        <Caret Line="18" Column="60" TopLine="2"/>
-      </Position>
+    <JumpHistory HistoryIndex="28">
       <Position>
         <Filename Value="main.pas"/>
         <Caret Line="117" Column="23" TopLine="104"/>
@@ -279,22 +286,6 @@
         <Caret Line="118" Column="48" TopLine="110"/>
       </Position>
       <Position>
-        <Filename Value="../../page_components/src/ehgkpage.pas"/>
-        <Caret Line="104" Column="15" TopLine="89"/>
-      </Position>
-      <Position>
-        <Filename Value="../../page_components/src/ehgkpage.pas"/>
-        <Caret Line="99" TopLine="91"/>
-      </Position>
-      <Position>
-        <Filename Value="../../page_components/src/ehgkpage.pas"/>
-        <Caret Line="97" Column="8" TopLine="92"/>
-      </Position>
-      <Position>
-        <Filename Value="../../led_control/src/simplifiedled.pas"/>
-        <Caret Line="134" Column="24"/>
-      </Position>
-      <Position>
         <Filename Value="main.pas"/>
         <Caret Line="113" Column="42" TopLine="108"/>
       </Position>
@@ -321,6 +312,30 @@
       <Position>
         <Filename Value="main.pas"/>
         <Caret Line="9" Column="11"/>
+      </Position>
+      <Position>
+        <Filename Value="main.pas"/>
+        <Caret Line="8" Column="73"/>
+      </Position>
+      <Position>
+        <Filename Value="datamodule.pas"/>
+        <Caret Line="14" Column="17" TopLine="4"/>
+      </Position>
+      <Position>
+        <Filename Value="../../page_components/src/ehgkpagecontainer.pas"/>
+        <Caret Line="50" Column="21" TopLine="33"/>
+      </Position>
+      <Position>
+        <Filename Value="../../page_components/src/ehgkpagecontainer.pas"/>
+        <Caret Line="51" Column="20" TopLine="33"/>
+      </Position>
+      <Position>
+        <Filename Value="datamodule.pas"/>
+        <Caret Line="26" TopLine="4"/>
+      </Position>
+      <Position>
+        <Filename Value="../../page_components/src/ehgkpagecontainer.pas"/>
+        <Caret Line="84" Column="23" TopLine="37"/>
       </Position>
     </JumpHistory>
     <RunParams>

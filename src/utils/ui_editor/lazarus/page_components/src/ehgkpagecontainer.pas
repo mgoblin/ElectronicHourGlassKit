@@ -31,7 +31,7 @@ type
   {
    TEhgkPageContainer owns Ehgk device pages.
    Container have at least one page and
-   the 255 pages maximum.
+   the 256 pages maximum.
   }
 
   TEhgkPageContainer = class(TComponent)
@@ -47,8 +47,8 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
-    function Add: UInt8;
-    procedure Delete(Index: UInt8);
+    function AddPage: UInt8;
+    procedure DeletePage(Index: UInt8);
 
     property Page[Index: UInt8]: TEhgkPage read GetPageByIndex;
     property Count: UInt8 read GetCount;
@@ -108,7 +108,7 @@ begin
   Result := UInt8(FPagesList.Count);
 end;
 
-function TEhgkPageContainer.Add: UInt8;
+function TEhgkPageContainer.AddPage: UInt8;
 begin
   if GetCount < UInt8.MaxValue then
   begin
@@ -120,7 +120,7 @@ begin
   end;
 end;
 
-procedure TEhgkPageContainer.Delete(Index: UInt8);
+procedure TEhgkPageContainer.DeletePage(Index: UInt8);
 begin
   if (GetCount <= 1) then
   begin
