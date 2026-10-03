@@ -26,6 +26,8 @@ type
     procedure TestCurrentIndex;
     procedure TestCurrentIndexOutOfBounds;
 
+    procedure TestFirst;
+
   end;
 
 implementation
@@ -99,6 +101,24 @@ begin
           Fail('Exception should be a TContainerIndexOutOfBounds');
      end;
 
+end;
+
+procedure TEhgkPageNavigatableContainerTestCase.TestFirst;
+begin
+     AssertEquals('Page index change event should not be called', False, FHandlerCalled);
+     PageContainer.First;
+     AssertEquals('Page index change event should not be called', False, FHandlerCalled);
+     AssertEquals('Page index should be 0', 0, PageContainer.CurrentPageIndex);
+
+     PageContainer.AddPage;
+     PageContainer.CurrentPageIndex := 1;
+     AssertEquals('Page index change event should be called', True, FHandlerCalled);
+     AssertEquals('Page index should be 1', 1, PageContainer.CurrentPageIndex);
+
+     FHandlerCalled := False;
+     PageContainer.First;
+     AssertEquals('Page index should be 0', 0, PageContainer.CurrentPageIndex);
+     AssertEquals('Page index change event should be called', True, FHandlerCalled);
 end;
 
 initialization

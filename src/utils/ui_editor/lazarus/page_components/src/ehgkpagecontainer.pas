@@ -72,6 +72,8 @@ type
   public
     constructor Create(AOwner: TComponent); override;
 
+    procedure First;
+
   published
     { Events }
     property OnPageIndexChange: TNotifyEvent read FOnPageIndexChange write FOnPageIndexChange;
@@ -179,6 +181,11 @@ constructor TEhgkPageNavigatableContainer.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FCurrentPageIndex := 0;
+end;
+
+procedure TEhgkPageNavigatableContainer.First;
+begin
+   SetCurrentPageIndex(0);
 end;
 
 initialization
