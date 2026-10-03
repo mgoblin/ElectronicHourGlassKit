@@ -56,6 +56,15 @@ type
 
   end;
 
+  TEhgkPageNavigalableContainer = class(TEhgkPageContainer)
+  private
+    FCurrentPageIndex: UInt8;
+
+  published
+    property CurrentPageIndex: UInt8 read FCurrentPageIndex write FCurrentPageIndex;
+
+  end;
+
 procedure Register;
 
 implementation
@@ -68,6 +77,7 @@ const
 procedure Register;
 begin
   RegisterComponents('EHGK',[TEhgkPageContainer]);
+  RegisterComponents('EHGK',[TEhgkPageNavigalableContainer]);
 end;
 
 { TEhgkPageContainer }
