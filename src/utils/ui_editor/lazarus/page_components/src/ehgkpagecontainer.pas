@@ -48,8 +48,8 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
 
-    function AddPage: UInt8;
-    procedure DeletePage(Index: UInt8);
+    function AddPage: UInt8; virtual;
+    procedure DeletePage(Index: UInt8); virtual;
 
     property Page[Index: UInt8]: TEhgkPage read GetPageByIndex;
     property PageCount: UInt8 read GetCount;
@@ -73,6 +73,7 @@ type
     constructor Create(AOwner: TComponent); override;
 
     procedure First;
+    procedure Last;
 
   published
     { Events }
@@ -186,6 +187,11 @@ end;
 procedure TEhgkPageNavigatableContainer.First;
 begin
    SetCurrentPageIndex(0);
+end;
+
+procedure TEhgkPageNavigatableContainer.Last;
+begin
+     SetCurrentPageIndex(PageCount - 1);
 end;
 
 initialization
