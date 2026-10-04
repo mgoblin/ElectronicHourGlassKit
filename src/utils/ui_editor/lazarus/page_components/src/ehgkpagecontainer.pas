@@ -38,11 +38,16 @@ type
   TEhgkPageContainer = class(TComponent)
   private
     FPagesList: TEhgkPageList;
+
+    FAfterPageAdd: TNotifyEvent;
+
     function GetPageByIndex(Index: UInt8): TEhgkPage;
     function GetCount: UInt8;
 
   protected
     procedure CheckIndexRange(Index: UInt8);
+
+    procedure DoAfterPageAdd;
 
   public
     constructor Create(AOwner: TComponent); override;
@@ -54,7 +59,8 @@ type
     property Page[Index: UInt8]: TEhgkPage read GetPageByIndex;
     property PageCount: UInt8 read GetCount;
   published
-
+    { Events }
+    property AfterPageAdd: TNotifyEvent read FAfterPageAdd write FAfterPageAdd;
   end;
 
   { TEhgkPageNavigatableContainer add navigation to TEhgkPageContainer}
@@ -67,7 +73,7 @@ type
     procedure SetCurrentPageIndex(AValue: UInt8);
 
   protected
-    procedure DoPageIndexChange; virtual;
+    procedure DoPageIndexChange;
 
   public
     constructor Create(AOwner: TComponent); override;
@@ -110,6 +116,14 @@ begin
     raise TContainerIndexOutOfBoundsError.CreateFmt(MsgOutOfBoundsError, [Index, Self.Name]);
 end;
 
+procedure TEhgkPageContainer.DoAfterPageAdd;
+begin
+  if Assigned(FAfterPageAdd) then
+  begin
+       FAfterPageAdd(Self);
+  end;
+end;
+
 function TEhgkPageContainer.GetPageByIndex(Index: UInt8): TEhgkPage;
 begin
   CheckIndexRange(Index);
@@ -150,6 +164,8 @@ begin
   begin
     raise TContainerFullError.CreateFmt(MsgFullError, [Self.Name]);
   end;
+
+  DoAfterPageAdd;
 end;
 
 procedure TEhgkPageContainer.DeletePage(Index: UInt8);
