@@ -26,8 +26,10 @@ type
     procedure TestCurrentIndex;
     procedure TestCurrentIndexOutOfBounds;
 
-    procedure TestFirst;
-
+    procedure TestFirstSinglePageNavigate;
+    procedure TestFirstMultiplePagesNavigate;
+    procedure TestLastSinglePageNavigate;
+    procedure TestLastMultiplePagesNavigate;
   end;
 
 implementation
@@ -103,13 +105,16 @@ begin
 
 end;
 
-procedure TEhgkPageNavigatableContainerTestCase.TestFirst;
+procedure TEhgkPageNavigatableContainerTestCase.TestFirstSinglePageNavigate;
 begin
      AssertEquals('Page index change event should not be called', False, FHandlerCalled);
      PageContainer.First;
      AssertEquals('Page index change event should not be called', False, FHandlerCalled);
      AssertEquals('Page index should be 0', 0, PageContainer.CurrentPageIndex);
+end;
 
+procedure TEhgkPageNavigatableContainerTestCase.TestFirstMultiplePagesNavigate;
+begin
      PageContainer.AddPage;
      PageContainer.CurrentPageIndex := 1;
      AssertEquals('Page index change event should be called', True, FHandlerCalled);
@@ -118,6 +123,25 @@ begin
      FHandlerCalled := False;
      PageContainer.First;
      AssertEquals('Page index should be 0', 0, PageContainer.CurrentPageIndex);
+     AssertEquals('Page index change event should be called', True, FHandlerCalled);
+end;
+
+procedure TEhgkPageNavigatableContainerTestCase.TestLastSinglePageNavigate;
+begin
+     AssertEquals('Page index change event should not be called', False, FHandlerCalled);
+     PageContainer.Last;
+     AssertEquals('Page index change event should not be called', False, FHandlerCalled);
+     AssertEquals('Page index should be 0', 0, PageContainer.CurrentPageIndex);
+end;
+
+procedure TEhgkPageNavigatableContainerTestCase.TestLastMultiplePagesNavigate;
+begin
+     PageContainer.AddPage;
+     AssertEquals('Page index change event should not be called', False, FHandlerCalled);
+     AssertEquals('Page index should be 0', 0, PageContainer.CurrentPageIndex);
+
+     PageContainer.Last;
+     AssertEquals('Page index should be 1', 1, PageContainer.CurrentPageIndex);
      AssertEquals('Page index change event should be called', True, FHandlerCalled);
 end;
 
