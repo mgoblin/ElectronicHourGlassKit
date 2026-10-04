@@ -72,6 +72,8 @@ type
   public
     constructor Create(AOwner: TComponent); override;
 
+    procedure DeletePage(Index: UInt8); override;
+
     procedure First;
     procedure Last;
 
@@ -182,6 +184,15 @@ constructor TEhgkPageNavigatableContainer.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FCurrentPageIndex := 0;
+end;
+
+procedure TEhgkPageNavigatableContainer.DeletePage(Index: UInt8);
+begin
+  inherited DeletePage(Index);
+  if (Index <= FCurrentPageIndex) and (FCurrentPageIndex > 0) then
+  begin
+       SetCurrentPageIndex(FCurrentPageIndex - 1);
+  end;
 end;
 
 procedure TEhgkPageNavigatableContainer.First;
