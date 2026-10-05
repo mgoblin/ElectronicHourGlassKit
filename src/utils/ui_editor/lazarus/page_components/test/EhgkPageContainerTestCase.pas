@@ -16,6 +16,9 @@ type
   { TEhgkPageContainerTestCase }
 
   TEhgkPageContainerTestCase = class(TTestCase)
+  private
+    FAfterAddPageHandlerCalled: Boolean;
+    procedure AfterAddPageHandler(Sender: TObject);
   protected
     PageContainer: TEhgkPageContainer;
     procedure SetUp; override;
@@ -25,8 +28,11 @@ type
 
     procedure TestGetIndex;
     procedure TestGetIndexOutOfBounds;
+
     procedure TestAdd;
     procedure TestAddToFull;
+    procedure TestAfterAddEvent;
+
     procedure TestDeleteFirst;
     procedure TestDeleteLast;
     procedure TestDeleteExisting;
@@ -101,6 +107,8 @@ begin
     PageContainer.AddPage;
   end;
 
+  FAfterAddPageHandlerCalled := False;
+
   AssertEquals('Page container nust be filled', UInt8.MaxValue, PageContainer.PageCount);
 
   try
@@ -114,12 +122,21 @@ begin
         'Container EhgkPageContainer1 is full',
         E.Message
       );
+      AssertFalse('After page add event should not be called', FAfterAddPageHandlerCalled);
     end
     else
     begin
       Fail('TContainerFullError must be raised');
     end;
   end;
+end;
+
+procedure TEhgkPageContainerTestCase.TestAfterAddEvent;
+begin
+  AssertFalse('AfterPageAddEvent should not be called', FAfterAddPageHandlerCalled);
+
+  PageContainer.AddPage;
+  AssertTrue('AfterPageAddEvent should be called', FAfterAddPageHandlerCalled);
 end;
 
 procedure TEhgkPageContainerTestCase.TestDeleteFirst;
@@ -217,15 +234,22 @@ begin
   end;
 end;
 
+procedure TEhgkPageContainerTestCase.AfterAddPageHandler(Sender: TObject);
+begin
+  FAfterAddPageHandlerCalled := True;
+end;
+
 procedure TEhgkPageContainerTestCase.SetUp;
 begin
   PageContainer := TEhgkPageContainer.Create(Nil);
   PageContainer.Name := 'EhgkPageContainer1';
+  PageContainer.AfterPageAdd := @AfterAddPageHandler;
 end;
 
 procedure TEhgkPageContainerTestCase.TearDown;
 begin
   FreeAndNil(PageContainer);
+  FAfterAddPageHandlerCalled := False;
 end;
 
 initialization
