@@ -226,12 +226,19 @@ begin
 end;
 
 procedure TEhgkPageNavigatableContainer.DeletePage(Index: UInt8);
+var
+  P: TEhgkPage;
 begin
-  inherited DeletePage(Index);
+  P := GetPageByIndex(Index);
+
+  DoDeletePage(Index);
+
   if (Index <= FCurrentPageIndex) and (FCurrentPageIndex > 0) then
   begin
        SetCurrentPageIndex(FCurrentPageIndex - 1);
   end;
+
+  DoAfterPageDelete(P);
 end;
 
 procedure TEhgkPageNavigatableContainer.First;
