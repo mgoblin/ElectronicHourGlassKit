@@ -28,6 +28,8 @@ type
   TContainerFullError = class(Exception);
   TContainerIndexOutOfBoundsError = class(Exception);
 
+  TAfterDeletePageEvent = procedure(Sender: TObject; Page: TEhgkPage) of object;
+
 
   {
    TEhgkPageContainer owns Ehgk device pages.
@@ -40,14 +42,17 @@ type
     FPagesList: TEhgkPageList;
 
     FAfterPageAdd: TNotifyEvent;
+    FAfterPageDelete: TAfterDeletePageEvent;
 
     function GetPageByIndex(Index: UInt8): TEhgkPage;
     function GetCount: UInt8;
 
   protected
     procedure CheckIndexRange(Index: UInt8);
+    procedure DoDeletePage(Index: UInt8);
 
     procedure DoAfterPageAdd;
+    procedure DoAfterPageDelete(Page: TEhgkPage);
 
   public
     constructor Create(AOwner: TComponent); override;
@@ -61,6 +66,7 @@ type
   published
     { Events }
     property AfterPageAdd: TNotifyEvent read FAfterPageAdd write FAfterPageAdd;
+    property AfterPageDelete: TAfterDeletePageEvent read FAfterPageDelete write FAfterPageDelete;
   end;
 
   { TEhgkPageNavigatableContainer add navigation to TEhgkPageContainer}
@@ -116,11 +122,30 @@ begin
     raise TContainerIndexOutOfBoundsError.CreateFmt(MsgOutOfBoundsError, [Index, Self.Name]);
 end;
 
+procedure TEhgkPageContainer.DoDeletePage(Index: UInt8);
+begin
+  if (GetCount <= 1) then
+    begin
+      raise TContainerEmptyError.CreateFmt(MsgEmptyError, [Self.Name]);
+    end;
+
+    CheckIndexRange(Index);
+    FPagesList.Delete(Index);
+end;
+
 procedure TEhgkPageContainer.DoAfterPageAdd;
 begin
   if Assigned(FAfterPageAdd) then
   begin
        FAfterPageAdd(Self);
+  end;
+end;
+
+procedure TEhgkPageContainer.DoAfterPageDelete(Page: TEhgkPage);
+begin
+  if Assigned(FAfterPageDelete) then
+  begin
+    FAfterPageDelete(Self, Page);
   end;
 end;
 
@@ -169,14 +194,12 @@ begin
 end;
 
 procedure TEhgkPageContainer.DeletePage(Index: UInt8);
+var
+  P: TEhgkPage;
 begin
-  if (GetCount <= 1) then
-  begin
-    raise TContainerEmptyError.CreateFmt(MsgEmptyError, [Self.Name]);
-  end;
-
-  CheckIndexRange(Index);
-  FPagesList.Delete(Index);
+  P := GetPageByIndex(Index);
+  DoDeletePage(Index);
+  DoAfterPageDelete(P);
 end;
 
 { TEhgkPageNavigatableContainer }
