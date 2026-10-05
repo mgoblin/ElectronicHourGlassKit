@@ -9,7 +9,7 @@ unit EhgkPageContainerTestCase;
 interface
 
 uses
-  Classes, SysUtils, fpcunit, testregistry, EhgkPageContainer;
+  Classes, SysUtils, fpcunit, testregistry, EhgkPage, EhgkPageContainer;
 
 type
 
@@ -18,7 +18,11 @@ type
   TEhgkPageContainerTestCase = class(TTestCase)
   private
     FAfterAddPageHandlerCalled: Boolean;
+    FAfterDeletePageHandlerCalled: Boolean;
+    FDeletedPage: TEhgkPage;
+
     procedure AfterAddPageHandler(Sender: TObject);
+    procedure AfterDeletePageHandler(Sender: TObject; Page: TEhgkPage);
   protected
     PageContainer: TEhgkPageContainer;
     procedure SetUp; override;
@@ -43,7 +47,7 @@ type
 implementation
 
 uses
-  Dialogs, EhgkPage;
+  Dialogs;
 
 procedure TEhgkPageContainerTestCase.TestCreate;
 var
@@ -142,17 +146,23 @@ end;
 procedure TEhgkPageContainerTestCase.TestDeleteFirst;
 const
   Page1Value: TEhgkPageValue = 5;
+  Page0Value: TEhgkPageValue = 10;
 var
   Page: TEhgkPage;
   Index: Integer;
 begin
+  PageContainer.Page[0].Value := Page0Value;
+
   Index := PageContainer.AddPage;
   AssertEquals('PageContainer must have 2 pages', 2, PageContainer.PageCount);
   Page := PageContainer.Page[Index];
   Page.Value := Page1Value;
 
+  AssertFalse('After delete page event should not be called', FAfterDeletePageHandlerCalled);
   PageContainer.DeletePage(0);
   AssertEquals('PageContainer must have 1 page', 1, PageContainer.PageCount);
+  AssertTrue('After delete page event should be called', FAfterDeletePageHandlerCalled);
+  AssertEquals('Removed page invalid', Page0Value, FDeletedPage.Value);
   AssertEquals(
     Format('Page value must be %d', [Page1Value]),
     Page1Value,
@@ -163,6 +173,7 @@ end;
 procedure TEhgkPageContainerTestCase.TestDeleteLast;
 const
   Page0Value: TEhgkPageValue = 3;
+  DeletedPageValue: TEhgkPageValue = 7;
 var
   Index: Integer;
   Page0: TEhgkPage;
@@ -172,10 +183,14 @@ begin
 
   Index := PageContainer.AddPage;
   AssertEquals('PageContainer must have 2 pages', 2, PageContainer.PageCount);
+  PageContainer.Page[Index].Value := DeletedPageValue;
 
   PageContainer.DeletePage(Index);
   AssertEquals('PageContainer must have 1 page', 1, PageContainer.PageCount);
-  AssertEquals('', Page0.Value, PageContainer.Page[0].Value);
+  AssertEquals('Page[0] valued should not be changed', Page0.Value, PageContainer.Page[0].Value);
+
+  AssertTrue('After delete page event should be called', FAfterDeletePageHandlerCalled);
+  AssertEquals('Delete page invalid value', DeletedPageValue, FDeletedPage.Value);
 end;
 
 procedure TEhgkPageContainerTestCase.TestDeleteExisting;
@@ -190,11 +205,15 @@ begin
   end;
   AssertEquals('PageContainer must have 3 pages', 3, PageContainer.PageCount);
 
+  AssertFalse('After delete page event should not be called', FAfterDeletePageHandlerCalled);
+
   PageContainer.DeletePage(1); // Delete not first and not last page
   AssertEquals('PageContainer must have 2 pages', 2, PageContainer.PageCount);
 
   AssertEquals('Page[0] value must be equals to 0', 0, PageContainer.Page[0].Value);
   AssertEquals('Page[1] value must be equals to 2', 2, PageContainer.Page[1].Value);
+
+  AssertEquals('Deleted page value invalid', 1, FDeletedPage.Value);
 end;
 
 procedure TEhgkPageContainerTestCase.TestDeleteIndexOutOfBounds;
@@ -211,6 +230,8 @@ begin
         'Index (10) is out of bounds for container EhgkPageContainer1',
         E.Message
       );
+
+      AssertFalse('After delete page event should not be called', FAfterDeletePageHandlerCalled);
     end;
     on E: Exception do
       Fail(Format('TContainerIndexOutOfBounds should be raised but %s raised', [E.QualifiedClassName]));
@@ -230,6 +251,9 @@ begin
         'Container EhgkPageContainer1 can not be empty',
         E.Message
       );
+
+      AssertFalse('After delete page event should not be called', FAfterDeletePageHandlerCalled);
+
     end else Fail('TEmptyContainerError should be raised');
   end;
 end;
@@ -239,17 +263,32 @@ begin
   FAfterAddPageHandlerCalled := True;
 end;
 
+procedure TEhgkPageContainerTestCase.AfterDeletePageHandler(Sender: TObject;
+  Page: TEhgkPage);
+begin
+  FDeletedPage := Page;
+  FAfterDeletePageHandlerCalled := True;
+end;
+
 procedure TEhgkPageContainerTestCase.SetUp;
 begin
   PageContainer := TEhgkPageContainer.Create(Nil);
   PageContainer.Name := 'EhgkPageContainer1';
+  FAfterAddPageHandlerCalled := False;
   PageContainer.AfterPageAdd := @AfterAddPageHandler;
+
+  FAfterDeletePageHandlerCalled := False;
+  FDeletedPage := Nil;
+  PageContainer.AfterPageDelete := @AfterDeletePageHandler;
 end;
 
 procedure TEhgkPageContainerTestCase.TearDown;
 begin
   FreeAndNil(PageContainer);
   FAfterAddPageHandlerCalled := False;
+
+  FAfterDeletePageHandlerCalled := False;
+  FDeletedPage := Nil;
 end;
 
 initialization
