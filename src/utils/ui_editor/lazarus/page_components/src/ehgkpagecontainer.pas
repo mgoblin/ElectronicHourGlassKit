@@ -118,6 +118,9 @@ end;
 
 procedure TEhgkPageContainer.CheckIndexRange(Index: UInt8);
 begin
+  if GetCount = 0 then
+    raise TContainerEmptyError.CreateFmt(MsgEmptyError, [Self.Name]);
+
   if (Index >= GetCount) then
     raise TContainerIndexOutOfBoundsError.CreateFmt(MsgOutOfBoundsError, [Index, Self.Name]);
 end;
@@ -233,9 +236,13 @@ begin
 
   DoDeletePage(Index);
 
-  if (Index <= FCurrentPageIndex) and (FCurrentPageIndex > 0) then
+  if (PageCount > 0) and (FCurrentPageIndex >= PageCount) then
   begin
-       SetCurrentPageIndex(FCurrentPageIndex - 1);
+    SetCurrentPageIndex(PageCount - 1);
+  end
+  else if (Index <= FCurrentPageIndex) and (FCurrentPageIndex > 0) then
+  begin
+    SetCurrentPageIndex(FCurrentPageIndex - 1);
   end;
 
   DoAfterPageDelete(P);
