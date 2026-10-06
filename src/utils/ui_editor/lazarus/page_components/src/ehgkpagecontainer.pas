@@ -118,9 +118,6 @@ end;
 
 procedure TEhgkPageContainer.CheckIndexRange(Index: UInt8);
 begin
-  if GetCount = 0 then
-    raise TContainerEmptyError.CreateFmt(MsgEmptyError, [Self.Name]);
-
   if (Index >= GetCount) then
     raise TContainerIndexOutOfBoundsError.CreateFmt(MsgOutOfBoundsError, [Index, Self.Name]);
 end;
@@ -136,7 +133,7 @@ begin
     raise TContainerEmptyError.CreateFmt(MsgEmptyError, [Self.Name]);
   end;
 
-  DeletedPage := GetPageByIndex(Index);
+  DeletedPage := FPagesList.Items[Index];
 
   Result := FPagesList.Extract(DeletedPage);
 end;
@@ -170,7 +167,7 @@ var
 begin
   inherited Create(AOwner);
 
-  FPagesList := TEhgkPageList.Create(True);
+  FPagesList := TEhgkPageList.Create(False);
 
   ehgkPage := TEhgkPage.Create(Nil);
   FPagesList.Add(ehgkPage);
@@ -178,6 +175,8 @@ end;
 
 destructor TEhgkPageContainer.Destroy;
 begin
+  FPagesList.FreeObjects := True;
+  FPagesList.Clear;
   FreeAndNil(FPagesList);
   inherited Destroy;
 end;
@@ -238,23 +237,17 @@ end;
 
 procedure TEhgkPageNavigatableContainer.DeletePage(Index: UInt8);
 var
-  P: TEhgkPage;
+  DeletedPage: TEhgkPage;
 begin
-  P := DoDeletePage(Index);
+  DeletedPage := DoDeletePage(Index);
+
+  if (PageCount > 0) and (FCurrentPageIndex >= PageCount) then
+    SetCurrentPageIndex(PageCount - 1);
 
   try
-    if (PageCount > 0) and (FCurrentPageIndex >= PageCount) then
-    begin
-      SetCurrentPageIndex(PageCount - 1);
-    end
-    else if (Index <= FCurrentPageIndex) and (FCurrentPageIndex > 0) then
-    begin
-      SetCurrentPageIndex(FCurrentPageIndex - 1);
-    end;
-
-    DoAfterPageDelete(P);
+     DoAfterPageDelete(DeletedPage);
   finally
-    FreeAndNil(P);
+    FreeAndNil(DeletedPage);
   end;
 end;
 

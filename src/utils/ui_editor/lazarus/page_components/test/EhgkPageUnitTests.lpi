@@ -106,6 +106,9 @@
       <Item>
         <Name Value="TContainerIndexOutOfBoundsError"/>
       </Item>
+      <Item>
+        <Name Value="EListError"/>
+      </Item>
     </Exceptions>
   </Debugging>
 </CONFIG>
