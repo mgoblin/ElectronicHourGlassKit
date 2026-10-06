@@ -42,6 +42,9 @@ type
     procedure TestDeleteExisting;
     procedure TestDeleteIndexOutOfBounds;
     procedure TestDeleteSingle;
+
+    procedure TestAfterAddPageNotAssigned;
+    procedure TestAfterDeletePageNotAssigned;
   end;
 
 implementation
@@ -256,6 +259,23 @@ begin
 
     end else Fail('TEmptyContainerError should be raised');
   end;
+end;
+
+procedure TEhgkPageContainerTestCase.TestAfterAddPageNotAssigned;
+begin
+  PageContainer.AfterPageAdd := Nil;
+
+  PageContainer.AddPage;
+  AssertFalse('After page add event should not be called', FAfterAddPageHandlerCalled);
+end;
+
+procedure TEhgkPageContainerTestCase.TestAfterDeletePageNotAssigned;
+begin
+  PageContainer.AddPage;
+  PageContainer.AfterPageDelete := Nil;
+
+  PageContainer.DeletePage(0);
+  AssertFalse('After delete page event should not be called', FAfterDeletePageHandlerCalled);
 end;
 
 procedure TEhgkPageContainerTestCase.AfterAddPageHandler(Sender: TObject);
