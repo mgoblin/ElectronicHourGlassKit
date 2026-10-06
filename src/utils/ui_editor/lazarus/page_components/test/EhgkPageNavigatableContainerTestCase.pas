@@ -60,8 +60,10 @@ end;
 procedure TEhgkPageNavigatableContainerTestCase.AfterDeletePageHandler(
   Sender: TObject; Page: TEhgkPage);
 begin
+  FreeAndNil(FDeletedPage);
   FAfterDeletePageHandlerCalled := True;
-  FDeletedPage := Page;
+  FDeletedPage := TEhgkPage.Create(Nil);
+  FDeletedPage.Value := Page.Value;
 end;
 
 procedure TEhgkPageNavigatableContainerTestCase.SetUp;
@@ -83,7 +85,7 @@ begin
 
      FPageIndexChangedHandlerCalled := False;
 
-     FDeletedPage := Nil;
+     FreeAndNil(FDeletedPage);
      FAfterDeletePageHandlerCalled := False;
 end;
 

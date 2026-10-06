@@ -286,7 +286,9 @@ end;
 procedure TEhgkPageContainerTestCase.AfterDeletePageHandler(Sender: TObject;
   Page: TEhgkPage);
 begin
-  FDeletedPage := Page;
+  FreeAndNil(FDeletedPage);
+  FDeletedPage := TEhgkPage.Create(Nil);
+  FDeletedPage.Value := Page.Value;
   FAfterDeletePageHandlerCalled := True;
 end;
 
@@ -308,7 +310,7 @@ begin
   FAfterAddPageHandlerCalled := False;
 
   FAfterDeletePageHandlerCalled := False;
-  FDeletedPage := Nil;
+  FreeAndNil(FDeletedPage);
 end;
 
 initialization

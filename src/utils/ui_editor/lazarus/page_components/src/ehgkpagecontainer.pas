@@ -34,7 +34,7 @@ type
   {
    TEhgkPageContainer owns Ehgk device pages.
    Container have at least one page and
-   the 256 pages maximum.
+   the 255 pages maximum.
   }
 
   TEhgkPageContainer = class(TComponent)
@@ -49,7 +49,7 @@ type
 
   protected
     procedure CheckIndexRange(Index: UInt8);
-    procedure DoDeletePage(Index: UInt8);
+    function DoDeletePage(Index: UInt8): TEhgkPage;
 
     procedure DoAfterPageAdd;
     procedure DoAfterPageDelete(Page: TEhgkPage);
@@ -125,15 +125,20 @@ begin
     raise TContainerIndexOutOfBoundsError.CreateFmt(MsgOutOfBoundsError, [Index, Self.Name]);
 end;
 
-procedure TEhgkPageContainer.DoDeletePage(Index: UInt8);
+function TEhgkPageContainer.DoDeletePage(Index: UInt8): TEhgkPage;
+var
+  DeletedPage: TEhgkPage;
 begin
-  if (GetCount <= 1) then
-    begin
-      raise TContainerEmptyError.CreateFmt(MsgEmptyError, [Self.Name]);
-    end;
+  CheckIndexRange(Index);
 
-    CheckIndexRange(Index);
-    FPagesList.Delete(Index);
+  if (GetCount <= 1) then
+  begin
+    raise TContainerEmptyError.CreateFmt(MsgEmptyError, [Self.Name]);
+  end;
+
+  DeletedPage := GetPageByIndex(Index);
+
+  Result := FPagesList.Extract(DeletedPage);
 end;
 
 procedure TEhgkPageContainer.DoAfterPageAdd;
@@ -200,9 +205,12 @@ procedure TEhgkPageContainer.DeletePage(Index: UInt8);
 var
   P: TEhgkPage;
 begin
-  P := GetPageByIndex(Index);
-  DoDeletePage(Index);
-  DoAfterPageDelete(P);
+  P := DoDeletePage(Index);
+  try
+     DoAfterPageDelete(P);
+  finally
+    FreeAndNil(P);
+  end;
 end;
 
 { TEhgkPageNavigatableContainer }
@@ -232,20 +240,22 @@ procedure TEhgkPageNavigatableContainer.DeletePage(Index: UInt8);
 var
   P: TEhgkPage;
 begin
-  P := GetPageByIndex(Index);
+  P := DoDeletePage(Index);
 
-  DoDeletePage(Index);
+  try
+    if (PageCount > 0) and (FCurrentPageIndex >= PageCount) then
+    begin
+      SetCurrentPageIndex(PageCount - 1);
+    end
+    else if (Index <= FCurrentPageIndex) and (FCurrentPageIndex > 0) then
+    begin
+      SetCurrentPageIndex(FCurrentPageIndex - 1);
+    end;
 
-  if (PageCount > 0) and (FCurrentPageIndex >= PageCount) then
-  begin
-    SetCurrentPageIndex(PageCount - 1);
-  end
-  else if (Index <= FCurrentPageIndex) and (FCurrentPageIndex > 0) then
-  begin
-    SetCurrentPageIndex(FCurrentPageIndex - 1);
+    DoAfterPageDelete(P);
+  finally
+    FreeAndNil(P);
   end;
-
-  DoAfterPageDelete(P);
 end;
 
 procedure TEhgkPageNavigatableContainer.First;
