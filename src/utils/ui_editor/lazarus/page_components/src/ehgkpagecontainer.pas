@@ -129,8 +129,14 @@ type
       property AfterPageDelete: TAfterDeletePageEvent read FAfterPageDelete write FAfterPageDelete;
   end;
 
-  { TEhgkPageNavigatableContainer add navigation to TEhgkPageContainer}
+  {
+   Extends TEhgkPageContainer with a current-page index and navigation to
+   the first or last page. Changing the current page raises OnPageIndexChange;
+   deleting a page adjusts the current index when necessary.
 
+   Destroy is inherited from TEhgkPageContainer, which frees all pages owned
+   by the container.
+  }
   TEhgkPageNavigatableContainer = class(TEhgkPageContainer)
   private
     FCurrentPageIndex: UInt8;
@@ -142,19 +148,61 @@ type
     procedure DoPageIndexChange;
 
   public
+    {
+     Creates the navigatable container with the initial page provided by
+     TEhgkPageContainer and sets CurrentPageIndex to zero.
+
+     AOwner is the component that owns this container, or Nil if it has no
+     component owner.
+    }
     constructor Create(AOwner: TComponent); override;
 
+    {
+     Deletes the page at the specified zero-based index. If deleting that
+     page leaves CurrentPageIndex beyond the new last index, selects the new
+     last page and fires OnPageIndexChange. AfterPageDelete is called before
+     the removed page is freed. Raises TContainerIndexOutOfBoundsError for an
+     invalid index and TContainerEmptyError if the only page would be deleted.
+    }
     procedure DeletePage(Index: UInt8); override;
 
+    {
+     Selects the first page by setting CurrentPageIndex to zero. Fires
+     OnPageIndexChange only if the current index changes.
+    }
     procedure First;
+
+    {
+     Selects the last page by setting CurrentPageIndex to PageCount - 1.
+     Fires OnPageIndexChange only if the current index changes.
+    }
     procedure Last;
 
   published
     { Events }
+
+    {
+     Event called after CurrentPageIndex changes. Sender is this navigatable
+     container. No event is fired when assigning the current index its
+     existing value.
+    }
     property OnPageIndexChange: TNotifyEvent read FOnPageIndexChange write FOnPageIndexChange;
 
+    
     { Properties }
+    
+    {
+     Inherited from TEhgkPageContainer. Returns the number of pages currently
+     in the container, always between 1 and 255.
+    }
     property PageCount;
+
+    {
+     Zero-based index of the currently selected page. Valid values range from
+     zero to PageCount - 1. Assigning a different valid index fires
+     OnPageIndexChange; assigning an invalid index raises
+     TContainerIndexOutOfBoundsError.
+    }
     property CurrentPageIndex: UInt8 read FCurrentPageIndex write SetCurrentPageIndex;
 
   end;
