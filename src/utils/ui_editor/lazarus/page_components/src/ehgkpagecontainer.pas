@@ -22,12 +22,26 @@ uses
   Classes, SysUtils, LResources, fgl, EhgkPage;
 
 type
+  {
+   Typed object list for storing TEhgkPage instances used by page containers.
+   Object ownership follows the TFPGObjectList ownership setting.
+  }
   TEhgkPageList = specialize TFPGObjectList<TEhgkPage>;
 
+  { Raised when an operation would leave a page container with no pages. }
   TContainerEmptyError = class(Exception);
+
+  { Raised when adding a page would exceed the container's 255-page limit. }
   TContainerFullError = class(Exception);
+
+  { Raised when a page index is outside the container's valid index range. }
   TContainerIndexOutOfBoundsError = class(Exception);
 
+  {
+   Event type called after a page is removed from a container and before it
+   is freed. Sender is the container; Page is the removed page and must not
+   be freed by the event handler.
+  }
   TAfterDeletePageEvent = procedure(Sender: TObject; Page: TEhgkPage) of object;
 
 
