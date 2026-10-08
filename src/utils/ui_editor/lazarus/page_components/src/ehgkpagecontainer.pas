@@ -313,11 +313,13 @@ end;
 
 procedure TEhgkPageNavigatableContainer.First;
 begin
-   SetCurrentPageIndex(0);
+  if PageCount > 0 then
+     SetCurrentPageIndex(0);
 end;
 
 procedure TEhgkPageNavigatableContainer.Last;
 begin
+  if PageCount > 0 then
      SetCurrentPageIndex(PageCount - 1);
 end;
 
