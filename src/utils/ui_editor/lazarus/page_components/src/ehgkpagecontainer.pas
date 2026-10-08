@@ -55,13 +55,50 @@ type
     procedure DoAfterPageDelete(Page: TEhgkPage);
 
   public
+    {
+     Creates the container and initializes it with one page whose LEDs are
+     all off. The container owns and frees its pages; it always contains at
+     least one page and can hold up to 255 pages.
+
+     AOwner is the component that owns this container, or Nil if it has no
+     component owner.
+    }
     constructor Create(AOwner: TComponent); override;
+
+    {
+     Frees all pages owned by the container, releases its internal page list,
+     and then destroys the inherited component state.
+    }
     destructor Destroy; override;
 
+    {
+     Creates a new page with all LEDs off, adds it to the container, and
+     returns its zero-based index. AfterPageAdd is fired once the page has
+     been added. Raises TContainerFullError if the container already holds
+     255 pages.
+    }
     function AddPage: UInt8; virtual;
+
+    {
+     Deletes the page at the specified zero-based index and frees it after
+     AfterPageDelete is called. The container must retain at least one page;
+     attempting to delete its only page raises TContainerEmptyError. An
+     invalid index raises TContainerIndexOutOfBoundsError.
+    }
     procedure DeletePage(Index: UInt8); virtual;
 
+    {
+     Provides access to the page at the specified zero-based index.
+     Raises TContainerIndexOutOfBoundsError if Index is outside the
+     container's current page range. The returned page is owned by the
+     container and must not be freed by the caller.
+    }
     property Page[Index: UInt8]: TEhgkPage read GetPageByIndex;
+
+    {
+     Returns the number of pages currently in the container. The count is
+     always between 1 and 255.
+    }
     property PageCount: UInt8 read GetCount;
   published
     { Events }
