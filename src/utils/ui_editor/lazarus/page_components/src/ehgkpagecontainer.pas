@@ -44,6 +44,8 @@ type
   }
   TAfterDeletePageEvent = procedure(Sender: TObject; Page: TEhgkPage) of object;
 
+  TBeforAddPageEvent = procedure(Sender: TObject; Page: TEhgkPage) of object;
+
 
   {
    TEhgkPageContainer owns Ehgk device pages.
@@ -53,6 +55,8 @@ type
   TEhgkPageContainer = class(TComponent)
   private
     FPagesList: TEhgkPageList;
+
+    FBeforePageAdd: TBeforAddPageEvent;
 
     FAfterPageAdd: TNotifyEvent;
     FAfterPageDelete: TAfterDeletePageEvent;
@@ -64,8 +68,10 @@ type
     procedure CheckIndexRange(Index: UInt8);
     function DoDeletePage(Index: UInt8): TEhgkPage;
 
+    procedure DoBeforePageAdd(const Page: TEhgkPage);
+
     procedure DoAfterPageAdd;
-    procedure DoAfterPageDelete(Page: TEhgkPage);
+    procedure DoAfterPageDelete(const Page: TEhgkPage);
 
   public
     {
@@ -114,19 +120,22 @@ type
     }
     property PageCount: UInt8 read GetCount;
   published
-      {
-       Event called after a new page has been added to the container.
-       Sender is the TEhgkPageContainer instance.
-      }
-      property AfterPageAdd: TNotifyEvent read FAfterPageAdd write FAfterPageAdd;
 
-      {
-       Event called after a page has been removed from the container and
-       before it is freed. Sender is the container; Page is the removed page,
-       which is valid only for the duration of this callback and must not be
-       freed by the handler.
-      }
-      property AfterPageDelete: TAfterDeletePageEvent read FAfterPageDelete write FAfterPageDelete;
+    property BeforAddPage: TBeforAddPageEvent read FBeforePageAdd write FBeforePageAdd;
+
+    {
+     Event called after a new page has been added to the container.
+     Sender is the TEhgkPageContainer instance.
+    }
+    property AfterPageAdd: TNotifyEvent read FAfterPageAdd write FAfterPageAdd;
+
+    {
+     Event called after a page has been removed from the container and
+     before it is freed. Sender is the container; Page is the removed page,
+     which is valid only for the duration of this callback and must not be
+     freed by the handler.
+    }
+    property AfterPageDelete: TAfterDeletePageEvent read FAfterPageDelete write FAfterPageDelete;
   end;
 
   {
@@ -246,6 +255,14 @@ begin
   Result := FPagesList.Extract(DeletedPage);
 end;
 
+procedure TEhgkPageContainer.DoBeforePageAdd(const Page: TEhgkPage);
+begin
+  if Assigned(FBeforePageAdd) then
+  begin
+    FBeforePageAdd(Self, Page);
+  end;
+end;
+
 procedure TEhgkPageContainer.DoAfterPageAdd;
 begin
   if Assigned(FAfterPageAdd) then
@@ -254,7 +271,7 @@ begin
   end;
 end;
 
-procedure TEhgkPageContainer.DoAfterPageDelete(Page: TEhgkPage);
+procedure TEhgkPageContainer.DoAfterPageDelete(const Page: TEhgkPage);
 begin
   if Assigned(FAfterPageDelete) then
   begin
@@ -295,10 +312,18 @@ begin
 end;
 
 function TEhgkPageContainer.AddPage: UInt8;
+var
+  AddedPage: TEhgkPage;
 begin
-  if GetCount < UInt8.MaxValue then
+  if GetCount < UInt8.MaxValue - 1 then
   begin
-    Result := UInt8(FPagesList.Add(TEhgkPage.Create(Nil)));
+    AddedPage := TEhgkPage.Create(Nil);
+    try
+       DoBeforePageAdd(AddedPage);
+       Result := UInt8(FPagesList.Add(AddedPage));
+    except
+      FreeAndNil(AddedPage);
+    end;
   end
   else
   begin

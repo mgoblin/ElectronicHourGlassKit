@@ -158,14 +158,14 @@ procedure TEhgkPageContainerTestCase.TestAddToFull;
 var
   i: Integer;
 begin
-  for i:= 1 to UInt8.MaxValue-1 do
+  for i:= 0 to UInt8.MaxValue - 3 do
   begin
     PageContainer.AddPage;
   end;
 
   FAfterAddPageHandlerCalled := False;
 
-  AssertEquals('Page container nust be filled', UInt8.MaxValue, PageContainer.PageCount);
+  AssertEquals('Page container must be filled', 254, PageContainer.PageCount);
 
   try
      PageContainer.AddPage;
