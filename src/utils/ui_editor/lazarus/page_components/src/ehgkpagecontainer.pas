@@ -36,7 +36,6 @@ type
    Container have at least one page and
    the 255 pages maximum.
   }
-
   TEhgkPageContainer = class(TComponent)
   private
     FPagesList: TEhgkPageList;
@@ -101,9 +100,19 @@ type
     }
     property PageCount: UInt8 read GetCount;
   published
-    { Events }
-    property AfterPageAdd: TNotifyEvent read FAfterPageAdd write FAfterPageAdd;
-    property AfterPageDelete: TAfterDeletePageEvent read FAfterPageDelete write FAfterPageDelete;
+      {
+       Event called after a new page has been added to the container.
+       Sender is the TEhgkPageContainer instance.
+      }
+      property AfterPageAdd: TNotifyEvent read FAfterPageAdd write FAfterPageAdd;
+
+      {
+       Event called after a page has been removed from the container and
+       before it is freed. Sender is the container; Page is the removed page,
+       which is valid only for the duration of this callback and must not be
+       freed by the handler.
+      }
+      property AfterPageDelete: TAfterDeletePageEvent read FAfterPageDelete write FAfterPageDelete;
   end;
 
   { TEhgkPageNavigatableContainer add navigation to TEhgkPageContainer}
