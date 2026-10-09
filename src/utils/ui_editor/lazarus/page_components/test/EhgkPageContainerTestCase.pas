@@ -371,7 +371,13 @@ end;
 
 procedure TEhgkPageContainerTestCase.TestBeforeAddPageNotAssigned;
 begin
-  // TODO
+  PageContainer.BeforAddPage := Nil;
+
+  PageContainer.AddPage;
+  AssertFalse('Before add page event should not be called', FBeforeAddPageHandlerCalled);
+  AssertNull('Before add page event should not be called', FBeforeAddSender);
+  AssertEquals('Before add page event should not be called', 0, FPageCountAtBeforeAddEvent);
+  AssertNull('Before add page event should not be called', FAddedPageRef);
 end;
 
 procedure TEhgkPageContainerTestCase.BeforeAddPageHandler(Sender: TObject;
