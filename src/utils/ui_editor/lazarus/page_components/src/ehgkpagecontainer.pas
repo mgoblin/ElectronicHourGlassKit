@@ -44,6 +44,15 @@ type
   }
   TAfterDeletePageEvent = procedure(Sender: TObject; Page: TEhgkPage) of object;
 
+  {
+   Event type called before a new page is added to a container.
+
+   Sender is the TEhgkPageContainer instance that is about to accept the page.
+   Page is a newly created page instance that has not yet been inserted into
+   the container. The handler may inspect or initialize it, but must not free
+   it or transfer ownership elsewhere. If the handler raises an exception, the
+   add operation is aborted and the page is discarded.
+  }
   TBeforeAddPageEvent = procedure(Sender: TObject; Page: TEhgkPage) of object;
 
 
@@ -74,7 +83,21 @@ type
     procedure DoAfterPageDelete(const Page: TEhgkPage);
 
   public
+    {
+     Minimum number of pages that a container must retain.
+
+     The container always owns at least one page, so deleting the last page is
+     forbidden and raises TContainerEmptyError.
+    }
     const MinPages: Cardinal = 1;
+
+    {
+     Maximum number of pages that a container may hold.
+
+     This limit matches the device design constraint for the page sequence and is
+     enforced by AddPage. Attempting to add a page when the count is already at
+     this value raises TContainerFullError.
+    }
     const MaxPageCount: Cardinal = 255;
 
     {
@@ -94,20 +117,33 @@ type
     destructor Destroy; override;
 
     {
-     Creates a new page with all LEDs off, adds it to the container, and
-     returns its zero-based index. AfterPageAdd is fired once the page has
-     been added. Raises TContainerFullError if the container already holds
-     255 pages.
+     Creates a new page with all LEDs switched off and appends it to the
+     container.
+
+     The returned value is the zero-based index of the newly inserted page.
+     Once the page has been added, AfterPageAdd is fired. The operation fails
+     with TContainerFullError when the container already contains
+     MaxPageCount pages.
+
+     Before the page is inserted, BeforeAddPage is raised so handlers can
+     inspect or initialize the new page instance. If a BeforeAddPage handler
+     raises an exception, the page is discarded and the add operation is
+     aborted.
     }
     function AddPage: Cardinal; virtual;
 
     {
-     Deletes the page at the specified zero-based index and frees it after
-     AfterPageDelete is called. The container must retain at least one page;
-     attempting to delete its only page raises TContainerEmptyError. An
-     invalid index raises TContainerIndexOutOfBoundsError.
+     Removes the page at the specified zero-based index from the container.
+
+     The container always keeps at least one page, so deleting the only page
+     raises TContainerEmptyError. An invalid index raises
+     TContainerIndexOutOfBoundsError.
+
+     The page is removed from the internal list, AfterPageDelete is fired with
+     the removed page as its argument, and the page object is then freed. The
+     handler may inspect the page during this callback, but must not free it.
     }
-    procedure DeletePage(Index: UInt8); virtual;
+    procedure DeletePage(Index: Cardinal); virtual;
 
     {
      Provides access to the page at the specified zero-based index.
@@ -151,10 +187,10 @@ type
   }
   TEhgkPageNavigatableContainer = class(TEhgkPageContainer)
   private
-    FCurrentPageIndex: UInt8;
+    FCurrentPageIndex: Cardinal;
     FOnPageIndexChange: TNotifyEvent;
 
-    procedure SetCurrentPageIndex(AValue: UInt8);
+    procedure SetCurrentPageIndex(AValue: Cardinal);
 
   protected
     procedure DoPageIndexChange;
@@ -176,7 +212,7 @@ type
      the removed page is freed. Raises TContainerIndexOutOfBoundsError for an
      invalid index and TContainerEmptyError if the only page would be deleted.
     }
-    procedure DeletePage(Index: UInt8); override;
+    procedure DeletePage(Index: Cardinal); override;
 
     {
      Selects the first page by setting CurrentPageIndex to zero. Fires
@@ -215,7 +251,7 @@ type
      OnPageIndexChange; assigning an invalid index raises
      TContainerIndexOutOfBoundsError.
     }
-    property CurrentPageIndex: UInt8 read FCurrentPageIndex write SetCurrentPageIndex;
+    property CurrentPageIndex: Cardinal read FCurrentPageIndex write SetCurrentPageIndex;
 
   end;
 
@@ -288,7 +324,6 @@ begin
   Result := FPagesList.Items[Index];
 end;
 
-// Enforces at least one page. Do not remove.
 constructor TEhgkPageContainer.Create(AOwner: TComponent);
 var
   ehgkPage: TEhgkPage;
@@ -313,7 +348,7 @@ end;
 
 function TEhgkPageContainer.GetCount: Cardinal;
 begin
-  Result := UInt8(FPagesList.Count);
+  Result := Cardinal(FPagesList.Count);
 end;
 
 function TEhgkPageContainer.AddPage: Cardinal;
@@ -323,15 +358,16 @@ begin
   if GetCount < MaxPageCount then
   begin
     AddedPage := TEhgkPage.Create(Nil);
+
     try
        DoBeforePageAdd(AddedPage);
-       Result := Cardinal(FPagesList.Add(AddedPage));
-       DoAfterPageAdd;
     except
-      if FPagesList.IndexOf(AddedPage) <> -1 then
-        FreeAndNil(AddedPage);
+      FreeAndNil(AddedPage);
       raise;
     end;
+
+    Result := Cardinal(FPagesList.Add(AddedPage));
+    DoAfterPageAdd;
   end
   else
   begin
@@ -339,7 +375,7 @@ begin
   end;
 end;
 
-procedure TEhgkPageContainer.DeletePage(Index: UInt8);
+procedure TEhgkPageContainer.DeletePage(Index: Cardinal);
 var
   P: TEhgkPage;
 begin
@@ -353,7 +389,7 @@ end;
 
 { TEhgkPageNavigatableContainer }
 
-procedure TEhgkPageNavigatableContainer.SetCurrentPageIndex(AValue: UInt8);
+procedure TEhgkPageNavigatableContainer.SetCurrentPageIndex(AValue: Cardinal);
 begin
   if FCurrentPageIndex = AValue then Exit;
   CheckIndexRange(AValue);
@@ -374,14 +410,20 @@ begin
   FCurrentPageIndex := 0;
 end;
 
-procedure TEhgkPageNavigatableContainer.DeletePage(Index: UInt8);
+procedure TEhgkPageNavigatableContainer.DeletePage(Index: Cardinal);
 var
   DeletedPage: TEhgkPage;
 begin
   DeletedPage := DoDeletePage(Index);
 
   if (FCurrentPageIndex >= PageCount) then
+  begin
     SetCurrentPageIndex(PageCount - 1);
+  end
+  else if (FCurrentPageIndex > Index) then
+  begin
+     SetCurrentPageIndex(FCurrentPageIndex - 1);
+  end;
 
   try
      DoAfterPageDelete(DeletedPage);

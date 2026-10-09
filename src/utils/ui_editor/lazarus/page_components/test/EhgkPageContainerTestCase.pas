@@ -434,6 +434,7 @@ end;
 procedure TEhgkPageContainerTestCase.BeforeAddPageRaiseHandler(Sender: TObject;
   Page: TEhgkPage);
 begin
+  AssertNotNull('Page should be not null', Page);
   raise Exception.Create('Before add page event handler raise exception');
 end;
 

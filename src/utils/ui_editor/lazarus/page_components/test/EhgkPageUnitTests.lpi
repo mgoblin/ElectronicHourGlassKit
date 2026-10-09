@@ -109,6 +109,9 @@
       <Item>
         <Name Value="EListError"/>
       </Item>
+      <Item>
+        <Name Value="Exception"/>
+      </Item>
     </Exceptions>
   </Debugging>
 </CONFIG>
