@@ -45,6 +45,14 @@ type
     procedure TestAfterTryToDeleteSingle;
 
     procedure TestAfterDeletePageNotAssigned;
+
+    procedure TestCurrentIndexAfterAddMultiple;
+    procedure TestCurrentIndexOnDeleteFirstPage;
+    procedure TestCurrentIndexOnDeleteLastPage;
+    procedure TestCurrentIndexOnMultipleDeletes;
+    procedure TestCurrentIndexOnDeleteWithIndexEqualToCurrent;
+    procedure TestCurrentIndexAfterAddThenDelete;
+    procedure TestCurrentIndexOnDeletePreservesPageValue;
   end;
 
 implementation
@@ -335,6 +343,187 @@ begin
 
   PageContainer.DeletePage(0);
   AssertFalse('After delete page event should not be called', FAfterDeletePageHandlerCalled);
+end;
+
+procedure TEhgkPageNavigatableContainerTestCase.TestCurrentIndexAfterAddMultiple;
+var
+  Index: Cardinal;
+begin
+  // Начальное состояние
+  AssertEquals('Initial CurrentPageIndex', 0, PageContainer.CurrentPageIndex);
+  AssertEquals('Initial PageCount', 1, PageContainer.PageCount);
+  FPageIndexChangedHandlerCalled := False;
+
+  // Добавляем 3 страницы
+  for Index := 1 to 3 do
+  begin
+    PageContainer.AddPage;
+    AssertEquals(
+      'CurrentPageIndex should remain 0 after AddPage',
+      0,
+      PageContainer.CurrentPageIndex
+    );
+    AssertEquals(
+      'PageIndexChanged should not be called on AddPage',
+      False,
+      FPageIndexChangedHandlerCalled
+    );
+  end;
+
+  AssertEquals('Final PageCount should be 4', 4, PageContainer.PageCount);
+end;
+
+procedure TEhgkPageNavigatableContainerTestCase.TestCurrentIndexOnDeleteFirstPage;
+begin
+  PageContainer.AddPage;
+  PageContainer.AddPage;
+  AssertEquals('PageCount should be 3', 3, PageContainer.PageCount);
+
+  PageContainer.CurrentPageIndex := 2;
+  AssertEquals('CurrentPageIndex should be 2', 2, PageContainer.CurrentPageIndex);
+  FPageIndexChangedHandlerCalled := False;
+
+  PageContainer.DeletePage(0);
+  AssertEquals(
+    'CurrentPageIndex should decrease by 1 when deleting page below it',
+    1,
+    PageContainer.CurrentPageIndex
+  );
+  AssertEquals('PageCount should be 2', 2, PageContainer.PageCount);
+  AssertTrue(
+    'PageIndexChanged should be called when CurrentPageIndex changes',
+    FPageIndexChangedHandlerCalled
+  );
+end;
+
+procedure TEhgkPageNavigatableContainerTestCase.TestCurrentIndexOnDeleteLastPage;
+begin
+  PageContainer.AddPage;
+  AssertEquals('PageCount should be 2', 2, PageContainer.PageCount);
+
+  PageContainer.CurrentPageIndex := 1;
+  AssertEquals('CurrentPageIndex should be 1', 1, PageContainer.CurrentPageIndex);
+  FPageIndexChangedHandlerCalled := False;
+
+  PageContainer.DeletePage(1);
+  AssertEquals(
+    'CurrentPageIndex should wrap to last page when deleting current last',
+    0,
+    PageContainer.CurrentPageIndex
+  );
+  AssertEquals('PageCount should be 1', 1, PageContainer.PageCount);
+  AssertTrue(
+    'PageIndexChanged should be called when CurrentPageIndex changes (1 -> 0)',
+    FPageIndexChangedHandlerCalled
+  );
+end;
+
+procedure TEhgkPageNavigatableContainerTestCase.TestCurrentIndexOnMultipleDeletes;
+var
+  Index: Cardinal;
+begin
+  for Index := 1 to 3 do
+    PageContainer.AddPage;
+  AssertEquals('PageCount should be 4', 4, PageContainer.PageCount);
+
+  PageContainer.CurrentPageIndex := 3;
+  FPageIndexChangedHandlerCalled := False;
+
+  PageContainer.DeletePage(0);
+  AssertEquals('After delete[0]: CurrentPageIndex', 2, PageContainer.CurrentPageIndex);
+  AssertEquals('After delete[0]: PageCount', 3, PageContainer.PageCount);
+  FPageIndexChangedHandlerCalled := False;
+
+  PageContainer.DeletePage(1);
+  AssertEquals('After delete[1]: CurrentPageIndex', 1, PageContainer.CurrentPageIndex);
+  AssertEquals('After delete[1]: PageCount', 2, PageContainer.PageCount);
+  FPageIndexChangedHandlerCalled := False;
+
+  PageContainer.DeletePage(1);
+  AssertEquals(
+    'After delete[current]: CurrentPageIndex wraps to last',
+    0,
+    PageContainer.CurrentPageIndex
+  );
+  AssertEquals('After delete[current]: PageCount', 1, PageContainer.PageCount);
+  AssertTrue('PageIndexChanged should be called', FPageIndexChangedHandlerCalled);
+end;
+
+procedure TEhgkPageNavigatableContainerTestCase.TestCurrentIndexOnDeleteWithIndexEqualToCurrent;
+begin
+  PageContainer.AddPage;
+  PageContainer.CurrentPageIndex := 1;
+  FPageIndexChangedHandlerCalled := False;
+
+  PageContainer.DeletePage(1);
+  AssertEquals(
+    'CurrentPageIndex should stay at 0 after deleting page at same index',
+    0,
+    PageContainer.CurrentPageIndex
+  );
+  AssertEquals('PageCount should be 1', 1, PageContainer.PageCount);
+  AssertTrue(
+    'PageIndexChanged should be called when CurrentPageIndex changes (1 -> 0)',
+    FPageIndexChangedHandlerCalled
+  );
+end;
+
+procedure TEhgkPageNavigatableContainerTestCase.TestCurrentIndexAfterAddThenDelete;
+begin
+  PageContainer.AddPage;
+  PageContainer.AddPage;
+  PageContainer.CurrentPageIndex := 2;
+  AssertEquals('PageCount should be 3', 3, PageContainer.PageCount);
+  FPageIndexChangedHandlerCalled := False;
+
+  PageContainer.DeletePage(1);
+  AssertEquals(
+    'CurrentPageIndex should decrease when deleting below it',
+    1,
+    PageContainer.CurrentPageIndex
+  );
+  AssertEquals('PageCount should be 2', 2, PageContainer.PageCount);
+  AssertTrue('PageIndexChanged should be called', FPageIndexChangedHandlerCalled);
+  FPageIndexChangedHandlerCalled := False;
+
+  PageContainer.AddPage;
+  AssertEquals(
+    'CurrentPageIndex should remain unchanged after AddPage',
+    1,
+    PageContainer.CurrentPageIndex
+  );
+  AssertEquals('PageCount should be 3', 3, PageContainer.PageCount);
+  AssertFalse(
+    'PageIndexChanged should not be called on AddPage',
+    FPageIndexChangedHandlerCalled
+  );
+end;
+
+procedure TEhgkPageNavigatableContainerTestCase.TestCurrentIndexOnDeletePreservesPageValue;
+begin
+  PageContainer.AddPage;
+  PageContainer.AddPage;
+  AssertEquals('PageCount should be 3', 3, PageContainer.PageCount);
+
+  PageContainer.Page[0].Value := 10;
+  PageContainer.Page[1].Value := 20;
+  PageContainer.Page[2].Value := 30;
+
+  PageContainer.CurrentPageIndex := 2;
+
+  PageContainer.DeletePage(0);
+
+  AssertEquals('CurrentPageIndex should be 1', 1, PageContainer.CurrentPageIndex);
+  AssertEquals(
+    'Page[1] should have value from original Page[2]',
+    30,
+    PageContainer.Page[1].Value
+  );
+  AssertEquals(
+    'Page[0] should have value from original Page[0]',
+    20,
+    PageContainer.Page[0].Value
+  );
 end;
 
 
