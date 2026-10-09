@@ -9,7 +9,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="23"/>
-        <UsageCount Value="68"/>
+        <UsageCount Value="69"/>
       </Unit>
       <Unit>
         <Filename Value="EhgkPageTestCases.pas"/>
@@ -17,7 +17,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="130"/>
         <CursorPos X="77" Y="44"/>
-        <UsageCount Value="67"/>
+        <UsageCount Value="68"/>
       </Unit>
       <Unit>
         <Filename Value="EhgkPageValuePropertyTestCase.pas"/>
@@ -26,7 +26,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="59"/>
+        <UsageCount Value="60"/>
       </Unit>
       <Unit>
         <Filename Value="EhgkPageLedsIndexedPropertyTestCase.pas"/>
@@ -34,15 +34,16 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="99"/>
         <CursorPos X="42" Y="40"/>
-        <UsageCount Value="59"/>
+        <UsageCount Value="60"/>
       </Unit>
       <Unit>
         <Filename Value="EhgkPageContainerTestCase.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="155"/>
-        <CursorPos X="52" Y="168"/>
-        <UsageCount Value="43"/>
+        <TopLine Value="370"/>
+        <CursorPos X="8" Y="380"/>
+        <UsageCount Value="44"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -51,7 +52,7 @@
         <EditorIndex Value="1"/>
         <TopLine Value="60"/>
         <CursorPos X="28" Y="63"/>
-        <UsageCount Value="39"/>
+        <UsageCount Value="40"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -206,8 +207,7 @@
       <Unit>
         <Filename Value="../src/ehgkpagecontainer.pas"/>
         <UnitName Value="EhgkPageContainer"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="304"/>
+        <TopLine Value="25"/>
         <CursorPos X="9" Y="315"/>
         <UsageCount Value="18"/>
         <Loaded Value="True"/>
@@ -229,26 +229,13 @@
       <Unit>
         <Filename Value="/usr/lib/lazarus/4.0/components/fpcunit/guitestrunner.pas"/>
         <UnitName Value="GuiTestRunner"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="375"/>
         <CursorPos Y="392"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="../src/ehgkpagecontainer.pas"/>
-        <Caret Line="281" Column="43" TopLine="264"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPageContainerTestCase.pas"/>
-        <Caret Line="396" Column="36" TopLine="378"/>
-      </Position>
-      <Position>
-        <Filename Value="../src/ehgkpagecontainer.pas"/>
-        <Caret Line="265" Column="14" TopLine="248"/>
-      </Position>
+    <JumpHistory HistoryIndex="28">
       <Position>
         <Filename Value="../src/ehgkpagecontainer.pas"/>
         <Caret Line="59" Column="5" TopLine="42"/>
@@ -296,10 +283,6 @@
       <Position>
         <Filename Value="EhgkPageContainerTestCase.pas"/>
         <Caret Line="166" Column="14" TopLine="155"/>
-      </Position>
-      <Position>
-        <Filename Value="/usr/lib/lazarus/4.0/components/fpcunit/guitestrunner.pas"/>
-        <Caret Line="392" TopLine="375"/>
       </Position>
       <Position>
         <Filename Value="EhgkPageContainerTestCase.pas"/>
@@ -356,6 +339,18 @@
       <Position>
         <Filename Value="../src/ehgkpagecontainer.pas"/>
         <Caret Line="326" Column="33" TopLine="304"/>
+      </Position>
+      <Position>
+        <Filename Value="EhgkPageContainerTestCase.pas"/>
+        <Caret Line="35" Column="68" TopLine="16"/>
+      </Position>
+      <Position>
+        <Filename Value="EhgkPageContainerTestCase.pas"/>
+        <Caret Line="40" Column="18" TopLine="38"/>
+      </Position>
+      <Position>
+        <Filename Value="EhgkPageContainerTestCase.pas"/>
+        <Caret Line="62" Column="5" TopLine="60"/>
       </Position>
     </JumpHistory>
     <RunParams>

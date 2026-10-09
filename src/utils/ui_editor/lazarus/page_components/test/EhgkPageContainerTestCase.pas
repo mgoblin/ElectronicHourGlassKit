@@ -17,15 +17,22 @@ type
 
   TEhgkPageContainerTestCase = class(TTestCase)
   private
+    FBeforeAddPageHandlerCalled: Boolean;
+    FBeforeAddSender: TObject;
+    FPageCountAtBeforeAddEvent: UInt8;
+    FAddedPageRef: TEhgkPage;
+
     FAfterAddPageHandlerCalled: Boolean;
     FAfterAddSender: TObject;
     FPageCountAtAddEvent: UInt8;
+
     FAfterDeletePageHandlerCalled: Boolean;
     FAfterDeleteSender: TObject;
     FDeletedPageRef: TEhgkPage;
     FPageCountAtDeleteEvent: UInt8;
     FDeletedPage: TEhgkPage;
 
+    procedure BeforeAddPageHandler(Sender: TObject; Page: TEhgkPage);
     procedure AfterAddPageHandler(Sender: TObject);
     procedure AfterDeletePageHandler(Sender: TObject; Page: TEhgkPage);
   protected
@@ -51,6 +58,8 @@ type
 
     procedure TestAfterAddPageNotAssigned;
     procedure TestAfterDeletePageNotAssigned;
+
+    procedure TestBeforeAddPageNotAssigned;
   end;
 
 implementation
@@ -360,6 +369,20 @@ begin
   AssertFalse('After delete page event should not be called', FAfterDeletePageHandlerCalled);
 end;
 
+procedure TEhgkPageContainerTestCase.TestBeforeAddPageNotAssigned;
+begin
+  // TODO
+end;
+
+procedure TEhgkPageContainerTestCase.BeforeAddPageHandler(Sender: TObject;
+  Page: TEhgkPage);
+begin
+  FBeforeAddPageHandlerCalled := True;
+  FBeforeAddSender := Sender;
+  FPageCountAtBeforeAddEvent := PageContainer.PageCount;
+  FAddedPageRef := Page;
+end;
+
 procedure TEhgkPageContainerTestCase.AfterAddPageHandler(Sender: TObject);
 begin
   FAfterAddPageHandlerCalled := True;
@@ -383,6 +406,13 @@ procedure TEhgkPageContainerTestCase.SetUp;
 begin
   PageContainer := TEhgkPageContainer.Create(Nil);
   PageContainer.Name := 'EhgkPageContainer1';
+
+  FBeforeAddPageHandlerCalled := False;
+  FBeforeAddSender := Nil;
+  FAddedPageRef := Nil;
+  FPageCountAtBeforeAddEvent := 0;
+  PageContainer.BeforAddPage := @BeforeAddPageHandler;
+
   FAfterAddPageHandlerCalled := False;
   FAfterAddSender := Nil;
   FPageCountAtAddEvent := 0;
@@ -399,10 +429,8 @@ end;
 procedure TEhgkPageContainerTestCase.TearDown;
 begin
   FreeAndNil(PageContainer);
-  FAfterAddPageHandlerCalled := False;
-
-  FAfterDeletePageHandlerCalled := False;
-  FreeAndNil(FDeletedPage);
+  if Assigned(FDeletedPage) then
+     FreeAndNil(FDeletedPage);
 end;
 
 initialization
