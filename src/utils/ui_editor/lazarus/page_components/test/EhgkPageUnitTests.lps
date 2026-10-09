@@ -39,10 +39,9 @@
       <Unit>
         <Filename Value="EhgkPageContainerTestCase.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="381"/>
-        <CursorPos X="90" Y="401"/>
+        <TopLine Value="47"/>
+        <CursorPos X="8" Y="64"/>
         <UsageCount Value="45"/>
         <Loaded Value="True"/>
       </Unit>
@@ -207,8 +206,9 @@
       <Unit>
         <Filename Value="../src/ehgkpagecontainer.pas"/>
         <UnitName Value="EhgkPageContainer"/>
-        <TopLine Value="16"/>
-        <CursorPos Y="304"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="119"/>
+        <CursorPos X="26" Y="127"/>
         <UsageCount Value="19"/>
         <Loaded Value="True"/>
       </Unit>
