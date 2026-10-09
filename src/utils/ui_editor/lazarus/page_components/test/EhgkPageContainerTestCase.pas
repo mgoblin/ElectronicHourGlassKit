@@ -60,6 +60,8 @@ type
     procedure TestAfterDeletePageNotAssigned;
 
     procedure TestBeforeAddPageNotAssigned;
+    procedure TestBeforeAddPageOnFull;
+    // procedure TestBeforeAddPage
   end;
 
 implementation
@@ -164,17 +166,15 @@ begin
 end;
 
 procedure TEhgkPageContainerTestCase.TestAddToFull;
-var
-  i: Integer;
 begin
-  for i:= 0 to UInt8.MaxValue - 3 do
+  while PageContainer.PageCount < TEhgkPageContainer.MaxPageCount do
   begin
     PageContainer.AddPage;
   end;
 
   FAfterAddPageHandlerCalled := False;
 
-  AssertEquals('Page container must be filled', 254, PageContainer.PageCount);
+  AssertEquals('Page container must be filled', TEhgkPageContainer.MaxPageCount, PageContainer.PageCount);
 
   try
      PageContainer.AddPage;
@@ -378,6 +378,31 @@ begin
   AssertNull('Before add page event should not be called', FBeforeAddSender);
   AssertEquals('Before add page event should not be called', 0, FPageCountAtBeforeAddEvent);
   AssertNull('Before add page event should not be called', FAddedPageRef);
+end;
+
+procedure TEhgkPageContainerTestCase.TestBeforeAddPageOnFull;
+begin
+  PageContainer.BeforAddPage := Nil;
+  while PageContainer.PageCount < TEhgkPageContainer.MaxPageCount do
+  begin
+    PageContainer.AddPage;
+  end;
+
+  PageContainer.BeforAddPage := @BeforeAddPageHandler;
+  try
+     PageContainer.AddPage;
+     Fail('TContainerFullError should be raised');
+  except
+    on E: TContainerFullError do
+    begin
+      AssertFalse('Before add event should not be called', FBeforeAddPageHandlerCalled);
+      AssertNull('Before add event should not be called', FBeforeAddSender);
+      AssertNull('Before add event should not be called', FAddedPageRef);
+      AssertEquals('Before add event should not be called', 0, FPageCountAtBeforeAddEvent);
+    end;
+    on E: Exception do
+       Fail('Another Exception raised');
+  end;
 end;
 
 procedure TEhgkPageContainerTestCase.BeforeAddPageHandler(Sender: TObject;

@@ -74,6 +74,9 @@ type
     procedure DoAfterPageDelete(const Page: TEhgkPage);
 
   public
+    const MinPages: UInt8 = 1;
+    const MaxPageCount: UInt8 = 254;
+
     {
      Creates the container and initializes it with one page whose LEDs are
      all off. The container owns and frees its pages; it always contains at
@@ -294,8 +297,11 @@ begin
 
   FPagesList := TEhgkPageList.Create(False);
 
-  ehgkPage := TEhgkPage.Create(Nil);
-  FPagesList.Add(ehgkPage);
+  while FPagesList.Count < MinPages do
+  begin
+    ehgkPage := TEhgkPage.Create(Nil);
+    FPagesList.Add(ehgkPage);
+  end;
 end;
 
 destructor TEhgkPageContainer.Destroy;
@@ -315,7 +321,7 @@ function TEhgkPageContainer.AddPage: UInt8;
 var
   AddedPage: TEhgkPage;
 begin
-  if GetCount < UInt8.MaxValue - 1 then
+  if GetCount < MaxPageCount then
   begin
     AddedPage := TEhgkPage.Create(Nil);
     try
