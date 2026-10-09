@@ -44,7 +44,7 @@ type
   }
   TAfterDeletePageEvent = procedure(Sender: TObject; Page: TEhgkPage) of object;
 
-  TBeforAddPageEvent = procedure(Sender: TObject; Page: TEhgkPage) of object;
+  TBeforeAddPageEvent = procedure(Sender: TObject; Page: TEhgkPage) of object;
 
 
   {
@@ -56,17 +56,17 @@ type
   private
     FPagesList: TEhgkPageList;
 
-    FBeforePageAdd: TBeforAddPageEvent;
+    FBeforePageAdd: TBeforeAddPageEvent;
 
     FAfterPageAdd: TNotifyEvent;
     FAfterPageDelete: TAfterDeletePageEvent;
 
-    function GetPageByIndex(Index: UInt8): TEhgkPage;
-    function GetCount: UInt8;
+    function GetPageByIndex(Index: Cardinal): TEhgkPage;
+    function GetCount: Cardinal;
 
   protected
-    procedure CheckIndexRange(Index: UInt8);
-    function DoDeletePage(Index: UInt8): TEhgkPage;
+    procedure CheckIndexRange(Index: Cardinal);
+    function DoDeletePage(Index: Cardinal): TEhgkPage;
 
     procedure DoBeforePageAdd(const Page: TEhgkPage);
 
@@ -74,8 +74,8 @@ type
     procedure DoAfterPageDelete(const Page: TEhgkPage);
 
   public
-    const MinPages: UInt8 = 1;
-    const MaxPageCount: UInt8 = 254;
+    const MinPages: Cardinal = 1;
+    const MaxPageCount: Cardinal = 255;
 
     {
      Creates the container and initializes it with one page whose LEDs are
@@ -99,7 +99,7 @@ type
      been added. Raises TContainerFullError if the container already holds
      255 pages.
     }
-    function AddPage: UInt8; virtual;
+    function AddPage: Cardinal; virtual;
 
     {
      Deletes the page at the specified zero-based index and frees it after
@@ -115,16 +115,16 @@ type
      container's current page range. The returned page is owned by the
      container and must not be freed by the caller.
     }
-    property Page[Index: UInt8]: TEhgkPage read GetPageByIndex;
+    property Page[Index: Cardinal]: TEhgkPage read GetPageByIndex;
 
     {
      Returns the number of pages currently in the container. The count is
      always between 1 and 255.
     }
-    property PageCount: UInt8 read GetCount;
+    property PageCount: Cardinal read GetCount;
   published
 
-    property BeforAddPage: TBeforAddPageEvent read FBeforePageAdd write FBeforePageAdd;
+    property BeforeAddPage: TBeforeAddPageEvent read FBeforePageAdd write FBeforePageAdd;
 
     {
      Event called after a new page has been added to the container.
@@ -236,19 +236,19 @@ end;
 
 { TEhgkPageContainer }
 
-procedure TEhgkPageContainer.CheckIndexRange(Index: UInt8);
+procedure TEhgkPageContainer.CheckIndexRange(Index: Cardinal);
 begin
   if (Index >= GetCount) then
     raise TContainerIndexOutOfBoundsError.CreateFmt(MsgOutOfBoundsError, [Index, Self.Name]);
 end;
 
-function TEhgkPageContainer.DoDeletePage(Index: UInt8): TEhgkPage;
+function TEhgkPageContainer.DoDeletePage(Index: Cardinal): TEhgkPage;
 var
   DeletedPage: TEhgkPage;
 begin
   CheckIndexRange(Index);
 
-  if (GetCount <= 1) then
+  if (GetCount <= MinPages) then
   begin
     raise TContainerEmptyError.CreateFmt(MsgEmptyError, [Self.Name]);
   end;
@@ -270,7 +270,7 @@ procedure TEhgkPageContainer.DoAfterPageAdd;
 begin
   if Assigned(FAfterPageAdd) then
   begin
-       FAfterPageAdd(Self);
+    FAfterPageAdd(Self);
   end;
 end;
 
@@ -282,7 +282,7 @@ begin
   end;
 end;
 
-function TEhgkPageContainer.GetPageByIndex(Index: UInt8): TEhgkPage;
+function TEhgkPageContainer.GetPageByIndex(Index: Cardinal): TEhgkPage;
 begin
   CheckIndexRange(Index);
   Result := FPagesList.Items[Index];
@@ -295,7 +295,7 @@ var
 begin
   inherited Create(AOwner);
 
-  FPagesList := TEhgkPageList.Create(False);
+  FPagesList := TEhgkPageList.Create(True);
 
   while FPagesList.Count < MinPages do
   begin
@@ -306,18 +306,17 @@ end;
 
 destructor TEhgkPageContainer.Destroy;
 begin
-  FPagesList.FreeObjects := True;
   FPagesList.Clear;
   FreeAndNil(FPagesList);
   inherited Destroy;
 end;
 
-function TEhgkPageContainer.GetCount: UInt8;
+function TEhgkPageContainer.GetCount: Cardinal;
 begin
   Result := UInt8(FPagesList.Count);
 end;
 
-function TEhgkPageContainer.AddPage: UInt8;
+function TEhgkPageContainer.AddPage: Cardinal;
 var
   AddedPage: TEhgkPage;
 begin
@@ -326,17 +325,18 @@ begin
     AddedPage := TEhgkPage.Create(Nil);
     try
        DoBeforePageAdd(AddedPage);
-       Result := UInt8(FPagesList.Add(AddedPage));
+       Result := Cardinal(FPagesList.Add(AddedPage));
+       DoAfterPageAdd;
     except
-      FreeAndNil(AddedPage);
+      if FPagesList.IndexOf(AddedPage) <> -1 then
+        FreeAndNil(AddedPage);
+      raise;
     end;
   end
   else
   begin
     raise TContainerFullError.CreateFmt(MsgFullError, [Self.Name]);
   end;
-
-  DoAfterPageAdd;
 end;
 
 procedure TEhgkPageContainer.DeletePage(Index: UInt8);
@@ -380,7 +380,7 @@ var
 begin
   DeletedPage := DoDeletePage(Index);
 
-  if (PageCount > 0) and (FCurrentPageIndex >= PageCount) then
+  if (FCurrentPageIndex >= PageCount) then
     SetCurrentPageIndex(PageCount - 1);
 
   try
@@ -392,14 +392,12 @@ end;
 
 procedure TEhgkPageNavigatableContainer.First;
 begin
-  if PageCount > 0 then
-     SetCurrentPageIndex(0);
+  SetCurrentPageIndex(0);
 end;
 
 procedure TEhgkPageNavigatableContainer.Last;
 begin
-  if PageCount > 0 then
-     SetCurrentPageIndex(PageCount - 1);
+  SetCurrentPageIndex(PageCount - 1);
 end;
 
 initialization

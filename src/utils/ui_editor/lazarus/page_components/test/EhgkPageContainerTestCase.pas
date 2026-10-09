@@ -33,6 +33,7 @@ type
     FDeletedPage: TEhgkPage;
 
     procedure BeforeAddPageHandler(Sender: TObject; Page: TEhgkPage);
+    procedure BeforeAddPageRaiseHandler(Sender: TObject; Page: TEhgkPage);
     procedure AfterAddPageHandler(Sender: TObject);
     procedure AfterDeletePageHandler(Sender: TObject; Page: TEhgkPage);
   protected
@@ -61,7 +62,8 @@ type
 
     procedure TestBeforeAddPageNotAssigned;
     procedure TestBeforeAddPageOnFull;
-    // procedure TestBeforeAddPage
+    procedure TestBeforeAddPageRaiseException;
+    // TODO procedure TestBeforeAddPage
   end;
 
 implementation
@@ -371,7 +373,7 @@ end;
 
 procedure TEhgkPageContainerTestCase.TestBeforeAddPageNotAssigned;
 begin
-  PageContainer.BeforAddPage := Nil;
+  PageContainer.BeforeAddPage := Nil;
 
   PageContainer.AddPage;
   AssertFalse('Before add page event should not be called', FBeforeAddPageHandlerCalled);
@@ -382,13 +384,13 @@ end;
 
 procedure TEhgkPageContainerTestCase.TestBeforeAddPageOnFull;
 begin
-  PageContainer.BeforAddPage := Nil;
+  PageContainer.BeforeAddPage := Nil;
   while PageContainer.PageCount < TEhgkPageContainer.MaxPageCount do
   begin
     PageContainer.AddPage;
   end;
 
-  PageContainer.BeforAddPage := @BeforeAddPageHandler;
+  PageContainer.BeforeAddPage := @BeforeAddPageHandler;
   try
      PageContainer.AddPage;
      Fail('TContainerFullError should be raised');
@@ -405,6 +407,21 @@ begin
   end;
 end;
 
+procedure TEhgkPageContainerTestCase.TestBeforeAddPageRaiseException;
+var
+  PageCount: Cardinal;
+begin
+  PageContainer.BeforeAddPage := @BeforeAddPageRaiseHandler;
+  PageCount := PageContainer.PageCount;
+
+  try
+     PageContainer.AddPage;
+     Fail('Handler should raise exception');
+  except
+     AssertEquals('Page should not be added', PageCount, PageContainer.PageCount);
+  end;
+end;
+
 procedure TEhgkPageContainerTestCase.BeforeAddPageHandler(Sender: TObject;
   Page: TEhgkPage);
 begin
@@ -412,6 +429,12 @@ begin
   FBeforeAddSender := Sender;
   FPageCountAtBeforeAddEvent := PageContainer.PageCount;
   FAddedPageRef := Page;
+end;
+
+procedure TEhgkPageContainerTestCase.BeforeAddPageRaiseHandler(Sender: TObject;
+  Page: TEhgkPage);
+begin
+  raise Exception.Create('Before add page event handler raise exception');
 end;
 
 procedure TEhgkPageContainerTestCase.AfterAddPageHandler(Sender: TObject);
@@ -442,7 +465,7 @@ begin
   FBeforeAddSender := Nil;
   FAddedPageRef := Nil;
   FPageCountAtBeforeAddEvent := 0;
-  PageContainer.BeforAddPage := @BeforeAddPageHandler;
+  PageContainer.BeforeAddPage := @BeforeAddPageHandler;
 
   FAfterAddPageHandlerCalled := False;
   FAfterAddSender := Nil;
