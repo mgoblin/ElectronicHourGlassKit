@@ -12,6 +12,7 @@ uses
   Classes, SysUtils, fpcunit, testregistry, EhgkPage, EhgkPageContainer;
 
 type
+  HandlerException = class(Exception);
 
   { TEhgkPageContainerTestCase }
 
@@ -59,6 +60,8 @@ type
 
     procedure TestAfterAddPageNotAssigned;
     procedure TestAfterDeletePageNotAssigned;
+    // TODO procedure TestAfterAddRaiseException
+    // TODO procedure TestAfterDeleteRaiseException
 
     procedure TestBeforeAddPageNotAssigned;
     procedure TestBeforeAddPageOnFull;
@@ -116,13 +119,14 @@ begin
     for Index := 0 to Container.PageCount - 1 do
       Container.Page[Index].FreeNotification(Observer);
 
-    Container.Free;
-    Container := Nil;
+    FreeAndNil(Container);
 
     AssertEquals('Container should free every owned page', 2,
       Observer.DestroyedPageCount);
   finally
-    Container.Free;
+    if Assigned(Container) then
+       Container.Free;
+
     Observer.Free;
   end;
 end;
@@ -418,7 +422,12 @@ begin
      PageContainer.AddPage;
      Fail('Handler should raise exception');
   except
-     AssertEquals('Page should not be added', PageCount, PageContainer.PageCount);
+    on E: HandlerException do
+    begin
+       AssertEquals('Page should not be added', PageCount, PageContainer.PageCount);
+    end;
+    on E: Exception do
+       Fail('Not HandlerException raised');
   end;
 end;
 
@@ -435,7 +444,7 @@ procedure TEhgkPageContainerTestCase.BeforeAddPageRaiseHandler(Sender: TObject;
   Page: TEhgkPage);
 begin
   AssertNotNull('Page should be not null', Page);
-  raise Exception.Create('Before add page event handler raise exception');
+  raise HandlerException.Create('Before add page event handler raise exception');
 end;
 
 procedure TEhgkPageContainerTestCase.AfterAddPageHandler(Sender: TObject);

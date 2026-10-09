@@ -112,6 +112,9 @@
       <Item>
         <Name Value="Exception"/>
       </Item>
+      <Item>
+        <Name Value="HandlerException"/>
+      </Item>
     </Exceptions>
   </Debugging>
 </CONFIG>
