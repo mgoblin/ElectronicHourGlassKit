@@ -232,14 +232,23 @@ type
 
   {
    Extends TEhgkPageContainer with a current-page index and navigation to
-   the first or last page. Changing the current page raises OnPageIndexChange;
+   the pages. Changing the current page raises OnPageIndexChange;
    deleting a page adjusts the current index when necessary.
 
    Destroy is inherited from TEhgkPageContainer, which frees all pages owned
    by the container.
-  }
 
-  { TEhgkPageNavigatableContainer }
+   Navigation methods (First, Last) are no-ops when the container is already
+   at the target page; they do not fire OnPageIndexChange. Use CanFirst and
+   CanLast to check whether navigation is possible before calling First or
+   Last.
+
+   When a page is deleted, CurrentPageIndex is adjusted automatically:
+   if the deleted page precedes the current index, the index is decremented;
+   if the deleted page is the current page or the last page, the index moves
+   to PageCount - 1. OnPageIndexChange fires only when the index actually
+   changes after deletion.
+  }
   TEhgkPageNavigatableContainer = class(TEhgkPageContainer)
   private
     FCurrentPageIndex: Cardinal;
