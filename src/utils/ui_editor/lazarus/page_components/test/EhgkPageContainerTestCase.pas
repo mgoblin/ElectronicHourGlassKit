@@ -17,6 +17,7 @@ type
   { TEhgkPageContainerTestCase }
 
   TEhgkPageContainerTestCase = class(TTestCase)
+  const Value = 100;
   private
     FBeforeAddPageHandlerCalled: Boolean;
     FBeforeAddSender: TObject;
@@ -35,6 +36,7 @@ type
 
     procedure BeforeAddPageHandler(Sender: TObject; Page: TEhgkPage);
     procedure BeforeAddPageRaiseHandler(Sender: TObject; Page: TEhgkPage);
+    procedure BeforeAddPageChangeHandler(Sender: TObject; Page: TEhgkPage);
     procedure AfterAddPageHandler(Sender: TObject);
     procedure AfterAddPageRaiseHandler(Sender: TObject);
     procedure AfterDeletePageHandler(Sender: TObject; Page: TEhgkPage);
@@ -68,7 +70,7 @@ type
     procedure TestBeforeAddPageNotAssigned;
     procedure TestBeforeAddPageOnFull;
     procedure TestBeforeAddPageRaiseException;
-    // TODO procedure TestBeforeAddPage
+    procedure TestBeforeAddPage;
   end;
 
 implementation
@@ -473,6 +475,16 @@ begin
   end;
 end;
 
+procedure TEhgkPageContainerTestCase.TestBeforeAddPage;
+begin
+  PageContainer.BeforeAddPage := @BeforeAddPageChangeHandler;
+  PageContainer.AddPage;
+
+  AssertEquals('Page count is 2', 2, PageContainer.PageCount);
+  AssertTrue('Befofe add page event handler should be called', FBeforeAddPageHandlerCalled);
+  AssertEquals('Page changes inside handler is ok', Value, PageContainer.Page[1].Value);
+end;
+
 procedure TEhgkPageContainerTestCase.BeforeAddPageHandler(Sender: TObject;
   Page: TEhgkPage);
 begin
@@ -487,6 +499,13 @@ procedure TEhgkPageContainerTestCase.BeforeAddPageRaiseHandler(Sender: TObject;
 begin
   AssertNotNull('Page should be not null', Page);
   raise HandlerException.Create('Before add page event handler raise exception');
+end;
+
+procedure TEhgkPageContainerTestCase.BeforeAddPageChangeHandler(
+  Sender: TObject; Page: TEhgkPage);
+begin
+  Page.Value := Value;
+  FBeforeAddPageHandlerCalled := True;
 end;
 
 procedure TEhgkPageContainerTestCase.AfterAddPageHandler(Sender: TObject);
@@ -516,6 +535,7 @@ end;
 procedure TEhgkPageContainerTestCase.AfterDeletePageRaiseHandler(
   Sender: TObject; Page: TEhgkPage);
 begin
+  Page.Value := Value;
   raise HandlerException.Create('AfterDeletePageRaiseHandler');
 end;
 
