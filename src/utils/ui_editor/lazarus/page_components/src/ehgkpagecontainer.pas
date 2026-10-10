@@ -248,6 +248,9 @@ type
 
     procedure SetCurrentPageIndex(AValue: Cardinal);
 
+    function GetCanFirst: Boolean;
+    function GetCanLast: Boolean;
+
   protected
     procedure DoPageIndexChange;
 
@@ -285,22 +288,10 @@ type
     procedure First;
 
     {
-     Returns True if the current page index can be changed to the first page
-     (i.e., the current page is not already the first one).
-    }
-    function CanFirst: Boolean;
-
-    {
      Selects the last page by setting CurrentPageIndex to PageCount - 1.
      Fires OnPageIndexChange only if the current index changes.
     }
     procedure Last;
-
-    {
-     Returns True if the current page index can be changed to the last page
-     (i.e., the current page is not already the last one).
-    }
-    function CanLast: Boolean;
 
   published
     { Events }
@@ -328,6 +319,18 @@ type
      TContainerIndexOutOfBoundsError.
     }
     property CurrentPageIndex: Cardinal read FCurrentPageIndex write SetCurrentPageIndex;
+
+    {
+     Returns True if the current page index can be changed to the first page
+     (i.e., the current page is not already the first one).
+    }
+    property CanFirst: Boolean read GetCanFirst;
+
+    {
+     Returns True if the current page index can be changed to the last page
+     (i.e., the current page is not already the last one).
+    }
+    property CanLast: Boolean read GetCanLast;
 
   end;
 
@@ -526,22 +529,22 @@ end;
 
 procedure TEhgkPageNavigatableContainer.First;
 begin
-  if CanFirst then
+  if GetCanFirst then
     SetCurrentPageIndex(0);
 end;
 
-function TEhgkPageNavigatableContainer.CanFirst: Boolean;
+function TEhgkPageNavigatableContainer.GetCanFirst: Boolean;
 begin
   Result := FCurrentPageIndex <> 0;
 end;
 
 procedure TEhgkPageNavigatableContainer.Last;
 begin
-  if CanLast then
+  if GetCanLast then
     SetCurrentPageIndex(PageCount - 1);
 end;
 
-function TEhgkPageNavigatableContainer.CanLast: Boolean;
+function TEhgkPageNavigatableContainer.GetCanLast: Boolean;
 begin
   Result := FCurrentPageIndex < GetCount - 1;
 end;
