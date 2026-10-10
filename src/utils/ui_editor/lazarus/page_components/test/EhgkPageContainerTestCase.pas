@@ -38,6 +38,7 @@ type
     procedure AfterAddPageHandler(Sender: TObject);
     procedure AfterAddPageRaiseHandler(Sender: TObject);
     procedure AfterDeletePageHandler(Sender: TObject; Page: TEhgkPage);
+    procedure AfterDeletePageRaiseHandler(Sender: TObject; Page: TEhgkPage);
   protected
     PageContainer: TEhgkPageContainer;
     procedure SetUp; override;
@@ -62,7 +63,7 @@ type
     procedure TestAfterAddPageNotAssigned;
     procedure TestAfterDeletePageNotAssigned;
     procedure TestAfterAddRaiseException;
-    // TODO procedure TestAfterDeleteRaiseException
+    procedure TestAfterDeleteRaiseException;
 
     procedure TestBeforeAddPageNotAssigned;
     procedure TestBeforeAddPageOnFull;
@@ -396,6 +397,26 @@ begin
   end;
 end;
 
+procedure TEhgkPageContainerTestCase.TestAfterDeleteRaiseException;
+begin
+  PageContainer.AfterPageDelete := @AfterDeletePageRaiseHandler;
+  PageContainer.AddPage;
+
+  try
+    PageContainer.DeletePage(1);
+    Fail('Handler exception should be raised');
+  except
+    on HandlerException do
+    begin
+      AssertEquals('Page should be delete', 1, PageContainer.PageCount);
+    end;
+    on Exception do
+    begin
+      Fail('Handler exception should be raised');
+    end;
+  end;
+end;
+
 procedure TEhgkPageContainerTestCase.TestBeforeAddPageNotAssigned;
 begin
   PageContainer.BeforeAddPage := Nil;
@@ -490,6 +511,12 @@ begin
   FAfterDeleteSender := Sender;
   FDeletedPageRef := Page;
   FPageCountAtDeleteEvent := PageContainer.PageCount;
+end;
+
+procedure TEhgkPageContainerTestCase.AfterDeletePageRaiseHandler(
+  Sender: TObject; Page: TEhgkPage);
+begin
+  raise HandlerException.Create('AfterDeletePageRaiseHandler');
 end;
 
 procedure TEhgkPageContainerTestCase.SetUp;
