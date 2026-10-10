@@ -55,6 +55,8 @@ type
   }
   TBeforeAddPageEvent = procedure(Sender: TObject; Page: TEhgkPage) of object;
 
+  TBeforeDeletePageEvent = procedure(Sender: TObject; PageIndex: Cardinal) of object;
+
 
   {
    TEhgkPageContainer owns Ehgk device pages.
@@ -66,18 +68,20 @@ type
     FPagesList: TEhgkPageList;
 
     FBeforePageAdd: TBeforeAddPageEvent;
+    FBeforePageDelete: TBeforeDeletePageEvent;
 
     FAfterPageAdd: TNotifyEvent;
     FAfterPageDelete: TAfterDeletePageEvent;
 
-    function GetPageByIndex(Index: Cardinal): TEhgkPage;
+    function GetPageByIndex(const Index: Cardinal): TEhgkPage;
     function GetCount: Cardinal; inline;
 
   protected
-    procedure CheckIndexRange(Index: Cardinal);
-    function DoDeletePage(Index: Cardinal): TEhgkPage;
+    procedure CheckIndexRange(const Index: Cardinal);
+    function DoDeletePage(const Index: Cardinal): TEhgkPage;
 
     procedure DoBeforePageAdd(const Page: TEhgkPage);
+    procedure DoBeforePageDelete(const PageIndex: Cardinal);
 
     procedure DoAfterPageAdd;
     procedure DoAfterPageDelete(const Page: TEhgkPage);
@@ -279,7 +283,7 @@ end;
 
 { TEhgkPageContainer }
 
-procedure TEhgkPageContainer.CheckIndexRange(Index: Cardinal);
+procedure TEhgkPageContainer.CheckIndexRange(const Index: Cardinal);
 begin
   if (Index >= GetCount) then
   begin
@@ -289,7 +293,7 @@ begin
   end;
 end;
 
-function TEhgkPageContainer.DoDeletePage(Index: Cardinal): TEhgkPage;
+function TEhgkPageContainer.DoDeletePage(const Index: Cardinal): TEhgkPage;
 var
   DeletedPage: TEhgkPage;
 begin
@@ -299,6 +303,8 @@ begin
   begin
     raise TContainerEmptyError.CreateFmt(MsgEmptyError, [Self.Name, Self.ClassName]);
   end;
+
+  DoBeforePageDelete(Index);
 
   DeletedPage := FPagesList.Items[Index];
 
@@ -311,6 +317,12 @@ begin
   begin
     FBeforePageAdd(Self, Page);
   end;
+end;
+
+procedure TEhgkPageContainer.DoBeforePageDelete(const PageIndex: Cardinal);
+begin
+  if Assigned(FBeforePageDelete) then
+     FBeforePageDelete(Self, PageIndex);
 end;
 
 procedure TEhgkPageContainer.DoAfterPageAdd;
@@ -329,7 +341,7 @@ begin
   end;
 end;
 
-function TEhgkPageContainer.GetPageByIndex(Index: Cardinal): TEhgkPage;
+function TEhgkPageContainer.GetPageByIndex(const Index: Cardinal): TEhgkPage;
 begin
   CheckIndexRange(Index);
   Result := FPagesList.Items[Index];
