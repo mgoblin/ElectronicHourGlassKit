@@ -296,6 +296,10 @@ type
     }
     procedure Last;
 
+    {
+     Returns True if the current page index can be changed to the last page
+     (i.e., the current page is not already the last one).
+    }
     function CanLast: Boolean;
 
   published
