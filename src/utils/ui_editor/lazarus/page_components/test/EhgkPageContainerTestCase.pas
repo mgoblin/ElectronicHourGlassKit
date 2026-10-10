@@ -34,6 +34,11 @@ type
     FPageCountAtDeleteEvent: UInt8;
     FDeletedPage: TEhgkPage;
 
+    FBeforeDeletePageHandlerCalled: Boolean;
+    FBeforeDeleteSender: TObject;
+    FBeforeDeletePageIndex: Cardinal;
+    FPageCountAtBeforeDeleteEvent: UInt8;
+
     procedure BeforeAddPageHandler(Sender: TObject; Page: TEhgkPage);
     procedure BeforeAddPageRaiseHandler(Sender: TObject; Page: TEhgkPage);
     procedure BeforeAddPageChangeHandler(Sender: TObject; Page: TEhgkPage);
@@ -41,6 +46,9 @@ type
     procedure AfterAddPageRaiseHandler(Sender: TObject);
     procedure AfterDeletePageHandler(Sender: TObject; Page: TEhgkPage);
     procedure AfterDeletePageRaiseHandler(Sender: TObject; Page: TEhgkPage);
+
+    procedure BeforeDeletePageHandler(Sender: TObject; PageIndex: Cardinal);
+    procedure BeforeDeletePageRaiseHandler(Sender: TObject; PageIndex: Cardinal);
   protected
     PageContainer: TEhgkPageContainer;
     procedure SetUp; override;
@@ -71,6 +79,12 @@ type
     procedure TestBeforeAddPageOnFull;
     procedure TestBeforeAddPageRaiseException;
     procedure TestBeforeAddPage;
+
+    procedure TestBeforeDeletePageNotAssigned;
+    procedure TestBeforeDeletePage;
+    procedure TestBeforeDeletePageRaiseException;
+    procedure TestBeforeDeletePageFirst;
+    procedure TestBeforeDeletePageLast;
   end;
 
 implementation
@@ -485,6 +499,114 @@ begin
   AssertEquals('Page changes inside handler is ok', Value, PageContainer.Page[1].Value);
 end;
 
+procedure TEhgkPageContainerTestCase.TestBeforeDeletePageNotAssigned;
+var
+  Index: Cardinal;
+begin
+  PageContainer.BeforePageDelete := Nil;
+  PageContainer.AddPage;
+  Index := PageContainer.AddPage;
+
+  PageContainer.DeletePage(Index);
+  AssertFalse('Before delete page event should not be called',
+    FBeforeDeletePageHandlerCalled);
+  AssertEquals('Page count should be 2', 2, PageContainer.PageCount);
+end;
+
+procedure TEhgkPageContainerTestCase.TestBeforeDeletePage;
+var
+  Index: Cardinal;
+  PageValue: TEhgkPageValue;
+begin
+  PageContainer.AddPage;
+  PageContainer.AddPage;
+  PageContainer.Page[1].Value := 42;
+  PageContainer.Page[2].Value := 99;
+  Index := 2;
+  PageValue := PageContainer.Page[Index].Value;
+
+  FBeforeDeletePageHandlerCalled := False;
+  PageContainer.DeletePage(Index);
+
+  AssertTrue('Before delete page handler should be called',
+    FBeforeDeletePageHandlerCalled);
+  AssertSame('Sender should be the page container', PageContainer,
+    FBeforeDeleteSender);
+  AssertEquals('PageIndex should be 2', 2, FBeforeDeletePageIndex);
+  AssertEquals('PageCount at event should be 3 (page not extracted yet)', 3,
+    FPageCountAtBeforeDeleteEvent);
+  AssertEquals('PageCount after delete should be 2', 2, PageContainer.PageCount);
+  AssertEquals('Remaining page[1] value should be preserved', 42,
+    PageContainer.Page[1].Value);
+  AssertEquals('Deleted page value should be preserved for the callback', PageValue,
+    FDeletedPage.Value);
+end;
+
+procedure TEhgkPageContainerTestCase.TestBeforeDeletePageRaiseException;
+var
+  PageCount: Cardinal;
+begin
+  PageContainer.AddPage;
+  PageContainer.AddPage;
+  PageContainer.BeforePageDelete := @BeforeDeletePageRaiseHandler;
+  PageCount := PageContainer.PageCount;
+
+  try
+    PageContainer.DeletePage(1);
+    Fail('Handler should raise exception');
+  except
+    on E: HandlerException do
+    begin
+      AssertEquals('Page should not be deleted', PageCount,
+        PageContainer.PageCount);
+      AssertFalse('Before delete handler should not be marked as called',
+        FBeforeDeletePageHandlerCalled);
+    end;
+    on E: Exception do
+      Fail('Not HandlerException raised');
+  end;
+end;
+
+procedure TEhgkPageContainerTestCase.TestBeforeDeletePageFirst;
+begin
+  PageContainer.AddPage;
+  PageContainer.AddPage;
+  PageContainer.Page[1].Value := 10;
+  PageContainer.Page[2].Value := 20;
+
+  FBeforeDeletePageHandlerCalled := False;
+  PageContainer.DeletePage(0);
+
+  AssertTrue('Before delete page handler should be called',
+    FBeforeDeletePageHandlerCalled);
+  AssertEquals('PageIndex for first page should be 0', 0,
+    FBeforeDeletePageIndex);
+  AssertEquals('PageCount after delete should be 2', 2,
+    PageContainer.PageCount);
+  AssertEquals('Remaining page[0] value should be 10', 10,
+    PageContainer.Page[0].Value);
+  AssertEquals('Remaining page[1] value should be 20', 20,
+    PageContainer.Page[1].Value);
+end;
+
+procedure TEhgkPageContainerTestCase.TestBeforeDeletePageLast;
+var
+  Index: Cardinal;
+begin
+  Index := PageContainer.AddPage;
+  PageContainer.Page[Index].Value := 77;
+
+  FBeforeDeletePageHandlerCalled := False;
+  PageContainer.DeletePage(Index);
+
+  AssertTrue('Before delete page handler should be called',
+    FBeforeDeletePageHandlerCalled);
+  AssertEquals('PageIndex for last page should be 1', 1,
+    FBeforeDeletePageIndex);
+  AssertEquals('PageCount after delete should be 1', 1,
+    PageContainer.PageCount);
+end;
+
 procedure TEhgkPageContainerTestCase.BeforeAddPageHandler(Sender: TObject;
   Page: TEhgkPage);
 begin
@@ -539,6 +661,23 @@ begin
   raise HandlerException.Create('AfterDeletePageRaiseHandler');
 end;
 
+procedure TEhgkPageContainerTestCase.BeforeDeletePageHandler(
+  Sender: TObject; PageIndex: Cardinal);
+begin
+  FBeforeDeletePageHandlerCalled := True;
+  FBeforeDeleteSender := Sender;
+  FBeforeDeletePageIndex := PageIndex;
+  FPageCountAtBeforeDeleteEvent := PageContainer.PageCount;
+end;
+
+procedure TEhgkPageContainerTestCase.BeforeDeletePageRaiseHandler(
+  Sender: TObject; PageIndex: Cardinal);
+begin
+  AssertTrue('PageIndex must be within valid range',
+    PageIndex < PageContainer.PageCount);
+  raise HandlerException.Create('Before delete page event handler raise exception');
+end;
+
 procedure TEhgkPageContainerTestCase.SetUp;
 begin
   PageContainer := TEhgkPageContainer.Create(Nil);
@@ -561,6 +700,12 @@ begin
   FPageCountAtDeleteEvent := 0;
   FDeletedPage := Nil;
   PageContainer.AfterPageDelete := @AfterDeletePageHandler;
+
+  FBeforeDeletePageHandlerCalled := False;
+  FBeforeDeleteSender := Nil;
+  FBeforeDeletePageIndex := 0;
+  FPageCountAtBeforeDeleteEvent := 0;
+  PageContainer.BeforePageDelete := @BeforeDeletePageHandler;
 end;
 
 procedure TEhgkPageContainerTestCase.TearDown;
