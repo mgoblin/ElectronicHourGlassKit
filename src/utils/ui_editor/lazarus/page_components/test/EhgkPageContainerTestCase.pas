@@ -347,7 +347,7 @@ begin
     begin
       AssertEquals(
         'Wrong error message',
-        'Container EhgkPageContainer1 can not be empty',
+        'Container [Name: "EhgkPageContainer1", Class: "TEhgkPageContainer"] can not be empty',
         E.Message
       );
 

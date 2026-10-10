@@ -268,7 +268,7 @@ procedure Register;
 implementation
 
 const
-  MsgEmptyError: String = 'Container %s can not be empty';
+  MsgEmptyError: String = 'Container [Name: "%s", Class: "%s"] can not be empty';
   MsgOutOfBoundsError: String = 'Index (%u) is out of bounds for container [Name: "%s", Class: "%s"]';
   MsgFullError: String = 'Container [Name: "%s", Class: "%s"] is full';
 
@@ -298,7 +298,7 @@ begin
 
   if (GetCount <= MinPages) then
   begin
-    raise TContainerEmptyError.CreateFmt(MsgEmptyError, [Self.Name]);
+    raise TContainerEmptyError.CreateFmt(MsgEmptyError, [Self.Name, Self.ClassName]);
   end;
 
   DeletedPage := FPagesList.Items[Index];

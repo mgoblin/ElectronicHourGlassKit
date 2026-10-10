@@ -39,10 +39,9 @@
       <Unit>
         <Filename Value="EhgkPageContainerTestCase.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="2"/>
-        <TopLine Value="177"/>
-        <CursorPos X="75" Y="197"/>
+        <TopLine Value="333"/>
+        <CursorPos X="31" Y="350"/>
         <UsageCount Value="52"/>
         <Loaded Value="True"/>
       </Unit>
@@ -207,8 +206,9 @@
       <Unit>
         <Filename Value="../src/ehgkpagecontainer.pas"/>
         <UnitName Value="EhgkPageContainer"/>
-        <TopLine Value="375"/>
-        <CursorPos X="81" Y="386"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="259"/>
+        <CursorPos X="61" Y="271"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
       </Unit>
@@ -236,18 +236,6 @@
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="EhgkPageNavigatableContainerTestCase.pas"/>
-        <Caret Line="403" Column="3" TopLine="399"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPageNavigatableContainerTestCase.pas"/>
-        <Caret Line="52" Column="15" TopLine="41"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPageNavigatableContainerTestCase.pas"/>
-        <Caret Line="427" Column="3" TopLine="421"/>
-      </Position>
       <Position>
         <Filename Value="EhgkPageContainerTestCase.pas"/>
         <Caret Line="71" Column="33" TopLine="63"/>
@@ -355,6 +343,18 @@
       <Position>
         <Filename Value="EhgkPageContainerTestCase.pas"/>
         <Caret Line="56" Column="21" TopLine="44"/>
+      </Position>
+      <Position>
+        <Filename Value="../src/ehgkpagecontainer.pas"/>
+        <Caret Line="386" Column="81" TopLine="375"/>
+      </Position>
+      <Position>
+        <Filename Value="EhgkPageContainerTestCase.pas"/>
+        <Caret Line="63" Column="21" TopLine="54"/>
+      </Position>
+      <Position>
+        <Filename Value="../src/ehgkpagecontainer.pas"/>
+        <Caret Line="301" Column="46" TopLine="289"/>
       </Position>
     </JumpHistory>
     <RunParams>
