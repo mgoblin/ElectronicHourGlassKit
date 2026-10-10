@@ -426,16 +426,24 @@ end;
 procedure TEhgkPageNavigatableContainer.DeletePage(Index: Cardinal);
 var
   DeletedPage: TEhgkPage;
+  Idx: Cardinal;
 begin
+  Idx := FCurrentPageIndex;
+
   DeletedPage := DoDeletePage(Index);
 
   if (FCurrentPageIndex >= PageCount) then
   begin
-    SetCurrentPageIndex(PageCount - 1);
+    FCurrentPageIndex  := PageCount - 1;
   end
   else if (FCurrentPageIndex > Index) then
   begin
-     SetCurrentPageIndex(FCurrentPageIndex - 1);
+     FCurrentPageIndex := FCurrentPageIndex - 1;
+  end;
+
+  if Idx <> FCurrentPageIndex then
+  begin
+    DoPageIndexChange;
   end;
 
   try
