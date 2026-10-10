@@ -249,6 +249,9 @@ type
    to PageCount - 1. OnPageIndexChange fires only when the index actually
    changes after deletion.
   }
+
+  { TEhgkPageNavigatableContainer }
+
   TEhgkPageNavigatableContainer = class(TEhgkPageContainer)
   private
     FCurrentPageIndex: Cardinal;
@@ -300,6 +303,12 @@ type
      Fires OnPageIndexChange only if the current index changes.
     }
     procedure Last;
+
+    {
+     Selects the next page by incrementing CurrentPageIndex by one.
+     Fires OnPageIndexChange only if the current index changes.
+    }
+    procedure Next;
 
   published
     { Events }
@@ -550,6 +559,12 @@ procedure TEhgkPageNavigatableContainer.Last;
 begin
   if GetCanLast then
     SetCurrentPageIndex(PageCount - 1);
+end;
+
+procedure TEhgkPageNavigatableContainer.Next;
+begin
+  if CanLast then
+    SetCurrentPageIndex(FCurrentPageIndex + 1);
 end;
 
 function TEhgkPageNavigatableContainer.GetCanLast: Boolean;
