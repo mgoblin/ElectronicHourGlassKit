@@ -189,7 +189,7 @@ begin
        begin
          AssertEquals(
           'Wrong error message',
-          'Index (1) is out of bounds for container PageContainer1',
+          'Index (1) is out of bounds for container [Name: "PageContainer1", Class: "TEhgkPageNavigatableContainer"]',
           E.Message
          );
          AssertEquals('Page index change event should not be called', False, FPageIndexChangedHandlerCalled);
@@ -310,7 +310,7 @@ begin
     begin
       AssertEquals(
         'Wrong error message',
-        'Index (10) is out of bounds for container PageContainer1',
+        'Index (10) is out of bounds for container [Name: "PageContainer1", Class: "TEhgkPageNavigatableContainer"]',
         E.Message
       );
 

@@ -269,7 +269,7 @@ implementation
 
 const
   MsgEmptyError: String = 'Container %s can not be empty';
-  MsgOutOfBoundsError: String = 'Index (%d) is out of bounds for container %s';
+  MsgOutOfBoundsError: String = 'Index (%u) is out of bounds for container [Name: "%s", Class: "%s"]';
   MsgFullError: String = 'Container %s is full';
 
 procedure Register;
@@ -283,7 +283,11 @@ end;
 procedure TEhgkPageContainer.CheckIndexRange(Index: Cardinal);
 begin
   if (Index >= GetCount) then
-    raise TContainerIndexOutOfBoundsError.CreateFmt(MsgOutOfBoundsError, [Index, Self.Name]);
+  begin
+    raise TContainerIndexOutOfBoundsError.CreateFmt(MsgOutOfBoundsError,
+          [Index, Self.Name, Self.ClassName]
+    );
+  end;
 end;
 
 function TEhgkPageContainer.DoDeletePage(Index: Cardinal): TEhgkPage;

@@ -153,7 +153,7 @@ begin
     begin
       AssertEquals(
         'Incorrect exception message',
-        'Index (1) is out of bounds for container EhgkPageContainer1',
+        'Index (1) is out of bounds for container [Name: "EhgkPageContainer1", Class: "TEhgkPageContainer"]',
         E.Message
       );
     end
@@ -315,7 +315,7 @@ begin
     begin
       AssertEquals(
         'Wrong error message',
-        'Index (10) is out of bounds for container EhgkPageContainer1',
+        'Index (10) is out of bounds for container [Name: "EhgkPageContainer1", Class: "TEhgkPageContainer"]',
         E.Message
       );
 
