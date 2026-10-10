@@ -38,6 +38,21 @@ type
   TContainerIndexOutOfBoundsError = class(Exception);
 
   {
+   Event type called before a new page is added to a container.
+
+   Sender is the TEhgkPageContainer instance that is about to accept the page.
+   Page is a newly created page object that has not yet been inserted into the
+   container. The handler may inspect or initialize the page before it becomes
+   part of the container, but it must not free the page or transfer ownership to
+   another object. If the handler raises an exception, AddPage aborts and the
+   page is discarded without being added to the container.
+
+   This event is fired only when AddPage creates a new page. It does not run for
+   pages already present in the container or when the container is created.
+  }
+  TBeforeAddPageEvent = procedure(Sender: TObject; Page: TEhgkPage) of object;
+
+  {
    Event type called after a page is removed from a container and before it
    is freed. Sender is the container; Page is the removed page and must not
    be freed by the event handler.
@@ -45,16 +60,15 @@ type
   TAfterDeletePageEvent = procedure(Sender: TObject; Page: TEhgkPage) of object;
 
   {
-   Event type called before a new page is added to a container.
+   Event type called before a page is deleted from the container.
 
-   Sender is the TEhgkPageContainer instance that is about to accept the page.
-   Page is a newly created page instance that has not yet been inserted into
-   the container. The handler may inspect or initialize it, but must not free
-   it or transfer ownership elsewhere. If the handler raises an exception, the
-   add operation is aborted and the page is discarded.
+   Sender is the TEhgkPageContainer instance. PageIndex is the zero-based index
+   of the page that is about to be removed. The page still exists at that index
+   and is still owned by the container, but it has not yet been extracted or
+   destroyed. Handlers may inspect the page via Page[PageIndex] or use the index
+   to prepare UI state or update navigation. They must not free the page or
+   mutate the container in a way that invalidates the pending delete operation.
   }
-  TBeforeAddPageEvent = procedure(Sender: TObject; Page: TEhgkPage) of object;
-
   TBeforeDeletePageEvent = procedure(Sender: TObject; PageIndex: Cardinal) of object;
 
 
@@ -80,11 +94,11 @@ type
     procedure CheckIndexRange(const Index: Cardinal);
     function DoDeletePage(const Index: Cardinal): TEhgkPage;
 
-    procedure DoBeforePageAdd(const Page: TEhgkPage);
-    procedure DoBeforePageDelete(const PageIndex: Cardinal);
+    procedure FireBeforePageAddEvent(const Page: TEhgkPage);
+    procedure FireBeforePageDeleteEvent(const PageIndex: Cardinal);
 
-    procedure DoAfterPageAdd;
-    procedure DoAfterPageDelete(const Page: TEhgkPage);
+    procedure FireAfterPageAddEvent;
+    procedure FireAfterPageDeleteEvent(const Page: TEhgkPage);
 
   public
     {
@@ -164,19 +178,54 @@ type
     property PageCount: Cardinal read GetCount;
   published
 
+    {
+     Event called before a new page is inserted into the container.
+
+     The event is fired from AddPage after the page object is created and before
+     it is appended to the container. The handler can initialize the page (for
+     example, set its default LED state or assign metadata), but it must not
+     destroy the page, free it, or re-own it. If the handler raises an
+     exception, AddPage aborts, the page is released, and the container remains
+     unchanged.
+    }
     property BeforeAddPage: TBeforeAddPageEvent read FBeforePageAdd write FBeforePageAdd;
 
     {
-     Event called after a new page has been added to the container.
-     Sender is the TEhgkPageContainer instance.
+     Event called before a page is deleted from the container.
+
+     Sender is the TEhgkPageContainer instance. PageIndex identifies the page
+     that is about to be removed, before the page is extracted from the internal
+     list. During this callback the page is still available through the current
+     container state, but it has not yet been destroyed. The handler may use this
+     event for validation or UI updates, but it must not free the page or change
+     the container in a way that interferes with the pending deletion.
+    }
+    property BeforePageDelete: TBeforeDeletePageEvent read FBeforePageDelete write FBeforePageDelete;
+
+    {
+     Event called after a new page has been successfully inserted into the
+     container.
+
+     Sender is the TEhgkPageContainer instance. This event is fired after
+     AddPage has appended the new page to the container and completed the
+     insertion. At this point, the page is owned by the container and can be
+     accessed through Page[PageCount - 1] or by inspecting the container's
+     current state. Handlers must not free the page or remove it from the
+     container; they may use this event to update UI state, refresh selection,
+     or perform dependent initialization.
     }
     property AfterPageAdd: TNotifyEvent read FAfterPageAdd write FAfterPageAdd;
 
     {
-     Event called after a page has been removed from the container and
-     before it is freed. Sender is the container; Page is the removed page,
-     which is valid only for the duration of this callback and must not be
-     freed by the handler.
+     Event called after a page has been removed from the container and before
+     it is freed.
+
+     Sender is the TEhgkPageContainer instance. Page is the removed page,
+     already extracted from the internal list but not yet destroyed, so it is
+     still valid for the duration of the callback. The handler may inspect the
+     page or update related state, but it must not free the page or keep a
+     reference beyond the callback lifetime. After the handler returns, the
+     container destroys the removed page automatically.
     }
     property AfterPageDelete: TAfterDeletePageEvent read FAfterPageDelete write FAfterPageDelete;
   end;
@@ -304,14 +353,14 @@ begin
     raise TContainerEmptyError.CreateFmt(MsgEmptyError, [Self.Name, Self.ClassName]);
   end;
 
-  DoBeforePageDelete(Index);
+  FireBeforePageDeleteEvent(Index);
 
   DeletedPage := FPagesList.Items[Index];
 
   Result := FPagesList.Extract(DeletedPage);
 end;
 
-procedure TEhgkPageContainer.DoBeforePageAdd(const Page: TEhgkPage);
+procedure TEhgkPageContainer.FireBeforePageAddEvent(const Page: TEhgkPage);
 begin
   if Assigned(FBeforePageAdd) then
   begin
@@ -319,13 +368,15 @@ begin
   end;
 end;
 
-procedure TEhgkPageContainer.DoBeforePageDelete(const PageIndex: Cardinal);
+procedure TEhgkPageContainer.FireBeforePageDeleteEvent(const PageIndex: Cardinal);
 begin
   if Assigned(FBeforePageDelete) then
-     FBeforePageDelete(Self, PageIndex);
+  begin
+    FBeforePageDelete(Self, PageIndex);
+  end;
 end;
 
-procedure TEhgkPageContainer.DoAfterPageAdd;
+procedure TEhgkPageContainer.FireAfterPageAddEvent;
 begin
   if Assigned(FAfterPageAdd) then
   begin
@@ -333,7 +384,7 @@ begin
   end;
 end;
 
-procedure TEhgkPageContainer.DoAfterPageDelete(const Page: TEhgkPage);
+procedure TEhgkPageContainer.FireAfterPageDeleteEvent(const Page: TEhgkPage);
 begin
   if Assigned(FAfterPageDelete) then
   begin
@@ -379,7 +430,7 @@ begin
     AddedPage := TEhgkPage.Create(Nil);
 
     try
-       DoBeforePageAdd(AddedPage);
+      FireBeforePageAddEvent(AddedPage);
     except
       FreeAndNil(AddedPage);
       raise;
@@ -387,7 +438,7 @@ begin
 
     FPagesList.Add(AddedPage);
     Result := FPagesList.Count - 1;
-    DoAfterPageAdd;
+    FireAfterPageAddEvent;
   end
   else
   begin
@@ -401,7 +452,7 @@ var
 begin
   P := DoDeletePage(Index);
   try
-     DoAfterPageDelete(P);
+    FireAfterPageDeleteEvent(P);
   finally
     FreeAndNil(P);
   end;
@@ -445,7 +496,7 @@ begin
   end
   else if (FCurrentPageIndex > Index) then
   begin
-     FCurrentPageIndex := FCurrentPageIndex - 1;
+    FCurrentPageIndex := FCurrentPageIndex - 1;
   end;
 
   if Idx <> FCurrentPageIndex then
@@ -454,7 +505,7 @@ begin
   end;
 
   try
-     DoAfterPageDelete(DeletedPage);
+    FireAfterPageDeleteEvent(DeletedPage);
   finally
     FreeAndNil(DeletedPage);
   end;
