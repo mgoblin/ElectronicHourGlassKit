@@ -296,6 +296,8 @@ type
     }
     procedure Last;
 
+    function CanLast: Boolean;
+
   published
     { Events }
 
@@ -531,7 +533,13 @@ end;
 
 procedure TEhgkPageNavigatableContainer.Last;
 begin
-  SetCurrentPageIndex(PageCount - 1);
+  if CanLast then
+    SetCurrentPageIndex(PageCount - 1);
+end;
+
+function TEhgkPageNavigatableContainer.CanLast: Boolean;
+begin
+  Result := FCurrentPageIndex < GetCount - 1;
 end;
 
 initialization
