@@ -194,7 +194,7 @@ begin
     begin
       AssertEquals(
         'Wrong error message',
-        'Container EhgkPageContainer1 is full',
+        'Container [Name: "EhgkPageContainer1", Class: "TEhgkPageContainer"] is full',
         E.Message
       );
       AssertFalse('After page add event should not be called', FAfterAddPageHandlerCalled);

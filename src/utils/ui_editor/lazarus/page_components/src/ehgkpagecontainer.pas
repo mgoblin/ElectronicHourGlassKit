@@ -270,7 +270,7 @@ implementation
 const
   MsgEmptyError: String = 'Container %s can not be empty';
   MsgOutOfBoundsError: String = 'Index (%u) is out of bounds for container [Name: "%s", Class: "%s"]';
-  MsgFullError: String = 'Container %s is full';
+  MsgFullError: String = 'Container [Name: "%s", Class: "%s"] is full';
 
 procedure Register;
 begin
@@ -383,7 +383,7 @@ begin
   end
   else
   begin
-    raise TContainerFullError.CreateFmt(MsgFullError, [Self.Name]);
+    raise TContainerFullError.CreateFmt(MsgFullError, [Self.Name, Self.ClassName]);
   end;
 end;
 
