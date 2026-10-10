@@ -50,7 +50,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="301"/>
-        <CursorPos X="114" Y="313"/>
+        <CursorPos X="86" Y="324"/>
         <UsageCount Value="48"/>
         <Loaded Value="True"/>
       </Unit>
@@ -95,7 +95,7 @@
         <UnitName Value="EhgkPage"/>
         <EditorIndex Value="-1"/>
         <TopLine Value="98"/>
-        <CursorPos X="5" Y="115"/>
+        <CursorPos X="13" Y="109"/>
         <UsageCount Value="28"/>
       </Unit>
       <Unit>
@@ -207,8 +207,8 @@
         <Filename Value="../src/ehgkpagecontainer.pas"/>
         <UnitName Value="EhgkPageContainer"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="426"/>
-        <CursorPos X="23" Y="446"/>
+        <TopLine Value="265"/>
+        <CursorPos X="49" Y="277"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
       </Unit>
@@ -350,11 +350,11 @@
       </Position>
       <Position>
         <Filename Value="../src/ehgkpagecontainer.pas"/>
-        <Caret Line="22" Column="32" TopLine="59"/>
+        <Caret Line="193" Column="20" TopLine="180"/>
       </Position>
       <Position>
         <Filename Value="../src/ehgkpagecontainer.pas"/>
-        <Caret Line="193" Column="20" TopLine="180"/>
+        <Caret Line="277" Column="30" TopLine="264"/>
       </Position>
     </JumpHistory>
     <RunParams>

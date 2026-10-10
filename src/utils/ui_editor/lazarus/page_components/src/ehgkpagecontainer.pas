@@ -274,8 +274,7 @@ const
 
 procedure Register;
 begin
-  RegisterComponents('EHGK',[TEhgkPageContainer]);
-  RegisterComponents('EHGK',[TEhgkPageNavigatableContainer]);
+  RegisterComponents('EHGK',[TEhgkPageContainer, TEhgkPageNavigatableContainer]);
 end;
 
 { TEhgkPageContainer }
