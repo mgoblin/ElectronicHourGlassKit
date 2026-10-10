@@ -206,12 +206,20 @@ type
     constructor Create(AOwner: TComponent); override;
 
     {
-     Deletes the page at the specified zero-based index. If deleting that
-     page leaves CurrentPageIndex beyond the new last index, selects the new
-     last page and fires OnPageIndexChange. AfterPageDelete is called before
-     the removed page is freed. Raises TContainerIndexOutOfBoundsError for an
-     invalid index and TContainerEmptyError if the only page would be deleted.
-    }
+      Deletes the page at the specified zero-based index. If deleting that
+      page leaves CurrentPageIndex beyond the new last index, selects the new
+      last page and fires OnPageIndexChange. AfterPageDelete is called before
+      the removed page is freed. Raises TContainerIndexOutOfBoundsError for an
+      invalid index and TContainerEmptyError if the only page would be deleted.
+
+      Event ordering: CurrentPageIndex is adjusted (and OnPageIndexChange is
+      fired, if the index changed) **before** AfterPageDelete is raised. This
+      ensures that AfterPageDelete handlers observe the container in its final
+      state -- the removed page is still valid but not yet freed, and
+      CurrentPageIndex already reflects the post-deletion layout. This ordering
+      differs from the base TEhgkPageContainer, where AfterPageDelete fires
+      immediately after extraction with no index adjustment.
+     }
     procedure DeletePage(Index: Cardinal); override;
 
     {
