@@ -58,6 +58,10 @@ type
     procedure TestLastSinglePageNavigate;
     procedure TestLastMultiplePagesNavigate;
 
+    procedure TestNextSinglePageNavigate;
+    procedure TestNextMultiplePagesNavigate;
+    procedure TestNextAlreadyOnLast;
+
     procedure TestAfterDeleteFirstPage;
     procedure TestAfterDeleteLastPage;
     procedure TestAfterDeleteExistingPage;
@@ -455,6 +459,44 @@ begin
      PageContainer.Last;
      AssertEquals('Page index should be 1', 1, PageContainer.CurrentPageIndex);
      AssertEquals('Page index change event should be called', True, FPageIndexChangedHandlerCalled);
+end;
+
+procedure TEhgkPageNavigatableContainerTestCase.TestNextSinglePageNavigate;
+begin
+  AssertEquals('Page index change event should not be called', False, FPageIndexChangedHandlerCalled);
+  AssertEquals('Page index should be 0', 0, PageContainer.CurrentPageIndex);
+
+  PageContainer.Next;
+  AssertEquals('Page index change event should not be called', False, FPageIndexChangedHandlerCalled);
+  AssertEquals('Page index should remain 0', 0, PageContainer.CurrentPageIndex);
+end;
+
+procedure TEhgkPageNavigatableContainerTestCase.TestNextMultiplePagesNavigate;
+begin
+  PageContainer.AddPage;
+  PageContainer.AddPage;
+  AssertEquals('PageCount should be 3', 3, PageContainer.PageCount);
+  AssertEquals('CurrentPageIndex should be 0', 0, PageContainer.CurrentPageIndex);
+  FPageIndexChangedHandlerCalled := False;
+
+  PageContainer.Next;
+  AssertEquals('Page index should be 1', 1, PageContainer.CurrentPageIndex);
+  AssertTrue('Page index change event should be called', FPageIndexChangedHandlerCalled);
+end;
+
+procedure TEhgkPageNavigatableContainerTestCase.TestNextAlreadyOnLast;
+begin
+  PageContainer.AddPage;
+  PageContainer.AddPage;
+  AssertEquals('PageCount should be 3', 3, PageContainer.PageCount);
+
+  PageContainer.CurrentPageIndex := 2;
+  AssertEquals('CurrentPageIndex should be 2', 2, PageContainer.CurrentPageIndex);
+  FPageIndexChangedHandlerCalled := False;
+
+  PageContainer.Next;
+  AssertEquals('CurrentPageIndex should remain 2', 2, PageContainer.CurrentPageIndex);
+  AssertFalse('Page index change event should not be called', FPageIndexChangedHandlerCalled);
 end;
 
 procedure TEhgkPageNavigatableContainerTestCase.TestAfterDeleteFirstPage;
