@@ -47,6 +47,10 @@ type
     procedure TestFirstSinglePageNavigate;
     procedure TestFirstMultiplePagesNavigate;
 
+    procedure TestCanFirstSinglePage;
+    procedure TestCanFirstAlreadyOnFirst;
+    procedure TestCanFirstNotOnFirst;
+
     procedure TestLastSinglePageNavigate;
     procedure TestLastMultiplePagesNavigate;
 
@@ -323,6 +327,55 @@ begin
      PageContainer.First;
      AssertEquals('Page index should be 0', 0, PageContainer.CurrentPageIndex);
      AssertEquals('Page index change event should be called', True, FPageIndexChangedHandlerCalled);
+end;
+
+procedure TEhgkPageNavigatableContainerTestCase.TestCanFirstSinglePage;
+begin
+  PageContainer.AddPage;
+  AssertEquals('PageCount should be 2', 2, PageContainer.PageCount);
+  AssertEquals('CurrentPageIndex should be 0', 0, PageContainer.CurrentPageIndex);
+
+  AssertFalse(
+    'CanFirst should return False when CurrentPageIndex is 0',
+    PageContainer.CanFirst
+  );
+end;
+
+procedure TEhgkPageNavigatableContainerTestCase.TestCanFirstAlreadyOnFirst;
+begin
+  PageContainer.AddPage;
+  PageContainer.AddPage;
+  AssertEquals('PageCount should be 3', 3, PageContainer.PageCount);
+
+  PageContainer.CurrentPageIndex := 0;
+  AssertEquals('CurrentPageIndex should be 0', 0, PageContainer.CurrentPageIndex);
+
+  AssertFalse(
+    'CanFirst should return False when already on the first page',
+    PageContainer.CanFirst
+  );
+end;
+
+procedure TEhgkPageNavigatableContainerTestCase.TestCanFirstNotOnFirst;
+begin
+  PageContainer.AddPage;
+  PageContainer.AddPage;
+  AssertEquals('PageCount should be 3', 3, PageContainer.PageCount);
+
+  PageContainer.CurrentPageIndex := 1;
+  AssertEquals('CurrentPageIndex should be 1', 1, PageContainer.CurrentPageIndex);
+
+  AssertTrue(
+    'CanFirst should return True when not on the first page',
+    PageContainer.CanFirst
+  );
+
+  PageContainer.First;
+  AssertEquals('CurrentPageIndex should be 0 after First', 0, PageContainer.CurrentPageIndex);
+  AssertFalse(
+    'CanFirst should return False after moving to the first page',
+    PageContainer.CanFirst
+  );
 end;
 
 procedure TEhgkPageNavigatableContainerTestCase.TestLastSinglePageNavigate;
