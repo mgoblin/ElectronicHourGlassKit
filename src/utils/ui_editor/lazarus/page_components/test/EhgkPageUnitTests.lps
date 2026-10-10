@@ -48,6 +48,7 @@
       <Unit>
         <Filename Value="EhgkPageNavigatableContainerTestCase.pas"/>
         <IsPartOfProject Value="True"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="97"/>
         <CursorPos X="14" Y="338"/>
@@ -206,7 +207,6 @@
       <Unit>
         <Filename Value="../src/ehgkpagecontainer.pas"/>
         <UnitName Value="EhgkPageContainer"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="515"/>
         <CursorPos X="5" Y="537"/>
         <UsageCount Value="24"/>

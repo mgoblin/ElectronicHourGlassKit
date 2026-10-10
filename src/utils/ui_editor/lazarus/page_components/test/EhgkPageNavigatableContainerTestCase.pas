@@ -51,6 +51,10 @@ type
     procedure TestCanFirstAlreadyOnFirst;
     procedure TestCanFirstNotOnFirst;
 
+    procedure TestCanLastSinglePage;
+    procedure TestCanLastAlreadyOnLast;
+    procedure TestCanLastNotOnLast;
+
     procedure TestLastSinglePageNavigate;
     procedure TestLastMultiplePagesNavigate;
 
@@ -375,6 +379,62 @@ begin
   AssertFalse(
     'CanFirst should return False after moving to the first page',
     PageContainer.CanFirst
+  );
+end;
+
+procedure TEhgkPageNavigatableContainerTestCase.TestCanLastSinglePage;
+begin
+  PageContainer.AddPage;
+  AssertEquals('PageCount should be 2', 2, PageContainer.PageCount);
+  AssertEquals('CurrentPageIndex should be 0', 0, PageContainer.CurrentPageIndex);
+
+  AssertTrue(
+    'CanLast should return True when not on the last page',
+    PageContainer.CanLast
+  );
+
+  PageContainer.Last;
+  AssertEquals('CurrentPageIndex should be 1 after Last', 1, PageContainer.CurrentPageIndex);
+  AssertFalse(
+    'CanLast should return False after moving to the last page',
+    PageContainer.CanLast
+  );
+end;
+
+procedure TEhgkPageNavigatableContainerTestCase.TestCanLastAlreadyOnLast;
+begin
+  PageContainer.AddPage;
+  PageContainer.AddPage;
+  AssertEquals('PageCount should be 3', 3, PageContainer.PageCount);
+
+  PageContainer.CurrentPageIndex := 2;
+  AssertEquals('CurrentPageIndex should be 2', 2, PageContainer.CurrentPageIndex);
+
+  AssertFalse(
+    'CanLast should return False when already on the last page',
+    PageContainer.CanLast
+  );
+end;
+
+procedure TEhgkPageNavigatableContainerTestCase.TestCanLastNotOnLast;
+begin
+  PageContainer.AddPage;
+  PageContainer.AddPage;
+  AssertEquals('PageCount should be 3', 3, PageContainer.PageCount);
+
+  PageContainer.CurrentPageIndex := 1;
+  AssertEquals('CurrentPageIndex should be 1', 1, PageContainer.CurrentPageIndex);
+
+  AssertTrue(
+    'CanLast should return True when not on the last page',
+    PageContainer.CanLast
+  );
+
+  PageContainer.Last;
+  AssertEquals('CurrentPageIndex should be 2 after Last', 2, PageContainer.CurrentPageIndex);
+  AssertFalse(
+    'CanLast should return False after moving to the last page',
+    PageContainer.CanLast
   );
 end;
 
