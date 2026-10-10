@@ -5,15 +5,14 @@ unit DataModule;
 interface
 
 uses
-  Classes, SysUtils, Dialogs, EhgkPage;
+  Classes, SysUtils, Dialogs, EhgkPage, EhgkPageContainer;
 
 type
 
   { TMainDataModule }
 
   TMainDataModule = class(TDataModule)
-    EhgkPage1: TEhgkPage;
-    procedure EhgkPage1Change(Sender: TObject);
+    PageContainer: TEhgkPageNavigatableContainer;
   private
 
   public
@@ -28,11 +27,6 @@ implementation
 {$R *.lfm}
 
 { TMainDataModule }
-
-procedure TMainDataModule.EhgkPage1Change(Sender: TObject);
-begin
-     ShowMessage('Page changed');
-end;
 
 end.
 

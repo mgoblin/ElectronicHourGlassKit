@@ -5,13 +5,16 @@ unit Main;
 interface
 
 uses
-  Classes, SysUtils, SimplifiedLed, Forms, Controls, Graphics, Dialogs, EhgkPage;
+  Classes, SysUtils, SimplifiedLed, Forms, Controls, Graphics, Dialogs,
+  StdCtrls, DataModule;
 
 type
 
   { TMainForm }
 
   TMainForm = class(TForm)
+    ButtonView: TButton;
+    EditPageValue: TEdit;
     LED29: TSimplifiedLed;
     LED30: TSimplifiedLed;
     LED31: TSimplifiedLed;
@@ -69,7 +72,10 @@ type
     LED14: TSimplifiedLed;
     LED15: TSimplifiedLed;
     LED16: TSimplifiedLed;
+    procedure ButtonViewClick(Sender: TObject);
+    procedure FormCreate(Sender: TObject);
   private
+    procedure LoadFromContainer;
 
   public
 
@@ -81,6 +87,69 @@ var
 implementation
 
 {$R *.lfm}
+
+uses
+  EhgkPage;
+
+{ TMainForm }
+
+procedure TMainForm.ButtonViewClick(Sender: TObject);
+var
+  PageValue: TEhgkPageValue;
+begin
+  if Trim(EditPageValue.Text) = '' then
+  begin
+    ShowMessage('Enter the number');
+  end
+  else
+  begin
+    try
+      PageValue := TEhgkPageValue(StrToUInt64(EditPageValue.Text));
+      MainDataModule.PageContainer.Page[0].Value := PageValue;
+      LoadFromContainer;
+    except
+      on E: EConvertError do
+      begin
+        ShowMessage('Error: ' + E.Message);
+      end;
+    end;
+  end;
+end;
+
+procedure TMainForm.FormCreate(Sender: TObject);
+begin
+  MainDataModule.PageContainer.Page[0].Value := 127;
+  EditPageValue.Text := UIntToStr(MainDataModule.PageContainer.Page[0].Value);
+  LoadFromContainer;
+end;
+
+procedure TMainForm.LoadFromContainer;
+const
+  NamePrefix = 'LED';
+var
+  LedNumber: Cardinal;
+  Component: TComponent;
+  Led: TSimplifiedLed;
+  Page: TEhgkPage;
+begin
+  Page := MainDataModule.PageContainer.Page[0];
+  for LedNumber in [1 .. EHGK_LED_COUNT_MAX] do
+  begin
+    Component := FindComponent(Format('%s%u', [NamePrefix, LedNumber]));
+    if Component is TSimplifiedLed then
+    begin
+      Led := Component as TSimplifiedLed;
+      if Page.IsLedOn(LedNumber) then
+      begin
+        Led.State := TLEDState.ledOn;
+      end
+      else
+      begin
+        Led.State := TLEDState.ledOff;
+      end;
+    end;
+  end;
+end;
 
 end.
 

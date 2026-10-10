@@ -4,10 +4,9 @@ object MainDataModule: TMainDataModule
   HorizontalOffset = 248
   VerticalOffset = 177
   Width = 363
-  object EhgkPage1: TEhgkPage
-    Value = 15
-    OnChange = EhgkPage1Change
-    Left = 124
+  object PageContainer: TEhgkPageNavigatableContainer
+    CurrentPageIndex = 0
+    Left = 136
     Top = 48
   end
 end

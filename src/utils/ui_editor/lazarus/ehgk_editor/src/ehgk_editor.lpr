@@ -30,8 +30,8 @@ begin
   Application.MainFormOnTaskbar:=True;
   {$POP}
   Application.Initialize;
-  Application.CreateForm(TMainForm, MainForm);
   Application.CreateForm(TMainDataModule, MainDataModule);
+  Application.CreateForm(TMainForm, MainForm);
   Application.Run;
 end.
 
