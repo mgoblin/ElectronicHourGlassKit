@@ -240,7 +240,6 @@ type
   }
 
   { TEhgkPageNavigatableContainer }
-
   TEhgkPageNavigatableContainer = class(TEhgkPageContainer)
   private
     FCurrentPageIndex: Cardinal;
@@ -252,7 +251,7 @@ type
     function GetCanLast: Boolean;
 
   protected
-    procedure DoPageIndexChange;
+    procedure FirePageIndexChangeEvent;
 
   public
     {
@@ -482,10 +481,10 @@ begin
   CheckIndexRange(AValue);
   FCurrentPageIndex := AValue;
 
-  DoPageIndexChange;
+  FirePageIndexChangeEvent;
 end;
 
-procedure TEhgkPageNavigatableContainer.DoPageIndexChange;
+procedure TEhgkPageNavigatableContainer.FirePageIndexChangeEvent;
 begin
   if Assigned(FOnPageIndexChange) then
     FOnPageIndexChange(Self);
@@ -517,7 +516,7 @@ begin
 
   if Idx <> FCurrentPageIndex then
   begin
-    DoPageIndexChange;
+    FirePageIndexChangeEvent;
   end;
 
   try
