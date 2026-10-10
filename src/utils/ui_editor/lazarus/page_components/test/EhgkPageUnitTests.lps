@@ -207,8 +207,8 @@
         <Filename Value="../src/ehgkpagecontainer.pas"/>
         <UnitName Value="EhgkPageContainer"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="259"/>
-        <CursorPos X="61" Y="271"/>
+        <TopLine Value="371"/>
+        <CursorPos X="31" Y="381"/>
         <UsageCount Value="22"/>
         <Loaded Value="True"/>
       </Unit>
@@ -236,14 +236,6 @@
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="EhgkPageContainerTestCase.pas"/>
-        <Caret Line="71" Column="33" TopLine="63"/>
-      </Position>
-      <Position>
-        <Filename Value="EhgkPageContainerTestCase.pas"/>
-        <Caret Line="476" Column="43" TopLine="474"/>
-      </Position>
       <Position>
         <Filename Value="EhgkPageContainerTestCase.pas"/>
         <Caret Line="36" Column="29" TopLine="34"/>
@@ -355,6 +347,14 @@
       <Position>
         <Filename Value="../src/ehgkpagecontainer.pas"/>
         <Caret Line="301" Column="46" TopLine="289"/>
+      </Position>
+      <Position>
+        <Filename Value="../src/ehgkpagecontainer.pas"/>
+        <Caret Line="8" Column="16"/>
+      </Position>
+      <Position>
+        <Filename Value="../src/ehgkpagecontainer.pas"/>
+        <Caret Line="382" Column="35" TopLine="361"/>
       </Position>
     </JumpHistory>
     <RunParams>

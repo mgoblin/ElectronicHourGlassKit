@@ -378,7 +378,8 @@ begin
       raise;
     end;
 
-    Result := Cardinal(FPagesList.Add(AddedPage));
+    FPagesList.Add(AddedPage);
+    Result := FPagesList.Count - 1;
     DoAfterPageAdd;
   end
   else
