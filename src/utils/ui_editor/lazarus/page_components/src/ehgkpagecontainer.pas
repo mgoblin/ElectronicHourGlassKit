@@ -310,6 +310,12 @@ type
     }
     procedure Next;
 
+    {
+     Selects the previous page by decrementing CurrentPageIndex by one.
+     Fires OnPageIndexChange only if the current index changes.
+    }
+    procedure Prior;
+
   published
     { Events }
 
@@ -565,6 +571,12 @@ procedure TEhgkPageNavigatableContainer.Next;
 begin
   if CanLast then
     SetCurrentPageIndex(FCurrentPageIndex + 1);
+end;
+
+procedure TEhgkPageNavigatableContainer.Prior;
+begin
+  if CanFirst then
+    SetCurrentPageIndex(FCurrentPageIndex - 1);
 end;
 
 function TEhgkPageNavigatableContainer.GetCanLast: Boolean;
