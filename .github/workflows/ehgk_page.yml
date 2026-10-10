@@ -37,8 +37,8 @@ jobs:
 
           - os: macos-latest
             name: MacOS 64
-            laz-url: https://sourceforge.net/projects/lazarus/files/Lazarus macOS x86-64/Lazarus 4.2/lazarus-darwin-x86_64-4.2.zip
-            fpc-url: https://sourceforge.net/projects/lazarus/files/Lazarus macOS x86-64/Lazarus 4.2/fpc-3.2.2.intelarm64-macosx.dmg
+            laz-url: https://sourceforge.net/projects/lazarus/files/Lazarus%20macOS%20x86-64/Lazarus%203.6/Lazarus-3.6-macosx-x86_64.pkg/download
+            fpc-url: https://sourceforge.net/projects/lazarus/files/Lazarus%20macOS%20x86-64/FPC%203.4.2/fpc-3.4.2.x86_64-macosx.pkg/download
             widgetset: cocoa
     steps:
       - name: Install Lazarus

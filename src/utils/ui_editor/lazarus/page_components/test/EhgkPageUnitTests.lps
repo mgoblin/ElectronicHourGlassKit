@@ -9,7 +9,7 @@
         <IsPartOfProject Value="True"/>
         <EditorIndex Value="-1"/>
         <CursorPos Y="23"/>
-        <UsageCount Value="79"/>
+        <UsageCount Value="80"/>
       </Unit>
       <Unit>
         <Filename Value="EhgkPageTestCases.pas"/>
@@ -17,7 +17,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="130"/>
         <CursorPos X="77" Y="44"/>
-        <UsageCount Value="78"/>
+        <UsageCount Value="79"/>
       </Unit>
       <Unit>
         <Filename Value="EhgkPageValuePropertyTestCase.pas"/>
@@ -26,7 +26,7 @@
         <WindowIndex Value="-1"/>
         <TopLine Value="-1"/>
         <CursorPos X="-1" Y="-1"/>
-        <UsageCount Value="70"/>
+        <UsageCount Value="71"/>
       </Unit>
       <Unit>
         <Filename Value="EhgkPageLedsIndexedPropertyTestCase.pas"/>
@@ -34,7 +34,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="99"/>
         <CursorPos X="42" Y="40"/>
-        <UsageCount Value="70"/>
+        <UsageCount Value="71"/>
       </Unit>
       <Unit>
         <Filename Value="EhgkPageContainerTestCase.pas"/>
@@ -42,17 +42,16 @@
         <EditorIndex Value="2"/>
         <TopLine Value="70"/>
         <CursorPos Y="571"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="55"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="EhgkPageNavigatableContainerTestCase.pas"/>
         <IsPartOfProject Value="True"/>
-        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="301"/>
         <CursorPos X="86" Y="324"/>
-        <UsageCount Value="50"/>
+        <UsageCount Value="51"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
@@ -207,9 +206,9 @@
       <Unit>
         <Filename Value="../src/ehgkpagecontainer.pas"/>
         <UnitName Value="EhgkPageContainer"/>
-        <TopLine Value="196"/>
-        <CursorPos X="32" Y="241"/>
-        <UsageCount Value="23"/>
+        <IsVisibleTab Value="True"/>
+        <CursorPos X="43" Y="14"/>
+        <UsageCount Value="24"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
