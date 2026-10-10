@@ -71,7 +71,7 @@ type
     FAfterPageDelete: TAfterDeletePageEvent;
 
     function GetPageByIndex(Index: Cardinal): TEhgkPage;
-    function GetCount: Cardinal;
+    function GetCount: Cardinal; inline;
 
   protected
     procedure CheckIndexRange(Index: Cardinal);
@@ -337,22 +337,18 @@ end;
 
 constructor TEhgkPageContainer.Create(AOwner: TComponent);
 var
-  ehgkPage: TEhgkPage;
+  i: Cardinal;
 begin
   inherited Create(AOwner);
 
   FPagesList := TEhgkPageList.Create(True);
 
-  while FPagesList.Count < MinPages do
-  begin
-    ehgkPage := TEhgkPage.Create(Nil);
-    FPagesList.Add(ehgkPage);
-  end;
+  for i := 1 to MinPages do
+    FPagesList.Add(TEhgkPage.Create(Nil));
 end;
 
 destructor TEhgkPageContainer.Destroy;
 begin
-  FPagesList.Clear;
   FreeAndNil(FPagesList);
   inherited Destroy;
 end;
@@ -433,7 +429,7 @@ begin
 
   if (FCurrentPageIndex >= PageCount) then
   begin
-    FCurrentPageIndex  := PageCount - 1;
+    FCurrentPageIndex := PageCount - 1;
   end
   else if (FCurrentPageIndex > Index) then
   begin
