@@ -238,6 +238,9 @@ type
    Destroy is inherited from TEhgkPageContainer, which frees all pages owned
    by the container.
   }
+
+  { TEhgkPageNavigatableContainer }
+
   TEhgkPageNavigatableContainer = class(TEhgkPageContainer)
   private
     FCurrentPageIndex: Cardinal;
@@ -280,6 +283,12 @@ type
      OnPageIndexChange only if the current index changes.
     }
     procedure First;
+
+    {
+     Returns True if the current page index can be changed to the first page
+     (i.e., the current page is not already the first one).
+    }
+    function CanFirst: Boolean;
 
     {
      Selects the last page by setting CurrentPageIndex to PageCount - 1.
@@ -458,8 +467,6 @@ begin
   end;
 end;
 
-{ TEhgkPageNavigatableContainer }
-
 procedure TEhgkPageNavigatableContainer.SetCurrentPageIndex(AValue: Cardinal);
 begin
   if FCurrentPageIndex = AValue then Exit;
@@ -513,7 +520,13 @@ end;
 
 procedure TEhgkPageNavigatableContainer.First;
 begin
-  SetCurrentPageIndex(0);
+  if CanFirst then
+    SetCurrentPageIndex(0);
+end;
+
+function TEhgkPageNavigatableContainer.CanFirst: Boolean;
+begin
+  Result := FCurrentPageIndex <> 0;
 end;
 
 procedure TEhgkPageNavigatableContainer.Last;
