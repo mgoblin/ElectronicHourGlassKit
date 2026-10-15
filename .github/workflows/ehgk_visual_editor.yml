@@ -69,6 +69,9 @@ jobs:
             matrix: ${{ fromJSON(needs.setup.outputs.matrix) }}
 
         steps:
+            - name: Checkout sources
+              uses: actions/checkout@v7.0.1
+              
             - name: Install Lazarus
               uses: ollydev/setup-lazarus@v4.2
               with:
@@ -81,6 +84,3 @@ jobs:
               with:
                 widgetset: ${{ matrix.widgetset }}
                 os-name: ${{ matrix.name }}
-            
-            - name: Checkout sources
-              uses: actions/checkout@v7.0.1
