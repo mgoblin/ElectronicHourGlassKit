@@ -57,5 +57,11 @@ jobs:
                 fpc-url: ${{ matrix.config.fpc-url }}
                 use-cache: true
 
+            - name: Install gtk2 widgetset dependencies
+              if: matrix.config.name == 'Linux 64' && matrix.config.widgetset == 'gtk2'
+              run: |
+                sudo apt-get update
+                sudo apt-get install gtk2-engines-pixbuf gnome-themes-extra libgail-common    
+
             - name: Checkout sources
               uses: actions/checkout@v7.0.1
