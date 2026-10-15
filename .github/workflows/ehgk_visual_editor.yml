@@ -58,13 +58,13 @@ jobs:
                 use-cache: true
 
             - name: Install gtk2 widgetset dependencies
-              if: matrix.config.widgetset == 'gtk2'
+              if: matrix.config.widgetset == 'gtk2' && startsWith(matrix.config.name, 'Linux')
               run: |
                 sudo apt-get update
                 sudo apt-get install gtk2-engines-pixbuf gnome-themes-extra libgail-common
 
             - name: Install qt5 widgetset dependencies
-              if: matrix.config.widgetset == 'qt5'
+              if: matrix.config.widgetset == 'qt5' && startsWith(matrix.config.name, 'Linux')
               run: |
                 sudo apt-get update
                 sudo apt-get install libqt5pas-dev lcl-qt5
