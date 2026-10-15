@@ -51,8 +51,11 @@ jobs:
 
         steps:
             - name: Install Lazarus
-              uses: ollydev/setup-lazarus@v4
+              uses: ollydev/setup-lazarus@v4.2
               with:
                 laz-url: ${{ matrix.config.laz-url }}
                 fpc-url: ${{ matrix.config.fpc-url }}
                 use-cache: true
+
+            - name: Checkout sources
+              uses: actions/checkout@v7.0.1
