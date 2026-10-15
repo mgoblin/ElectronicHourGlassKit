@@ -1,0 +1,30 @@
+name: Build EHGK visual editor
+
+on:
+    push:
+        paths:
+        - 'src/utils/ui_editor/lazarus/ehgk_editor/**'
+        - '.github/workflows/ehgk_visual_editor.yml'
+
+jobs:
+    build_led_control:
+        name: ${{ matrix.config.name }}
+        runs-on: ${{ matrix.config.os }}
+        defaults:
+            run:
+                shell: bash
+        strategy:
+            fail-fast: false
+            matrix:
+                config:
+                    - os: windows-latest
+                      name: Windows 64
+                      laz-url: https://sourceforge.net/projects/lazarus/files/Lazarus Windows 64 bits/Lazarus 4.2/lazarus-4.2-fpc-3.2.2-win64.exe
+                      widgetset: win32
+        steps:
+            - name: Install Lazarus
+              uses: ollydev/setup-lazarus@v4
+              with:
+                laz-url: ${{ matrix.config.laz-url }}
+                fpc-url: ${{ matrix.config.fpc-url }}
+                use-cache: true
