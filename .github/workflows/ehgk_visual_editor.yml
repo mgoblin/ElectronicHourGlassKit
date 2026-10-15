@@ -57,6 +57,13 @@ jobs:
                 EOF
                 echo "matrix=$(jq -c . matrix.json)" >> "$GITHUB_OUTPUT"
 
+    install-lazarus:
+      needs: setup
+      uses: ./.github/workflows/reusable_prepare_lazarus.yml
+      with:
+        os-name: ${{ matrix.name }}
+        build-env-name: ${{ matrix.os }}
+
     build-visual-editor:
         name: ${{ matrix.name }}
         needs: setup
