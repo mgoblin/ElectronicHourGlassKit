@@ -59,6 +59,8 @@ jobs:
 
     install-lazarus:
       needs: setup
+      strategy:
+        matrix: ${{ fromJSON(needs.setup.outputs.matrix) }}
       uses: ./.github/workflows/reusable_prepare_lazarus.yml
       with:
         os-name: ${{ matrix.name }}
