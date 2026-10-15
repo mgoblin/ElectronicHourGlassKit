@@ -68,7 +68,7 @@ jobs:
 
     build-visual-editor:
         name: ${{ matrix.name }}
-        needs: setup
+        needs: install-lazarus
         runs-on: ${{ matrix.os }}
         defaults:
             run:
