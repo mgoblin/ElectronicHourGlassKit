@@ -57,18 +57,9 @@ jobs:
                 EOF
                 echo "matrix=$(jq -c . matrix.json)" >> "$GITHUB_OUTPUT"
 
-    install-lazarus:
-      needs: setup
-      strategy:
-        matrix: ${{ fromJSON(needs.setup.outputs.matrix) }}
-      uses: ./.github/workflows/reusable_prepare_lazarus.yml
-      with:
-        os-name: ${{ matrix.name }}
-        build-env-name: ${{ matrix.os }}
-
     build-visual-editor:
         name: ${{ matrix.name }}
-        needs: install-lazarus
+        needs: setup
         runs-on: ${{ matrix.os }}
         defaults:
             run:
@@ -85,23 +76,11 @@ jobs:
                 fpc-url: ${{ matrix.fpc-url }}
                 use-cache: true
 
-            - name: Install gtk2 widgetset dependencies
-              if: matrix.widgetset == 'gtk2' && startsWith(matrix.name, 'Linux')
-              run: |
-                sudo apt-get update
-                sudo apt-get install -y gtk2-engines-pixbuf gnome-themes-extra libgail-common
-
-            - name: Install qt5 widgetset dependencies
-              if: matrix.widgetset == 'qt5' && startsWith(matrix.name, 'Linux')
-              run: |
-                sudo apt-get update
-                sudo apt-get install -y libqt5pas-dev lcl-qt5
-
-            - name: Install virtual screen package for unit testing
-              if: startsWith(matrix.name, 'Linux')
-              run: |
-                sudo apt-get update
-                sudo apt-get install -y xvfb
-
+            - name: Install dependencies
+              uses: ./.github/actions/install-lazarus-deps
+              with:
+                widgetset: ${{ matrix.widgetset }}
+                os-name: ${{ matrix.name }}
+            
             - name: Checkout sources
               uses: actions/checkout@v7.0.1

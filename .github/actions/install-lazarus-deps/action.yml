@@ -1,0 +1,34 @@
+name: Install Lazarus dependencies
+description: Installs gtk2/qt5/xvfb dependencies for Lazarus
+
+inputs:
+  widgetset:
+    description: 'gtk2, qt5 or cocoa'
+    required: true
+  os-name:
+    description: 'Human readable name like Linux 64 gtk2'
+    required: true
+
+runs:
+  using: composite
+  steps:
+    - name: Install gtk2 widgetset dependencies
+      if: inputs.widgetset == 'gtk2' && startsWith(inputs.os-name, 'Linux')
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gtk2-engines-pixbuf gnome-themes-extra libgail-common
+
+    - name: Install qt5 widgetset dependencies
+      if: inputs.widgetset == 'qt5' && startsWith(inputs.os-name, 'Linux')
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y libqt5pas-dev lcl-qt5
+
+    - name: Install virtual screen package
+      if: startsWith(inputs.os-name, 'Linux')
+      shell: bash
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y xvfb
