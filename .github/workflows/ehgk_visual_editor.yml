@@ -7,7 +7,7 @@ on:
         - '.github/workflows/ehgk_visual_editor.yml'
 
 jobs:
-    build_led_control:
+    build-visual-editor:
         name: ${{ matrix.config.name }}
         runs-on: ${{ matrix.config.os }}
         defaults:
