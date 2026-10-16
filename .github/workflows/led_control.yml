@@ -37,10 +37,10 @@ jobs:
             
           - os: ubuntu-latest
             name: Linux 64 qt5
-            laz-url: https://sourceforge.net/projects/lazarus/files/Lazarus Linux amd64 DEB/Lazarus 4.2/lazarus-project_4.2.0-0_amd64.deb
+            laz-url: https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%204.8/lazarus-project_4.8.0-0_amd64.deb
             fpc-url: |
-              https://sourceforge.net/projects/lazarus/files/Lazarus Linux amd64 DEB/Lazarus 4.2/fpc-laz_3.2.2-210709_amd64.deb
-              https://sourceforge.net/projects/lazarus/files/Lazarus Linux amd64 DEB/Lazarus 4.2/fpc-src_3.2.2-210709_amd64.deb
+              https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%204.8/fpc-src_3.2.2-210709_amd64.deb
+              https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%204.8/fpc-laz_3.2.2-210709_amd64.deb
             widgetset: qt5  
 
           - os: macos-latest
@@ -57,7 +57,9 @@ jobs:
       - name: Install Lazarus
         uses: ollydev/setup-lazarus@v4.2
         with:
-          lazarus-version: 4.8
+          laz-url: ${{ matrix.config.laz-url }}
+          fpc-url: ${{ matrix.config.fpc-url }}
+          use-cache: true
 
       - name: Install Lazarus dependencies
         uses: ./.github/actions/install-lazarus-deps
