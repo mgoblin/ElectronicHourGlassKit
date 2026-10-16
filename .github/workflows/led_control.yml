@@ -71,11 +71,6 @@ jobs:
         uses: ./.github/actions/build-led-control-component
         with:
           widgetset: ${{ matrix.config.widgetset }}
-
-      
-      - name: Build LED control package unit tests
-        run: | 
-          lazbuild -B --ws=${{ matrix.config.widgetset }} src/utils/ui_editor/lazarus/led_control/test/LedUnitTests.lpi
       
       - name: Run LED control unit tests
         env:
