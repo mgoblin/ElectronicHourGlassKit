@@ -60,15 +60,19 @@ jobs:
           laz-url: ${{ matrix.config.laz-url }}
           fpc-url: ${{ matrix.config.fpc-url }}
           use-cache: true
+
+      - name: Install Lazarus dependencies
+        uses: ./.github/actions/install-lazarus-deps
+        with:
+          widgetset: ${{ matrix.config.widgetset }}
+          os-name: ${{ matrix.config.name }}    
       
       - name: Build LED control package
         run: |
-          sudo apt-get install -y libqt5pas-dev
           lazbuild --ws=${{ matrix.config.widgetset }} src/utils/ui_editor/lazarus/led_control/src/ledcontrol.lpk
       
       - name: Build LED control package unit tests
         run: | 
-          sudo apt-get install -y libqt5pas-dev
           lazbuild --ws=${{ matrix.config.widgetset }} src/utils/ui_editor/lazarus/led_control/test/LedUnitTests.lpi
       
       - name: Run LED control unit tests
