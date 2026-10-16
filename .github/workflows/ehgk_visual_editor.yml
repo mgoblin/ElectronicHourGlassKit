@@ -79,7 +79,7 @@ jobs:
                 fpc-url: ${{ matrix.fpc-url }}
                 use-cache: true
 
-            - name: Install dependencies
+            - name: Install Lazarus dependencies
               uses: ./.github/actions/install-lazarus-deps
               with:
                 widgetset: ${{ matrix.widgetset }}
