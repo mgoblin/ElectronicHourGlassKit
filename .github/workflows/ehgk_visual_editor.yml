@@ -7,80 +7,45 @@ on:
         - '.github/workflows/ehgk_visual_editor.yml'
 
 jobs:
-    setup:
-        name: Setup matrix
-        runs-on: ubuntu-latest
-        outputs:
-            matrix: ${{ steps.set.outputs.matrix }}
-        steps:
-            - name: Generate matrix JSON
-              id: set
-              run: |
-                cat <<'EOF' > matrix.json
-                {
-                  "include": [
-                    {
-                      "os": "windows-latest",
-                      "name": "Windows 64",
-                      "laz-url": "https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2064%20bits/Lazarus%204.2/lazarus-4.2-fpc-3.2.2-win64.exe",
-                      "widgetset": "win32"
-                    },
-                    {
-                      "os": "windows-latest",
-                      "name": "Windows 32",
-                      "laz-url": "https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2032%20bits/Lazarus%204.2/lazarus-4.2-fpc-3.2.2-win32.exe",
-                      "widgetset": "win32"
-                    },
-                    {
-                      "os": "ubuntu-latest",
-                      "name": "Linux 64 gtk2",
-                      "laz-url": "https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%204.2/lazarus-project_4.2.0-0_amd64.deb",
-                      "fpc-url": "https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%204.2/fpc-laz_3.2.2-210709_amd64.deb\nhttps://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%204.2/fpc-src_3.2.2-210709_amd64.deb",
-                      "widgetset": "gtk2"
-                    },
-                    {
-                      "os": "ubuntu-latest",
-                      "name": "Linux 64 qt5",
-                      "laz-url": "https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%204.2/lazarus-project_4.2.0-0_amd64.deb",
-                      "fpc-url": "https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%204.2/fpc-laz_3.2.2-210709_amd64.deb\nhttps://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%204.2/fpc-src_3.2.2-210709_amd64.deb",
-                      "widgetset": "qt5"
-                    },
-                    {
-                      "os": "macos-latest",
-                      "name": "MacOS 64",
-                      "laz-url": "https://sourceforge.net/projects/lazarus/files/Lazarus%20macOS%20x86-64/Lazarus%204.8/lazarus-darwin-x86_64-4.8.zip",
-                      "fpc-url": "https://sourceforge.net/projects/lazarus/files/Lazarus%20macOS%20x86-64/Lazarus%204.8/fpc-3.2.4rc1a.intelarm64-macosx.dmg",
-                      "widgetset": "cocoa"
-                    }
-                  ]
-                }
-                EOF
-                echo "matrix=$(jq -c . matrix.json)" >> "$GITHUB_OUTPUT"
+  prepare-matrix:
+    name: Setup matrix
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.gen.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v7.0.1
 
-    build-visual-editor:
-        name: ${{ matrix.name }}
-        needs: setup
-        runs-on: ${{ matrix.os }}
-        defaults:
-            run:
-                shell: bash
-        strategy:
-            fail-fast: false
-            matrix: ${{ fromJSON(needs.setup.outputs.matrix) }}
+      - name: Generate build matrix
+        id: gen
+        uses: ./.github/actions/make-matrix
 
-        steps:
-            - name: Checkout sources
-              uses: actions/checkout@v7.0.1
-              
-            - name: Install Lazarus
-              uses: ollydev/setup-lazarus@v4.2
-              with:
-                laz-url: ${{ matrix.laz-url }}
-                fpc-url: ${{ matrix.fpc-url }}
-                use-cache: true
+      - name: Debug matrix
+        run: echo '${{ steps.gen.outputs.matrix }}'
 
-            - name: Install Lazarus dependencies
-              uses: ./.github/actions/install-lazarus-deps
-              with:
-                widgetset: ${{ matrix.widgetset }}
-                os-name: ${{ matrix.name }}
+  build-visual-editor:
+      name: ${{ matrix.name }}
+      needs: prepare-matrix
+      runs-on: ${{ matrix.os }}
+      defaults:
+          run:
+              shell: bash
+      strategy:
+          fail-fast: false
+          matrix: ${{ fromJSON(needs.prepare-matrix.outputs.matrix) }}
+
+      steps:
+          - name: Checkout sources
+            uses: actions/checkout@v7.0.1
+            
+          - name: Install Lazarus
+            uses: ollydev/setup-lazarus@v4.2
+            with:
+              laz-url: ${{ matrix.laz-url }}
+              fpc-url: ${{ matrix.fpc-url }}
+              use-cache: true
+
+          - name: Install Lazarus dependencies
+            uses: ./.github/actions/install-lazarus-deps
+            with:
+              widgetset: ${{ matrix.widgetset }}
+              os-name: ${{ matrix.name }}
