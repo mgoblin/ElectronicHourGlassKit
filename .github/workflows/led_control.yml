@@ -40,7 +40,12 @@ jobs:
             laz-url: https://sourceforge.net/projects/lazarus/files/Lazarus%20macOS%20x86-64/Lazarus%204.8/lazarus-darwin-x86_64-4.8.zip
             fpc-url: https://sourceforge.net/projects/lazarus/files/Lazarus%20macOS%20x86-64/Lazarus%204.8/fpc-3.2.4rc1a.intelarm64-macosx.dmg
             widgetset: cocoa
+    
     steps:
+
+      - name: Checkout sources
+        uses: actions/checkout@v7.0.1
+
       - name: Install Lazarus
         uses: ollydev/setup-lazarus@v4
         with:
@@ -48,8 +53,11 @@ jobs:
           fpc-url: ${{ matrix.config.fpc-url }}
           use-cache: true
 
-      - name: Checkout sources
-        uses: actions/checkout@v7.0.1
+      - name: Install Lazarus dependencies
+        uses: ./.github/actions/install-lazarus-deps
+        with:
+          widgetset: ${{ matrix.config.widgetset }}
+          os-name: ${{ matrix.config.name }}    
       
       - name: Build LED control package
         run: |
@@ -58,12 +66,6 @@ jobs:
       - name: Build LED control package unit tests
         run: |  
           lazbuild --ws=${{ matrix.config.widgetset }} src/utils/ui_editor/lazarus/led_control/test/LedUnitTests.lpi
-
-      - name: Install virtual screen package from Ubuntu repo
-        if: matrix.config.name == 'Linux 64'
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y xvfb
       
       - name: Run LED control unit tests
         run: |
