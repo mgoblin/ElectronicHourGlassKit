@@ -62,8 +62,7 @@ runs:
         {
           echo '## Components tree'
           echo '```'
-          cd ${{ inputs.component-src-path }}
-          find . -maxdepth 3 -not -path '*/\.git*' -not -path '*/node_modules*' | sed -e "s;[^/]*/;  ;g;s;   ; | ;g"
+          find ${{ inputs.component-src-path }}/lib -maxdepth 3 | sed -e "s;[^/]*/;  ;g;s;   ; | ;g"
           echo '```'
         } >> "$GITHUB_STEP_SUMMARY"
  
