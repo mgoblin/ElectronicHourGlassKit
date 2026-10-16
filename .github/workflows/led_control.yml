@@ -77,10 +77,10 @@ jobs:
       
       - name: Run LED control unit tests
         env:
-          MATRIX_OS: ${{ matrix.config.os }}
+          MATRIX_NAME: ${{ matrix.config.name }}
         run: |
           set -euo pipefail
-          if [ "$MATRIX_OS" == Linux* ]; then
+          if [ "$MATRIX_NAME" == Linux* ]; then
             xvfb-run -a src/utils/ui_editor/lazarus/led_control/test/LedUnitTests
           else
             src/utils/ui_editor/lazarus/led_control/test/LedUnitTests
