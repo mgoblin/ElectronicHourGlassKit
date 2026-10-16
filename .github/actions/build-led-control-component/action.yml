@@ -55,13 +55,15 @@ runs:
 
     - name: Report build results
       shell: bash
+      env:
+        MATRIX_NAME: ${{ matrix.name }}
       run: |
-        sudo apt install tree
         set -euo pipefail
         {
           echo '## Components tree'
           echo '```'
-          tree ${{ inputs.component-src-path }}/lib --charset=ascii -L 3
+          cd ${{ inputs.component-src-path }}
+          find . -maxdepth 3 -not -path '*/\.git*' -not -path '*/node_modules*' | sed -e "s;[^/]*/;  ;g;s;   ; | ;g"
           echo '```'
         } >> "$GITHUB_STEP_SUMMARY"
  
