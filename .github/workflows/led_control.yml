@@ -52,6 +52,7 @@ jobs:
           widgetset: ${{ matrix.widgetset }} 
       
       - name: Run LED control unit tests
+        shell: bash
         env:
           MATRIX_NAME: ${{ matrix.name }}
         run: |
