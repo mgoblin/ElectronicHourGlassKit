@@ -7,8 +7,23 @@ on:
       - '.github/workflows/led_control.yml'
 
 jobs:
+  prepare-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.gen.outputs.matrix }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate build matrix
+        id: gen
+        uses: ./.github/actions/make-matrix
+
+      - name: Debug matrix
+        run: echo '${{ steps.gen.outputs.matrix }}'
+
   build-led-control-component:
     name: ${{ matrix.config.name }}
+    needs: prepare-matrix
     runs-on: ${{ matrix.config.os }}
     defaults:
       run:
