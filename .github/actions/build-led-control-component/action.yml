@@ -28,5 +28,5 @@ runs:
 
     - name: Build LED control unit LedUnitTests
       shell: bash
-      run: lazbuild -B --ws=${{ matrix.config.widgetset }} ${{ inputs.unittest-src-path }}
+      run: lazbuild -B --ws=${{ inputs.widgetset }} ${{ inputs.unittest-src-path }}
   

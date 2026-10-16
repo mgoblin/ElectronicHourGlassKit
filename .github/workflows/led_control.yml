@@ -49,7 +49,7 @@ jobs:
       - name: Build LED control package
         uses: ./.github/actions/build-led-control-component
         with:
-          widgetset: ${{ matrix.widgetset }}
+          widgetset: ${{ matrix.widgetset }} 
       
       - name: Run LED control unit tests
         env:
