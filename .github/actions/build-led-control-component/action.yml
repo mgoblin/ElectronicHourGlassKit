@@ -28,7 +28,7 @@ runs:
 
     - name: Build LED control unit LedUnitTests
       shell: bash
-      run: lazbuild -B --ws=${{ inputs.widgetset }} ${{ inputs.unittest-src-path }}/LedUnitTests.lpi'  
+      run: lazbuild -B --ws=${{ inputs.widgetset }} ${{ inputs.unittest-src-path }}/LedUnitTests.lpi  
 
     - name: Run LED control unit tests
       shell: bash
