@@ -22,48 +22,12 @@ jobs:
         run: echo '${{ steps.gen.outputs.matrix }}'
 
   build-led-control-component:
-    name: ${{ matrix.config.name }}
     needs: prepare-matrix
-    runs-on: ${{ matrix.config.os }}
-    defaults:
-      run:
-        shell: bash
-    strategy:
+    strategy: 
       fail-fast: false
-      matrix:
-        config:
-          - os: windows-latest
-            name: Windows 64
-            laz-url: https://sourceforge.net/projects/lazarus/files/Lazarus Windows 64 bits/Lazarus 4.2/lazarus-4.2-fpc-3.2.2-win64.exe
-            widgetset: win32 
-
-          - os: windows-latest
-            name: Windows 32
-            laz-url: https://sourceforge.net/projects/lazarus/files/Lazarus Windows 32 bits/Lazarus 4.2/lazarus-4.2-fpc-3.2.2-win32.exe
-            widgetset: win32 
-
-          - os: ubuntu-latest
-            name: Linux 64 gtk2
-            laz-url: https://sourceforge.net/projects/lazarus/files/Lazarus Linux amd64 DEB/Lazarus 4.2/lazarus-project_4.2.0-0_amd64.deb
-            fpc-url: |
-              https://sourceforge.net/projects/lazarus/files/Lazarus Linux amd64 DEB/Lazarus 4.2/fpc-laz_3.2.2-210709_amd64.deb
-              https://sourceforge.net/projects/lazarus/files/Lazarus Linux amd64 DEB/Lazarus 4.2/fpc-src_3.2.2-210709_amd64.deb
-            widgetset: gtk2
-            
-          - os: ubuntu-latest
-            name: Linux 64 qt5
-            laz-url: https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%204.8/lazarus-project_4.8.0-0_amd64.deb
-            fpc-url: |
-              https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%204.8/fpc-src_3.2.2-210709_amd64.deb
-              https://sourceforge.net/projects/lazarus/files/Lazarus%20Linux%20amd64%20DEB/Lazarus%204.8/fpc-laz_3.2.2-210709_amd64.deb
-            widgetset: qt5  
-
-          - os: macos-latest
-            name: MacOS 64
-            laz-url: https://sourceforge.net/projects/lazarus/files/Lazarus%20macOS%20x86-64/Lazarus%204.8/lazarus-darwin-x86_64-4.8.zip
-            fpc-url: https://sourceforge.net/projects/lazarus/files/Lazarus%20macOS%20x86-64/Lazarus%204.8/fpc-3.2.4rc1a.intelarm64-macosx.dmg
-            widgetset: cocoa
-    
+      matrix: ${{ fromJSON(needs.prepare-matrix.outputs.matrix) }}
+    runs-on: ${{ matrix.os }}  
+    name: ${{ matrix.name }}
     steps:
 
       - name: Checkout sources
@@ -72,24 +36,24 @@ jobs:
       - name: Install Lazarus
         uses: ollydev/setup-lazarus@v4.2
         with:
-          laz-url: ${{ matrix.config.laz-url }}
-          fpc-url: ${{ matrix.config.fpc-url }}
+          laz-url: ${{ matrix.laz-url }}
+          fpc-url: ${{ matrix.fpc-url }}
           use-cache: true
 
       - name: Install Lazarus dependencies
         uses: ./.github/actions/install-lazarus-deps
         with:
-          widgetset: ${{ matrix.config.widgetset }}
-          os-name: ${{ matrix.config.name }}    
+          widgetset: ${{ matrix.widgetset }}
+          os-name: ${{ matrix.name }}    
       
       - name: Build LED control package
         uses: ./.github/actions/build-led-control-component
         with:
-          widgetset: ${{ matrix.config.widgetset }}
+          widgetset: ${{ matrix.widgetset }}
       
       - name: Run LED control unit tests
         env:
-          MATRIX_NAME: ${{ matrix.config.name }}
+          MATRIX_NAME: ${{ matrix.name }}
         run: |
           set -euo pipefail
           case "$MATRIX_NAME" in
