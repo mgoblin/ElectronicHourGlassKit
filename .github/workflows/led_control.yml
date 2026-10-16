@@ -80,11 +80,14 @@ jobs:
           MATRIX_NAME: ${{ matrix.config.name }}
         run: |
           set -euo pipefail
-          if [ "$MATRIX_NAME" == Linux* ]; then
+          case "$MATRIX_NAME" in
+            Linux*)
             xvfb-run -a src/utils/ui_editor/lazarus/led_control/test/LedUnitTests
-          else
+            ;;
+          *)
             src/utils/ui_editor/lazarus/led_control/test/LedUnitTests
-          fi
+            ;;
+          esac
 
           echo "## Unit tests Results 🚀" >> $GITHUB_STEP_SUMMARY
           if grep -q '<NumberOfErrors>0</NumberOfErrors>' result.xml && grep -q '<NumberOfFailures>0</NumberOfFailures>' result.xml; then
