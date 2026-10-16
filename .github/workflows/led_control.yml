@@ -69,7 +69,7 @@ jobs:
       
       - name: Build LED control package
         run: |
-          lazbuild src/utils/ui_editor/lazarus/led_control/src/ledcontrol.lpk
+          lazbuild --ws=${{ matrix.config.widgetset }} src/utils/ui_editor/lazarus/led_control/src/ledcontrol.lpk
       
       - name: Build LED control package unit tests
         run: |  
