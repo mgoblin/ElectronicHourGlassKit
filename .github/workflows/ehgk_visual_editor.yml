@@ -57,6 +57,6 @@ jobs:
               widgetset: ${{ matrix.widgetset }}     
 
           - name: Build page components package
-            uses: ./.github/actions/build-led-page-components
+            uses: ./.github/actions/build-page-components
             with:
               widgetset: ${{ matrix.widgetset }}         
