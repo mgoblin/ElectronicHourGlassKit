@@ -8,10 +8,11 @@ inputs:
     description: 'gtk2, qt5 or cocoa'
     required: true
     default: 'gtk2'
-  src-path:
+  component-src-path:
     description: 'path to ledcontrol.lpk file'
     required: true
     default: 'src/utils/ui_editor/lazarus/led_control/src/ledcontrol.lpk'
+
 
 runs:
   using: composite
@@ -19,5 +20,5 @@ runs:
     
     - name: Build LED control package
       shell: bash
-      run: lazbuild -B --ws=${{ inputs.widgetset }} src/utils/ui_editor/lazarus/led_control/src/ledcontrol.lpk
+      run: lazbuild -B --ws=${{ inputs.widgetset }} ${{ inputs.component-src-path }}
   

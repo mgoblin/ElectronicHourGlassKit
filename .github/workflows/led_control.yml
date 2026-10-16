@@ -7,7 +7,7 @@ on:
       - '.github/workflows/led_control.yml'
 
 jobs:
-  test:
+  build-led-control-component:
     name: ${{ matrix.config.name }}
     runs-on: ${{ matrix.config.os }}
     defaults:
@@ -71,7 +71,7 @@ jobs:
         uses: ./.github/actions/build-led-control-component
         with:
           widgetset: ${{ matrix.config.widgetset }}
-          
+
       
       - name: Build LED control package unit tests
         run: | 
