@@ -26,4 +26,27 @@ runs:
 
     - name: Build page components unit tests
       shell: bash
-      run: lazbuild -B --ws=${{ inputs.widgetset }} ${{ inputs.unittest-src-path }}/EhgkPageUnitTests.lpi    
+      run: lazbuild -B --ws=${{ inputs.widgetset }} ${{ inputs.unittest-src-path }}/EhgkPageUnitTests.lpi
+
+    - name: Run unit tests
+      shell: bash
+      env:
+        MATRIX_NAME: ${{ matrix.name }}
+      run: |
+        set -euo pipefail
+        case "$MATRIX_NAME" in
+          Linux*)
+          xvfb-run -a ${{ inputs.unittest-src-path }}/EhgkPageUnitTests
+          ;;
+        *)
+          ${{ inputs.unittest-src-path }}/EhgkPageUnitTests
+          ;;
+        esac
+
+        echo "## Unit tests Results 🚀" >> $GITHUB_STEP_SUMMARY
+        if grep -q '<NumberOfErrors>0</NumberOfErrors>' result.xml && grep -q '<NumberOfFailures>0</NumberOfFailures>' result.xml; then
+          echo "The build finished successfully at $(date)" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "Unit tests failed at $(date)" >> $GITHUB_STEP_SUMMARY
+          exit 1
+        fi  
