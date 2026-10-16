@@ -22,8 +22,8 @@ runs:
   steps:
     - name: Build page components package
       shell: bash
-      run: lazbuild -B --ws=${{ inputs.widgetset }} ${{ inputs.component-src-path }}/src/utils/ui_editor/lazarus/components/page_components/src/pagecomponents.lpk
+      run: lazbuild -B --ws=${{ inputs.widgetset }} ${{ inputs.component-src-path }}/pagecomponents.lpk
 
     - name: Build page components unit tests
       shell: bash
-      run: lazbuild -B --ws=${{ inputs.widgetset }} ${{ inputs.unittest-src-path }}/src/utils/ui_editor/lazarus/components/page_components/test/EhgkPageUnitTests.lpi    
+      run: lazbuild -B --ws=${{ inputs.widgetset }} ${{ inputs.unittest-src-path }}/EhgkPageUnitTests.lpi    
