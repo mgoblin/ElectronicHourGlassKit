@@ -1,0 +1,25 @@
+name: Build pages component action
+description: | 
+  Build electronic hourglass kit pages Lazarus component. 
+  Needs installed and configured Lazarus for target os and arch.
+
+inputs:
+  widgetset:
+    description: 'gtk2, qt5 or cocoa'
+    required: true
+    default: 'gtk2'
+  component-src-path:
+    description: 'path to pagecomponents.lpk file'
+    required: true
+    default: 'src/utils/ui_editor/lazarus/components/page_components/src'
+  unittest-src-path:
+    description: 'path to EhgkPageUnitTests.lpi'
+    required: true
+    default: 'src/utils/ui_editor/lazarus/components/page_components/test'
+
+runs:
+  using: composite
+  steps:
+    - name: echo
+      shell: bash
+      run: echo build page components    
