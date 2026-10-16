@@ -58,7 +58,6 @@ jobs:
         uses: ollydev/setup-lazarus@v4.2
         with:
           lazarus-version: 4.8
-          use-cache: true
 
       - name: Install Lazarus dependencies
         uses: ./.github/actions/install-lazarus-deps
