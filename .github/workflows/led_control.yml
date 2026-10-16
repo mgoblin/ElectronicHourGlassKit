@@ -8,6 +8,7 @@ on:
 
 jobs:
   prepare-matrix:
+    name: Setup matrix
     runs-on: ubuntu-latest
     outputs:
       matrix: ${{ steps.gen.outputs.matrix }}
