@@ -5,6 +5,7 @@ on:
         paths:
         - 'src/utils/ui_editor/lazarus/app/ehgk_editor/**'
         - '.github/workflows/ehgk_visual_editor.yml'
+        - '.github/actions/**'
 
 jobs:
   prepare-matrix:
@@ -49,3 +50,8 @@ jobs:
             with:
               widgetset: ${{ matrix.widgetset }}
               os-name: ${{ matrix.name }}
+
+          - name: Build LED control package
+            uses: ./.github/actions/build-led-control-component
+            with:
+              widgetset: ${{ matrix.widgetset }}     
