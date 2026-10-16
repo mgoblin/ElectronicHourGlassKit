@@ -16,19 +16,16 @@ runs:
       if: inputs.widgetset == 'gtk2' && startsWith(inputs.os-name, 'Linux')
       shell: bash
       run: |
-        sudo apt-get update
         sudo apt-get install -y gtk2-engines-pixbuf gnome-themes-extra libgail-common
 
     - name: Install qt5 widgetset dependencies
       if: inputs.widgetset == 'qt5' && startsWith(inputs.os-name, 'Linux')
       shell: bash
       run: |
-        sudo apt-get update
         sudo apt-get install -y libqt5pas-dev lcl-qt5
 
     - name: Install virtual screen package
       if: startsWith(inputs.os-name, 'Linux')
       shell: bash
       run: |
-        sudo apt-get update
         sudo apt-get install -y xvfb
