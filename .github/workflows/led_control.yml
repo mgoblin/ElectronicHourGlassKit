@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'src/utils/ui_editor/lazarus/led_control/**'
+      - '.github/workflows/led_control.yml'
 
 jobs:
   test:
