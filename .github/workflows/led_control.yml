@@ -57,8 +57,7 @@ jobs:
       - name: Install Lazarus
         uses: ollydev/setup-lazarus@v4.2
         with:
-          laz-url: ${{ matrix.config.laz-url }}
-          fpc-url: ${{ matrix.config.fpc-url }}
+          lazarus-version: 4.8
           use-cache: true
 
       - name: Install Lazarus dependencies
