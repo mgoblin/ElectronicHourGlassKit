@@ -76,9 +76,11 @@ jobs:
           lazbuild --ws=${{ matrix.config.widgetset }} src/utils/ui_editor/lazarus/led_control/test/LedUnitTests.lpi
       
       - name: Run LED control unit tests
+        env:
+          MATRIX_OS: ${{ matrix.config.os }}
         run: |
           set -euo pipefail
-          if [ "${{ matrix.config.name }}" = "Linux 64 gtk2" ]; then
+          if [ "$MATRIX_OS" == Linux* ]; then
             xvfb-run -a src/utils/ui_editor/lazarus/led_control/test/LedUnitTests
           else
             src/utils/ui_editor/lazarus/led_control/test/LedUnitTests
