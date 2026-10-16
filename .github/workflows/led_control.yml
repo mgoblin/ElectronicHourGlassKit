@@ -3,7 +3,7 @@ name: Build LED visual control component
 on: 
   push:
     paths:
-      - 'src/utils/ui_editor/lazarus/led_control/**'
+      - 'src/utils/ui_editor/lazarus/components/led_control/**'
       - '.github/workflows/led_control.yml'
 
 jobs:
@@ -60,10 +60,10 @@ jobs:
           set -euo pipefail
           case "$MATRIX_NAME" in
             Linux*)
-            xvfb-run -a src/utils/ui_editor/lazarus/led_control/test/LedUnitTests
+            xvfb-run -a src/utils/ui_editor/lazarus/components/led_control/test/LedUnitTests
             ;;
           *)
-            src/utils/ui_editor/lazarus/led_control/test/LedUnitTests
+            src/utils/ui_editor/lazarus/components/led_control/test/LedUnitTests
             ;;
           esac
 

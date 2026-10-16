@@ -3,7 +3,7 @@ name: Build EHGK Page components
 on:
   push:
     paths:
-      - 'src/utils/ui_editor/lazarus/page_components/**'
+      - 'src/utils/ui_editor/lazarus/components/page_components/**'
       - '.github/workflows/ehgk_page.yml'
 
 jobs:
@@ -53,11 +53,11 @@ jobs:
       
       - name: Build EhgkPage component package
         run: |
-          lazbuild -B src/utils/ui_editor/lazarus/page_components/src/pagecomponents.lpk
+          lazbuild -B src/utils/ui_editor/lazarus/components/page_components/src/pagecomponents.lpk
       
       - name: Build EhgkPage component package unit tests
         run: |  
-          lazbuild -B --ws=${{ matrix.config.widgetset }} src/utils/ui_editor/lazarus/page_components/test/EhgkPageUnitTests.lpi
+          lazbuild -B --ws=${{ matrix.config.widgetset }} src/utils/ui_editor/lazarus/components/page_components/test/EhgkPageUnitTests.lpi
 
       - name: Install virtual screen package from Ubuntu repo
         if: matrix.config.name == 'Linux 64'
@@ -68,9 +68,9 @@ jobs:
       - name: Run Page component unit tests
         run: |
           if [ "${{ matrix.config.name }}" == "Linux 64" ]; then
-            xvfb-run -a src/utils/ui_editor/lazarus/page_components/test/EhgkPageUnitTests
+            xvfb-run -a src/utils/ui_editor/lazarus/components/page_components/test/EhgkPageUnitTests
           else
-            src/utils/ui_editor/lazarus/page_components/test/EhgkPageUnitTests
+            src/utils/ui_editor/lazarus/components/page_components/test/EhgkPageUnitTests
           fi
 
           echo "## Unit tests Results 🚀" >> $GITHUB_STEP_SUMMARY
