@@ -60,12 +60,6 @@ jobs:
           laz-url: ${{ matrix.config.laz-url }}
           fpc-url: ${{ matrix.config.fpc-url }}
           use-cache: true
-
-      - name: Install Lazarus dependencies
-        uses: ./.github/actions/install-lazarus-deps
-        with:
-          widgetset: ${{ matrix.config.widgetset }}
-          os-name: ${{ matrix.config.name }}    
       
       - name: Build LED control package
         run: |
