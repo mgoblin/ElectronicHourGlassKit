@@ -60,7 +60,7 @@ jobs:
             with:
               widgetset: ${{ matrix.widgetset }}
               component-lpk-path: ${{ env.led_control_lpk_path }}
-              unittest-lpi-path: $${{ env.led_control_unittest_lpi_path}}     
+              unittest-lpi-path: ${{ env.led_control_unittest_lpi_path }}     
 
           - name: Build page components package
             uses: ./.github/actions/build-page-components
