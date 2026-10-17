@@ -59,4 +59,8 @@ jobs:
           - name: Build page components package
             uses: ./.github/actions/build-page-components
             with:
-              widgetset: ${{ matrix.widgetset }}         
+              widgetset: ${{ matrix.widgetset }}
+              
+          - name: Build EHGK application
+            shell: bash
+            run: echo 'Build application started'    
