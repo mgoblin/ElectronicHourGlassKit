@@ -15,6 +15,7 @@ env:
   page_components_unittest_lpi_path: 'src/utils/ui_editor/lazarus/components/page_components/test/EhgkPageUnitTests.lpi'
 
   ehgk_editor_lpi_path: 'src/utils/ui_editor/lazarus/app/ehgk_editor/src/ehgk_editor.lpi'
+  ehgk_editor_app_path: 'src/utils/ui_editor/lazarus/app/ehgk_editor/src'
 
 jobs:
   prepare-matrix:
@@ -77,6 +78,7 @@ jobs:
           - name: Build EHGK editor application
             env: 
               APP_LPI: ${{ env.ehgk_editor_lpi_path }}
+              APP_PATH: ${{ env.ehgk_editor_app_path }}
               APP_NAME: ${{ matrix.app-name }}
             shell: bash
             run: |
@@ -85,4 +87,6 @@ jobs:
               
               ls -la src/utils/ui_editor/lazarus/app/ehgk_editor/src
 
-              echo "$APP_NAME"
+              mkdir -p distr
+              cp "${APP_PATH}/${APP_NAME}*" distr
+              ls -la distr
