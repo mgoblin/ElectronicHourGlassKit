@@ -17,6 +17,7 @@ env:
   ehgk_editor_lpi_path: 'src/utils/ui_editor/lazarus/app/ehgk_editor/src/ehgk_editor.lpi'
   ehgk_editor_app_path: 'src/utils/ui_editor/lazarus/app/ehgk_editor/src'
 
+  
 jobs:
   prepare-matrix:
     name: Setup matrix
