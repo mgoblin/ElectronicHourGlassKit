@@ -219,21 +219,13 @@
         <UnitName Value="SimplifiedLed"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="130"/>
-        <CursorPos X="3" Y="135"/>
-        <UsageCount Value="11"/>
+        <TopLine Value="126"/>
+        <CursorPos X="38" Y="137"/>
+        <UsageCount Value="12"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="29">
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="135" Column="29" TopLine="117"/>
-      </Position>
-      <Position>
-        <Filename Value="main.pas"/>
-        <Caret Line="137" Column="15" TopLine="124"/>
-      </Position>
       <Position>
         <Filename Value="main.pas"/>
         <Caret Line="115" Column="21" TopLine="106"/>
@@ -343,6 +335,14 @@
       <Position>
         <Filename Value="../../../components/led_control/src/simplifiedled.pas"/>
         <Caret Line="135" Column="28" TopLine="133"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../components/led_control/src/simplifiedled.pas"/>
+        <Caret Line="137" Column="14" TopLine="128"/>
+      </Position>
+      <Position>
+        <Filename Value="../../../components/led_control/src/simplifiedled.pas"/>
+        <Caret Line="8" Column="61" TopLine="52"/>
       </Position>
     </JumpHistory>
     <RunParams>

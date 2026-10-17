@@ -132,21 +132,9 @@ begin
     Canvas.Draw(0, 0, Bmp);
 
   // Focus indicator
-  if Focused and (FState = lsOff) then
+  if Focused then
   begin
-    Canvas.Pen.Color := clRed;
-    Canvas.Pen.Width := 4;              // thickness of the cross
-    Canvas.Brush.Style := bsClear;      // no fill between lines
-
-    // focused vertical line
-    Canvas.MoveTo(16, 8);
-    Canvas.LineTo(16, Height - 12);
-
-    // Diagonal from bottom-left to top-right
-    Canvas.MoveTo(10, 14);
-    Canvas.LineTo(DefaultW - 10, 14);
-
-    Canvas.Brush.Style := bsSolid;      // restore default brush
+    Canvas.DrawFocusRect(ClientRect);
   end;
 end;
 
