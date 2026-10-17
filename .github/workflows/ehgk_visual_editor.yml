@@ -74,4 +74,4 @@ jobs:
               
           - name: Build EHGK application
             shell: bash
-            run: echo 'Build application started'    
+            run: lazbuild src/utils/ui_editor/lazarus/app/ehgk_editor/src/ehgk_editor.lpi
