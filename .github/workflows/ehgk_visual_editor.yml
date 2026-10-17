@@ -82,10 +82,4 @@ jobs:
               set -euo pipefail
               lazbuild -B --build-mode=Release "$APP_LPI"
               
-              APP_BIN_PATH="${APP_LPI%.*}"
-              
-              echo "Application bin path is $APP_BIN_PATH"
-              ls -la "$APP_BIN_PATH"
-              
-              echo hardcoded bin path ls
               ls -la src/utils/ui_editor/lazarus/app/ehgk_editor/src

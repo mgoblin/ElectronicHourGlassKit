@@ -57,7 +57,7 @@
         <CompilerOptions>
           <Version Value="11"/>
           <Target>
-            <Filename Value="ehgk_editor"/>
+            <Filename Value="ehgk_editor-$(TargetOS)-$(TargetCPU)"/>
           </Target>
           <SearchPaths>
             <IncludeFiles Value="$(ProjOutDir)"/>
