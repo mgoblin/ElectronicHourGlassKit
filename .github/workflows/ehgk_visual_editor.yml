@@ -80,6 +80,6 @@ jobs:
             shell: bash
             run: |
               set -euo pipefail
-              lazbuild -B --build-mode=Release "$APP_LPI"
+              lazbuild -B --build-mode=Release --ws=${{ matrix.widgetset }} "$APP_LPI"
               
               ls -la src/utils/ui_editor/lazarus/app/ehgk_editor/src
