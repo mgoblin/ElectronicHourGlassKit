@@ -52,4 +52,8 @@ runs:
           echo "Unit tests failed at $(date)" >> $GITHUB_STEP_SUMMARY
           exit 1
         fi
+
+    - name: Add package to Lazarus
+      shell: bash
+      run: lazbuild --add-package ${{ inputs.component-src-path }}/ledcontrol.lpk
  
