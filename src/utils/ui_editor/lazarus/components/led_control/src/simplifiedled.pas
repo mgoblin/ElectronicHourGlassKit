@@ -133,13 +133,7 @@ begin
 
   // Focus indicator
   if Focused then
-  begin
-    Canvas.Pen.Color := clHighlight;
-    Canvas.Pen.Width := 2;
-    Canvas.Brush.Style := bsClear;
-    Canvas.Rectangle(0, 0, Width, Height);
-    Canvas.Brush.Style := bsSolid;
-  end;
+     Canvas.DrawFocusRect(ClientRect);
 end;
 
 procedure Register;
