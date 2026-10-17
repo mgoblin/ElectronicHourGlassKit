@@ -76,4 +76,6 @@ jobs:
               
           - name: Build EHGK editor application
             shell: bash
-            run: lazbuild -B --build-mode=Release ${{ env.ehgk_editor_lpk_path }}
+            run: | 
+              lazbuild -B --build-mode=Release ${{ env.ehgk_editor_lpk_path }}
+              ls -l
