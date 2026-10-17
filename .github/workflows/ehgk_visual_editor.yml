@@ -77,9 +77,12 @@ jobs:
           - name: Build EHGK editor application
             env: 
               APP_LPI: ${{ env.ehgk_editor_lpi_path }}
+              APP_NAME: ${{ matrix.app-name }}
             shell: bash
             run: |
               set -euo pipefail
               lazbuild -B --build-mode=Release --ws=${{ matrix.widgetset }} "$APP_LPI"
               
               ls -la src/utils/ui_editor/lazarus/app/ehgk_editor/src
+
+              echo "$APP_NAME"
