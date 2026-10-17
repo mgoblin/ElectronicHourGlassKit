@@ -12,7 +12,7 @@ inputs:
     description: 'path to ledcontrol.lpk file'
     required: true
     default: 'src/utils/ui_editor/lazarus/components/led_control/src/ledcontrol.lpk'
-  unittest-src-path:
+  unittest-lpi-path:
     description: 'path to LedUnitTests.lpi'
     required: true
     default: 'src/utils/ui_editor/lazarus/components/led_control/test'
@@ -28,7 +28,7 @@ runs:
 
     - name: Build LED control unit tests
       shell: bash
-      run: lazbuild -B --ws=${{ inputs.widgetset }} ${{ inputs.unittest-src-path }}/LedUnitTests.lpi  
+      run: lazbuild -B --ws=${{ inputs.widgetset }} ${{ inputs.unittest-lpi-path }}/LedUnitTests.lpi  
 
     - name: Run LED control unit tests
       shell: bash
@@ -38,10 +38,10 @@ runs:
         set -euo pipefail
         case "$MATRIX_NAME" in
           Linux*)
-          xvfb-run -a ${{ inputs.unittest-src-path }}/LedUnitTests
+          xvfb-run -a ${{ inputs.unittest-lpi-path }}/LedUnitTests
           ;;
         *)
-          ${{ inputs.unittest-src-path }}/LedUnitTests
+          ${{ inputs.unittest-lpi-path }}/LedUnitTests
           ;;
         esac
 
