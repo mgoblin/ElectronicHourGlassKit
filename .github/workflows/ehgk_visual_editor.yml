@@ -87,3 +87,12 @@ jobs:
               
               mkdir -p distr
               cp -r "${APP_PATH}/${APP_NAME}" distr
+
+          - name: Upload Application Artifact
+            uses: actions/upload-artifact@v7.0.2
+            with:
+              name: ${{ matrix.app-name }}
+              path: |
+                distr/*
+              if-no-files-found: error
+              retention-days: 3  
