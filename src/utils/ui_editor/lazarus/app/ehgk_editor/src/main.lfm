@@ -3,6 +3,7 @@ object MainForm: TMainForm
   Height = 505
   Top = 177
   Width = 256
+  ActiveControl = LED1
   Caption = 'EHGK Editor'
   ClientHeight = 505
   ClientWidth = 256

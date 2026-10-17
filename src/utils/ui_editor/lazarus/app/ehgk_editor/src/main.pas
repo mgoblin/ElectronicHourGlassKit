@@ -118,7 +118,7 @@ end;
 
 procedure TMainForm.FormCreate(Sender: TObject);
 begin
-  MainDataModule.PageContainer.Page[0].Value := 127;
+  MainDataModule.PageContainer.Page[0].Value := 0;
   EditPageValue.Text := UIntToStr(MainDataModule.PageContainer.Page[0].Value);
   LoadFromContainer;
 end;
