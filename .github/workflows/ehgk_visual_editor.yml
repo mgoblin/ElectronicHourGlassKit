@@ -7,6 +7,9 @@ on:
         - '.github/workflows/ehgk_visual_editor.yml'
         - '.github/actions/**'
 
+env:
+  led_control_lpk_path: 'src/utils/ui_editor/lazarus/components/led_control/src/ledcontrol.lpk'
+
 jobs:
   prepare-matrix:
     name: Setup matrix
@@ -54,7 +57,8 @@ jobs:
           - name: Build LED control package
             uses: ./.github/actions/build-led-control-component
             with:
-              widgetset: ${{ matrix.widgetset }}     
+              widgetset: ${{ matrix.widgetset }}
+              component-lpk-path: ${{ env.led_control_lpk_path }}     
 
           - name: Build page components package
             uses: ./.github/actions/build-page-components
