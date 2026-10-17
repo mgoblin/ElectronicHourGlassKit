@@ -20,13 +20,19 @@ type
     procedure LoadBitmapsFromResources;
   protected
     procedure Paint; override;
+    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+    procedure MouseDown(Button: TMouseButton; Shift: TShiftState;
+      X, Y: Integer); override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
-
+    procedure SetBounds(ALeft, ATop, AWidth, AHeight: Integer); override;
   published
     property State: TLedState read FState write SetState default lsOff;
     property TabStop default True;
+    property OnKeyDown;
+    property OnKeyUp;
+    property OnClick;
   end;
 
 procedure Register;
@@ -34,7 +40,7 @@ procedure Register;
 implementation
 
 const
-  // Resource names inside the .lrs file (change to match your resources)
+  // Resource names inside the .lrs file
   ResNameOff = 'led_off';
   ResNameOn  = 'led_on';
 
@@ -116,6 +122,27 @@ begin
   Invalidate;
 end;
 
+{ The size is fixed: any external attempt to change it is overridden. }
+procedure TSimplifiedLed.SetBounds(ALeft, ATop, AWidth, AHeight: Integer);
+var
+  Bmp: TBitmap;
+  W, H: Integer;
+begin
+  Bmp := FBitmaps[FState];
+  if (Bmp.Width > 0) and (Bmp.Height > 0) then
+  begin
+    W := Bmp.Width;
+    H := Bmp.Height;
+  end
+  else
+  begin
+    W := DefaultW;
+    H := DefaultH;
+  end;
+  // Position is honored, size is forced
+  inherited SetBounds(ALeft, ATop, W, H);
+end;
+
 procedure TSimplifiedLed.Paint;
 var
   Bmp: TBitmap;
@@ -131,10 +158,47 @@ begin
   if (Bmp.Width > 0) and (Bmp.Height > 0) then
     Canvas.Draw(0, 0, Bmp);
 
-  // Focus indicator
+  // Focus indicator: thick red cross, shortened by CrossMargin on each side
   if Focused then
   begin
-    Canvas.DrawFocusRect(ClientRect);
+    Canvas.Pen.Color := clHighlight;
+    Canvas.Pen.Width := 2;
+    Canvas.Brush.Style := bsClear;
+    Canvas.Rectangle(2, 2, Width - 2, Height - 2);
+    Canvas.Brush.Style := bsSolid;
+  end;
+end;
+
+procedure TSimplifiedLed.MouseDown(Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+  inherited MouseDown(Button, Shift, X, Y);
+  // Clicking the control gives it focus
+  if CanFocus then SetFocus;
+end;
+
+procedure TSimplifiedLed.KeyDown(var Key: Word; Shift: TShiftState);
+begin
+  inherited KeyDown(Key, Shift);
+
+  // Space/Enter toggle; arrows set a specific state
+  case Key of
+    VK_SPACE, VK_RETURN:
+      begin
+        if FState = lsOff then State := lsOn
+        else State := lsOff;
+        Key := 0;
+      end;
+    VK_LEFT, VK_UP:
+      begin
+        State := lsOff;
+        Key := 0;
+      end;
+    VK_RIGHT, VK_DOWN:
+      begin
+        State := lsOn;
+        Key := 0;
+      end;
   end;
 end;
 
@@ -145,6 +209,5 @@ end;
 
 initialization
   {$I ledbitmaps.lrs}
-
 
 end.

@@ -20,15 +20,15 @@ runs:
               "os": "windows-latest",
               "name": "Windows 64",
               "laz-url": "https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2064%20bits/Lazarus%204.2/lazarus-4.2-fpc-3.2.2-win64.exe",
-              "widgetset": "qt5",
-              "app-name": "ehgk_editor-win64-x86_64-widgetset-qt5.exe"
+              "widgetset": "win32",
+              "app-name": "ehgk_editor-win64-x86_64-widgetset-win32.exe"
             },
             {
               "os": "windows-latest",
               "name": "Windows 32",
               "laz-url": "https://sourceforge.net/projects/lazarus/files/Lazarus%20Windows%2032%20bits/Lazarus%204.2/lazarus-4.2-fpc-3.2.2-win32.exe",
-              "widgetset": "qt5",
-              "app-name": "ehgk_editor-win32-i386-widgetset-qt5.exe"
+              "widgetset": "win32",
+              "app-name": "ehgk_editor-win32-i386-widgetset-win32.exe"
             },
             {
               "os": "ubuntu-latest",

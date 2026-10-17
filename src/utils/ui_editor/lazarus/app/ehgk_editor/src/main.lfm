@@ -1,368 +1,368 @@
 object MainForm: TMainForm
   Left = 248
-  Height = 505
+  Height = 573
   Top = 177
   Width = 256
   ActiveControl = LED1
   Caption = 'EHGK Editor'
-  ClientHeight = 505
+  ClientHeight = 573
   ClientWidth = 256
   OnCreate = FormCreate
   object LED1: TSimplifiedLed
     Left = 10
     Height = 32
-    Top = 16
+    Top = 10
     Width = 32
   end
   object LED2: TSimplifiedLed
     Left = 42
     Height = 32
-    Top = 16
+    Top = 10
     Width = 32
   end
   object LED3: TSimplifiedLed
     Left = 74
     Height = 32
-    Top = 16
+    Top = 10
     Width = 32
   end
   object LED4: TSimplifiedLed
     Left = 106
     Height = 32
-    Top = 16
+    Top = 10
     Width = 32
   end
   object LED5: TSimplifiedLed
     Left = 138
     Height = 32
-    Top = 16
+    Top = 10
     Width = 32
   end
   object LED6: TSimplifiedLed
     Left = 168
     Height = 32
-    Top = 16
+    Top = 10
     Width = 32
   end
   object LED7: TSimplifiedLed
     Left = 200
     Height = 32
-    Top = 16
+    Top = 10
     Width = 32
   end
   object LED8: TSimplifiedLed
     Left = 24
     Height = 32
-    Top = 48
+    Top = 46
     Width = 32
   end
   object LED9: TSimplifiedLed
     Left = 56
     Height = 32
-    Top = 48
+    Top = 46
     Width = 32
   end
   object LED10: TSimplifiedLed
     Left = 88
     Height = 32
-    Top = 48
+    Top = 46
     Width = 32
   end
   object LED11: TSimplifiedLed
     Left = 120
     Height = 32
-    Top = 48
+    Top = 46
     Width = 32
   end
   object LED12: TSimplifiedLed
     Left = 152
     Height = 32
-    Top = 48
+    Top = 46
     Width = 32
   end
   object LED13: TSimplifiedLed
     Left = 184
     Height = 32
-    Top = 48
+    Top = 46
     Width = 32
   end
   object LED14: TSimplifiedLed
-    Left = 40
+    Left = 38
     Height = 32
-    Top = 80
+    Top = 82
     Width = 32
   end
   object LED15: TSimplifiedLed
-    Left = 72
+    Left = 70
     Height = 32
-    Top = 80
+    Top = 82
     Width = 32
   end
   object LED16: TSimplifiedLed
-    Left = 104
+    Left = 102
     Height = 32
-    Top = 80
+    Top = 82
     Width = 32
   end
   object LED17: TSimplifiedLed
-    Left = 136
+    Left = 134
     Height = 32
-    Top = 80
+    Top = 82
     Width = 32
   end
   object LED18: TSimplifiedLed
-    Left = 168
+    Left = 166
     Height = 32
-    Top = 80
+    Top = 82
     Width = 32
   end
   object LED19: TSimplifiedLed
-    Left = 56
+    Left = 54
     Height = 32
-    Top = 108
+    Top = 118
     Width = 32
   end
   object LED20: TSimplifiedLed
-    Left = 88
+    Left = 86
     Height = 32
-    Top = 108
+    Top = 118
     Width = 32
   end
   object LED21: TSimplifiedLed
-    Left = 120
+    Left = 118
     Height = 32
-    Top = 108
+    Top = 118
     Width = 32
   end
   object LED22: TSimplifiedLed
-    Left = 152
+    Left = 150
     Height = 32
-    Top = 108
+    Top = 118
     Width = 32
   end
   object LED23: TSimplifiedLed
-    Left = 72
+    Left = 70
     Height = 32
-    Top = 136
+    Top = 154
     Width = 32
   end
   object LED24: TSimplifiedLed
-    Left = 104
+    Left = 102
     Height = 32
-    Top = 136
+    Top = 154
     Width = 32
   end
   object LED25: TSimplifiedLed
-    Left = 136
+    Left = 134
     Height = 32
-    Top = 136
+    Top = 154
     Width = 32
   end
   object LED26: TSimplifiedLed
-    Left = 88
+    Left = 86
     Height = 32
-    Top = 164
+    Top = 190
     Width = 32
   end
   object LED27: TSimplifiedLed
-    Left = 120
+    Left = 118
     Height = 32
-    Top = 164
+    Top = 190
     Width = 32
   end
   object LED28: TSimplifiedLed
-    Left = 104
+    Left = 102
     Height = 32
-    Top = 192
+    Top = 226
     Width = 32
   end
   object LED29: TSimplifiedLed
-    Left = 104
+    Left = 102
     Height = 32
-    Top = 224
+    Top = 262
     Width = 32
   end
   object LED30: TSimplifiedLed
-    Left = 104
+    Left = 102
     Height = 32
-    Top = 256
+    Top = 298
     Width = 32
   end
   object LED31: TSimplifiedLed
-    Left = 88
+    Left = 86
     Height = 32
-    Top = 288
+    Top = 334
     Width = 32
   end
   object LED32: TSimplifiedLed
-    Left = 120
+    Left = 118
     Height = 32
-    Top = 288
+    Top = 334
     Width = 32
   end
   object LED33: TSimplifiedLed
-    Left = 72
+    Left = 70
     Height = 32
-    Top = 320
+    Top = 370
     Width = 32
   end
   object LED34: TSimplifiedLed
-    Left = 104
+    Left = 102
     Height = 32
-    Top = 320
+    Top = 370
     Width = 32
   end
   object LED35: TSimplifiedLed
-    Left = 136
+    Left = 134
     Height = 32
-    Top = 320
+    Top = 370
     Width = 32
   end
   object LED36: TSimplifiedLed
-    Left = 56
+    Left = 54
     Height = 32
-    Top = 352
+    Top = 406
     Width = 32
   end
   object LED37: TSimplifiedLed
-    Left = 88
+    Left = 86
     Height = 32
-    Top = 352
+    Top = 406
     Width = 32
   end
   object LED38: TSimplifiedLed
-    Left = 120
+    Left = 118
     Height = 32
-    Top = 352
+    Top = 406
     Width = 32
   end
   object LED39: TSimplifiedLed
-    Left = 152
+    Left = 150
     Height = 32
-    Top = 352
+    Top = 406
     Width = 32
   end
   object LED40: TSimplifiedLed
-    Left = 40
+    Left = 38
     Height = 32
-    Top = 380
+    Top = 442
     Width = 32
   end
   object LED41: TSimplifiedLed
-    Left = 72
+    Left = 70
     Height = 32
-    Top = 380
+    Top = 442
     Width = 32
   end
   object LED42: TSimplifiedLed
-    Left = 104
+    Left = 102
     Height = 32
-    Top = 380
+    Top = 442
     Width = 32
   end
   object LED43: TSimplifiedLed
-    Left = 136
+    Left = 134
     Height = 32
-    Top = 380
+    Top = 442
     Width = 32
   end
   object LED44: TSimplifiedLed
-    Left = 168
+    Left = 166
     Height = 32
-    Top = 380
+    Top = 442
     Width = 32
   end
   object LED45: TSimplifiedLed
-    Left = 24
+    Left = 22
     Height = 32
-    Top = 408
+    Top = 478
     Width = 32
   end
   object LED46: TSimplifiedLed
-    Left = 56
+    Left = 54
     Height = 32
-    Top = 408
+    Top = 478
     Width = 32
   end
   object LED47: TSimplifiedLed
-    Left = 88
+    Left = 86
     Height = 32
-    Top = 408
+    Top = 478
     Width = 32
   end
   object LED48: TSimplifiedLed
-    Left = 120
+    Left = 118
     Height = 32
-    Top = 408
+    Top = 478
     Width = 32
   end
   object LED49: TSimplifiedLed
-    Left = 152
+    Left = 150
     Height = 32
-    Top = 408
+    Top = 478
     Width = 32
   end
   object LED50: TSimplifiedLed
-    Left = 184
+    Left = 182
     Height = 32
-    Top = 408
+    Top = 478
     Width = 32
   end
   object LED51: TSimplifiedLed
-    Left = 10
+    Left = 8
     Height = 32
-    Top = 440
+    Top = 514
     Width = 32
   end
   object LED52: TSimplifiedLed
-    Left = 40
+    Left = 38
     Height = 32
-    Top = 440
+    Top = 514
     Width = 32
   end
   object LED53: TSimplifiedLed
-    Left = 72
+    Left = 70
     Height = 32
-    Top = 440
+    Top = 514
     Width = 32
   end
   object LED54: TSimplifiedLed
-    Left = 104
+    Left = 102
     Height = 32
-    Top = 440
+    Top = 514
     Width = 32
   end
   object LED55: TSimplifiedLed
-    Left = 136
+    Left = 134
     Height = 32
-    Top = 440
+    Top = 514
     Width = 32
   end
   object LED56: TSimplifiedLed
-    Left = 168
+    Left = 166
     Height = 32
-    Top = 440
+    Top = 514
     Width = 32
   end
   object LED57: TSimplifiedLed
-    Left = 200
+    Left = 198
     Height = 32
-    Top = 440
+    Top = 514
     Width = 32
   end
   object ButtonView: TButton
-    Left = 168
+    Left = 166
     Height = 25
-    Top = 208
+    Top = 236
     Width = 75
     Caption = 'View'
     TabOrder = 57
     OnClick = ButtonViewClick
   end
   object EditPageValue: TEdit
-    Left = 168
+    Left = 166
     Height = 34
-    Top = 168
+    Top = 196
     Width = 80
     TabOrder = 58
   end
