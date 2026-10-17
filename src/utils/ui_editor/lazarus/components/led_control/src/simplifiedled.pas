@@ -7,6 +7,11 @@ interface
 uses
   Classes, SysUtils, Controls, Graphics, LResources, LCLType;
 
+const
+  // Fallback size used while bitmaps are not loaded yet
+  DefaultW = 32;
+  DefaultH = 32;
+
 type
   TLedState = (lsOff, lsOn);
 
@@ -29,12 +34,14 @@ type
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
     procedure SetBounds(ALeft, ATop, AWidth, AHeight: Integer); override;
+    procedure DblClick; override;
   published
     property State: TLedState read FState write SetState default lsOff;
     property TabStop default True;
     property OnKeyDown;
     property OnKeyUp;
     property OnClick;
+    property OnDblClick;
   end;
 
 procedure Register;
@@ -45,10 +52,6 @@ const
   // Resource names inside the .lrs file
   ResNameOff = 'led_off';
   ResNameOn  = 'led_on';
-
-  // Fallback size used while bitmaps are not loaded yet
-  DefaultW = 32;
-  DefaultH = 32;
 
 { TSimplifiedLed }
 
@@ -225,6 +228,15 @@ procedure TSimplifiedLed.DoEnter;
 begin
   inherited DoEnter;
   Invalidate;
+end;
+
+procedure TSimplifiedLed.DblClick;
+begin
+  inherited DblClick;
+
+  // Toggle state on double click
+  if FState = lsOff then State := lsOn
+  else State := lsOff;
 end;
 
 procedure Register;

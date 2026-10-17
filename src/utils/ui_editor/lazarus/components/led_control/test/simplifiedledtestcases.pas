@@ -40,19 +40,19 @@ begin
      try
         AssertEquals(
           'LED control should be created with default width',
-          SimplifiedLed.DefaultWidth,
+          SimplifiedLed.DefaultW,
           LED.Width
         );
 
         AssertEquals(
           'LED control should be created with default heigth',
-          SimplifiedLed.DefaultHeight,
+          SimplifiedLed.DefaultH,
           LED.Height
         );
 
         AssertTrue(
           'LED control should be created in the ledOff state',
-          LED.State = TLEDState.ledOff
+          LED.State = TLEDState.lsOff
         );
 
      finally
@@ -75,35 +75,35 @@ end;
 
 procedure TSimplifiedLedClickTestCase.TestCreateAndDblClick;
 begin
-  AssertTrue('Start LED state is led off', LED.State = TLEDState.ledOff);
+  AssertTrue('Start LED state is led off', LED.State = TLEDState.lsOff);
 
   LED.DblClick;
-  AssertTrue('LED state after dblClick should be led on', LED.State = TLEDState.ledOn);
+  AssertTrue('LED state after dblClick should be led on', LED.State = TLEDState.lsOn);
 end;
 
 procedure TSimplifiedLedClickTestCase.TestSetStateOffAndDblClick;
 begin
-   LED.State := TLEDState.ledOff;
+   LED.State := TLEDState.lsOff;
    LED.DblClick;
 
-   AssertTrue('LED state should be toggled after dbl click', LED.State = TLEDState.ledOn);
+   AssertTrue('LED state should be toggled after dbl click', LED.State = TLEDState.lsOn);
 end;
 
 procedure TSimplifiedLedClickTestCase.TestSetStateOnAndDblClick;
 begin
-   LED.State := TLEDState.ledOn;
+   LED.State := TLEDState.lsOn;
    LED.DblClick;
 
-   AssertTrue('LED state should be toggled after dbl click', LED.State = TLEDState.ledOff);
+   AssertTrue('LED state should be toggled after dbl click', LED.State = TLEDState.lsOff);
 end;
 
 procedure TSimplifiedLedClickTestCase.TestDblClickTwice;
 begin
   LED.DblClick;
-  AssertTrue('LED state should be toggled after first dbl click', LED.State = TLEDState.ledOn);
+  AssertTrue('LED state should be toggled after first dbl click', LED.State = TLEDState.lsOn);
 
   LED.DblClick;
-  AssertTrue('LED state should be toggled back after second dbl click', LED.State = TLEDState.ledOff);
+  AssertTrue('LED state should be toggled back after second dbl click', LED.State = TLEDState.lsOff);
 end;
 
 initialization
