@@ -14,7 +14,7 @@ env:
   page_components_lpk_path: 'src/utils/ui_editor/lazarus/components/page_components/src/pagecomponents.lpk'
   page_components_unittest_lpi_path: 'src/utils/ui_editor/lazarus/components/page_components/test/EhgkPageUnitTests.lpi'
 
-  ehgk_editor_lpk_path: 'src/utils/ui_editor/lazarus/app/ehgk_editor/src/ehgk_editor.lpi'
+  ehgk_editor_lpi_path: 'src/utils/ui_editor/lazarus/app/ehgk_editor/src/ehgk_editor.lpi'
 
 jobs:
   prepare-matrix:
@@ -75,7 +75,12 @@ jobs:
               unittest-lpi-path: ${{ env.page_components_unittest_lpi_path }}
               
           - name: Build EHGK editor application
+            env: 
+              APP_LPI: ${{ env.ehgk_editor_lpi_path }}
             shell: bash
-            run: | 
-              lazbuild -B --build-mode=Release ${{ env.ehgk_editor_lpk_path }}
-              ls -l
+            run: |
+              set -euo pipefail
+              lazbuild -B --build-mode=Release "$APP_LPI"
+              
+              APP_BIN_PATH="${APP_LPI%.*}"
+              ls -l "$APP_BIN_PATH"
