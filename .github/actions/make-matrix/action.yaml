@@ -52,7 +52,7 @@ runs:
               "laz-url": "https://sourceforge.net/projects/lazarus/files/Lazarus%20macOS%20x86-64/Lazarus%204.8/lazarus-darwin-x86_64-4.8.zip",
               "fpc-url": "https://sourceforge.net/projects/lazarus/files/Lazarus%20macOS%20x86-64/Lazarus%204.8/fpc-3.2.4rc1a.intelarm64-macosx.dmg",
               "widgetset": "cocoa",
-              "app-name": "ehgk_editor-darwin-x86_64-widgetset-cocoa"
+              "app-name": "ehgk_editor-darwin-x86_64-widgetset-cocoa.app"
             }
           ]
         }
