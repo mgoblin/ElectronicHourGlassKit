@@ -11,6 +11,9 @@ env:
   led_control_lpk_path: 'src/utils/ui_editor/lazarus/components/led_control/src/ledcontrol.lpk'
   led_control_unittest_lpi_path: 'src/utils/ui_editor/lazarus/components/led_control/test/LedUnitTests.lpi'
 
+  page_components_lpk_path: 'src/utils/ui_editor/lazarus/components/page_components/src/pagecomponents.lpk'
+  page_components_unittest_lpi_path: 'src/utils/ui_editor/lazarus/components/page_components/test/EhgkPageUnitTests.lpi'
+
 jobs:
   prepare-matrix:
     name: Setup matrix
@@ -66,6 +69,8 @@ jobs:
             uses: ./.github/actions/build-page-components
             with:
               widgetset: ${{ matrix.widgetset }}
+              component-lpk-path: ${{ env.page_components_lpk_path }}
+              unittest-lpi-path: ${{ env.page_components_unittest_lpi_path }}
               
           - name: Build EHGK application
             shell: bash
