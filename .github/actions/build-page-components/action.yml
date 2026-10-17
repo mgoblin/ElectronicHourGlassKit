@@ -8,10 +8,10 @@ inputs:
     description: 'gtk2, qt5 or cocoa'
     required: true
     default: 'gtk2'
-  component-src-path:
+  component-lpk-path:
     description: 'path to pagecomponents.lpk file'
     required: true
-    default: 'src/utils/ui_editor/lazarus/components/page_components/src'
+    default: 'src/utils/ui_editor/lazarus/components/page_components/src/pagecomponents.lpk'
   unittest-src-path:
     description: 'path to EhgkPageUnitTests.lpi'
     required: true
@@ -22,7 +22,7 @@ runs:
   steps:
     - name: Build page components package
       shell: bash
-      run: lazbuild -B --ws=${{ inputs.widgetset }} ${{ inputs.component-src-path }}/pagecomponents.lpk
+      run: lazbuild -B --ws=${{ inputs.widgetset }} ${{ inputs.component-lpk-path }}
 
     - name: Build page components unit tests
       shell: bash
@@ -53,4 +53,4 @@ runs:
 
     - name: Add package to Lazarus
       shell: bash
-      run: lazbuild --add-package ${{ inputs.component-src-path }}/pagecomponents.lpk
+      run: lazbuild --add-package ${{ inputs.component-lpk-path }}
