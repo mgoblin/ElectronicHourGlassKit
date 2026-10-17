@@ -24,36 +24,36 @@ runs:
       shell: bash
       run: lazbuild -B --ws=${{ inputs.widgetset }} ${{ inputs.component-lpk-path }}
 
-    # - name: Build page components unit tests
-    #   shell: bash
-    #   run: lazbuild -B --ws=${{ inputs.widgetset }} ${{ inputs.unittest-lpi-path }}
+    - name: Build page components unit tests
+      shell: bash
+      run: lazbuild -B --ws=${{ inputs.widgetset }} ${{ inputs.unittest-lpi-path }}
 
-    # - name: Run unit tests
-    #   shell: bash
-    #   env:
-    #     UNITTEST_LPI: ${{ inputs.unittest-lpi-path }}
-    #     MATRIX_NAME: ${{ matrix.name }}
-    #   run: |
-    #     set -euo pipefail
-    #     unittest_runner="${UNITTEST_LPI%.*}"
-    #     echo "unit test runner: $unittest_runner"
+    - name: Run unit tests
+      shell: bash
+      env:
+        UNITTEST_LPI: ${{ inputs.unittest-lpi-path }}
+        MATRIX_NAME: ${{ matrix.name }}
+      run: |
+        set -euo pipefail
+        unittest_runner="${UNITTEST_LPI%.*}"
+        echo "unit test runner: $unittest_runner"
 
-    #     case "$MATRIX_NAME" in
-    #       Linux*)
-    #       xvfb-run -a "$unittest_runner"
-    #       ;;
-    #     *)
-    #       "$unittest_runner"
-    #       ;;
-    #     esac
+        case "$MATRIX_NAME" in
+          Linux*)
+          xvfb-run -a "$unittest_runner"
+          ;;
+        *)
+          "$unittest_runner"
+          ;;
+        esac
 
-    #     echo "## Page components unit tests Results 🚀" >> $GITHUB_STEP_SUMMARY
-    #     if grep -q '<NumberOfErrors>0</NumberOfErrors>' result.xml && grep -q '<NumberOfFailures>0</NumberOfFailures>' result.xml; then
-    #       echo "The build finished successfully at $(date)" >> $GITHUB_STEP_SUMMARY
-    #     else
-    #       echo "Unit tests failed at $(date)" >> $GITHUB_STEP_SUMMARY
-    #       exit 1
-    #     fi
+        echo "## Page components unit tests Results 🚀" >> $GITHUB_STEP_SUMMARY
+        if grep -q '<NumberOfErrors>0</NumberOfErrors>' result.xml && grep -q '<NumberOfFailures>0</NumberOfFailures>' result.xml; then
+          echo "The build finished successfully at $(date)" >> $GITHUB_STEP_SUMMARY
+        else
+          echo "Unit tests failed at $(date)" >> $GITHUB_STEP_SUMMARY
+          exit 1
+        fi
 
     - name: Add package to Lazarus
       shell: bash
