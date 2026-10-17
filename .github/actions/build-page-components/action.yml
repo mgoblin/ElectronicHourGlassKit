@@ -43,7 +43,7 @@ runs:
           ;;
         esac
 
-        echo "## Unit tests Results 🚀" >> $GITHUB_STEP_SUMMARY
+        echo "## Page components unit tests Results 🚀" >> $GITHUB_STEP_SUMMARY
         if grep -q '<NumberOfErrors>0</NumberOfErrors>' result.xml && grep -q '<NumberOfFailures>0</NumberOfFailures>' result.xml; then
           echo "The build finished successfully at $(date)" >> $GITHUB_STEP_SUMMARY
         else
