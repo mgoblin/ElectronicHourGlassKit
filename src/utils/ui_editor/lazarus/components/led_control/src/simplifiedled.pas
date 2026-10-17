@@ -155,10 +155,6 @@ var
 begin
   inherited Paint;
 
-  // Opaque background
-  Canvas.Brush.Color := clBtnFace;
-  Canvas.FillRect(ClientRect);
-
   // Draw the current bitmap 1:1, no stretching
   Bmp := FBitmaps[FState];
   if (Bmp.Width > 0) and (Bmp.Height > 0) then
