@@ -90,5 +90,5 @@ jobs:
 
               echo 'Make distr'
               mkdir -p distr
-              cp "${APP_PATH}/${APP_NAME}" distr
+              cp -r "${APP_PATH}/${APP_NAME}" distr
               ls -la distr
