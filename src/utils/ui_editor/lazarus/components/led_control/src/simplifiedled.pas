@@ -23,6 +23,8 @@ type
     procedure KeyDown(var Key: Word; Shift: TShiftState); override;
     procedure MouseDown(Button: TMouseButton; Shift: TShiftState;
       X, Y: Integer); override;
+    procedure DoExit; override;
+    procedure DoEnter; override;
   public
     constructor Create(AOwner: TComponent); override;
     destructor Destroy; override;
@@ -158,10 +160,10 @@ begin
   if (Bmp.Width > 0) and (Bmp.Height > 0) then
     Canvas.Draw(0, 0, Bmp);
 
-  // Focus indicator: thick red cross, shortened by CrossMargin on each side
+  // Focus indicator: red rectangle, inset by 2 px on each side
   if Focused then
   begin
-    Canvas.Pen.Color := clHighlight;
+    Canvas.Pen.Color := clRed;
     Canvas.Pen.Width := 2;
     Canvas.Brush.Style := bsClear;
     Canvas.Rectangle(2, 2, Width - 2, Height - 2);
@@ -181,25 +183,25 @@ procedure TSimplifiedLed.KeyDown(var Key: Word; Shift: TShiftState);
 begin
   inherited KeyDown(Key, Shift);
 
-  // Space/Enter toggle; arrows set a specific state
-  case Key of
-    VK_SPACE, VK_RETURN:
-      begin
-        if FState = lsOff then State := lsOn
-        else State := lsOff;
-        Key := 0;
-      end;
-    VK_LEFT, VK_UP:
-      begin
-        State := lsOff;
-        Key := 0;
-      end;
-    VK_RIGHT, VK_DOWN:
-      begin
-        State := lsOn;
-        Key := 0;
-      end;
+  // Toggle state on Space only
+  if Key = VK_SPACE then
+  begin
+    if FState = lsOff then State := lsOn
+    else State := lsOff;
+    Key := 0; // Consume the key
   end;
+end;
+
+procedure TSimplifiedLed.DoExit;
+begin
+  inherited DoExit;
+  Invalidate;
+end;
+
+procedure TSimplifiedLed.DoEnter;
+begin
+  inherited DoEnter;
+  Invalidate;
 end;
 
 procedure Register;

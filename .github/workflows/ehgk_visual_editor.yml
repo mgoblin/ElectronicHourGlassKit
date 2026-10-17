@@ -3,7 +3,7 @@ name: Build EHGK visual editor
 on:
     push:
         paths:
-        - 'src/utils/ui_editor/lazarus/app/ehgk_editor/**'
+        - 'src/utils/ui_editor/lazarus/**'
         - '.github/workflows/ehgk_visual_editor.yml'
         - '.github/actions/**'
 
