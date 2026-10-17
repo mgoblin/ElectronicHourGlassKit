@@ -9,6 +9,7 @@ on:
 
 env:
   led_control_lpk_path: 'src/utils/ui_editor/lazarus/components/led_control/src/ledcontrol.lpk'
+  led_control_unittest_lpi_path: 'src/utils/ui_editor/lazarus/components/led_control/test/LedUnitTests.lpi'
 
 jobs:
   prepare-matrix:
@@ -58,7 +59,8 @@ jobs:
             uses: ./.github/actions/build-led-control-component
             with:
               widgetset: ${{ matrix.widgetset }}
-              component-lpk-path: ${{ env.led_control_lpk_path }}     
+              component-lpk-path: ${{ env.led_control_lpk_path }}
+              unittest-lpi-path: $${{ env.led_control_unittest_lpi_path}}     
 
           - name: Build page components package
             uses: ./.github/actions/build-page-components
