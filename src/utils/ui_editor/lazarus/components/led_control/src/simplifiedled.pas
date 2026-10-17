@@ -1,138 +1,215 @@
 unit SimplifiedLed;
 
-{$mode ObjFPC}{$H+}
+{$mode objfpc}{$H+}
 
 interface
 
 uses
-  Classes, SysUtils, Controls, Graphics, Math;
-
-const
-  DefaultWidth:Integer = 30;
-  DefaultHeight:Integer = 30;
+  Classes, SysUtils, Controls, Graphics, LResources, LCLType;
 
 type
-
-  TLEDState = (ledOff, ledOn);
+  TLedState = (lsOff, lsOn);
 
   TSimplifiedLed = class(TCustomControl)
   private
-    FState: TLEDState;
-    FOnChange: TNotifyEvent;
-    procedure SetState(AValue: TLEDState);
+    FBitmaps: array[TLedState] of TBitmap;
+    FState: TLedState;
+    procedure SetState(AValue: TLedState);
+    procedure BitmapChanged(Sender: TObject);
+    procedure AdjustSizeToBitmap;
+    procedure LoadBitmapsFromResources;
   protected
-    procedure DoOnChange; virtual;
-    procedure DoOnChangeBounds; override;
     procedure Paint; override;
+    procedure KeyDown(var Key: Word; Shift: TShiftState); override;
+    procedure MouseDown(Button: TMouseButton; Shift: TShiftState;
+      X, Y: Integer); override;
   public
     constructor Create(AOwner: TComponent); override;
-    procedure DblClick; override;
-  published // Properties
-    property Align;
-    property Anchors;
-    property State: TLEDState read FState write SetState default ledOff;
-    property Visible;
-  published // Events
-    property OnDblClick;
-    property OnChange: TNotifyEvent read FOnChange write FOnChange;
+    destructor Destroy; override;
+
+    procedure SetBounds(ALeft, ATop, AWidth, AHeight: Integer); override;
+  published
+    property State: TLedState read FState write SetState default lsOff;
+    property TabStop default True;
+    property OnKeyDown;
+    property OnKeyUp;
+    property OnClick;
   end;
 
 procedure Register;
 
 implementation
 
-uses LResources;
-
 const
-  DefaultPenWidth: Integer = 1;
+  // Resource names inside the .lrs file (change to match your resources)
+  ResNameOff = 'led_off';
+  ResNameOn  = 'led_on';
 
+  // Fallback size used while bitmaps are not loaded yet
+  DefaultW = 32;
+  DefaultH = 32;
 
-procedure Register;
-begin
-  RegisterComponents('LED',[TSimplifiedLed]);
-end;
+{ TSimplifiedLed }
 
-
-constructor TSimplifiedLED.Create(AOwner: TComponent);
+constructor TSimplifiedLed.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
-  Width := DefaultWidth;
-  Height := DefaultHeight;
-  FState := ledOff;
+
+  // Make sure the control is allowed to receive focus
+  ControlStyle := ControlStyle - [csNoFocus];
+
+  // Create the two internal bitmaps and hook their change notifications
+  FBitmaps[lsOff] := TBitmap.Create;
+  FBitmaps[lsOn]  := TBitmap.Create;
+  FBitmaps[lsOff].OnChange := @BitmapChanged;
+  FBitmaps[lsOn].OnChange  := @BitmapChanged;
+
+  FState := lsOff;
+  TabStop := True;
+  DoubleBuffered := True;
+
+  // Load the fixed bitmap set from Lazarus resources
+  LoadBitmapsFromResources;
+
+  // Initial size matches the "off" bitmap (or fallback if empty)
+  if (FBitmaps[lsOff].Width > 0) and (FBitmaps[lsOff].Height > 0) then
+    inherited SetBounds(0, 0, FBitmaps[lsOff].Width, FBitmaps[lsOff].Height)
+  else
+    inherited SetBounds(0, 0, DefaultW, DefaultH);
 end;
 
-procedure TSimplifiedLED.SetState(AValue: TLEDState);
+destructor TSimplifiedLed.Destroy;
 begin
-  if FState <> AValue then
-  begin
-    FState := AValue;
-    DoOnChange;
-    Invalidate;  // triggers repaint
+  FBitmaps[lsOff].Free;
+  FBitmaps[lsOn].Free;
+  inherited Destroy;
+end;
+
+procedure TSimplifiedLed.LoadBitmapsFromResources;
+begin
+  // Missing resources are tolerated so the component does not crash at design time
+  try
+    FBitmaps[lsOff].LoadFromLazarusResource(ResNameOff);
+  except
+    // Leave the bitmap empty
+  end;
+  try
+    FBitmaps[lsOn].LoadFromLazarusResource(ResNameOn);
+  except
+    // Leave the bitmap empty
   end;
 end;
 
-procedure TSimplifiedLed.DblClick;
-var
-  NewState: TLEDState;
+procedure TSimplifiedLed.BitmapChanged(Sender: TObject);
 begin
-  // Toggle LED state and repaint
-  case FState of
-    ledOff: NewState := ledOn;
-    ledOn: NewState := ledOff;
-  end;
-  SetState(NewState);
-
-  inherited DblClick; // This calls the user-assigned OnDblClick event
-end;
-
-procedure TSimplifiedLED.DoOnChangeBounds;
-begin
-  inherited DoOnChangeBounds; // Handles the internal LCL changes
-
-  // Triggers the Paint method on the next cycle
+  AdjustSizeToBitmap;
   Invalidate;
 end;
 
-procedure TSimplifiedLED.DoOnChange;
+procedure TSimplifiedLed.AdjustSizeToBitmap;
+var
+  Bmp: TBitmap;
 begin
-  if Assigned(FOnChange) then
+  Bmp := FBitmaps[FState];
+  if (Bmp.Width > 0) and (Bmp.Height > 0) then
+    inherited SetBounds(Left, Top, Bmp.Width, Bmp.Height);
+end;
+
+procedure TSimplifiedLed.SetState(AValue: TLedState);
+begin
+  if FState = AValue then Exit;
+  FState := AValue;
+  AdjustSizeToBitmap;
+  Invalidate;
+end;
+
+{ The size is fixed: any external attempt to change it is overridden. }
+procedure TSimplifiedLed.SetBounds(ALeft, ATop, AWidth, AHeight: Integer);
+var
+  Bmp: TBitmap;
+  W, H: Integer;
+begin
+  Bmp := FBitmaps[FState];
+  if (Bmp.Width > 0) and (Bmp.Height > 0) then
   begin
-    FOnChange(Self);
+    W := Bmp.Width;
+    H := Bmp.Height;
+  end
+  else
+  begin
+    W := DefaultW;
+    H := DefaultH;
+  end;
+  // Position is honored, size is forced
+  inherited SetBounds(ALeft, ATop, W, H);
+end;
+
+procedure TSimplifiedLed.Paint;
+var
+  Bmp: TBitmap;
+begin
+  inherited Paint;
+
+  // Opaque background
+  Canvas.Brush.Color := clBtnFace;
+  Canvas.FillRect(ClientRect);
+
+  // Draw the current bitmap 1:1, no stretching
+  Bmp := FBitmaps[FState];
+  if (Bmp.Width > 0) and (Bmp.Height > 0) then
+    Canvas.Draw(0, 0, Bmp);
+
+  // Focus indicator
+  if Focused then
+  begin
+    Canvas.Pen.Color := clHighlight;
+    Canvas.Pen.Width := 2;
+    Canvas.Brush.Style := bsClear;
+    Canvas.Rectangle(0, 0, Width, Height);
+    Canvas.Brush.Style := bsSolid;
   end;
 end;
 
-procedure TSimplifiedLED.Paint;
-var
-  LEDColor: TColor;
-  R: TRect;
-  CenterX, CenterY, Radius: Integer;
+procedure TSimplifiedLed.MouseDown(Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
 begin
-  //inherited Paint;
+  inherited MouseDown(Button, Shift, X, Y);
+  // Clicking the control gives it focus
+  if CanFocus then SetFocus;
+end;
 
-  // Decide LED color based on state
-  case FState of
-    ledOff: LEDColor := clGray;
-    ledOn: LEDColor := clLime;      // bright green
+procedure TSimplifiedLed.KeyDown(var Key: Word; Shift: TShiftState);
+begin
+  inherited KeyDown(Key, Shift);
+
+  // Example behavior: Space/Enter toggle, arrows pick a specific state
+  case Key of
+    VK_SPACE, VK_RETURN:
+      begin
+        if FState = lsOff then State := lsOn
+        else State := lsOff;
+        Key := 0; // Consume the key so the form does not handle it
+      end;
+    VK_LEFT, VK_UP:
+      begin
+        State := lsOff;
+        Key := 0; // Consume so LCL does not use arrows for navigation
+      end;
+    VK_RIGHT, VK_DOWN:
+      begin
+        State := lsOn;
+        Key := 0;
+      end;
   end;
+end;
 
-  // Clear background
-  Canvas.Brush.Color := Self.Color;
-  Canvas.FillRect(ClientRect);
-
-  // Draw a filled circle in center
-  R := ClientRect;
-  CenterX := (R.Left + R.Right) div 2;
-  CenterY := (R.Top + R.Bottom) div 2;
-  Radius := Min(Width, Height) div 2 - 2 * DefaultPenWidth;
-
-  Canvas.Pen.Width := DefaultPenWidth;
-
-  Canvas.Pen.Color := clBlack;
-  Canvas.Brush.Color := LEDColor;
-  Canvas.Ellipse(CenterX - Radius, CenterY - Radius, CenterX + Radius, CenterY + Radius);
+procedure Register;
+begin
+  RegisterComponents('LED', [TSimplifiedLed]);
 end;
 
 initialization
-  {$I simplifiedled.lrs}
+  {$I ledbitmaps.lrs}
+
 
 end.

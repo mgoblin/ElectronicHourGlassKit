@@ -141,11 +141,11 @@ begin
       Led := Component as TSimplifiedLed;
       if Page.IsLedOn(LedNumber) then
       begin
-        Led.State := TLEDState.ledOn;
+        Led.State := TLEDState.lsOn;
       end
       else
       begin
-        Led.State := TLEDState.ledOff;
+        Led.State := TLEDState.lsOff;
       end;
     end;
   end;

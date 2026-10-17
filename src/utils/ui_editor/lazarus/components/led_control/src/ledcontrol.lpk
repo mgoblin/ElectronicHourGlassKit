@@ -19,6 +19,10 @@
         <Filename Value="simplifiedled.lrs"/>
         <Type Value="LRS"/>
       </Item>
+      <Item>
+        <Filename Value="ledbitmaps.lrs"/>
+        <Type Value="LRS"/>
+      </Item>
     </Files>
     <RequiredPkgs>
       <Item>
