@@ -2,11 +2,7 @@
 <CONFIG>
   <ProjectSession>
     <Version Value="12"/>
-    <BuildModes Active="Release">
-      <SessionMatrixOptions Count="1">
-        <Item1 ID="379127567135" Modes="Release,Default,Debug" Type="IDEMacro" MacroName="LCLWidgetType" Value="qt5"/>
-      </SessionMatrixOptions>
-    </BuildModes>
+    <BuildModes Active="Release"/>
     <Units>
       <Unit>
         <Filename Value="ehgk_editor.lpr"/>
@@ -37,7 +33,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="DataModule"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="1"/>
         <CursorPos X="16"/>
         <UsageCount Value="41"/>
         <Loaded Value="True"/>
@@ -46,11 +42,10 @@
       <Unit>
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
         <UnitName Value="EhgkPage"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="40"/>
         <CursorPos X="14" Y="52"/>
         <UsageCount Value="17"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../led_control/ledcontrol.pas"/>
@@ -166,11 +161,10 @@
       <Unit>
         <Filename Value="../../led_control/src/simplifiedled.pas"/>
         <UnitName Value="SimplifiedLed"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="13"/>
         <CursorPos X="12" Y="16"/>
         <UsageCount Value="13"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../../page_components/src/ehgkpageslist.pas"/>
@@ -222,7 +216,7 @@
         <UsageCount Value="10"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="29">
+    <JumpHistory HistoryIndex="26">
       <Position>
         <Filename Value="main.pas"/>
         <Caret Line="120" Column="4" TopLine="109"/>
@@ -320,20 +314,8 @@
         <Caret Line="135" Column="29" TopLine="117"/>
       </Position>
       <Position>
-        <Filename Value="../../page_components/src/ehgkpage.pas"/>
-        <Caret Line="64" Column="14" TopLine="54"/>
-      </Position>
-      <Position>
-        <Filename Value="../../page_components/src/ehgkpage.pas"/>
-        <Caret Line="166" Column="27" TopLine="163"/>
-      </Position>
-      <Position>
         <Filename Value="main.pas"/>
         <Caret Line="137" Column="15" TopLine="124"/>
-      </Position>
-      <Position>
-        <Filename Value="../../led_control/src/simplifiedled.pas"/>
-        <Caret Line="33" Column="27" TopLine="13"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>

@@ -72,6 +72,6 @@ jobs:
               component-lpk-path: ${{ env.page_components_lpk_path }}
               unittest-lpi-path: ${{ env.page_components_unittest_lpi_path }}
               
-          - name: Build EHGK application
+          - name: Build EHGK editor application
             shell: bash
-            run: lazbuild src/utils/ui_editor/lazarus/app/ehgk_editor/src/ehgk_editor.lpi
+            run: lazbuild -B src/utils/ui_editor/lazarus/app/ehgk_editor/src/ehgk_editor.lpi
