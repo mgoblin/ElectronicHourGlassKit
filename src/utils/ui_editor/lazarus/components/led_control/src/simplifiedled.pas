@@ -146,8 +146,14 @@ begin
 end;
 
 procedure TSimplifiedLed.Paint;
+const
+  CrossMargin = 4;   // inset from each edge
+  CrossWidth  = 2;   // line thickness
 var
   Bmp: TBitmap;
+  cx, cy: Integer;
+  HalfPen: Integer;
+  x1, x2, y1, y2: Integer;
 begin
   inherited Paint;
 
@@ -160,13 +166,42 @@ begin
   if (Bmp.Width > 0) and (Bmp.Height > 0) then
     Canvas.Draw(0, 0, Bmp);
 
-  // Focus indicator: red rectangle, inset by 2 px on each side
+  // Focus indicator: straight red cross, inset by CrossMargin
   if Focused then
   begin
+    HalfPen := CrossWidth div 2;   // 1 for width 2
+
+    cx := Width div 2;
+    cy := Height div 2;
+
+    // Keep the thick line inside the client area
+    if cx < HalfPen then
+      cx := HalfPen;
+    if cx > Width - (CrossWidth - HalfPen) then
+      cx := Width - (CrossWidth - HalfPen);
+    if cy < HalfPen then
+      cy := HalfPen;
+    if cy > Height - (CrossWidth - HalfPen) then
+      cy := Height - (CrossWidth - HalfPen);
+
+    // Shortened ray ends (inset by CrossMargin)
+    x1 := CrossMargin;
+    x2 := Width - 1 - CrossMargin;
+    y1 := CrossMargin;
+    y2 := Height - 1 - CrossMargin;
+
     Canvas.Pen.Color := clRed;
-    Canvas.Pen.Width := 2;
+    Canvas.Pen.Width := CrossWidth;
     Canvas.Brush.Style := bsClear;
-    Canvas.Rectangle(2, 2, Width - 2, Height - 2);
+
+    // Vertical line
+    Canvas.MoveTo(cx, y1);
+    Canvas.LineTo(cx, y2);
+
+    // Horizontal line
+    Canvas.MoveTo(x1, cy);
+    Canvas.LineTo(x2, cy);
+
     Canvas.Brush.Style := bsSolid;
   end;
 end;
