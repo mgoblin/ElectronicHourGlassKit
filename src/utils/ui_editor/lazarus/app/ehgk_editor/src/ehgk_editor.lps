@@ -220,8 +220,8 @@
         <UnitName Value="SimplifiedLed"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="139"/>
-        <CursorPos Y="151"/>
+        <TopLine Value="181"/>
+        <CursorPos X="19" Y="184"/>
         <UsageCount Value="14"/>
         <Loaded Value="True"/>
       </Unit>

@@ -170,18 +170,18 @@ begin
   begin
     // Shortened ray ends (inset by CrossMargin)
     x1 := CrossMargin;
-    x2 := Width - 1 - CrossMargin;
+    x2 := DefaultW - 1 - CrossMargin;
     y1 := CrossMargin;
-    y2 := Height - 1 - CrossMargin;
+    y2 := DefaultH - 1 - CrossMargin;
 
     // Vertical bar: 2 px wide, centered
     // Occupies cx-1 .. cx (for even width), clamped inside [x1, x2]
-    cx := Width div 2;
+    cx := DefaultW div 2;
     if cx < x1 + 1 then cx := x1 + 1;
     if cx > x2 then cx := x2;
 
     // Horizontal bar: 2 px tall, centered
-    cy := Height div 2;
+    cy := DefaultH div 2;
     if cy < y1 + 1 then cy := y1 + 1;
     if cy > y2 then cy := y2;
 
