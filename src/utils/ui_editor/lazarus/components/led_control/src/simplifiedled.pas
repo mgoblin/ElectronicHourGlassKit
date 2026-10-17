@@ -148,11 +148,9 @@ end;
 procedure TSimplifiedLed.Paint;
 const
   CrossMargin = 4;   // inset from each edge
-  CrossWidth  = 2;   // line thickness
 var
   Bmp: TBitmap;
   cx, cy: Integer;
-  HalfPen: Integer;
   x1, x2, y1, y2: Integer;
 begin
   inherited Paint;
@@ -167,40 +165,34 @@ begin
     Canvas.Draw(0, 0, Bmp);
 
   // Focus indicator: straight red cross, inset by CrossMargin
+  // Focus indicator: straight red cross, inset by CrossMargin
   if Focused then
   begin
-    HalfPen := CrossWidth div 2;   // 1 for width 2
-
-    cx := Width div 2;
-    cy := Height div 2;
-
-    // Keep the thick line inside the client area
-    if cx < HalfPen then
-      cx := HalfPen;
-    if cx > Width - (CrossWidth - HalfPen) then
-      cx := Width - (CrossWidth - HalfPen);
-    if cy < HalfPen then
-      cy := HalfPen;
-    if cy > Height - (CrossWidth - HalfPen) then
-      cy := Height - (CrossWidth - HalfPen);
-
     // Shortened ray ends (inset by CrossMargin)
     x1 := CrossMargin;
     x2 := Width - 1 - CrossMargin;
     y1 := CrossMargin;
     y2 := Height - 1 - CrossMargin;
 
-    Canvas.Pen.Color := clRed;
-    Canvas.Pen.Width := CrossWidth;
-    Canvas.Brush.Style := bsClear;
+    // Vertical bar: 2 px wide, centered
+    // Occupies cx-1 .. cx (for even width), clamped inside [x1, x2]
+    cx := Width div 2;
+    if cx < x1 + 1 then cx := x1 + 1;
+    if cx > x2 then cx := x2;
 
-    // Vertical line
-    Canvas.MoveTo(cx, y1);
-    Canvas.LineTo(cx, y2);
+    // Horizontal bar: 2 px tall, centered
+    cy := Height div 2;
+    if cy < y1 + 1 then cy := y1 + 1;
+    if cy > y2 then cy := y2;
 
-    // Horizontal line
-    Canvas.MoveTo(x1, cy);
-    Canvas.LineTo(x2, cy);
+    Canvas.Brush.Color := clRed;
+    Canvas.Brush.Style := bsSolid;
+
+    // Vertical bar: x from cx-1 to cx (2 px), y from y1 to y2
+    Canvas.FillRect(cx - 1, y1, cx + 1, y2 + 1);
+
+    // Horizontal bar: x from x1 to x2, y from cy-1 to cy (2 px)
+    Canvas.FillRect(x1, cy - 1, x2 + 1, cy + 1);
 
     Canvas.Brush.Style := bsSolid;
   end;
