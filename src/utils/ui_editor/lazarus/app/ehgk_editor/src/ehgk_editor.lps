@@ -19,8 +19,7 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Main"/>
-        <IsVisibleTab Value="True"/>
-        <TopLine Value="113"/>
+        <TopLine Value="19"/>
         <CursorPos X="50" Y="121"/>
         <UsageCount Value="42"/>
         <Loaded Value="True"/>
@@ -218,10 +217,11 @@
       <Unit>
         <Filename Value="../../../components/led_control/src/simplifiedled.pas"/>
         <UnitName Value="SimplifiedLed"/>
+        <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
         <TopLine Value="123"/>
         <CursorPos X="3" Y="123"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="11"/>
         <Loaded Value="True"/>
       </Unit>
     </Units>
