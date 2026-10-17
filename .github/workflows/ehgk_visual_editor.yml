@@ -85,8 +85,10 @@ jobs:
               set -euo pipefail
               lazbuild -B --build-mode=Release --ws=${{ matrix.widgetset }} "$APP_LPI"
               
+              echo 'src dir is:'
               ls -la src/utils/ui_editor/lazarus/app/ehgk_editor/src
 
+              echo 'Make distr'
               mkdir -p distr
-              cp "${APP_PATH}/${APP_NAME}*" distr
+              cp "${APP_PATH}/${APP_NAME}" distr
               ls -la distr
