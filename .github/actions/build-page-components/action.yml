@@ -12,10 +12,10 @@ inputs:
     description: 'path to pagecomponents.lpk file'
     required: true
     default: 'src/utils/ui_editor/lazarus/components/page_components/src/pagecomponents.lpk'
-  unittest-src-path:
+  unittest-lpi-path:
     description: 'path to EhgkPageUnitTests.lpi'
     required: true
-    default: 'src/utils/ui_editor/lazarus/components/page_components/test'
+    default: 'src/utils/ui_editor/lazarus/components/page_components/test/EhgkPageUnitTests.lpi'
 
 runs:
   using: composite
@@ -26,20 +26,24 @@ runs:
 
     - name: Build page components unit tests
       shell: bash
-      run: lazbuild -B --ws=${{ inputs.widgetset }} ${{ inputs.unittest-src-path }}/EhgkPageUnitTests.lpi
+      run: lazbuild -B --ws=${{ inputs.widgetset }} ${{ inputs.unittest-lpi-path }}
 
     - name: Run unit tests
       shell: bash
       env:
+        UNITTEST_LPI: ${{ inputs.unittest-lpi-path }}
         MATRIX_NAME: ${{ matrix.name }}
       run: |
         set -euo pipefail
+        unittest_runner="${UNITTEST_LPI%.*}"
+        echo "unit test runner: $unittest_runner"
+
         case "$MATRIX_NAME" in
           Linux*)
-          xvfb-run -a ${{ inputs.unittest-src-path }}/EhgkPageUnitTests
+          xvfb-run -a "$unittest_runner"
           ;;
         *)
-          ${{ inputs.unittest-src-path }}/EhgkPageUnitTests
+          "$unittest_runner"
           ;;
         esac
 
