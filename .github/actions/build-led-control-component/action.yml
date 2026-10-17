@@ -33,17 +33,19 @@ runs:
     - name: Run LED control unit tests
       shell: bash
       env:
+        UNITTEST_LPI: ${{ inputs.unittest-lpi-path }}
         MATRIX_NAME: ${{ matrix.name }}
       run: |
         set -euo pipefail
-        filepath = ${{ inputs.unittest-lpi-path }}
+        unittest_runner="${UNITTEST_LPI%.*}"
+        echo "unit test runner: $unittest_runner"
 
         case "$MATRIX_NAME" in
           Linux*)
-          xvfb-run -a ${filepath%.*}
+          xvfb-run -a "$unittest_runner"
           ;;
         *)
-          ${filepath%.*}
+          "$unittest_runner"
           ;;
         esac
 
