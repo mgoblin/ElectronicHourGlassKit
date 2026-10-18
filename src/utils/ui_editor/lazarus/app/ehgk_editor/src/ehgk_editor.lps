@@ -10,7 +10,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="13"/>
         <CursorPos X="59" Y="33"/>
-        <UsageCount Value="48"/>
+        <UsageCount Value="49"/>
       </Unit>
       <Unit>
         <Filename Value="main.pas"/>
@@ -21,7 +21,7 @@
         <UnitName Value="Main"/>
         <TopLine Value="89"/>
         <CursorPos X="50" Y="121"/>
-        <UsageCount Value="48"/>
+        <UsageCount Value="49"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -35,7 +35,7 @@
         <EditorIndex Value="2"/>
         <TopLine Value="11"/>
         <CursorPos X="16"/>
-        <UsageCount Value="48"/>
+        <UsageCount Value="49"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -220,8 +220,8 @@
         <UnitName Value="SimplifiedLed"/>
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="176"/>
-        <CursorPos X="8" Y="192"/>
+        <TopLine Value="186"/>
+        <CursorPos Y="191"/>
         <UsageCount Value="14"/>
         <Loaded Value="True"/>
       </Unit>

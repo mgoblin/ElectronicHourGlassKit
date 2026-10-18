@@ -188,8 +188,6 @@ begin
 
     // Horizontal bar: x from x1 to x2, y from cy-1 to cy (2 px)
     Canvas.FillRect(x1, cy - 1, x2 + 1, cy + 1);
-
-    // Canvas.Brush.Style := bsSolid;
   end;
 end;
 
