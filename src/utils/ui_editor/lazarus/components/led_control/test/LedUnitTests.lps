@@ -16,12 +16,10 @@
         <Filename Value="simplifiedledtestcases.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="SimplifiedLedTestCases"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="91"/>
         <CursorPos X="97" Y="106"/>
         <UsageCount Value="31"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="simplifiedledconstructortestcase.pas"/>
@@ -75,7 +73,7 @@
       <Unit>
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
         <UnitName Value="EhgkPage"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="2"/>
         <TopLine Value="32"/>
         <CursorPos X="9" Y="35"/>
         <UsageCount Value="10"/>
@@ -95,59 +93,27 @@
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="/usr/lib/lazarus/4.0/components/lclextensions/include/qt5/uses.inc"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <CursorPos X="37"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="12">
+    <JumpHistory HistoryIndex="2">
       <Position>
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
         <Caret Line="35" Column="9" TopLine="32"/>
-      </Position>
-      <Position>
-        <Filename Value="simplifiedledtestcases.pas"/>
-        <Caret Line="43" Column="33" TopLine="31"/>
       </Position>
       <Position>
         <Filename Value="../src/simplifiedled.pas"/>
         <Caret Line="14"/>
       </Position>
       <Position>
-        <Filename Value="simplifiedledtestcases.pas"/>
-        <Caret Line="49" Column="33" TopLine="38"/>
-      </Position>
-      <Position>
-        <Filename Value="simplifiedledtestcases.pas"/>
-        <Caret Line="55" Column="35" TopLine="44"/>
-      </Position>
-      <Position>
-        <Filename Value="simplifiedledtestcases.pas"/>
-        <Caret Line="78" Column="68" TopLine="67"/>
-      </Position>
-      <Position>
         <Filename Value="../src/simplifiedled.pas"/>
         <Caret Line="31" TopLine="20"/>
-      </Position>
-      <Position>
-        <Filename Value="simplifiedledtestcases.pas"/>
-        <Caret Line="81" Column="83" TopLine="69"/>
-      </Position>
-      <Position>
-        <Filename Value="simplifiedledtestcases.pas"/>
-        <Caret Line="86" Column="29" TopLine="74"/>
-      </Position>
-      <Position>
-        <Filename Value="simplifiedledtestcases.pas"/>
-        <Caret Line="89" Column="86" TopLine="77"/>
-      </Position>
-      <Position>
-        <Filename Value="simplifiedledtestcases.pas"/>
-        <Caret Line="94" Column="28" TopLine="82"/>
-      </Position>
-      <Position>
-        <Filename Value="simplifiedledtestcases.pas"/>
-        <Caret Line="97" Column="86" TopLine="85"/>
-      </Position>
-      <Position>
-        <Filename Value="simplifiedledtestcases.pas"/>
-        <Caret Line="103" Column="91" TopLine="91"/>
       </Position>
     </JumpHistory>
     <RunParams>
