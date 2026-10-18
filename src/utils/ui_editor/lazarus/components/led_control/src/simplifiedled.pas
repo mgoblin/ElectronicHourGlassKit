@@ -59,9 +59,6 @@ constructor TSimplifiedLed.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
 
-  // Make sure the control is allowed to receive focus
-  ControlStyle := ControlStyle - [csNoFocus];
-
   // Create the two internal bitmaps and hook their change notifications
   FBitmaps[lsOff] := TBitmap.Create;
   FBitmaps[lsOn]  := TBitmap.Create;
@@ -164,8 +161,7 @@ begin
     Canvas.Draw(0, 0, Bmp);
 
   // Focus indicator: straight red cross, inset by CrossMargin
-  // Focus indicator: straight red cross, inset by CrossMargin
-  if Focused then
+  if Focused and (Bmp.Width > 0) and (Bmp.Height > 0) then
   begin
     // Shortened ray ends (inset by CrossMargin)
     x1 := CrossMargin;
@@ -193,7 +189,7 @@ begin
     // Horizontal bar: x from x1 to x2, y from cy-1 to cy (2 px)
     Canvas.FillRect(x1, cy - 1, x2 + 1, cy + 1);
 
-    Canvas.Brush.Style := bsSolid;
+    // Canvas.Brush.Style := bsSolid;
   end;
 end;
 

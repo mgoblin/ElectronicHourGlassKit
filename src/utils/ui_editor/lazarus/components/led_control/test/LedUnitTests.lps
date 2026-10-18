@@ -74,7 +74,7 @@
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
         <UnitName Value="EhgkPage"/>
         <EditorIndex Value="1"/>
-        <TopLine Value="32"/>
+        <TopLine Value="80"/>
         <CursorPos X="59" Y="43"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
@@ -89,8 +89,8 @@
         <Filename Value="../src/simplifiedled.pas"/>
         <UnitName Value="SimplifiedLed"/>
         <IsVisibleTab Value="True"/>
-        <TopLine Value="227"/>
-        <CursorPos Y="31"/>
+        <TopLine Value="55"/>
+        <CursorPos X="6" Y="63"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>
@@ -100,8 +100,16 @@
         <CursorPos X="37"/>
         <UsageCount Value="10"/>
       </Unit>
+      <Unit>
+        <Filename Value="/usr/lib/lazarus/4.0/lcl/lcltype.pp"/>
+        <UnitName Value="LCLType"/>
+        <EditorIndex Value="-1"/>
+        <TopLine Value="413"/>
+        <CursorPos X="3" Y="425"/>
+        <UsageCount Value="10"/>
+      </Unit>
     </Units>
-    <JumpHistory HistoryIndex="2">
+    <JumpHistory HistoryIndex="4">
       <Position>
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
         <Caret Line="35" Column="9" TopLine="32"/>
@@ -113,6 +121,14 @@
       <Position>
         <Filename Value="../src/simplifiedled.pas"/>
         <Caret Line="31" TopLine="20"/>
+      </Position>
+      <Position>
+        <Filename Value="../src/simplifiedled.pas"/>
+        <Caret Line="236" Column="9"/>
+      </Position>
+      <Position>
+        <Filename Value="../src/simplifiedled.pas"/>
+        <Caret Line="210" Column="11" TopLine="192"/>
       </Position>
     </JumpHistory>
     <RunParams>
