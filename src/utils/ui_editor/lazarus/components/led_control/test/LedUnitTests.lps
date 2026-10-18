@@ -73,9 +73,9 @@
       <Unit>
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
         <UnitName Value="EhgkPage"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="1"/>
         <TopLine Value="32"/>
-        <CursorPos X="9" Y="35"/>
+        <CursorPos X="59" Y="43"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>
@@ -88,18 +88,17 @@
       <Unit>
         <Filename Value="../src/simplifiedled.pas"/>
         <UnitName Value="SimplifiedLed"/>
-        <TopLine Value="20"/>
+        <IsVisibleTab Value="True"/>
+        <TopLine Value="227"/>
         <CursorPos Y="31"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="/usr/lib/lazarus/4.0/components/lclextensions/include/qt5/uses.inc"/>
-        <IsVisibleTab Value="True"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <CursorPos X="37"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit>
     </Units>
     <JumpHistory HistoryIndex="2">
