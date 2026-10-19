@@ -73,7 +73,7 @@ class Eghk_Pages_Parser:
         start: page* page_line				
 
         // Page is a LEDs or empty screen
-        page: page_line ","
+        ?page: page_line ","
 
         page_line: (leds | empty)
 

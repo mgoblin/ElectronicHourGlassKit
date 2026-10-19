@@ -1,10 +1,10 @@
 import unittest
 
-from lark import Lark, Tree, Token, UnexpectedCharacters, UnexpectedToken
+from lark import Lark, UnexpectedCharacters, UnexpectedToken
 from ehgk.parser import Eghk_Pages_Parser, LedNumber_Transformer
 
 
-class Test_Eghk_Pages_Parser(unittest.TestCase):
+class TestEghkPagesParser(unittest.TestCase):
     
     def setUp(self):
         self.lark_parser = Lark(
@@ -17,17 +17,17 @@ class Test_Eghk_Pages_Parser(unittest.TestCase):
         tree = self.lark_parser.parse('EMPTY_PAGE')
         self.assertEqual(len(tree.children), 1)
         self.assertEqual(
-            tree.children[0], 
-            Tree(Token('RULE', 'page_line'), [Tree('empty', [])]))
+            "Tree('page_line', [Tree('empty', [])])",
+            str(tree.children[0])
+        )
         
     def test_one_led(self):
         tree = self.lark_parser.parse('L50')
         self.assertEqual(len(tree.children), 1)
         self.assertEqual(
-            tree.children[0], 
-            Tree(
-                Token('RULE', 'page_line'), 
-                [Tree(Token('RULE', 'leds'), [50])]))
+            "Tree('page_line', [Tree('leds', [50])])",
+            str(tree.children[0])
+        )
         
     def test_one_led_ws(self):
         with self.assertRaises(UnexpectedCharacters) as ex:
@@ -62,9 +62,8 @@ class Test_Eghk_Pages_Parser(unittest.TestCase):
 
         self.assertEqual(len(tree.children), 1)
         self.assertEqual(
-            str(tree.children),
-            "[Tree(Token('RULE', 'page_line'), "
-            "[Tree(Token('RULE', 'leds'), [1])])]"
+            "[Tree('page_line', [Tree('leds', [1])])]",
+            str(tree.children)
         )
     
     def test_only_line_comment(self):
@@ -148,9 +147,8 @@ class Test_Eghk_Pages_Parser(unittest.TestCase):
        tree = self.lark_parser.parse('L3 | L10 | L41') 
        self.assertEqual(len(tree.children), 1)
        self.assertEqual(
-            str(tree.children),
-            "[Tree(Token('RULE', 'page_line'), "
-            "[Tree(Token('RULE', 'leds'), [3, 10, 41])])]"
+            "[Tree('page_line', [Tree('leds', [3, 10, 41])])]",
+            str(tree.children)
         )
        
     def test_leds_multiline(self):
@@ -163,9 +161,8 @@ class Test_Eghk_Pages_Parser(unittest.TestCase):
         ) 
         self.assertEqual(len(tree.children), 1)
         self.assertEqual(
-            str(tree.children),
-            "[Tree(Token('RULE', 'page_line'), "
-            "[Tree(Token('RULE', 'leds'), [3, 10, 41])])]"
+            "[Tree('page_line', [Tree('leds', [3, 10, 41])])]",
+            str(tree.children)
         )
 
     def test_line_comment_leds_one_line(self):
@@ -177,9 +174,8 @@ class Test_Eghk_Pages_Parser(unittest.TestCase):
            ''') 
        self.assertEqual(len(tree.children), 1)
        self.assertEqual(
-            str(tree.children),
-            "[Tree(Token('RULE', 'page_line'), "
-            "[Tree(Token('RULE', 'leds'), [3, 10, 41])])]"
+           "[Tree('page_line', [Tree('leds', [3, 10, 41])])]",
+            str(tree.children)
         )
 
 
@@ -193,13 +189,11 @@ class Test_Eghk_Pages_Parser(unittest.TestCase):
 
         self.assertEqual(len(tree.children), 2)
         self.assertEqual(
-            str(tree.children),
-            "[Tree(Token('RULE', 'page'), "
-            "[Tree(Token('RULE', 'page_line'), "
-            "[Tree(Token('RULE', 'leds'), [1, 2])])]), " \
-            
-            "Tree(Token('RULE', 'page_line'), "
-            "[Tree(Token('RULE', 'leds'), [3, 4])])]"
+           "[Tree('page_line', "
+                    "[Tree('leds', [1, 2])]), "
+                "Tree('page_line', "
+                    "[Tree('leds', [3, 4])])]",
+            str(tree.children)
         )
 
 
@@ -214,23 +208,17 @@ class Test_Eghk_Pages_Parser(unittest.TestCase):
             '''
         )
 
-        self.assertEqual(len(tree.children), 4)
+        self.assertEqual(4, len(tree.children))
         self.assertEqual(
-            str(tree.children),
-            "[Tree(Token('RULE', 'page'), "
-            "[Tree(Token('RULE', 'page_line'), "
-            "[Tree(Token('RULE', 'leds'), [1, 2])])]), " \
-            
-            "Tree(Token('RULE', 'page'), "
-            "[Tree(Token('RULE', 'page_line'), "
-            "[Tree(Token('RULE', 'leds'), [20, 40, 1])])]), " \
-            
-            "Tree(Token('RULE', 'page'), "
-            "[Tree(Token('RULE', 'page_line'), "
-            "[Tree(Token('RULE', 'leds'), [57])])]), " \
-            
-            "Tree(Token('RULE', 'page_line'), "
-            "[Tree('empty', [])])]"
+            "[Tree('page_line', "
+                    "[Tree('leds', [1, 2])]), "
+                "Tree('page_line', "
+                    "[Tree('leds', [20, 40, 1])]), "
+                "Tree('page_line', "
+                    "[Tree('leds', [57])]), "
+                "Tree('page_line', "
+                    "[Tree('empty', [])])]",
+            str(tree.children)
         )
 
 
