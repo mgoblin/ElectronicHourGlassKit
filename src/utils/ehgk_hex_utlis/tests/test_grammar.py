@@ -30,12 +30,13 @@ class TestEghkPagesParser(unittest.TestCase):
         )
         
     def test_one_led_ws(self):
-        with self.assertRaises(UnexpectedCharacters) as ex:
-            self.lark_parser.parse('L 50')
-
-        self.assertIn(
-            "No terminal matches 'L'",
-            str(ex.exception))
+        # WS is ignored, so 'L 50' parses as 'L50'
+        tree = self.lark_parser.parse('L 50')
+        self.assertEqual(len(tree.children), 1)
+        self.assertEqual(
+            "Tree('page_line', [Tree('leds', [50])])",
+            str(tree.children[0])
+        )
         
     def test_led_number_range_more_than2digits(self):
         with self.assertRaises(ValueError) as cm:

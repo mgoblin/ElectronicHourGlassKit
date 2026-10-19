@@ -5,15 +5,15 @@ to list of unsigned long's.
 """
 import ctypes
 
-from lark import Lark, Transformer, v_args
+from lark import Lark, Transformer, Tree, v_args
 from lark.visitors import Interpreter
 
 class LedNumber_Transformer(Transformer):
     '''
-    LED number transformer validate that parsed number is in range 1..57
-    (LED_MIN .. LED_MAX)
+    LED number transformer validates that parsed numbers are in range 1..57
+    (LED_MIN .. LED_MAX). Transforms "L" NUMBER pairs into integers.
     '''
-    
+
     LED_MIN = 1
     '''
     Minimal LED number (1)
@@ -23,18 +23,22 @@ class LedNumber_Transformer(Transformer):
     Maximal LED number (57)
     '''
 
-    @v_args(inline=True)  # Inline gives the token directly, not a list
-    def lednum(self, n):
+    def led_item(self, tree):
         '''
-        Transform led number to integer and validate number in LED numbers range. 
+        Transform led_item ("L" NUMBER) into validated integer.
         '''
-        if n[0] != 'L':
-            raise ValueError(f"LED definition first letter should be L in {n}")
-
-        val = int(n[1:])
-        if LedNumber_Transformer.LED_MIN <= val <= LedNumber_Transformer.LED_MAX:
+        val = int(tree[-1])
+        if self.LED_MIN <= val <= self.LED_MAX:
             return val
-        raise ValueError(f"LED number {val} not in range {LedNumber_Transformer.LED_MIN}..{LedNumber_Transformer.LED_MAX}")
+        raise ValueError(
+            f"LED number {val} not in range {self.LED_MIN}..{self.LED_MAX}"
+        )
+
+    def leds(self, tree):
+        '''
+        Collect LED numbers into a list wrapped in a Tree.
+        '''
+        return Tree('leds', tree)
 
 class Eghk_Pages_Parser:
     """
@@ -70,7 +74,7 @@ class Eghk_Pages_Parser:
     
     ehgk_grammar = '''
         // A bunch of pages
-        start: page* page_line				
+        start: page* page_line
 
         // Page is a LEDs or empty screen
         ?page: page_line ","
@@ -78,10 +82,8 @@ class Eghk_Pages_Parser:
         page_line: (leds | empty)
 
         // LEDs page
-        leds:  lednum ("|" lednum)* 
-
-        // LED number
-        lednum: LED_NUM
+        leds: led_item ("|" led_item)*
+        led_item: "L" NUMBER
 
         // Empty page
         empty: "EMPTY_PAGE" -> empty
@@ -91,15 +93,13 @@ class Eghk_Pages_Parser:
         C_LINE_COMMENT: "//" /.*/
         C_BLOCK_COMMENT: "/*" /(.|\\n)*?/ "*/"
 
-        LED_NUM: /L\d+/
-        %import common.WORD   
+        %import common.WORD
         %import common.WS
-
+        %import common.NUMBER
 
         // Disregard spaces in text
-        %ignore WS           
+        %ignore WS
         %ignore COMMENT
-        %ignore /[\\t]/ // Ignores tab.
     '''
     """
     EHGK grammar.
@@ -117,10 +117,11 @@ class Eghk_Pages_Parser:
         """
         
         parser = Lark(
-            Eghk_Pages_Parser.ehgk_grammar, 
-            start = 'start',
+            Eghk_Pages_Parser.ehgk_grammar,
+            start='start',
             parser='lalr',
-            transformer = LedNumber_Transformer())
+            transformer=LedNumber_Transformer(),
+        )
         
         interpreter = Eghk_Page_Inrerpreter()
 
@@ -159,10 +160,8 @@ class Eghk_Page_Inrerpreter(Interpreter):
         '''
         Transforms one page LED's numbers list to the output c_uint64 value
         '''
-        
         page_value = 0
         for led_num in tree.children:
             offset = led_num - 1
-            page_value = page_value | (1 << offset)
-        
+            page_value |= 1 << offset
         self.pages.append(ctypes.c_uint64(page_value))
