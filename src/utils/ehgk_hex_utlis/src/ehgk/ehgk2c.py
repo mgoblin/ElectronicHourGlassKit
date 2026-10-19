@@ -5,7 +5,6 @@ import os
 from jinja2 import Environment, FileSystemLoader
 
 from ehgk.parser import Eghk_Pages_Parser
-from ehgk.serializer import Ehgk_to_Bytes_Serializer
 
 __version__ = "0.0.1"
 
