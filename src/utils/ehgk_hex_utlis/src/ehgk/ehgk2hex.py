@@ -11,7 +11,7 @@ __version__ = "0.0.1"
 
 class Ehgk2HexApp:
 
-    '''
+    """
     Ehgk2Hex Application class
 
     Converts EHGK pages description to Intel Hex representation
@@ -21,32 +21,32 @@ class Ehgk2HexApp:
         INPUT_FILE_NOT_FOUND_ERROR (int): error code for input file not found
         OUTPUT_FILE_IO_ERROR (int): error code for output file IO error
         UNKNOWN_ERROR (int): error code for general error
-    '''
+    """
 
     INPUT_FILE_NOT_FOUND_ERROR: int = 1
     OUTPUT_FILE_IO_ERROR: int = 2
     UNKNOWN_ERROR: int = 7
 
     def __init__(self, input_filename, output_filename, save_header):
-        '''
-        Costruct application object.
+        """
+        Construct application object.
         Method run() starts the job.
 
         Parameters:
             input_filename (str): input file name
             output_filename (str): output file name
             save_header (bool): save pages count to output
-        '''
+        """
         self.input_filename = input_filename
         self.output_filename = output_filename
         self.save_header = save_header
 
     def _read_input_file(self) -> str:
-        '''
+        """
         Reads input file content.
 
         Returns: input file content as string
-        '''
+        """
         try:
             with open(self.input_filename, 'r') as file:
                 file_content_string = file.read()
@@ -62,15 +62,15 @@ class Ehgk2HexApp:
             exit(Ehgk2HexApp.UNKNOWN_ERROR)
 
     def _convert_pages_to_binary(self, pages_description) -> tuple[bytes, int]:
-        '''
+        """
         Converts text pages description to binary representation
 
         Parameters:
             pages_description (str): pages description
 
-        Returns: tuple with binary representation of pages description 
-            and pages count as tuple[bytes, int] 
-        '''
+        Returns: tuple with binary representation of pages description
+            and pages count as tuple[bytes, int]
+        """
         # Create parser and serializer objects
         parser = Eghk_Pages_Parser()
         serializer = Ehgk_to_Bytes_Serializer()
@@ -82,13 +82,13 @@ class Ehgk2HexApp:
         if self.save_header:
             ctype_pages = [c_uint64(pages_count)] + ctype_pages
             
-        return (serializer.pages_to_bytes(ctype_pages), pages_count)
+        return serializer.pages_to_bytes(ctype_pages), pages_count
 
 
     def run(self):
-        '''
+        """
         Reads the input file, converts pages to Intel Hex, writes to output file.
-        '''
+        """
         print(f"\n\nNow starts the job with {self.input_filename} as input file and {self.output_filename} as output file")
 
         pages_description = self._read_input_file()
@@ -142,7 +142,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     if args.output is None:
-        root, extention = os.path.splitext(args.input)
+        root, extension = os.path.splitext(args.input)
         args.output = root + ".hex"
 
     app = Ehgk2HexApp(args.input, args.output, not args.no_pages_count)
