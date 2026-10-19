@@ -58,6 +58,48 @@ class TestEghkPagesParser(unittest.TestCase):
             str(cm.exception)
         )        
 
+    # --- Boundary values ---
+
+    def test_led_min_boundary(self):
+        tree = self.lark_parser.parse('L1')
+        self.assertEqual(len(tree.children), 1)
+        self.assertEqual(
+            "Tree('page_line', [Tree('leds', [1])])",
+            str(tree.children[0])
+        )
+
+    def test_led_max_boundary(self):
+        tree = self.lark_parser.parse('L57')
+        self.assertEqual(len(tree.children), 1)
+        self.assertEqual(
+            "Tree('page_line', [Tree('leds', [57])])",
+            str(tree.children[0])
+        )
+
+    def test_led_below_min(self):
+        with self.assertRaises(ValueError) as cm:
+            self.lark_parser.parse('L0')
+        self.assertEqual(
+            "LED number 0 not in range 1..57",
+            str(cm.exception)
+        )
+
+    def test_led_above_max(self):
+        with self.assertRaises(ValueError) as cm:
+            self.lark_parser.parse('L58')
+        self.assertEqual(
+            "LED number 58 not in range 1..57",
+            str(cm.exception)
+        )
+
+    def test_led_far_above_max(self):
+        with self.assertRaises(ValueError) as cm:
+            self.lark_parser.parse('L999')
+        self.assertEqual(
+            "LED number 999 not in range 1..57",
+            str(cm.exception)
+        )
+
     def test_ignore_tabs(self):
         tree = self.lark_parser.parse("\tL1")    
 
