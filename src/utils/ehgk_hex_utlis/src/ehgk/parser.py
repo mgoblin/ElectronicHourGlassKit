@@ -34,7 +34,8 @@ class LedNumberTransformer(Transformer):
             f"LED number {val} not in range {self.LED_MIN}..{self.LED_MAX}"
         )
 
-    def leds(self, tree):
+    @staticmethod
+    def leds(tree):
         """
         Collect LED numbers into a list wrapped in a Tree.
         """
@@ -138,16 +139,15 @@ class EghkPageInterpreter(Interpreter):
     Page LEDs numbers to c_uint64 converter.
 
     This class used inside :py:class:`Eghk_Page_Parser`
+
+    Attributes:
+        pages (list): output values list
     """
     
     def __init__(self):
         """
         Initialize empty pages value list
-
-        Attributes:
-            pages (list): output values list
         """
-        
         self.pages = []
 
     def empty(self, tree):
