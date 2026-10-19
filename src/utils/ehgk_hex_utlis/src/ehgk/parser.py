@@ -3,6 +3,7 @@ This module provides classes for converting
 electronical glass hour kit pages definition
 to list of unsigned long's.
 """
+from collections import Counter
 import ctypes
 
 from lark import Lark, Transformer, Tree
@@ -34,14 +35,15 @@ class LedNumberTransformer(Transformer):
             f"LED number {val} not in range {self.LED_MIN}..{self.LED_MAX}"
         )
 
-    def leds(self, tree):
+    @staticmethod
+    def leds(tree):
         """
         Collect LED numbers into a list wrapped in a Tree.
         Raise ValueError on duplicate LED numbers.
         """
         if len(tree) != len(set(tree)):
-            seen = set()
-            duplicates = {x for x in tree if x in seen or seen.add(x)}
+            counter = Counter(tree)
+            duplicates = [value for value, count in counter.items() if count > 1]
             raise ValueError(f"Duplicate LED numbers: {duplicates}")
         return Tree('leds', tree)
 

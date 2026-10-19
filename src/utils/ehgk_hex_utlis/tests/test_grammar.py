@@ -106,7 +106,7 @@ class TestEghkPagesParser(unittest.TestCase):
         with self.assertRaises(ValueError) as cm:
             self.lark_parser.parse('L5 | L5')
         self.assertEqual(
-            "Duplicate LED numbers: {5}",
+            "Duplicate LED numbers: [5]",
             str(cm.exception)
         )
 
@@ -114,7 +114,7 @@ class TestEghkPagesParser(unittest.TestCase):
         with self.assertRaises(ValueError) as cm:
             self.lark_parser.parse('L5 | L5 | L5')
         self.assertEqual(
-            "Duplicate LED numbers: {5}",
+            "Duplicate LED numbers: [5]",
             str(cm.exception)
         )
 
