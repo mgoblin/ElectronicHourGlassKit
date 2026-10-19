@@ -14,7 +14,7 @@ dist/
 *.egg-info/
 
 # Editors/IDEs
-**/.idea/          # For PyCharm
+/.idea          # For PyCharm
 .vscode/        # For VS Code
 *.swp           # For Vim
 
@@ -28,3 +28,4 @@ thumbs.db       # For Windows
 
 # Specific to data science
 .ipynb_checkpoints
+
