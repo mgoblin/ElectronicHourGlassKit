@@ -34,11 +34,15 @@ class LedNumberTransformer(Transformer):
             f"LED number {val} not in range {self.LED_MIN}..{self.LED_MAX}"
         )
 
-    @staticmethod
-    def leds(tree):
+    def leds(self, tree):
         """
         Collect LED numbers into a list wrapped in a Tree.
+        Raise ValueError on duplicate LED numbers.
         """
+        if len(tree) != len(set(tree)):
+            seen = set()
+            duplicates = {x for x in tree if x in seen or seen.add(x)}
+            raise ValueError(f"Duplicate LED numbers: {duplicates}")
         return Tree('leds', tree)
 
 class EghkPagesParser:

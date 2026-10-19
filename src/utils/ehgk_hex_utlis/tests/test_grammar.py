@@ -100,6 +100,42 @@ class TestEghkPagesParser(unittest.TestCase):
             str(cm.exception)
         )
 
+    # --- Duplicate LED detection ---
+
+    def test_duplicate_led_twice(self):
+        with self.assertRaises(ValueError) as cm:
+            self.lark_parser.parse('L5 | L5')
+        self.assertEqual(
+            "Duplicate LED numbers: {5}",
+            str(cm.exception)
+        )
+
+    def test_duplicate_led_three_times(self):
+        with self.assertRaises(ValueError) as cm:
+            self.lark_parser.parse('L5 | L5 | L5')
+        self.assertEqual(
+            "Duplicate LED numbers: {5}",
+            str(cm.exception)
+        )
+
+    def test_multiple_different_duplicates(self):
+        with self.assertRaises(ValueError) as cm:
+            self.lark_parser.parse('L3 | L10 | L3 | L10')
+        self.assertIn(
+            "Duplicate LED numbers:",
+            str(cm.exception)
+        )
+        self.assertIn("3", str(cm.exception))
+        self.assertIn("10", str(cm.exception))
+
+    def test_no_duplicate(self):
+        tree = self.lark_parser.parse('L3 | L10 | L41')
+        self.assertEqual(len(tree.children), 1)
+        self.assertEqual(
+            "Tree('page_line', [Tree('leds', [3, 10, 41])])",
+            str(tree.children[0])
+        )
+
     def test_ignore_tabs(self):
         tree = self.lark_parser.parse("\tL1")    
 
