@@ -29,3 +29,4 @@ thumbs.db       # For Windows
 # Specific to data science
 .ipynb_checkpoints
 
+/.idea/**
