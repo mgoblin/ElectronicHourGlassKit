@@ -1,17 +1,17 @@
 import unittest
 
 from lark import Lark, UnexpectedCharacters, UnexpectedToken
-from ehgk.parser import Eghk_Pages_Parser, LedNumber_Transformer
+from ehgk.parser import EghkPagesParser, LedNumberTransformer
 
 
 class TestEghkPagesParser(unittest.TestCase):
     
     def setUp(self):
         self.lark_parser = Lark(
-            Eghk_Pages_Parser.ehgk_grammar, 
+            EghkPagesParser.ehgk_grammar,
             start = 'start',
             parser='lalr',
-            transformer = LedNumber_Transformer())
+            transformer = LedNumberTransformer())
         
     def test_empty_page(self):
         tree = self.lark_parser.parse('EMPTY_PAGE')

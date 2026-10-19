@@ -4,7 +4,7 @@ import os
 
 from jinja2 import Environment, FileSystemLoader
 
-from ehgk.parser import Eghk_Pages_Parser
+from ehgk.parser import EghkPagesParser
 
 __version__ = "0.0.1"
 
@@ -68,7 +68,7 @@ class Ehgk2CApp:
         Returns: c_uint64 list  
         '''
         # Create parser and serializer objects
-        parser = Eghk_Pages_Parser()
+        parser = EghkPagesParser()
 
         # Parse pages description and convert to bytes
         ctype_pages = parser.parse(pages_description)

@@ -1,12 +1,12 @@
 from ctypes import c_ulong
 import unittest
 
-from ehgk.parser import Eghk_Pages_Parser
+from ehgk.parser import EghkPagesParser
 
 class Test_Eghk_Pages_Parser(unittest.TestCase):
 
     def setUp(self):
-        self.parser = Eghk_Pages_Parser()
+        self.parser = EghkPagesParser()
 
     def test_parse_empty_page(self):
         ctype_pages = self.parser.parse('EMPTY_PAGE')

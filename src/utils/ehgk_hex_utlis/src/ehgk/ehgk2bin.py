@@ -2,7 +2,7 @@ import argparse
 from ctypes import c_uint64
 import os
 
-from ehgk.parser import Eghk_Pages_Parser
+from ehgk.parser import EghkPagesParser
 from ehgk.serializer import Ehgk_to_Bytes_Serializer
 
 __version__ = "0.0.1"
@@ -69,7 +69,7 @@ class Ehgk2BinApp:
             and pages count as tuple[bytes, int] 
         '''
         # Create parser and serializer objects
-        parser = Eghk_Pages_Parser()
+        parser = EghkPagesParser()
         serializer = Ehgk_to_Bytes_Serializer()
 
         # Parse pages description and convert to bytes
