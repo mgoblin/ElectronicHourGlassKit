@@ -98,7 +98,6 @@ class Ehgk2HexApp:
         ih.frombytes(pages_bin)
 
         ih.write_hex_file(self.output_filename)
-        ih.get_memory_size()
         print(f"Wrote {pages_count} pages to {self.output_filename}")
 
 
