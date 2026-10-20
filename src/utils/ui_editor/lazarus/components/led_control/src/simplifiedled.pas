@@ -12,6 +12,7 @@ const
   DefaultW = 32;
   DefaultH = 32;
 
+type
   /// Enumerated states of the LED control.
   TLedState = (lsOff, lsOn);
 
