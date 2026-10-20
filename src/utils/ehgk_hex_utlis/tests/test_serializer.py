@@ -23,27 +23,29 @@ class Ehgk_to_Hex_Serializer_Test(unittest.TestCase):
     def setUp(self):
         self.serializer = EhgkToHexSerializer()
     
-    def test_pages_to_hex(self):
+    def test_pages_to_intel_hex(self):
         one = ctypes.c_uint64(1)
         two = ctypes.c_uint64(2)
         page = [one, two]
-        hex_content = self.serializer.pages_to_hex(page)
+        hex_content = self.serializer.pages_to_intel_hex(page)
         
         self.assertIsInstance(hex_content, str)
-        self.assertIn(':10', hex_content)  # Intel HEX record
-        self.assertIn('00000000', hex_content)  # address record
+        self.assertEqual(
+            hex_content,
+            ':1000000001000000000000000200000000000000ED\n:00000001FF\n'
+        )
 
-    def test_pages_to_hex_empty_page(self):
+    def test_pages_to_intel_hex_empty_page(self):
         zero = ctypes.c_uint64(0)
         page = [zero]
-        hex_content = self.serializer.pages_to_hex(page)
+        hex_content = self.serializer.pages_to_intel_hex(page)
         
         self.assertIsInstance(hex_content, str)
         self.assertIn(':08', hex_content)  # Intel HEX record for 8 bytes
 
-    def test_pages_to_hex_multiple_pages(self):
+    def test_pages_to_intel_hex_multiple_pages(self):
         pages = [ctypes.c_uint64(i) for i in range(10)]
-        hex_content = self.serializer.pages_to_hex(pages)
+        hex_content = self.serializer.pages_to_intel_hex(pages)
         
         self.assertIsInstance(hex_content, str)
         self.assertIn(':10', hex_content)

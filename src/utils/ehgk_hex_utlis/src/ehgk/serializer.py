@@ -30,14 +30,16 @@ class EhgkToBytesSerializer:
     
 class EhgkToHexSerializer:
     @staticmethod
-    def pages_to_hex(pages: list[ctypes.c_uint64]) -> str:
-        bytes_list = list(
-            map(
-                lambda x: x.value.to_bytes(8, byteorder='little'), pages
-            )
-        )
+    def pages_to_intel_hex(pages: list[ctypes.c_uint64]) -> str:
+        """
+        Converts list of ctypes.c_uint64 to Intel HEX format string.
 
-        b: bytes = b''.join(bytes_list)
+        Parameters:
+            pages (list): list of ctypes.c_uint64 values
+
+        Returns: Intel HEX format string
+        """
+        b: bytes = EhgkToBytesSerializer.pages_to_bytes(pages)
 
         ih = IntelHex()
         ih.frombytes(b)

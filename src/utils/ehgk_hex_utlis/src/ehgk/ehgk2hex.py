@@ -59,19 +59,18 @@ class Ehgk2HexApp:
             print(f"An error occurred: {e}")
             exit(Ehgk2HexApp.UNKNOWN_ERROR)
 
-    def _convert_pages_to_binary(self, pages_description) -> tuple[bytes, int]:
+    def _convert_pages_to_intel_hex(self, pages_description) -> tuple[str, int]:
         """
-        Converts text pages description to binary representation
+        Converts text pages description to intel hex representation
 
         Parameters:
             pages_description (str): pages description
 
-        Returns: tuple with binary representation of pages description
-            and pages count as tuple[bytes, int]
+        Returns: tuple (string with Intel Hex representation, pages count)
         """
         # Create parser and serializer objects
         parser = EghkPagesParser()
-        serializer = EhgkToBytesSerializer()
+        serializer = EhgkToHexSerializer()
 
         # Parse pages description and convert to bytes
         ctype_pages = parser.parse(pages_description)
@@ -80,7 +79,7 @@ class Ehgk2HexApp:
         if self.save_header:
             ctype_pages = [c_uint64(pages_count)] + ctype_pages
             
-        return serializer.pages_to_bytes(ctype_pages), pages_count
+        return (serializer.pages_to_intel_hex(ctype_pages), pages_count)
 
 
     def run(self):
@@ -90,11 +89,10 @@ class Ehgk2HexApp:
         print(f"\n\nNow starts the job with {self.input_filename} as input file and {self.output_filename} as output file")
 
         pages_description = self._read_input_file()
-        (pages_bin, pages_count) = self._convert_pages_to_binary(pages_description)
+        (pages, pages_count) = self._convert_pages_to_intel_hex(pages_description)
 
-        hex_content = EhgkToHexSerializer.pages_to_hex(pages_bin)
         with open(self.output_filename, 'w') as f:
-            f.write(hex_content)
+            f.write(pages)
         print(f"Wrote {pages_count} pages to {self.output_filename}")
 
 
