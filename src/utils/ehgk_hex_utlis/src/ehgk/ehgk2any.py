@@ -1,0 +1,39 @@
+import argparse
+import sys
+
+
+def build_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(
+        prog="ehgk2any",
+        description=(
+            "Converts electronic hourglass kit (EHGK) pages description "
+            "to Intel HEX / binary / C language representation"
+        ),
+    )
+    parser.add_argument("input", help="EHGK pages description file")
+    parser.add_argument(
+        "-f", "--format", choices=("ihex", "bin", "c"), required=True,
+        help="output format",
+    )
+    parser.add_argument(
+        "-o", "--output", default="-",
+        help="output file, '-' for stdout (default: %(default)s)",
+    )
+    return parser
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = build_parser()
+    argv = sys.argv[1:] if argv is None else argv
+
+    if not argv:
+        parser.print_help()
+        return 0
+
+    args = parser.parse_args(argv)
+    # ... convert ...
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
