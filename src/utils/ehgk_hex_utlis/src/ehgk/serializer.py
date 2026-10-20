@@ -1,4 +1,6 @@
 import ctypes
+from io import StringIO
+
 from intelhex import IntelHex
 
 
@@ -28,7 +30,7 @@ class EhgkToBytesSerializer:
     
 class EhgkToHexSerializer:
     @staticmethod
-    def pages_to_hex(pages: list[ctypes.c_uint64]) -> None:
+    def pages_to_hex(pages: list[ctypes.c_uint64]) -> str:
         bytes_list = list(
             map(
                 lambda x: x.value.to_bytes(8, byteorder='little'), pages
@@ -39,4 +41,7 @@ class EhgkToHexSerializer:
 
         ih = IntelHex()
         ih.frombytes(b)
-        ih.write_hex_file('out.hex')
+
+        buf = StringIO()
+        ih.write_hex_file(buf)
+        return buf.getvalue()

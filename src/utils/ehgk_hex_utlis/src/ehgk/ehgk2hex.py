@@ -3,9 +3,7 @@ from ctypes import c_uint64
 import os
 
 from ehgk.parser import EghkPagesParser
-from ehgk.serializer import EhgkToBytesSerializer
-
-from intelhex import IntelHex
+from ehgk.serializer import EhgkToBytesSerializer, EhgkToHexSerializer
 
 __version__ = "0.0.1"
 
@@ -94,10 +92,9 @@ class Ehgk2HexApp:
         pages_description = self._read_input_file()
         (pages_bin, pages_count) = self._convert_pages_to_binary(pages_description)
 
-        ih = IntelHex()
-        ih.frombytes(pages_bin)
-
-        ih.write_hex_file(self.output_filename)
+        hex_content = EhgkToHexSerializer.pages_to_hex(pages_bin)
+        with open(self.output_filename, 'w') as f:
+            f.write(hex_content)
         print(f"Wrote {pages_count} pages to {self.output_filename}")
 
 
