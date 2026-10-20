@@ -3,7 +3,7 @@ from ctypes import c_uint64
 import os
 
 from ehgk.parser import EghkPagesParser
-from ehgk.serializer import EhgkToBytesSerializer, EhgkToHexSerializer
+from ehgk.serializer import EhgkToHexSerializer
 
 __version__ = "0.0.1"
 
@@ -69,17 +69,17 @@ class Ehgk2HexApp:
         Returns: tuple (string with Intel Hex representation, pages count)
         """
         # Create parser and serializer objects
-        parser = EghkPagesParser()
+        ehgk_parser = EghkPagesParser()
         serializer = EhgkToHexSerializer()
 
         # Parse pages description and convert to bytes
-        ctype_pages = parser.parse(pages_description)
+        ctype_pages = ehgk_parser.parse(pages_description)
         pages_count = len(ctype_pages)
 
         if self.save_header:
             ctype_pages = [c_uint64(pages_count)] + ctype_pages
             
-        return (serializer.pages_to_intel_hex(ctype_pages), pages_count)
+        return serializer.pages_to_intel_hex(ctype_pages), pages_count
 
 
     def run(self):
