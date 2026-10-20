@@ -2,22 +2,23 @@ import ctypes
 from intelhex import IntelHex
 
 
-class Ehgk_to_Bytes_Serializer:
+class EhgkToBytesSerializer:
 
-    '''
-    Serializer from Ehgk ctype.c_uint64 list (pages)
+    """
+    Serializer from ehgk ctype.c_uint64 list (pages)
     to bytes
-    '''
+    """
     
-    def pages_to_bytes(self, pages: list[ctypes.c_uint64]) -> bytes:
-        '''
+    @staticmethod
+    def pages_to_bytes(pages: list[ctypes.c_uint64]) -> bytes:
+        """
         Converts list of ctypes.c_uint64 to bytes.
 
         Parameters:
             pages (list): list of ctypes.c_uint64 values
 
         Returns: flat bytes representation of pages list
-        '''
+        """
         bytes_list = list(
             map(
                 lambda x: x.value.to_bytes(8, byteorder='little'), pages
@@ -25,8 +26,9 @@ class Ehgk_to_Bytes_Serializer:
         )
         return b''.join(bytes_list)
     
-class Ehgk_to_Hex_Serializer:
-    def pages_to_hex(self, pages: list[ctypes.c_uint64]) -> None:
+class EhgkToHexSerializer:
+    @staticmethod
+    def pages_to_hex(pages: list[ctypes.c_uint64]) -> None:
         bytes_list = list(
             map(
                 lambda x: x.value.to_bytes(8, byteorder='little'), pages

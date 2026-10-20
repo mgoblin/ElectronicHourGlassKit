@@ -2,12 +2,12 @@ import unittest
 
 import ctypes
 
-from ehgk.serializer import Ehgk_to_Bytes_Serializer
+from ehgk.serializer import EhgkToBytesSerializer
 
 class Ehgk_to_Bytes_Serializer_Test(unittest.TestCase):
 
     def setUp(self):
-        self.serializer = Ehgk_to_Bytes_Serializer()
+        self.serializer = EhgkToBytesSerializer()
     
     def test_pages_to_bytes(self):
         one = ctypes.c_uint64(1)

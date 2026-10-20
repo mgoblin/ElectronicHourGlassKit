@@ -3,7 +3,7 @@ from ctypes import c_uint64
 import os
 
 from ehgk.parser import EghkPagesParser
-from ehgk.serializer import Ehgk_to_Bytes_Serializer
+from ehgk.serializer import EhgkToBytesSerializer
 
 from intelhex import IntelHex
 
@@ -73,7 +73,7 @@ class Ehgk2HexApp:
         """
         # Create parser and serializer objects
         parser = EghkPagesParser()
-        serializer = Ehgk_to_Bytes_Serializer()
+        serializer = EhgkToBytesSerializer()
 
         # Parse pages description and convert to bytes
         ctype_pages = parser.parse(pages_description)
