@@ -12,9 +12,14 @@ const
   DefaultW = 32;
   DefaultH = 32;
 
-/// Enumerated states of the LED control.
+  /// Enumerated states of the LED control.
   TLedState = (lsOff, lsOn);
 
+  /// Custom control that displays a fixed-size LED indicator using bitmaps
+  /// loaded from LRS resources (``led_off`` and ``led_on``). The component
+  /// size is locked to the bitmap dimensions. The current state is toggled
+  /// via the Space key (when focused) or by double-clicking. A red cross
+  /// overlay indicates keyboard focus.
   TSimplifiedLed = class(TCustomControl)
   private
     FBitmaps: array[TLedState] of TBitmap;
@@ -31,16 +36,30 @@ const
     procedure DoExit; override;
     procedure DoEnter; override;
   public
+    /// Creates an instance of TSimplifiedLed, initialises bitmaps from
+    /// Lazarus resources, and sets the default size.
     constructor Create(AOwner: TComponent); override;
+    /// Frees the internal bitmaps.
     destructor Destroy; override;
+    /// Overrides the control bounds but keeps the width and height locked
+    /// to the current bitmap's dimensions. Only the position (Left, Top)
+    /// is honoured.
     procedure SetBounds(ALeft, ATop, AWidth, AHeight: Integer); override;
+    /// Toggles the LED state between ``On`` and ``Off``.
     procedure DblClick; override;
   published
+    /// Current LED state. Defaults to ``lsOff``.
     property State: TLedState read FState write SetState default lsOff;
+    /// Indicates whether the control can receive focus via tab navigation.
+    /// Defaults to ``True``.
     property TabStop default True;
+    /// Event fired when a key is pressed while the control has focus.
     property OnKeyDown;
+    /// Event fired when a key is released while the control has focus.
     property OnKeyUp;
+    /// Event fired when the control is clicked.
     property OnClick;
+    /// Event fired when the control is double-clicked.
     property OnDblClick;
   end;
 
