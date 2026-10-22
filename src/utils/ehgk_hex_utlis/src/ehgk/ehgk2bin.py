@@ -48,12 +48,12 @@ class Ehgk2BinApp(Ehgk2BaseApp):
 
     def _write_bin_to_output_file(self, pages_bin: bytes):
         """
-        Writes bytes to an output file. Returns the number of bytes written
+        Writes bytes to the output file. Returns the number of bytes written
 
         Parameters:
-            pages_bin (bytes): bytes to write to an output file
+            pages_bin (bytes): bytes to write to the output file
 
-        Returns: number of bytes written to an output file
+        Returns: number of bytes written to the output file
         """
         try:
             with open(self.output_filename, "wb") as binary_file:
@@ -68,7 +68,7 @@ class Ehgk2BinApp(Ehgk2BaseApp):
 
     def run(self):
         """
-        Reads the input file, converts pages to binary, writes to an output file.
+        Reads the input file, converts pages to binary, writes to the output file.
         """
         print(f"\n\nNow starts the job with {self.input_filename} as input file and {self.output_filename} as output file")
 
