@@ -17,16 +17,14 @@ class Ehgk2BaseApp:
     OUTPUT_FILE_IO_ERROR: int = 2
     UNKNOWN_ERROR: int = 7
 
-    def __init__(self, input_filename, output_filename):
+    def __init__(self, input_filename):
         """
         Construct application object.
 
         Parameters:
             input_filename (str): input file name
-            output_filename (str): output file name
         """
         self.input_filename = input_filename
-        self.output_filename = output_filename
 
     def _read_input_file(self) -> str:
         """
