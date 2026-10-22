@@ -20,19 +20,17 @@ class Ehgk2BinApp:
     OUTPUT_FILE_IO_ERROR: int = 2
     UNKNOWN_ERROR: int = 7
 
-    def __init__(self, input_filename, output_filename, save_header):
+    def __init__(self, input_filename, output_filename):
         '''
-        Costruct application object.
+        Construct application object.
         Method run() starts the job.
 
         Parameters:
             input_filename (str): input file name
             output_filename (str): output file name
-            save_header (bool): save pages count to output
         '''
         self.input_filename = input_filename
         self.output_filename = output_filename
-        self.save_header = save_header
 
     def _read_input_file(self) -> str:
         '''
@@ -71,11 +69,8 @@ class Ehgk2BinApp:
         # Parse pages description and convert to bytes
         ctype_pages = parser.parse(pages_description)
         pages_count = len(ctype_pages)
-        
-        # Prepend pages count to pages list
-        if self.save_header:
-            ctype_pages = [c_uint64(pages_count)] + ctype_pages
 
+        ctype_pages = [c_uint64(pages_count)] + ctype_pages
         return (serializer.pages_to_bytes(ctype_pages), pages_count)
 
     def _write_bin_to_output_file(self, pages_bin: bytes):

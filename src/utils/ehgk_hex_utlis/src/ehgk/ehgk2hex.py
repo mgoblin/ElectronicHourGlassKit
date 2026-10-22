@@ -21,7 +21,7 @@ class Ehgk2HexApp:
     OUTPUT_FILE_IO_ERROR: int = 2
     UNKNOWN_ERROR: int = 7
 
-    def __init__(self, input_filename, output_filename, save_header):
+    def __init__(self, input_filename, output_filename):
         """
         Construct application object.
         Method run() starts the job.
@@ -29,11 +29,9 @@ class Ehgk2HexApp:
         Parameters:
             input_filename (str): input file name
             output_filename (str): output file name
-            save_header (bool): save pages count to output
         """
         self.input_filename = input_filename
         self.output_filename = output_filename
-        self.save_header = save_header
 
     def _read_input_file(self) -> str:
         """
@@ -72,9 +70,7 @@ class Ehgk2HexApp:
         ctype_pages = ehgk_parser.parse(pages_description)
         pages_count = len(ctype_pages)
 
-        if self.save_header:
-            ctype_pages = [c_uint64(pages_count)] + ctype_pages
-            
+        ctype_pages = [c_uint64(pages_count)] + ctype_pages
         return serializer.pages_to_intel_hex(ctype_pages), pages_count
 
 
