@@ -12,8 +12,8 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument("input", help="EHGK pages description file")
     parser.add_argument(
-        "-f", "--format", choices=("ihex", "bin", "c"), required=True,
-        help="output format",
+        "-f", "--format", choices=("ihex", "bin", "c"), default="bin",
+        help="output format (default: %(default)s)",
     )
     parser.add_argument(
         "-o", "--output", default="-",

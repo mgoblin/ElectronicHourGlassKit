@@ -21,6 +21,8 @@ class BuildParserTest(unittest.TestCase):
         actions = {a.dest: a for a in parser._actions}
         self.assertIn("format", actions)
         self.assertEqual(actions["format"].choices, ("ihex", "bin", "c"))
+        self.assertEqual(actions["format"].default, "bin")
+        self.assertFalse(actions["format"].required)
 
     def test_parser_has_output_argument(self):
         parser = build_parser()
@@ -33,6 +35,10 @@ class MainTest(unittest.TestCase):
 
     def test_main_no_args_prints_help(self):
         result = main([])
+        self.assertEqual(result, 0)
+
+    def test_main_default_format_is_bin(self):
+        result = main(["input.pd"])
         self.assertEqual(result, 0)
 
     def test_main_ihex_format_accepted(self):
@@ -53,9 +59,8 @@ class MainTest(unittest.TestCase):
             main(["input.pd", "-f", "invalid"])
 
     def test_main_output_default_is_stdout(self):
-        with patch("sys.argv", ["ehgk2any", "input.pd", "-f", "ihex"]):
-            result = main(["input.pd", "-f", "ihex"])
-            self.assertEqual(result, 0)
+        result = main(["input.pd", "-f", "ihex", "-o", "-"])
+        self.assertEqual(result, 0)
 
 
 if __name__ == "__main__":
