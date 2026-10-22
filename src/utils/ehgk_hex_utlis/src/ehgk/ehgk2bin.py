@@ -6,35 +6,35 @@ from ehgk.serializer import EhgkToBytesSerializer
 
 
 class Ehgk2BinApp(Ehgk2BaseApp):
-    '''
+    """
     Ehgk2Bin Application class
 
     Converts EHGK pages description to binary representation
     Use files as input and output.
-    '''
+    """
 
     def __init__(self, input_filename, output_filename):
-        '''
+        """
         Construct application object.
         Method run() starts the job.
 
         Parameters:
             input_filename (str): input file name
             output_filename (str): output file name
-        '''
+        """
         super().__init__(input_filename)
         self.output_filename = output_filename
 
     def _convert_pages_to_binary(self, pages_description) -> tuple[bytes, int]:
-        '''
+        """
         Converts text pages description to binary representation
 
         Parameters:
             pages_description (str): pages description
 
-        Returns: tuple with binary representation of pages description 
-            and pages count as tuple[bytes, int] 
-        '''
+        Returns: tuple with binary representation of pages description
+            and page count as tuple[bytes, int]
+        """
         # Create parser and serializer objects
         parser = EghkPagesParser()
         serializer = EhgkToBytesSerializer()
@@ -44,17 +44,17 @@ class Ehgk2BinApp(Ehgk2BaseApp):
         pages_count = len(ctype_pages)
 
         ctype_pages = [c_uint64(pages_count)] + ctype_pages
-        return (serializer.pages_to_bytes(ctype_pages), pages_count)
+        return serializer.pages_to_bytes(ctype_pages), pages_count
 
     def _write_bin_to_output_file(self, pages_bin: bytes):
-        '''
-        Writes bytes to output file. Returns number of bytes written
+        """
+        Writes bytes to an output file. Returns the number of bytes written
 
         Parameters:
-            pages_bin (bytes): bytes to write to output file
+            pages_bin (bytes): bytes to write to an output file
 
-        Returns: number of bytes written to output file       
-        '''
+        Returns: number of bytes written to an output file
+        """
         try:
             with open(self.output_filename, "wb") as binary_file:
                 bytes_written = binary_file.write(pages_bin)
@@ -67,9 +67,9 @@ class Ehgk2BinApp(Ehgk2BaseApp):
             exit(Ehgk2BinApp.UNKNOWN_ERROR)   
 
     def run(self):
-        '''
-        Reads the input file, converts pages to binary, writes to output file.
-        '''
+        """
+        Reads the input file, converts pages to binary, writes to an output file.
+        """
         print(f"\n\nNow starts the job with {self.input_filename} as input file and {self.output_filename} as output file")
 
         pages_description = self._read_input_file()
