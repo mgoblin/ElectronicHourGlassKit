@@ -1,4 +1,5 @@
 import argparse
+import os
 import sys
 
 
@@ -31,6 +32,13 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     args = parser.parse_args(argv)
+
+    # Determine default output file based on input and format
+    if args.output == "-":
+        ext = {"ihex": ".hex", "bin": ".bin", "c": ".h"}
+        base = os.path.splitext(args.input)[0]
+        args.output = base + ext[args.format]
+
     # ... convert ...
     return 0
 

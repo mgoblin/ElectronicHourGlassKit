@@ -62,6 +62,22 @@ class MainTest(unittest.TestCase):
         result = main(["input.pd", "-f", "ihex", "-o", "-"])
         self.assertEqual(result, 0)
 
+    def test_main_default_output_for_ihex(self):
+        result = main(["input.pd", "-f", "ihex"])
+        self.assertEqual(result, 0)
+
+    def test_main_default_output_for_bin(self):
+        result = main(["input.pd"])
+        self.assertEqual(result, 0)
+
+    def test_main_default_output_for_c(self):
+        result = main(["input.pd", "-f", "c"])
+        self.assertEqual(result, 0)
+
+    def test_main_explicit_output_overrides_default(self):
+        result = main(["input.pd", "-f", "ihex", "-o", "custom.hex"])
+        self.assertEqual(result, 0)
+
 
 if __name__ == "__main__":
     unittest.main()
