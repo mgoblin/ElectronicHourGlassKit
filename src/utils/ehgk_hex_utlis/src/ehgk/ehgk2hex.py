@@ -1,11 +1,7 @@
-import argparse
 from ctypes import c_uint64
-import os
 
 from ehgk.parser import EghkPagesParser
 from ehgk.serializer import EhgkToHexSerializer
-
-__version__ = "0.0.1"
 
 class Ehgk2HexApp:
 
@@ -94,51 +90,3 @@ class Ehgk2HexApp:
         with open(self.output_filename, 'w') as f:
             f.write(pages)
         print(f"Wrote {pages_count} pages to {self.output_filename}")
-
-
-if __name__ == '__main__':
-    # Create the command line args parser
-    parser = argparse.ArgumentParser(
-        description="Converts EHGK pages description to Intel HEX representation"
-    )
-
-    # Add version argument
-    parser.add_argument(
-        '-v',
-        '--version',
-        action='version',
-        version=f'%(prog)s {__version__}',
-        help="Show the program's version number and exit."
-    )
-
-    # Add input argument
-    parser.add_argument(
-        "input", 
-        help="ehgk pages description file name (default: input.pd)",
-    )
-
-    # Add output argument
-    parser.add_argument(
-        "-o", "--output", 
-        default=None, 
-        help="binary file name (default: {input file name}.hex)",
-    )
-
-    # Add a disable write header boolean flag
-    parser.add_argument(
-        '-nc', '--no-pages-count',
-        action='store_true',
-        dest = 'no_pages_count',
-        help='dont save pages count to output (default: False)'
-    )
-
-    # Parse the arguments
-    args = parser.parse_args()
-    
-    if args.output is None:
-        root, extension = os.path.splitext(args.input)
-        args.output = root + ".hex"
-
-    app = Ehgk2HexApp(args.input, args.output, not args.no_pages_count)
-    app.run()        
-
