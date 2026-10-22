@@ -1,12 +1,8 @@
-import argparse
 from ctypes import c_uint64
-import os
 
 from jinja2 import Environment, FileSystemLoader
 
 from ehgk.parser import EghkPagesParser
-
-__version__ = "0.0.1"
 
 class Ehgk2CApp:
     '''
@@ -125,42 +121,3 @@ class Ehgk2CApp:
         self._write_to_output_file(ehgk_pages_c)
         
         print(f"Wrote {len(pages)} pages to {self.output_filename}")
-
-if __name__ == '__main__':
-
-    # Create the command line args parser
-    parser = argparse.ArgumentParser(
-        description="Converts EHGK pages description to c language array definition"
-    )
-
-    # Add version argument
-    parser.add_argument(
-        '-v',
-        '--version',
-        action='version',
-        version=f'%(prog)s {__version__}',
-        help="show the program's version number and exit."
-    )
-
-    # Add input argument
-    parser.add_argument(
-        "input", 
-        help="ehgk pages description file name",
-    )
-
-    # Add output argument
-    parser.add_argument(
-        "-o", "--output", 
-        default=None, 
-        help="binary file name (default: {input file name}.h)"
-    )
-
-    # Parse the arguments
-    args = parser.parse_args()
-
-    if args.output is None:
-        root, extention = os.path.splitext(args.input)
-        args.output = root + ".h"
-
-    app = Ehgk2CApp(args.input, args.output)
-    app.run()    

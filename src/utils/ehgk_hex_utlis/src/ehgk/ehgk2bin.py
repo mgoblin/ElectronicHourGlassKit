@@ -1,11 +1,7 @@
-import argparse
 from ctypes import c_uint64
-import os
 
 from ehgk.parser import EghkPagesParser
 from ehgk.serializer import EhgkToBytesSerializer
-
-__version__ = "0.0.1"
 
 class Ehgk2BinApp:
     '''
@@ -112,51 +108,3 @@ class Ehgk2BinApp:
         (pages_bin, pages_count) = self._convert_pages_to_binary(pages_description)
         self._write_bin_to_output_file(pages_bin)
         print(f"Wrote {pages_count} pages to {self.output_filename}")
-
-
-if __name__ == '__main__':
-    # Create the command line args parser
-    parser = argparse.ArgumentParser(
-        description="Converts EHGK pages description to binary representation"
-    )
-
-    # Add version argument
-    parser.add_argument(
-        '-v',
-        '--version',
-        action='version',
-        version=f'%(prog)s {__version__}',
-        help="show the program's version number and exit."
-    )
-    
-    # Add output argument
-    parser.add_argument(
-        "-o", "--output", 
-        default=None, 
-        help="binary file name (default: {input file name}.bin)"
-    )
-
-    # Add input argument
-    parser.add_argument(
-        "input", 
-        help="ehgk pages description file name",
-    )
-
-    # Add a disable write header boolean flag
-    parser.add_argument(
-        '-nc', '--no-pages-count',
-        action='store_true',
-        dest = 'no_pages_count',
-        help='dont save pages count to output (default: False)'
-    )
-
-
-    # Parse the arguments
-    args = parser.parse_args()
-    
-    if args.output is None:
-        root, extention = os.path.splitext(args.input)
-        args.output = root + ".bin"
-    
-    app = Ehgk2BinApp(args.input, args.output, not args.no_pages_count)
-    app.run()    
