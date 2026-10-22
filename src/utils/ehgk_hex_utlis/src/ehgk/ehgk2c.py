@@ -7,34 +7,34 @@ from ehgk.parser import EghkPagesParser
 
 
 class Ehgk2CApp(Ehgk2BaseApp):
-    '''
+    """
     Ehgk2C Application class
 
-    Converts EHGK pages description to c language header file
+    Converts EHGK pages description to C language header file
     Use files as input and output.
-    '''
+    """
 
     def __init__(self, input_filename, output_filename):
-        '''
+        """
         Construct application object.
         Method run() starts the job.
 
         Parameters:
             input_filename (str): input file name
             output_filename (str): output file name
-        '''
+        """
         super().__init__(input_filename)
         self.output_filename = output_filename
 
     def _convert_pages_to_list(self, pages_description) -> list[c_uint64]:
-        '''
+        """
         Converts text pages description to binary representation
 
         Parameters:
             pages_description (str): pages description
 
-        Returns: c_uint64 list  
-        '''
+        Returns: c_uint64 list
+        """
         # Create parser and serializer objects
         parser = EghkPagesParser()
 
@@ -55,14 +55,14 @@ class Ehgk2CApp(Ehgk2BaseApp):
         return output
     
     def _write_to_output_file(self, pages_str: str):
-        '''
-        Writes string to output file. Returns number of bytes written
+        """
+        Writes string to the output file. Returns the number of bytes written
 
         Parameters:
-            pages_str (str): string to write to output file
+            pages_str (str): string to write to the output file
 
-        Returns: number of bytes written to output file       
-        '''
+        Returns: number of bytes written to the output file
+        """
         try:
             with open(self.output_filename, "w") as file:
                 bytes_written = file.write(pages_str)
@@ -76,9 +76,9 @@ class Ehgk2CApp(Ehgk2BaseApp):
 
 
     def run(self):
-        '''
-        Reads the input file, converts pages to c language header file, writes to output file.
-        '''
+        """
+        Reads the input file, converts pages to the C language header file, writes to the output file.
+        """
         
         print(f"\n\nNow starts the job with {self.input_filename} as input file and {self.output_filename} as output file")
         pages_description = self._read_input_file()
