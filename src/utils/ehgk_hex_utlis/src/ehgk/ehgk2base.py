@@ -47,7 +47,7 @@ class Ehgk2BaseApp:
             print(f"An error occurred: {e}")
             exit(self.UNKNOWN_ERROR)
 
-    def _write_to_file(self, content, mode: str) -> int:
+    def _write_to_output_file(self, content, mode: str) -> int:
         """
         Writes content to output file.
 
