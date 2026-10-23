@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch
+from unittest.mock import patch, MagicMock
 
 from ehgk.ehgk2any import build_parser, main
 
@@ -38,45 +38,62 @@ class MainTest(unittest.TestCase):
         self.assertEqual(result, 0)
 
     def test_main_default_format_is_bin(self):
-        result = main(["input.pd"])
-        self.assertEqual(result, 0)
+        with patch("ehgk.ehgk2any.App") as mock_app_cls:
+            mock_app_cls.return_value.run.return_value = 0
+            result = main(["input.pd"])
+            self.assertEqual(result, 0)
 
     def test_main_ihex_format_accepted(self):
-        with patch("sys.argv", ["ehgk2any", "input.pd", "-f", "ihex"]):
+        with patch("ehgk.ehgk2any.App") as mock_app_cls:
+            mock_app_cls.return_value.run.return_value = 0
             result = main(["input.pd", "-f", "ihex"])
             self.assertEqual(result, 0)
 
     def test_main_bin_format_accepted(self):
-        result = main(["input.pd", "-f", "bin"])
-        self.assertEqual(result, 0)
+        with patch("ehgk.ehgk2any.App") as mock_app_cls:
+            mock_app_cls.return_value.run.return_value = 0
+            result = main(["input.pd", "-f", "bin"])
+            self.assertEqual(result, 0)
 
     def test_main_c_format_accepted(self):
-        result = main(["input.pd", "-f", "c"])
-        self.assertEqual(result, 0)
+        with patch("ehgk.ehgk2any.App") as mock_app_cls:
+            mock_app_cls.return_value.run.return_value = 0
+            result = main(["input.pd", "-f", "c"])
+            self.assertEqual(result, 0)
 
     def test_main_invalid_format_rejected(self):
         with self.assertRaises(SystemExit):
             main(["input.pd", "-f", "invalid"])
 
     def test_main_output_default_is_stdout(self):
-        result = main(["input.pd", "-f", "ihex", "-o", "-"])
-        self.assertEqual(result, 0)
+        with patch("ehgk.ehgk2any.App") as mock_app_cls:
+            mock_app_cls.return_value.run.return_value = 0
+            result = main(["input.pd", "-f", "ihex", "-o", "-"])
+            self.assertEqual(result, 0)
 
     def test_main_default_output_for_ihex(self):
-        result = main(["input.pd", "-f", "ihex"])
-        self.assertEqual(result, 0)
+        with patch("ehgk.ehgk2any.App") as mock_app_cls:
+            mock_app_cls.return_value.run.return_value = 0
+            result = main(["input.pd", "-f", "ihex"])
+            self.assertEqual(result, 0)
 
     def test_main_default_output_for_bin(self):
-        result = main(["input.pd"])
-        self.assertEqual(result, 0)
+        with patch("ehgk.ehgk2any.App") as mock_app_cls:
+            mock_app_cls.return_value.run.return_value = 0
+            result = main(["input.pd"])
+            self.assertEqual(result, 0)
 
     def test_main_default_output_for_c(self):
-        result = main(["input.pd", "-f", "c"])
-        self.assertEqual(result, 0)
+        with patch("ehgk.ehgk2any.App") as mock_app_cls:
+            mock_app_cls.return_value.run.return_value = 0
+            result = main(["input.pd", "-f", "c"])
+            self.assertEqual(result, 0)
 
     def test_main_explicit_output_overrides_default(self):
-        result = main(["input.pd", "-f", "ihex", "-o", "custom.hex"])
-        self.assertEqual(result, 0)
+        with patch("ehgk.ehgk2any.App") as mock_app_cls:
+            mock_app_cls.return_value.run.return_value = 0
+            result = main(["input.pd", "-f", "ihex", "-o", "custom.hex"])
+            self.assertEqual(result, 0)
 
 
 if __name__ == "__main__":
