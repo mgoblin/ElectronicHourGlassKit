@@ -6,6 +6,7 @@ import argparse
 import os
 import sys
 
+import ehgk
 from ehgk.ehgk2bin import Ehgk2BinApp
 from ehgk.ehgk2c import Ehgk2CApp
 from ehgk.ehgk2hex import Ehgk2HexApp
@@ -37,7 +38,13 @@ class App:
             description=(
                 "Converts electronic hourglass kit (EHGK) pages description "
                 "to Intel HEX / binary / C language representation"
+                f" (version {ehgk.__version__})"
             ),
+        )
+        parser.add_argument(
+            "--version", "-V",
+            action="version",
+            version=f"%(prog)s {ehgk.__version__}",
         )
         parser.add_argument("input", help="EHGK pages description file")
         parser.add_argument(
