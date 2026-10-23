@@ -181,10 +181,10 @@ class Ehgk2ConverterAppTest(unittest.TestCase):
 
     def test_convert_no_count_excludes_page_count(self):
         """Verify that page count is NOT prepended."""
-        result, count = self.app._convert_no_count("L1")
+        result, count = self.app._convert_no_count("L5")
         self.assertEqual(count, 1)
-        # First 8 bytes = L1 value (1), NOT page count
-        self.assertEqual(int.from_bytes(result[:8], 'little'), 1)
+        # First 8 bytes = L5 value (16), NOT page count (1)
+        self.assertEqual(int.from_bytes(result[:8], 'little'), 16)
 
     def test_convert_no_count_multiple_pages(self):
         result, count = self.app._convert_no_count("L1, L5")
