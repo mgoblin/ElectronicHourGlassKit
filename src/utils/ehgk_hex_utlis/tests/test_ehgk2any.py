@@ -1,5 +1,5 @@
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 
 from ehgk.ehgk2any import build_parser, main
 

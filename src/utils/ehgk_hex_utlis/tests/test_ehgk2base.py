@@ -7,14 +7,14 @@ from ctypes import c_uint64
 from ehgk.ehgk2base import Ehgk2BaseApp, Ehgk2ConverterApp
 
 
-class _TestApp(Ehgk2BaseApp):
+class Ehgk2BaseAppTestHelper(Ehgk2BaseApp):
     """Concrete subclass for testing Ehgk2BaseApp methods."""
 
     def __init__(self, input_filename, output_filename):
         super().__init__(input_filename, output_filename)
 
 
-class _TestConverterApp(Ehgk2ConverterApp):
+class Ehgk2ConverterAppTestHelper(Ehgk2ConverterApp):
     """Concrete subclass for testing Ehgk2ConverterApp methods."""
 
     def __init__(self, input_filename, output_filename,
@@ -35,7 +35,7 @@ class ReadInputFileTest(unittest.TestCase):
     def setUp(self):
         self.tmpdir = tempfile.TemporaryDirectory()
         self.input_file = os.path.join(self.tmpdir.name, "input.txt")
-        self.app = _TestApp(self.input_file, os.path.join(self.tmpdir.name, "out.txt"))
+        self.app = Ehgk2BaseAppTestHelper(self.input_file, os.path.join(self.tmpdir.name, "out.txt"))
 
     def tearDown(self):
         self.tmpdir.cleanup()
@@ -84,7 +84,7 @@ class WriteToOutputFileTest(unittest.TestCase):
         self.tmpdir = tempfile.TemporaryDirectory()
         self.input_file = os.path.join(self.tmpdir.name, "input.txt")
         self.output_file = os.path.join(self.tmpdir.name, "output.txt")
-        self.app = _TestApp(self.input_file, self.output_file)
+        self.app = Ehgk2BaseAppTestHelper(self.input_file, self.output_file)
 
     def tearDown(self):
         self.tmpdir.cleanup()
@@ -162,7 +162,7 @@ class Ehgk2ConverterAppTest(unittest.TestCase):
         self.input_file = os.path.join(self.tmpdir.name, "input.ehgk")
         self.output_file = os.path.join(self.tmpdir.name, "output.txt")
         # Default serialize_fn returns bytes for easy inspection
-        self.app = _TestConverterApp(
+        self.app = Ehgk2ConverterAppTestHelper(
             self.input_file, self.output_file,
             serialize_fn=lambda pages: b''.join(
                 p.value.to_bytes(8, byteorder='little') for p in pages
@@ -230,7 +230,7 @@ class Ehgk2ConverterAppTest(unittest.TestCase):
         with open(self.input_file, 'w') as f:
             f.write("L1, EMPTY_PAGE, L57")
 
-        app = _TestConverterApp(
+        app = Ehgk2ConverterAppTestHelper(
             self.input_file, self.output_file,
             serialize_fn=lambda pages: b''.join(
                 p.value.to_bytes(8, byteorder='little') for p in pages
@@ -255,7 +255,7 @@ class Ehgk2ConverterAppTest(unittest.TestCase):
         with open(self.input_file, 'w') as f:
             f.write("L10")
 
-        app = _TestConverterApp(
+        app = Ehgk2ConverterAppTestHelper(
             self.input_file, self.output_file,
             serialize_fn=lambda pages: b''.join(
                 p.value.to_bytes(8, byteorder='little') for p in pages
@@ -278,7 +278,7 @@ class Ehgk2ConverterAppTest(unittest.TestCase):
         self.assertEqual(self.app._output_mode(), "w")
 
     def test_output_mode_binary(self):
-        app = _TestConverterApp(
+        app = Ehgk2ConverterAppTestHelper(
             self.input_file, self.output_file,
             output_mode="wb"
         )
@@ -289,7 +289,7 @@ class Ehgk2ConverterAppTest(unittest.TestCase):
         with open(self.input_file, 'w') as f:
             f.write("L1")
 
-        app = _TestConverterApp(
+        app = Ehgk2ConverterAppTestHelper(
             self.input_file, self.output_file,
             serialize_fn=lambda pages: b'\x01\x02\x03\x04',
             output_mode="wb"
@@ -301,7 +301,7 @@ class Ehgk2ConverterAppTest(unittest.TestCase):
 
     def test_output_mode_default_value(self):
         """Verify that _output_mode() returns 'w' by default."""
-        app = _TestConverterApp(
+        app = Ehgk2ConverterAppTestHelper(
             self.input_file, self.output_file,
             serialize_fn=lambda pages: "test"
         )
@@ -309,11 +309,11 @@ class Ehgk2ConverterAppTest(unittest.TestCase):
 
     def test_output_mode_from_base_class(self):
         """Verify _output_mode() default from Ehgk2ConverterApp base class."""
-        class _MinimalApp(Ehgk2ConverterApp):
+        class MinimalConverterApp(Ehgk2ConverterApp):
             def _serialize(self, pages: list[c_uint64]) -> str:
                 return ""
 
-        app = _MinimalApp(self.input_file, self.output_file)
+        app = MinimalConverterApp(self.input_file, self.output_file)
         self.assertEqual(app._output_mode(), "w")
 
     def test_serialize_not_implemented(self):

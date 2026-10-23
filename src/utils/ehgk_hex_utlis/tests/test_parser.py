@@ -1,9 +1,8 @@
-from ctypes import c_ulong
 import unittest
 
 from ehgk.parser import EghkPagesParser
 
-class Test_Eghk_Pages_Parser(unittest.TestCase):
+class TestEghkPagesParser(unittest.TestCase):
 
     def setUp(self):
         self.parser = EghkPagesParser()

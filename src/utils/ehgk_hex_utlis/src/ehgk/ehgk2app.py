@@ -28,10 +28,10 @@ class App:
     """
 
     def __init__(self, argv: list[str] | None = None) -> None:
-        self.args = self._build_parser().parse_args(argv)
+        self.args = self.build_parser().parse_args(argv)
 
     @staticmethod
-    def _build_parser() -> argparse.ArgumentParser:
+    def build_parser() -> argparse.ArgumentParser:
         parser = argparse.ArgumentParser(
             prog="ehgk2any",
             description=(

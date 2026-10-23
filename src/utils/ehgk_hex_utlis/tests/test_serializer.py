@@ -4,7 +4,7 @@ import ctypes
 
 from ehgk.serializer import EhgkToBytesSerializer, EhgkToHexSerializer
 
-class Ehgk_to_Bytes_Serializer_Test(unittest.TestCase):
+class EhgkToBytesSerializerTest(unittest.TestCase):
 
     def setUp(self):
         self.serializer = EhgkToBytesSerializer()
@@ -18,7 +18,7 @@ class Ehgk_to_Bytes_Serializer_Test(unittest.TestCase):
         self.assertEqual(serialized_value, b'\x01\x00\x00\x00\x00\x00\x00\x00\x02\x00\x00\x00\x00\x00\x00\x00')
 
 
-class Ehgk_to_Hex_Serializer_Test(unittest.TestCase):
+class EhgkToHexSerializerTest(unittest.TestCase):
 
     def setUp(self):
         self.serializer = EhgkToHexSerializer()

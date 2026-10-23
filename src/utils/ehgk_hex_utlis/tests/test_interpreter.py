@@ -5,7 +5,7 @@ from lark import Lark
 from ehgk.parser import EghkPageInterpreter, EghkPagesParser, LedNumberTransformer
 
 
-class Test_Eghk_Page_Interpreter(unittest.TestCase):
+class TestEghkPageInterpreter(unittest.TestCase):
     
     def setUp(self):
         self.parser = Lark(

@@ -5,7 +5,7 @@ from ehgk.ehgk2app import App
 
 
 def build_parser() -> argparse.ArgumentParser:
-    return App._build_parser()
+    return App.build_parser()
 
 
 def main(argv: list[str] | None = None) -> int:

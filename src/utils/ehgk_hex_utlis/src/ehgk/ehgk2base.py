@@ -59,7 +59,6 @@ class Ehgk2BaseApp:
 
         Parameters:
             content: file content (str for 'w', bytes for 'wb')
-            num_bytes: number of bytes written
             mode: file open mode ('w' or 'wb')
 
         Returns: number of bytes written
