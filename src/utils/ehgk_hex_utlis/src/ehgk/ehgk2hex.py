@@ -23,7 +23,7 @@ class Ehgk2HexApp(Ehgk2BaseApp):
             input_filename (str): input file name
             output_filename (str): output file name
         """
-        super().__init__(input_filename)
+        super().__init__(input_filename, output_filename)
         self.output_filename = output_filename
 
     def _convert_pages_to_intel_hex(self, pages_description) -> tuple[str, int]:
@@ -33,7 +33,7 @@ class Ehgk2HexApp(Ehgk2BaseApp):
         Parameters:
             pages_description (str): pages description
 
-        Returns: tuple (string with Intel Hex representation, pages count)
+        Returns: tuple (string with Intel Hex representation, page count)
         """
         # Create parser and serializer objects
         ehgk_parser = EghkPagesParser()
@@ -49,7 +49,7 @@ class Ehgk2HexApp(Ehgk2BaseApp):
 
     def run(self):
         """
-        Reads the input file, converts pages to Intel Hex, writes to output file.
+        Reads the input file, converts pages to Intel Hex, writes to the output file.
         """
         print(f"\n\nNow starts the job with {self.input_filename} as input file and {self.output_filename} as output file")
 

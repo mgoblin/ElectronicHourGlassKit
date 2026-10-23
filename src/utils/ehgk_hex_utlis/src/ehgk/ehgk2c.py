@@ -23,7 +23,7 @@ class Ehgk2CApp(Ehgk2BaseApp):
             input_filename (str): input file name
             output_filename (str): output file name
         """
-        super().__init__(input_filename)
+        super().__init__(input_filename, output_filename)
         self.output_filename = output_filename
 
     def _convert_pages_to_list(self, pages_description) -> list[c_uint64]:
