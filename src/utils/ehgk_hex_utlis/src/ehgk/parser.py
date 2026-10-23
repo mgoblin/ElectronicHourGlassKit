@@ -141,8 +141,9 @@ class EghkPagesParser:
         self.interpreter.visit(tree)
         
         return self.interpreter.pages
-        
 
+
+# noinspection unused-parameter
 class EghkPageInterpreter(Interpreter):
     """
     Page LEDs numbers to c_uint64 converter.
