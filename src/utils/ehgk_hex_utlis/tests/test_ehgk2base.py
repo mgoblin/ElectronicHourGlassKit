@@ -61,21 +61,10 @@ class ReadInputFileTest(unittest.TestCase):
 
     def test_read_file_general_exception(self):
         """Test that general exceptions during read are caught and exit with UNKNOWN_ERROR."""
-        # Use a path that exists but causes a different exception when reading
-        # We'll mock the open function to raise a general exception
-        import builtins
-        original_open = builtins.open
-
-        def mock_open(*args, **kwargs):
-            raise PermissionError("Access denied")
-
-        builtins.open = mock_open
-        try:
+        with unittest.mock.patch("builtins.open", side_effect=PermissionError("Access denied")):
             with self.assertRaises(SystemExit) as cm:
                 self.app._read_input_file()
             self.assertEqual(cm.exception.code, Ehgk2BaseApp.UNKNOWN_ERROR)
-        finally:
-            builtins.open = original_open
 
 
 class WriteToOutputFileTest(unittest.TestCase):
@@ -123,35 +112,17 @@ class WriteToOutputFileTest(unittest.TestCase):
 
     def test_write_io_error(self):
         """Test that IOError during write is caught and exits with OUTPUT_FILE_IO_ERROR."""
-        import builtins
-        original_open = builtins.open
-
-        def mock_open(*args, **kwargs):
-            raise IOError("Disk full")
-
-        builtins.open = mock_open
-        try:
+        with unittest.mock.patch("builtins.open", side_effect=IOError("Disk full")):
             with self.assertRaises(SystemExit) as cm:
                 self.app._write_to_output_file("test", "w")
             self.assertEqual(cm.exception.code, Ehgk2BaseApp.OUTPUT_FILE_IO_ERROR)
-        finally:
-            builtins.open = original_open
 
     def test_write_general_exception(self):
         """Test that general exceptions during write are caught and exit with UNKNOWN_ERROR."""
-        import builtins
-        original_open = builtins.open
-
-        def mock_open(*args, **kwargs):
-            raise TypeError("Unexpected error")
-
-        builtins.open = mock_open
-        try:
+        with unittest.mock.patch("builtins.open", side_effect=TypeError("Unexpected error")):
             with self.assertRaises(SystemExit) as cm:
                 self.app._write_to_output_file("test", "w")
             self.assertEqual(cm.exception.code, Ehgk2BaseApp.UNKNOWN_ERROR)
-        finally:
-            builtins.open = original_open
 
 
 class Ehgk2ConverterAppTest(unittest.TestCase):
