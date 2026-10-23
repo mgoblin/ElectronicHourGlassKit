@@ -2,11 +2,10 @@ from ctypes import c_uint64
 
 from jinja2 import Environment, FileSystemLoader
 
-from ehgk.ehgk2base import Ehgk2BaseApp
-from ehgk.parser import EghkPagesParser
+from ehgk.ehgk2base import Ehgk2ConverterApp
 
 
-class Ehgk2CApp(Ehgk2BaseApp):
+class Ehgk2CApp(Ehgk2ConverterApp):
     """
     Ehgk2C Application class
 
@@ -14,61 +13,15 @@ class Ehgk2CApp(Ehgk2BaseApp):
     Use files as input and output.
     """
 
-    def __init__(self, input_filename, output_filename):
-        """
-        Construct application object.
-        Method run() starts the job.
-
-        Parameters:
-            input_filename (str): input file name
-            output_filename (str): output file name
-        """
-        super().__init__(input_filename, output_filename)
-        self.output_filename = output_filename
-
-    def _convert_pages_to_list(self, pages_description) -> list[c_uint64]:
-        """
-        Converts text pages description to binary representation
-
-        Parameters:
-            pages_description (str): pages description
-
-        Returns: c_uint64 list
-        """
-        # Create parser and serializer objects
-        parser = EghkPagesParser()
-
-        # Parse pages description and convert to bytes
-        ctype_pages = parser.parse(pages_description)
-        
-        return ctype_pages
-
-    def _render_template_from_file(self, template_dir, template_file, context):
-        # Set up the Jinja2 environment with a file system loader
-        env = Environment(loader=FileSystemLoader(template_dir))
-        
-        # Load the template file
-        template = env.get_template(template_file)
-        
-        # Render the template with the provided context data
-        output = template.render(context)
-        return output
+    def _serialize(self, pages: list[c_uint64]) -> str:
+        """Render pages to C header via Jinja2 template."""
+        env = Environment(loader=FileSystemLoader('templates'))
+        template = env.get_template('ehgk_pages.j2')
+        return template.render(pages=pages, pages_count=len(pages))
 
     def run(self):
-        """
-        Reads the input file, converts pages to the C language header file, writes to the output file.
-        """
-        
-        print(f"\n\nNow starts the job with {self.input_filename} as input file and {self.output_filename} as output file")
+        """Reads input, converts pages to C header, writes output (no page count in data)."""
         pages_description = self._read_input_file()
-
-        pages = self._convert_pages_to_list(pages_description)
-
-        # generate header file
-        ehgk_pages_c = self._render_template_from_file(
-            'templates', 
-            'ehgk_pages.j2', 
-            {'pages': pages, 'pages_count': len(pages)})
-        self._write_to_output_file(ehgk_pages_c, "w")
-        
-        print(f"Wrote {len(pages)} pages to {self.output_filename}")
+        (pages, pages_count) = self._convert_no_count(pages_description)
+        self._write_to_output_file(pages, "w")
+        print(f"Wrote {pages_count} pages to {self.output_filename}")

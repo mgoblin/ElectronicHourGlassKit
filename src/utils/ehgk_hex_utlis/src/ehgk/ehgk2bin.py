@@ -1,11 +1,10 @@
 from ctypes import c_uint64
 
-from ehgk.ehgk2base import Ehgk2BaseApp
-from ehgk.parser import EghkPagesParser
+from ehgk.ehgk2base import Ehgk2ConverterApp
 from ehgk.serializer import EhgkToBytesSerializer
 
 
-class Ehgk2BinApp(Ehgk2BaseApp):
+class Ehgk2BinApp(Ehgk2ConverterApp):
     """
     Ehgk2Bin Application class
 
@@ -13,46 +12,9 @@ class Ehgk2BinApp(Ehgk2BaseApp):
     Use files as input and output.
     """
 
-    def __init__(self, input_filename, output_filename):
-        """
-        Construct application object.
-        Method run() starts the job.
+    def _serialize(self, pages: list[c_uint64]) -> bytes:
+        """Serialize pages to binary representation."""
+        return EhgkToBytesSerializer.pages_to_bytes(pages)
 
-        Parameters:
-            input_filename (str): input file name
-            output_filename (str): output file name
-        """
-        super().__init__(input_filename, output_filename)
-        self.output_filename = output_filename
-
-    def _convert_pages_to_binary(self, pages_description) -> tuple[bytes, int]:
-        """
-        Converts text pages description to binary representation
-
-        Parameters:
-            pages_description (str): pages description
-
-        Returns: tuple with binary representation of pages description
-            and page count as tuple[bytes, int]
-        """
-        # Create parser and serializer objects
-        parser = EghkPagesParser()
-        serializer = EhgkToBytesSerializer()
-
-        # Parse pages description and convert to bytes
-        ctype_pages = parser.parse(pages_description)
-        pages_count = len(ctype_pages)
-
-        ctype_pages = [c_uint64(pages_count)] + ctype_pages
-        return serializer.pages_to_bytes(ctype_pages), pages_count
-
-    def run(self):
-        """
-        Reads the input file, converts pages to binary, writes to the output file.
-        """
-        print(f"\n\nNow starts the job with {self.input_filename} as input file and {self.output_filename} as output file")
-
-        pages_description = self._read_input_file()
-        (pages_bin, pages_count) = self._convert_pages_to_binary(pages_description)
-        self._write_to_output_file(pages_bin, "wb")
-        print(f"Wrote {pages_count} pages to {self.output_filename}")
+    def _output_mode(self) -> str:
+        return "wb"

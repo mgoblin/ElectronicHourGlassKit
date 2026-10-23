@@ -1,11 +1,10 @@
 from ctypes import c_uint64
 
-from ehgk.ehgk2base import Ehgk2BaseApp
-from ehgk.parser import EghkPagesParser
+from ehgk.ehgk2base import Ehgk2ConverterApp
 from ehgk.serializer import EhgkToHexSerializer
 
 
-class Ehgk2HexApp(Ehgk2BaseApp):
+class Ehgk2HexApp(Ehgk2ConverterApp):
 
     """
     Ehgk2Hex Application class
@@ -14,47 +13,6 @@ class Ehgk2HexApp(Ehgk2BaseApp):
     Use files as input and output.
     """
 
-    def __init__(self, input_filename, output_filename):
-        """
-        Construct application object.
-        Method run() starts the job.
-
-        Parameters:
-            input_filename (str): input file name
-            output_filename (str): output file name
-        """
-        super().__init__(input_filename, output_filename)
-        self.output_filename = output_filename
-
-    def _convert_pages_to_intel_hex(self, pages_description) -> tuple[str, int]:
-        """
-        Converts text pages description to intel hex representation
-
-        Parameters:
-            pages_description (str): pages description
-
-        Returns: tuple (string with Intel Hex representation, page count)
-        """
-        # Create parser and serializer objects
-        ehgk_parser = EghkPagesParser()
-        serializer = EhgkToHexSerializer()
-
-        # Parse pages description and convert to bytes
-        ctype_pages = ehgk_parser.parse(pages_description)
-        pages_count = len(ctype_pages)
-
-        ctype_pages = [c_uint64(pages_count)] + ctype_pages
-        return serializer.pages_to_intel_hex(ctype_pages), pages_count
-
-
-    def run(self):
-        """
-        Reads the input file, converts pages to Intel Hex, writes to the output file.
-        """
-        print(f"\n\nNow starts the job with {self.input_filename} as input file and {self.output_filename} as output file")
-
-        pages_description = self._read_input_file()
-        (pages, pages_count) = self._convert_pages_to_intel_hex(pages_description)
-
-        self._write_to_output_file(pages, "w")
-        print(f"Wrote {pages_count} pages to {self.output_filename}")
+    def _serialize(self, pages: list[c_uint64]) -> str:
+        """Serialize pages to Intel HEX format string."""
+        return EhgkToHexSerializer.pages_to_intel_hex(pages)

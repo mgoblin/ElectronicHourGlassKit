@@ -1,6 +1,12 @@
 """
-Base class for EHGK converter applications.
+Base classes for EHGK converter applications.
 """
+
+from abc import ABC, abstractmethod
+from ctypes import c_uint64
+from typing import Any
+
+from ehgk.parser import EghkPagesParser
 
 
 class Ehgk2BaseApp:
@@ -68,3 +74,45 @@ class Ehgk2BaseApp:
         except Exception as e:
             print(f"An error occurred: {e}")
             exit(self.UNKNOWN_ERROR)
+
+
+class Ehgk2ConverterApp(Ehgk2BaseApp, ABC):
+    """
+    Abstract base for EHGK format converters.
+
+    Implements template method pattern: run() = parse -> prepend count -> serialize -> write.
+    Subclasses override _serialize() to provide format-specific logic.
+    """
+
+    def __init__(self, input_filename, output_filename: str):
+        super().__init__(input_filename, output_filename)
+
+    def run(self):
+        """Template method: full conversion pipeline."""
+        pages_description = self._read_input_file()
+        (result, pages_count) = self._convert(pages_description)
+        self._write_to_output_file(result, self._output_mode())
+        print(f"Wrote {pages_count} pages to {self.output_filename}")
+
+    def _convert(self, pages_description: str) -> tuple:
+        """Parse, prepend page count, delegate serialization."""
+        parser = EghkPagesParser()
+        ctype_pages = parser.parse(pages_description)
+        pages_count = len(ctype_pages)
+        ctype_pages = [c_uint64(pages_count)] + ctype_pages
+        return self._serialize(ctype_pages), pages_count
+
+    def _convert_no_count(self, pages_description: str) -> tuple:
+        """Parse without prepending page count (for C header output)."""
+        parser = EghkPagesParser()
+        ctype_pages = parser.parse(pages_description)
+        return self._serialize(ctype_pages), len(ctype_pages)
+
+    @abstractmethod
+    def _serialize(self, pages: list[c_uint64]) -> Any:
+        """Override in subclass to return format-specific output."""
+        raise NotImplementedError
+
+    def _output_mode(self) -> str:
+        """Override in subclass to return 'w' or 'wb'."""
+        return "w"
