@@ -56,6 +56,5 @@ class Ehgk2HexApp(Ehgk2BaseApp):
         pages_description = self._read_input_file()
         (pages, pages_count) = self._convert_pages_to_intel_hex(pages_description)
 
-        with open(self.output_filename, 'w') as f:
-            f.write(pages)
+        self._write_to_output_file(pages, "w")
         print(f"Wrote {pages_count} pages to {self.output_filename}")
