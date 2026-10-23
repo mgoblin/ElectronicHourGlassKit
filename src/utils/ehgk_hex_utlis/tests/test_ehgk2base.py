@@ -59,6 +59,24 @@ class ReadInputFileTest(unittest.TestCase):
             self.app._read_input_file()
         self.assertEqual(cm.exception.code, Ehgk2BaseApp.INPUT_FILE_NOT_FOUND_ERROR)
 
+    def test_read_file_general_exception(self):
+        """Test that general exceptions during read are caught and exit with UNKNOWN_ERROR."""
+        # Use a path that exists but causes a different exception when reading
+        # We'll mock the open function to raise a general exception
+        import builtins
+        original_open = builtins.open
+
+        def mock_open(*args, **kwargs):
+            raise PermissionError("Access denied")
+
+        builtins.open = mock_open
+        try:
+            with self.assertRaises(SystemExit) as cm:
+                self.app._read_input_file()
+            self.assertEqual(cm.exception.code, Ehgk2BaseApp.UNKNOWN_ERROR)
+        finally:
+            builtins.open = original_open
+
 
 class WriteToOutputFileTest(unittest.TestCase):
 
@@ -102,6 +120,38 @@ class WriteToOutputFileTest(unittest.TestCase):
 
         with open(self.output_file, 'rb') as f:
             self.assertEqual(f.read(), b"")
+
+    def test_write_io_error(self):
+        """Test that IOError during write is caught and exits with OUTPUT_FILE_IO_ERROR."""
+        import builtins
+        original_open = builtins.open
+
+        def mock_open(*args, **kwargs):
+            raise IOError("Disk full")
+
+        builtins.open = mock_open
+        try:
+            with self.assertRaises(SystemExit) as cm:
+                self.app._write_to_output_file("test", "w")
+            self.assertEqual(cm.exception.code, Ehgk2BaseApp.OUTPUT_FILE_IO_ERROR)
+        finally:
+            builtins.open = original_open
+
+    def test_write_general_exception(self):
+        """Test that general exceptions during write are caught and exit with UNKNOWN_ERROR."""
+        import builtins
+        original_open = builtins.open
+
+        def mock_open(*args, **kwargs):
+            raise TypeError("Unexpected error")
+
+        builtins.open = mock_open
+        try:
+            with self.assertRaises(SystemExit) as cm:
+                self.app._write_to_output_file("test", "w")
+            self.assertEqual(cm.exception.code, Ehgk2BaseApp.UNKNOWN_ERROR)
+        finally:
+            builtins.open = original_open
 
 
 class Ehgk2ConverterAppTest(unittest.TestCase):
@@ -248,6 +298,39 @@ class Ehgk2ConverterAppTest(unittest.TestCase):
 
         with open(self.output_file, 'rb') as f:
             self.assertEqual(f.read(), b'\x01\x02\x03\x04')
+
+    def test_output_mode_default_value(self):
+        """Verify that _output_mode() returns 'w' by default."""
+        app = _TestConverterApp(
+            self.input_file, self.output_file,
+            serialize_fn=lambda pages: "test"
+        )
+        self.assertEqual(app._output_mode(), "w")
+
+    def test_output_mode_from_base_class(self):
+        """Verify _output_mode() default from Ehgk2ConverterApp base class."""
+        class _MinimalApp(Ehgk2ConverterApp):
+            def _serialize(self, pages: list[c_uint64]) -> str:
+                return ""
+
+        app = _MinimalApp(self.input_file, self.output_file)
+        self.assertEqual(app._output_mode(), "w")
+
+    def test_serialize_not_implemented(self):
+        """Verify that _serialize is an abstract method."""
+        import inspect
+        from ehgk.ehgk2base import Ehgk2ConverterApp
+
+        # _serialize should be abstract
+        self.assertTrue(
+            inspect.isabstract(Ehgk2ConverterApp),
+            "Ehgk2ConverterApp should be abstract"
+        )
+        # Check that _serialize is marked as abstract
+        self.assertTrue(
+            getattr(Ehgk2ConverterApp._serialize, '__isabstractmethod__', False),
+            "_serialize should be an abstract method"
+        )
 
 
 if __name__ == '__main__':

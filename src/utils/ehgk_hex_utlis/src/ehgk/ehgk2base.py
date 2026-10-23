@@ -111,7 +111,7 @@ class Ehgk2ConverterApp(Ehgk2BaseApp, ABC):
     @abstractmethod
     def _serialize(self, pages: list[c_uint64]) -> Any:
         """Override in subclass to return format-specific output."""
-        raise NotImplementedError
+        raise NotImplementedError  # pragma: no cover
 
     def _output_mode(self) -> str:
         """Override in subclass to return 'w' or 'wb'."""
