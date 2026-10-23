@@ -55,7 +55,7 @@ class Ehgk2BaseApp:
 
     def _write_to_output_file(self, content, mode: str) -> int:
         """
-        Writes content to output file.
+        Writes content to the output file.
 
         Parameters:
             content: file content (str for 'w', bytes for 'wb')
@@ -113,5 +113,5 @@ class Ehgk2ConverterApp(Ehgk2BaseApp, ABC):
         raise NotImplementedError  # pragma: no cover
 
     def _output_mode(self) -> str:
-        """Override in subclass to return 'w' or 'wb'."""
+        """Override in a subclass to return 'w' or 'wb'."""
         return "w"

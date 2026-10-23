@@ -7,19 +7,19 @@ from intelhex import IntelHex
 class EhgkToBytesSerializer:
 
     """
-    Serializer from ehgk ctype.c_uint64 list (pages)
+    Serializer from an ehgk ctype.c_uint64 list (pages)
     to bytes
     """
     
     @staticmethod
     def pages_to_bytes(pages: list[ctypes.c_uint64]) -> bytes:
         """
-        Converts list of ctypes.c_uint64 to bytes.
+        Converts a list of ctypes.c_uint64 to bytes.
 
         Parameters:
             pages (list): list of ctypes.c_uint64 values
 
-        Returns: flat bytes representation of pages list
+        Returns: flat bytes representation of a page list
         """
         bytes_list = list(
             map(
@@ -32,7 +32,7 @@ class EhgkToHexSerializer:
     @staticmethod
     def pages_to_intel_hex(pages: list[ctypes.c_uint64]) -> str:
         """
-        Converts list of ctypes.c_uint64 to Intel HEX format string.
+        Converts a list of ctypes.c_uint64 to Intel HEX format string.
 
         Parameters:
             pages (list): list of ctypes.c_uint64 values

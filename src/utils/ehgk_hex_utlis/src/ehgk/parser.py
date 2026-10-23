@@ -1,7 +1,7 @@
 """
 This module provides classes for converting
 electronical glass hour kit pages definition
-to list of unsigned long's.
+to a list of unsigned long's.
 """
 from collections import Counter
 import ctypes
@@ -26,7 +26,7 @@ class LedNumberTransformer(Transformer):
 
     def led_item(self, tree):
         """
-        Transform led_item ("L" NUMBER) into validated integer.
+        Transform led_item ("L" NUMBER) into a validated integer.
         """
         val = int(tree[-1])
         if self.LED_MIN <= val <= self.LED_MAX:
@@ -50,9 +50,9 @@ class LedNumberTransformer(Transformer):
 class EghkPagesParser:
     """
     This class provides methods for converting 
-    electronical glass hour kit pages definition to list of unsigned long's.
+    electronical glass hour kit pages definition to a list of unsigned long's.
 
-    Pages definition is comma separated strings of LEDs.
+    Pages definition is comma-separated strings of LEDs.
     One page is defined by one LEDs list separated by '|'.
     LEDs are numbered from 1 to 57.
     Special page 'EMPTY_PAGE' is defined by empty list.
@@ -65,16 +65,16 @@ class EghkPagesParser:
         L57,
         EMPTY_PAGE
 
-    Pages definition parsing is done by Lark parser. 
+    Lark parser does page definition parsing.
 
-    Each page is converted to unsigned long value.
-    First 57s bits of unsigned long value are used to represent LEDs.
+    Each page is converted to an unsigned long value.
+    The first 57s bits of unsigned long value are used to represent LEDs.
     Bits are numbered from 0 to 56. And set bit to 1 means LED is on.
 
 
     Attributes:
         parser: :py:class:`lark.Lark` parser. Parse pages definition.
-        interpreter: :py:class:`Pages_Interpreter` interpreter. Converts parsed tree to unsigned long's list.
+        interpreter: :py:class:`Pages_Interpreter` interpreter. Converts a parsed tree to an unsigned long's list.
     """
     
     
@@ -123,18 +123,21 @@ class EghkPagesParser:
 
     def parse(self, pages_definition):
         """
-        Convert pages definition to list of c_uint64.
+        Convert pages definition to a list of c_uint64.
 
             Params:
                 pages_definition: string. Pages definition.
 
             Returns: 
-                List of pages. Each page element has ctypes.c_uint64 type.
+                List of pages. Each page element has a ctypes.c_uint64 type.
         """
+
+        # Clear accumulated pages from previous parse calls
+        self.interpreter.pages = []
 
         # parse pages definition
         tree = self.parser.parse(pages_definition)
-        # convert parsed tree to pages list
+        # convert parsed tree to page list
         self.interpreter.visit(tree)
         
         return self.interpreter.pages
@@ -144,7 +147,7 @@ class EghkPageInterpreter(Interpreter):
     """
     Page LEDs numbers to c_uint64 converter.
 
-    This class used inside :py:class:`Eghk_Page_Parser`
+    This class is used inside :py:class:`Eghk_Page_Parser`
 
     Attributes:
         pages (list): output values list
@@ -152,7 +155,7 @@ class EghkPageInterpreter(Interpreter):
     
     def __init__(self):
         """
-        Initialize empty pages value list
+        Initialize an empty pages value list
         """
         self.pages = []
 
@@ -164,7 +167,7 @@ class EghkPageInterpreter(Interpreter):
 
     def leds(self, tree):
         """
-        Transforms one-page LED's numbers list to the output c_uint64 value
+        Transforms one-page LED's number list to the output c_uint64 value
         """
         page_value = 0
         for led_num in tree.children:
