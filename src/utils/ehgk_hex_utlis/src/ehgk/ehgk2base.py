@@ -63,7 +63,7 @@ class Ehgk2BaseApp:
                 bytes_written = file.write(content)
             return bytes_written
         except IOError as e:
-            print(f"Error writing to file {self.input_filename}: {e}")
+            print(f"Error writing to file {self.output_filename}: {e}")
             exit(self.OUTPUT_FILE_IO_ERROR)
         except Exception as e:
             print(f"An error occurred: {e}")
