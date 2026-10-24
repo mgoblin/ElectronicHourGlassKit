@@ -13,8 +13,15 @@ class Ehgk2CApp(Ehgk2ConverterApp):
     Use files as input and output.
     """
 
+    @staticmethod
+    def _uint64_to_c_hex(val: c_uint64) -> str:
+        """Format c_uint64 as C hexadecimal literal."""
+        return f"0x{val.value:016X}ULL"
+
     def _serialize(self, pages: list[c_uint64]) -> str:
         """Render pages to C header via Jinja2 template."""
+        for page in pages:
+            page.value_hex = self._uint64_to_c_hex(page)
         env = Environment(loader=FileSystemLoader('templates'))
         template = env.get_template('ehgk_pages.j2')
         return template.render(pages=pages, pages_count=len(pages))
