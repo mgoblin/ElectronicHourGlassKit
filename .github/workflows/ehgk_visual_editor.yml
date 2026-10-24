@@ -17,7 +17,8 @@ env:
   ehgk_editor_lpi_path: 'src/utils/ui_editor/lazarus/app/ehgk_editor/src/ehgk_editor.lpi'
   ehgk_editor_app_path: 'src/utils/ui_editor/lazarus/app/ehgk_editor/src'
 
-  
+  ehgk_dist_folder: 'dist'
+
 jobs:
   prepare-matrix:
     name: Setup matrix
@@ -81,19 +82,20 @@ jobs:
               APP_LPI: ${{ env.ehgk_editor_lpi_path }}
               APP_PATH: ${{ env.ehgk_editor_app_path }}
               APP_NAME: ${{ matrix.app-name }}
+              APP_DIST_PATH: ${{ env.ehgk_dist_folder }}
             shell: bash
             run: |
               set -euo pipefail
               lazbuild -B --build-mode=Release --ws=${{ matrix.widgetset }} "$APP_LPI"
               
-              mkdir -p distr
-              cp -r "${APP_PATH}/${APP_NAME}" distr
+              mkdir -p "${APP_DIST_PATH}"
+              cp -r "${APP_PATH}/${APP_NAME}" "${APP_DIST_PATH}"
 
           - name: Upload Application Artifact
             uses: actions/upload-artifact@v7.0.2
             with:
               name: ${{ matrix.app-name }}
               path: |
-                dist/*
+                ${{ env.ehgk_dist_folder }}/*
               if-no-files-found: error
               retention-days: 3  
