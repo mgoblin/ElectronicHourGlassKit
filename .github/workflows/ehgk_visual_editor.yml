@@ -94,6 +94,6 @@ jobs:
             with:
               name: ${{ matrix.app-name }}
               path: |
-                distr/*
+                dist/*
               if-no-files-found: error
               retention-days: 3  
