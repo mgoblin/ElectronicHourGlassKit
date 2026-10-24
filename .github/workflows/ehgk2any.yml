@@ -36,7 +36,7 @@ jobs:
       - name: Build with PyInstaller
         working-directory: src/utils/ehgk_hex_utlis
         run: |
-          pyinstaller --onefile --name ehgk src/ehgk/ehgk2any.py
+          pyinstaller --onefile --name ehgk2any src/ehgk/ehgk2any.py
 
       - name: Upload artifact
         uses: actions/upload-artifact@v7.0.2
