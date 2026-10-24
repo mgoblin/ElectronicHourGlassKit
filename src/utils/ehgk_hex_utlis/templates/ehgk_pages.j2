@@ -3,7 +3,9 @@
 
 #include <ehgk_page.h>
 
-#define L1 (((uint64_t)1) << 0)
+{% for i in range(1, 58) %}
+#define L{{ i }} (((uint64_t)1) << {{ i - 1 }})
+{% endfor %}
 
 #define PAGES_COUNT {{ pages_count }}
 
