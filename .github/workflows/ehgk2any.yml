@@ -42,4 +42,4 @@ jobs:
         uses: actions/upload-artifact@v7.0.2
         with:
           name: ehgk2any-${{ matrix.os }}
-          path: dist/
+          path: src/utils/ehgk_hex_utlis/dist/
