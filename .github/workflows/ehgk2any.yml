@@ -27,14 +27,14 @@ jobs:
           python-version: '3.13' 
 
       - name: Install dependencies
-        working-directory: src/utils/ehgk_hex_utlis
+        working-directory: src/utils/ehgk_hex_utils
         run: |
           python -m pip install --upgrade pip
           pip install pyinstaller
           pip install .
 
       - name: Build with PyInstaller
-        working-directory: src/utils/ehgk_hex_utlis
+        working-directory: src/utils/ehgk_hex_utils
         run: |
           pyinstaller --onefile --name ehgk2any src/ehgk/ehgk2any.py
 
@@ -42,4 +42,4 @@ jobs:
         uses: actions/upload-artifact@v7.0.2
         with:
           name: ehgk2any-${{ matrix.os }}
-          path: src/utils/ehgk_hex_utlis/dist/
+          path: src/utils/ehgk_hex_utils/dist/
