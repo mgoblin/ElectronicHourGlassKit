@@ -1,0 +1,17 @@
+[project]
+name = "serial-upload"
+version = "0.1.0"
+description = "load electronic hourglass kit pages to MCU EEPROM using serial port"
+readme = "README.md"
+authors = [
+    { name = "Michael Golovanov", email = "mike.golovanov@gmail.com" }
+]
+requires-python = ">=3.13"
+dependencies = []
+
+[project.scripts]
+serial-upload = "serial_upload:main"
+
+[build-system]
+requires = ["uv_build>=0.12.15,<0.13.0"]
+build-backend = "uv_build"
