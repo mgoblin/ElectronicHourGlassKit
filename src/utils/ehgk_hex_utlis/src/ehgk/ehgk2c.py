@@ -14,15 +14,23 @@ class Ehgk2CApp(Ehgk2ConverterApp):
     """
 
     @staticmethod
-    def _uint64_to_c_hex(val: c_uint64) -> str:
-        """Format c_uint64 as a C language hexadecimal literal."""
-        return f"0x{val.value:016X}ULL"
+    def _uint64_to_ehgk(val: c_uint64) -> str:
+        """Format c_uint64 as EHGK literals."""
+        if val == 0:
+            return "EMPTY"
+        else:
+            value = ''
+            for i in range(1, 57):
+                mask = 1 << (i - 1)
+                if (val.value & mask) > 0:
+                    value = value + f" | L{i}"
+            return value[3:]
 
     def _serialize(self, pages: list[c_uint64]) -> str:
         """Render pages to C header via Jinja2 template."""
         values = []
         for page in pages:
-            values.append(self._uint64_to_c_hex(page))
+            values.append(self._uint64_to_ehgk(page))
 
         env = Environment(
             loader=FileSystemLoader('templates'),
