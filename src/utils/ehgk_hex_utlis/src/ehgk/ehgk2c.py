@@ -1,8 +1,11 @@
+import os
 from ctypes import c_uint64
 
 from jinja2 import Environment, FileSystemLoader, StrictUndefined
 
 from ehgk.ehgk2base import Ehgk2ConverterApp
+
+_TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), '..', '..', 'templates')
 
 
 class Ehgk2CApp(Ehgk2ConverterApp):
@@ -32,7 +35,7 @@ class Ehgk2CApp(Ehgk2ConverterApp):
             values.append(self._uint64_to_ehgk(page))
 
         env = Environment(
-            loader=FileSystemLoader('templates'),
+            loader=FileSystemLoader(_TEMPLATE_DIR),
             undefined=StrictUndefined
         )
         template = env.get_template('ehgk_pages.j2')
