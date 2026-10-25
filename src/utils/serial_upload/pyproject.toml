@@ -11,6 +11,11 @@ dependencies = [
     "pyserial>=3.5",
 ]
 
+[project.optional-dependencies]
+test = [
+    "pytest>=8.0",
+]
+
 [project.scripts]
 serial-upload = "serial_upload.app:main"
 
