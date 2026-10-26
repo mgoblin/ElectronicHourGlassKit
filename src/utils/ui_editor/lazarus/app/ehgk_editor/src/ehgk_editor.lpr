@@ -10,7 +10,7 @@ uses
   athreads,
   {$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, Main, DataModule,
+  Forms, LazSerialPort, Main, DataModule,
   { you can add units after this }
   LazLogger;
 

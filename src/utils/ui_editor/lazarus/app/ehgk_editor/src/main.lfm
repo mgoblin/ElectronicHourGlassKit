@@ -2,11 +2,12 @@ object MainForm: TMainForm
   Left = 248
   Height = 573
   Top = 177
-  Width = 256
+  Width = 446
   ActiveControl = LED1
   Caption = 'EHGK Editor'
   ClientHeight = 573
-  ClientWidth = 256
+  ClientWidth = 446
+  LCLVersion = '4.0.0.4'
   OnCreate = FormCreate
   object LED1: TSimplifiedLed
     Left = 10
@@ -365,5 +366,23 @@ object MainForm: TMainForm
     Top = 196
     Width = 80
     TabOrder = 58
+  end
+  object SerialPortsListBox: TListBox
+    Left = 166
+    Height = 80
+    Top = 280
+    Width = 244
+    ItemHeight = 0
+    TabOrder = 59
+    OnDblClick = OpenSerialPortButtonClick
+  end
+  object OpenSerialPortButton: TButton
+    Left = 256
+    Height = 25
+    Top = 370
+    Width = 75
+    Caption = 'Open'
+    TabOrder = 60
+    OnClick = OpenSerialPortButtonClick
   end
 end

@@ -73,11 +73,10 @@
       <Unit>
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
         <UnitName Value="EhgkPage"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="80"/>
         <CursorPos X="59" Y="43"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="../src/ledcontrol.pas"/>
@@ -89,10 +88,10 @@
         <Filename Value="../src/simplifiedled.pas"/>
         <UnitName Value="SimplifiedLed"/>
         <IsVisibleTab Value="True"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="7"/>
         <CursorPos X="44" Y="16"/>
         <UsageCount Value="10"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="/usr/lib/lazarus/4.0/components/lclextensions/include/qt5/uses.inc"/>
@@ -109,44 +108,7 @@
         <UsageCount Value="10"/>
       </Unit>
     </Units>
-    <JumpHistory HistoryIndex="8">
-      <Position>
-        <Filename Value="../../page_components/src/ehgkpage.pas"/>
-        <Caret Line="35" Column="9" TopLine="32"/>
-      </Position>
-      <Position>
-        <Filename Value="../src/simplifiedled.pas"/>
-        <Caret Line="14"/>
-      </Position>
-      <Position>
-        <Filename Value="../src/simplifiedled.pas"/>
-        <Caret Line="31" TopLine="20"/>
-      </Position>
-      <Position>
-        <Filename Value="../src/simplifiedled.pas"/>
-        <Caret Line="236" Column="9"/>
-      </Position>
-      <Position>
-        <Filename Value="../src/simplifiedled.pas"/>
-        <Caret Line="210" Column="11" TopLine="192"/>
-      </Position>
-      <Position>
-        <Filename Value="../src/simplifiedled.pas"/>
-        <Caret Line="63" Column="6"/>
-      </Position>
-      <Position>
-        <Filename Value="../src/simplifiedled.pas"/>
-        <Caret Line="16" Column="18" TopLine="4"/>
-      </Position>
-      <Position>
-        <Filename Value="../src/simplifiedled.pas"/>
-        <Caret Line="15" Column="44" TopLine="4"/>
-      </Position>
-      <Position>
-        <Filename Value="../src/simplifiedled.pas"/>
-        <Caret Line="16" Column="16" TopLine="4"/>
-      </Position>
-    </JumpHistory>
+    <JumpHistory HistoryIndex="-1"/>
     <RunParams>
       <FormatVersion Value="2"/>
       <Modes ActiveMode="default">

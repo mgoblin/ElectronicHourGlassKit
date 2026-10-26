@@ -5,14 +5,15 @@ unit Main;
 interface
 
 uses
-  Classes, SysUtils, SimplifiedLed, Forms, Controls, Graphics, Dialogs,
-  StdCtrls, DataModule;
+  Classes, SysUtils, Forms, Controls, Graphics, Dialogs,
+  StdCtrls, DataModule, SimplifiedLed;
 
 type
 
   { TMainForm }
 
   TMainForm = class(TForm)
+    OpenSerialPortButton: TButton;
     ButtonView: TButton;
     EditPageValue: TEdit;
     LED29: TSimplifiedLed;
@@ -72,10 +73,13 @@ type
     LED14: TSimplifiedLed;
     LED15: TSimplifiedLed;
     LED16: TSimplifiedLed;
+    SerialPortsListBox: TListBox;
     procedure ButtonViewClick(Sender: TObject);
     procedure FormCreate(Sender: TObject);
+    procedure OpenSerialPortButtonClick(Sender: TObject);
   private
-    procedure LoadFromContainer;
+    procedure LoadLedsFromContainer;
+    procedure LoadSerialPortsList;
 
   public
 
@@ -89,7 +93,7 @@ implementation
 {$R *.lfm}
 
 uses
-  EhgkPage;
+  EhgkPage, LazSynaSer;
 
 { TMainForm }
 
@@ -106,7 +110,7 @@ begin
     try
       PageValue := TEhgkPageValue(StrToUInt64(EditPageValue.Text));
       MainDataModule.PageContainer.Page[0].Value := PageValue;
-      LoadFromContainer;
+      LoadLedsFromContainer;
     except
       on E: EConvertError do
       begin
@@ -120,10 +124,35 @@ procedure TMainForm.FormCreate(Sender: TObject);
 begin
   MainDataModule.PageContainer.Page[0].Value := 0;
   EditPageValue.Text := UIntToStr(MainDataModule.PageContainer.Page[0].Value);
-  LoadFromContainer;
+  LoadLedsFromContainer;
+  LoadSerialPortsList;
 end;
 
-procedure TMainForm.LoadFromContainer;
+procedure TMainForm.OpenSerialPortButtonClick(Sender: TObject);
+const
+  Hello: String = 'Hello';
+var
+  Response: String;
+begin
+  if SerialPortsListBox.ItemIndex >= 0 then
+  begin
+    MainDataModule.LazSerial1.Device := SerialPortsListBox.Items[SerialPortsListBox.ItemIndex];
+
+    MainDataModule.LazSerial1.Open;
+
+    try
+       MainDataModule.LazSerial1.WriteData(Hello);
+    finally
+      MainDataModule.LazSerial1.Close;
+    end;
+  end
+  else
+  begin
+    ShowMessage('Serial port not selected');
+  end;
+end;
+
+procedure TMainForm.LoadLedsFromContainer;
 const
   NamePrefix = 'LED';
 var
@@ -149,6 +178,11 @@ begin
       end;
     end;
   end;
+end;
+
+procedure TMainForm.LoadSerialPortsList;
+begin
+  SerialPortsListBox.Items.CommaText := GetSerialPortNames;
 end;
 
 end.

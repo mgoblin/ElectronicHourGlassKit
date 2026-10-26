@@ -1,12 +1,37 @@
 object MainDataModule: TMainDataModule
   OldCreateOrder = False
-  Height = 150
+  Height = 176
   HorizontalOffset = 248
   VerticalOffset = 177
   Width = 363
   object PageContainer: TEhgkPageNavigatableContainer
     CurrentPageIndex = 0
-    Left = 136
-    Top = 48
+    Left = 168
+    Top = 24
+  end
+  object LazSerial1: TLazSerial
+    Active = False
+    BaudRate = br115200
+    DataBits = db8bits
+    Parity = pNone
+    FlowControl = fcNone
+    StopBits = sbOne
+    SynSer.Tag = 0
+    SynSer.Handle = -1
+    SynSer.RaiseExcept = False
+    SynSer.TestDSR = False
+    SynSer.TestCTS = False
+    SynSer.MaxLineLength = 0
+    SynSer.DeadlockTimeout = 30000
+    SynSer.LinuxLock = False
+    SynSer.ConvertLineEnd = False
+    SynSer.AtTimeout = 1000
+    SynSer.InterPacketTimeout = True
+    SynSer.NonBlock = False
+    Device = '/dev/ttyS0'
+    RcvLineCRLF = False
+    OnRxData = LazSerial1RxData
+    Left = 168
+    Top = 96
   end
 end
