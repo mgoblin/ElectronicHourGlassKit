@@ -28,7 +28,7 @@ const
   EHGK_LED_COUNT_MAX = 57;
 
   { Maximum value: all 57 LEDs are turned on }
-  EHGK_PAGE_VALUE_MAX = $01FFFFFFFFFFFFFFF; // 57 ones in binary
+  EHGK_PAGE_VALUE_MAX = $01FFFFFFFFFFFFFF; // 57 ones: 2^57 - 1
 
 type
 
