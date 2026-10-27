@@ -1,6 +1,6 @@
-{ LazSerial v0.1
+{ LazSerial
 Serial Port Component for Lazarus 
-by Jurassic Pork  03/2013
+by Jurassic Pork  03/2013 03/2021
 This library is Free software; you can rediStribute it and/or modify it
   under the terms of the GNU Library General Public License as published by
   the Free Software Foundation; either version 2 of the License, or (at your
@@ -51,7 +51,7 @@ unit LazSerial;
 interface
 
 uses
-{$IFDEF UNIX }
+{$IFDEF UNIX}
   Classes,
 {$IFDEF UseCThreads}
   cthreads,
@@ -59,13 +59,25 @@ uses
 {$ELSE}
   Windows, Classes, //registry,
 {$ENDIF}
-  SysUtils, synaser,  LResources, Forms, Controls, Graphics, Dialogs;
+  SysUtils, lazsynaser,  LResources, Forms, Controls, Graphics, Dialogs,
+  PropEdits;
 
 
 type
-  TBaudRate=(br___110,br___300, br___600, br__1200, br__2400, br__4800,
-             br__9600,br_14400, br_19200, br_38400,br_56000, br_57600,
-             br115200,br128000, br230400,br256000, br460800, br921600);
+{$IFDEF UNIX}
+  TBaudRate=(br_____0, br____50, br____75, br___110, br___134, br___150,
+             br___200, br___300, br___600, br__1200, br__1800, br__2400,
+             br__4800, br__9600, br_19200, br_38400, br_57600, br115200,
+             br230400
+   {$IFNDEF DARWIN}   // LINUX
+             , br460800, br500000, br576000, br921600, br1000000, br1152000,
+             br1500000, br2000000, br2500000, br3000000, br3500000, br4000000
+   {$ENDIF} );
+{$ELSE}      // MSWINDOWS
+   TBaudRate=(br___110,br___300, br___600, br__1200, br__2400, br__4800,
+           br__9600,br_14400, br_19200, br_38400,br_56000, br_57600,
+           br115200,br128000, br230400,br256000, br460800, br921600);
+{$ENDIF}
   TDataBits=(db8bits,db7bits,db6bits,db5bits);
   TParity=(pNone,pOdd,pEven,pMark,pSpace);
   TFlowControl=(fcNone,fcXonXoff,fcHardware);
@@ -76,9 +88,19 @@ type
   TStatusEvent = procedure(Sender: TObject; Reason: THookSerialReason; const Value: string) of object;
 
 const
-  ConstsBaud: array[TBaudRate] of integer=(110,
-    300, 600, 1200, 2400, 4800, 9600,14400, 19200, 38400,56000, 57600,
-    115200,128000,230400,256000, 460800, 921600);
+{$IFDEF UNIX}
+    ConstsBaud: array[TBaudRate] of integer=
+    (0, 50, 75, 110, 134, 150, 200, 300, 600, 1200, 1800, 2400, 4800, 9600,
+    19200, 38400, 57600, 115200, 230400
+    {$IFNDEF DARWIN}  // LINUX
+       , 460800, 500000, 576000, 921600, 1000000, 1152000, 1500000, 2000000,
+       2500000, 3000000, 3500000, 4000000
+    {$ENDIF}  );
+{$ELSE}      // MSWINDOWS
+    ConstsBaud: array[TBaudRate] of integer=
+    (110, 300, 600, 1200, 2400, 4800, 9600, 14400, 19200, 38400, 56000, 57600,
+    115200, 128000, 230400, 256000, 460800, 921600 );
+{$ENDIF}
 
   ConstsBits: array[TDataBits] of integer=(8, 7 , 6, 5);
   ConstsParity: array[TParity] of char=('N', 'O', 'E', 'M', 'S');
@@ -309,20 +331,20 @@ end;
 
 procedure TLazSerial.SetBaudRate(br: TBaudRate);
 begin
+  FBaudRate:=br;
   if FSynSer.Handle<>INVALID_HANDLE_VALUE then begin
     FSynSer.Config(ConstsBaud[FBaudRate], ConstsBits[FDataBits], ConstsParity[FParity],
                    ConstsStopBits[FStopBits], FSoftflow, FHardflow);
   end;
-  FBaudRate:=br;
 end;
 
 procedure TLazSerial.SetDataBits(db: TDataBits);
 begin
+  FDataBits:=db;
   if FSynSer.Handle<>INVALID_HANDLE_VALUE then begin
     FSynSer.Config(ConstsBaud[FBaudRate], ConstsBits[FDataBits], ConstsParity[FParity],
                    ConstsStopBits[FStopBits], FSoftflow, FHardflow);
   end;
-  FDataBits:=db;
 end;
 
 procedure TLazSerial.SetFlowControl(fc: TFlowControl);
@@ -358,20 +380,20 @@ end;
 }
 procedure TLazSerial.SetParity(pr: TParity);
 begin
+  FParity:=pr;
   if FSynSer.Handle<>INVALID_HANDLE_VALUE then begin
     FSynSer.Config(ConstsBaud[FBaudRate], ConstsBits[FDataBits], ConstsParity[FParity],
                    ConstsStopBits[FStopBits], FSoftflow, FHardflow);
   end;
-  FParity:=pr;
 end;
 
 procedure TLazSerial.SetStopBits(sb: TStopBits);
 begin
+  FStopBits:=sb;
   if FSynSer.Handle<>INVALID_HANDLE_VALUE then begin
     FSynSer.Config(ConstsBaud[FBaudRate], ConstsBits[FDataBits], ConstsParity[FParity],
                    ConstsStopBits[FStopBits], FSoftflow, FHardflow);
   end;
-  FStopBits:=sb;
 end;
 
 
@@ -473,6 +495,8 @@ end;
 procedure Register;
 begin
   RegisterComponents('LazSerial', [TLazSerial]);
+  RegisterPropertyEditor(TypeInfo(boolean), TLazSerial,
+                        'Active', THiddenPropertyEditor);
 end;
 
 initialization

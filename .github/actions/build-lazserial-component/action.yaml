@@ -6,7 +6,7 @@ inputs:
   component-lpk-path:
     description: 'path to pagecomponents.lpk file'
     required: true
-    default: 'src/utils/ui_editor/lazarus/components/laz_serial/LazSerialPort.lpk'
+    default: 'src/utils/ui_editor/lazarus/components/LazSerial/LazSerialPort.lpk'
 
 runs:
   using: composite

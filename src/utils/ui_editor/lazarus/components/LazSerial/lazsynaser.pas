@@ -41,8 +41,10 @@
 |==============================================================================|
 | History: see HISTORY.HTM from distribution package                           |
 |          (Found at URL: http://www.ararat.cz/synapse/)                       |
+|==============================================================================|
+| Some changes  for LazSerial : J.P 2017 2022                                  |
+|                                                                              |
 |==============================================================================}
-
 {: @abstract(Serial port communication library)
 This unit contains a class that implements serial port communication 
  for Windows, Linux, Unix or MacOSx. This class provides numerous methods with 
@@ -95,7 +97,7 @@ case with my USB modem):
 {$H+}
 {$M+}
 
-unit synaser;
+unit LazSynaSer;
 
 interface
 
@@ -116,8 +118,8 @@ uses
   winver,
   {$ENDIF}
 {$ENDIF}
-  synafpc,
-  Classes, SysUtils, synautil;
+  LazSynaFpc,
+  Classes, SysUtils, LazSynaUtil;
 
 const
   CR = #$0d;
@@ -216,14 +218,14 @@ type
   PDCB = ^TDCB;
 
 const
-{$IFDEF UNIX}
+{$IF (DEFINED(UNIX)) AND (NOT (DEFINED(CPUARM))) }
   {$IFDEF DARWIN}
   MaxRates = 18;  //MAC
   {$ELSE}
    MaxRates = 30; //UNIX
   {$ENDIF}
 {$ELSE}
-  MaxRates = 19;  //WIN
+  MaxRates = 19;  //WIN  and Raspberry Pi
 {$ENDIF}
   Rates: array[0..MaxRates, 0..1] of cardinal =
   (
@@ -248,7 +250,7 @@ const
     (230400, B230400)
 {$IFNDEF DARWIN}
     ,(460800, B460800)
-  {$IFDEF UNIX}
+  {$IF (DEFINED(UNIX)) AND (NOT (DEFINED(CPUARM)))} //Not for RPi with ARM CPU
     ,(500000, B500000),
     (576000, B576000),
     (921600, B921600),
@@ -299,7 +301,7 @@ type
   end;
 
   {:@abstract(Main class implementing all communication routines)}
-  TBlockSerial = class(TObject)
+  TBlockSerial = class(TPersistent)
   protected
     FOnStatus: THookSerialStatus;
     Fhandle: THandle;
@@ -330,9 +332,9 @@ type
     FAtTimeout: integer;
     FInterPacketTimeout: Boolean;
     FComNr: integer;
-{$IFDEF UNIX}           // RPH - 14May2016, to support O_NonBlock for open
+    {$IFDEF UNIX}           // RPH - 14May2016, to support O_NonBlock for open
     FNonBlock: Boolean;
-{$ENDIF}
+    {$ENDIF} 
 {$IFDEF MSWINDOWS}
     FPortAddr: Word;
     function CanEvent(Event: dword; Timeout: integer): boolean;
@@ -801,7 +803,7 @@ begin
   FInterPacketTimeout := True;
 {$IFDEF UNIX}           // RPH 14May2016, to support O_NonBlock for open
   FNonBlock := False;
-{$ENDIF}
+{$ENDIF} 
 end;
 
 destructor TBlockSerial.Destroy;
@@ -2348,26 +2350,29 @@ begin
 end;
 {$ENDIF}
 {$IFNDEF MSWINDOWS}
-// Modif J.P   03/2013
+// Modif J.P   03/2013 - O1/2017 - 11/2022
 function GetSerialPortNames: string;
 var
+  Index: Integer;
   Data: string;
   TmpPorts: String;
+  flags : Longint;
   sr : TSearchRec;
-
-  procedure ScanForPorts( const ThisRootStr : string); // added by PDF
+// J.P  01/2017  new boolean parameter : special
+  procedure ScanForPorts( const ThisRootStr : string; special :  boolean); // added by PDF
   var theDevice : String;
   var FD : Cint;
 {$IFnDEF DARWIN}        // RPH - Added 14May2016
-  var Ser : TSerialStruct;
+   var Ser : TSerialStruct;
 {$ENDIF}
   begin
-    if FindFirst( ThisRootStr, $FFFFFFFF, sr) = 0 then
+    if FindFirst( ThisRootStr, flags, sr) = 0 then
     begin
       repeat
-        if (sr.Attr and $FFFFFFFF) = Sr.Attr then
+        if (sr.Attr and flags) = Sr.Attr then
         begin
           data := sr.Name;
+          index := length(data);
           theDevice := '/dev/' + data;
 // try to open the device
        FD := fpopen(thedevice,O_RdWr or O_NonBlock or O_NoCtty);
@@ -2383,8 +2388,9 @@ var
           {$ELSE}
            if fpioctl( FD,TIOCGSERIAL, @Ser) <> -1 then
              begin
-// device is serial if type is not unknown
-              if (Ser.typ <> 0)  then
+// device is serial if type is not unknown (if not special device)
+              // new parameter special
+              if ((Ser.typ <> 0) OR (special) ) then
                TmpPorts := TmpPorts + '  ' + theDevice;
               fpclose(FD);
              end;
@@ -2392,23 +2398,24 @@ var
           end;
         end;
       until FindNext(sr) <> 0;
+    FindClose(sr);
     end;
   end;
 
 begin
   try
     TmpPorts := '';
-    ScanForPorts( '/dev/rfcomm*');
- //   ScanForPorts( '/dev/pts/*');
-    ScanForPorts( '/dev/ttyUSB*');
-    ScanForPorts( '/dev/ttyS*');
-  {$IFDEF DARWIN}
-    ScanForPorts( '/dev/tty.usbserial*'); // RPH 14May2016, for FTDI driver
-    ScanForPorts( '/dev/tty.UC-232*');    // RPH 15May2016, for Prolific driver
-  {$ELSE}
-    ScanForPorts( '/dev/ttyAM*'); // for ARM board
-  {$ENDIF}
-    FindClose(sr);
+    flags := faAnyFile AND (NOT faDirectory);
+    ScanForPorts( '/dev/rfcomm*',true);
+    ScanForPorts( '/dev/ttyUSB*',true);
+    ScanForPorts( '/dev/ttyS*',false);
+    ScanForPorts('/dev/ttyACM*',true); 
+   {$IFDEF DARWIN}
+    ScanForPorts( '/dev/tty.usbserial*',false); // RPH 14May2016, for FTDI driver
+    ScanForPorts( '/dev/tty.UC-232*',false);    // RPH 15May2016, for Prolific driver
+   {$ELSE}
+     ScanForPorts( '/dev/ttyAM*',false); // for ARM board
+   {$ENDIF}
   finally
     Result:=TmpPorts;
   end;

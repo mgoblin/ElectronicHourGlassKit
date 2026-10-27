@@ -14,7 +14,7 @@ env:
   page_components_lpk_path: 'src/utils/ui_editor/lazarus/components/page_components/src/pagecomponents.lpk'
   page_components_unittest_lpi_path: 'src/utils/ui_editor/lazarus/components/page_components/test/EhgkPageUnitTests.lpi'
 
-  laz_serial_lpk_path: 'src/utils/ui_editor/lazarus/components/laz_serial/LazSerialPort.lpk'
+  laz_serial_lpk_path: 'src/utils/ui_editor/lazarus/components/LazSerial/LazSerialPort.lpk'
 
   ehgk_editor_lpi_path: 'src/utils/ui_editor/lazarus/app/ehgk_editor/src/ehgk_editor.lpi'
   ehgk_editor_app_path: 'src/utils/ui_editor/lazarus/app/ehgk_editor/src'
