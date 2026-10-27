@@ -1,0 +1,20 @@
+name: Build LazSerial component action
+description: |
+  Build LazSerial component used for EEPROM load from the PC to MCU
+
+inputs:
+  component-lpk-path:
+    description: 'path to pagecomponents.lpk file'
+    required: true
+    default: 'src/utils/ui_editor/lazarus/components/laz_serial/LazSerialPort.lpk'
+
+runs:
+  using: composite
+  steps:
+    - name: Build LazSerial component package
+      shell: bash
+      run: lazbuild -B ${{ inputs.component-lpk-path }}
+
+    - name: Add package to Lazarus
+      shell: bash
+      run: lazbuild --add-package ${{ inputs.component-lpk-path }}

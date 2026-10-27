@@ -14,6 +14,8 @@ env:
   page_components_lpk_path: 'src/utils/ui_editor/lazarus/components/page_components/src/pagecomponents.lpk'
   page_components_unittest_lpi_path: 'src/utils/ui_editor/lazarus/components/page_components/test/EhgkPageUnitTests.lpi'
 
+  laz_serial_lpk_path: 'src/utils/ui_editor/lazarus/components/laz_serial/LazSerialPort.lpk'
+
   ehgk_editor_lpi_path: 'src/utils/ui_editor/lazarus/app/ehgk_editor/src/ehgk_editor.lpi'
   ehgk_editor_app_path: 'src/utils/ui_editor/lazarus/app/ehgk_editor/src'
 
@@ -76,6 +78,11 @@ jobs:
               widgetset: ${{ matrix.widgetset }}
               component-lpk-path: ${{ env.page_components_lpk_path }}
               unittest-lpi-path: ${{ env.page_components_unittest_lpi_path }}
+
+          - name: Build LazSerial component package
+            uses: './.github/actions/build-lazserial-component'
+            with:
+              component-lpk-path: ${{ env.laz_serial_lpk_path }}
               
           - name: Build EHGK editor application
             env: 
