@@ -34,6 +34,23 @@ type
     procedure TestTurnAllLedsOff();
   end;
 
+  { TEqualsAndHashCodeTestCase }
+
+  TEqualsAndHashCodeTestCase = class(TTestCase)
+  published
+    procedure TestEquals_SameObject;
+    procedure TestEquals_Null;
+    procedure TestEquals_DifferentType;
+    procedure TestEquals_SameValue;
+    procedure TestEquals_DifferentValue;
+    procedure TestEquals_SelfEquality;
+    procedure TestGetHashCode_SameValueSameHash;
+    procedure TestGetHashCode_DifferentValueDifferentHash;
+    procedure TestGetHashCode_ZeroValue;
+    procedure TestGetHashCode_MaxValue;
+    procedure TestGetHashCode_NoCollisions;
+  end;
+
 implementation
 
 procedure TCreateEhgkPageTestCase.TestCreate;
@@ -138,9 +155,208 @@ begin
 end;
 
 
+{ TEqualsAndHashCodeTestCase }
+
+procedure TEqualsAndHashCodeTestCase.TestEquals_SameObject;
+var
+  Page: TEhgkPage;
+begin
+  Page := TEhgkPage.Create(nil);
+  try
+    Page.Value := 12345;
+    AssertTrue('Equals(Self) must return True', Page.Equals(Page));
+  finally
+    Page.Free;
+  end;
+end;
+
+procedure TEqualsAndHashCodeTestCase.TestEquals_Null;
+var
+  Page: TEhgkPage;
+begin
+  Page := TEhgkPage.Create(nil);
+  try
+    AssertFalse('Equals(nil) must return False', Page.Equals(nil));
+  finally
+    Page.Free;
+  end;
+end;
+
+procedure TEqualsAndHashCodeTestCase.TestEquals_DifferentType;
+var
+  Page: TEhgkPage;
+  Other: TObject;
+begin
+  Page := TEhgkPage.Create(nil);
+  Other := TObject.Create;
+  try
+    Page.Value := 999;
+    AssertFalse('Equals(different type) must return False', Page.Equals(Other));
+  finally
+    Page.Free;
+    Other.Free;
+  end;
+end;
+
+procedure TEqualsAndHashCodeTestCase.TestEquals_SameValue;
+var
+  PageA, PageB: TEhgkPage;
+begin
+  PageA := TEhgkPage.Create(nil);
+  PageB := TEhgkPage.Create(nil);
+  try
+    PageA.Value := $AABBCCDD;
+    PageB.Value := $AABBCCDD;
+    AssertTrue('Pages with same Value must be equal', PageA.Equals(PageB));
+  finally
+    PageA.Free;
+    PageB.Free;
+  end;
+end;
+
+procedure TEqualsAndHashCodeTestCase.TestEquals_DifferentValue;
+var
+  PageA, PageB: TEhgkPage;
+begin
+  PageA := TEhgkPage.Create(nil);
+  PageB := TEhgkPage.Create(nil);
+  try
+    PageA.Value := $11111111;
+    PageB.Value := $22222222;
+    AssertFalse('Pages with different Value must not be equal', PageA.Equals(PageB));
+  finally
+    PageA.Free;
+    PageB.Free;
+  end;
+end;
+
+procedure TEqualsAndHashCodeTestCase.TestEquals_SelfEquality;
+var
+  Page: TEhgkPage;
+begin
+  Page := TEhgkPage.Create(nil);
+  try
+    Page.Value := 0;
+    AssertTrue('Value=0: Equals(Self) must return True', Page.Equals(Page));
+
+    Page.Value := EHGK_PAGE_VALUE_MAX;
+    AssertTrue('Value=MAX: Equals(Self) must return True', Page.Equals(Page));
+  finally
+    Page.Free;
+  end;
+end;
+
+procedure TEqualsAndHashCodeTestCase.TestGetHashCode_SameValueSameHash;
+var
+  PageA, PageB: TEhgkPage;
+begin
+  PageA := TEhgkPage.Create(nil);
+  PageB := TEhgkPage.Create(nil);
+  try
+    PageA.Value := $DEADBEEF;
+    PageB.Value := $DEADBEEF;
+    AssertEquals(
+      'Equal pages must have equal hashes',
+      PageA.GetHashCode,
+      PageB.GetHashCode
+    );
+  finally
+    PageA.Free;
+    PageB.Free;
+  end;
+end;
+
+procedure TEqualsAndHashCodeTestCase.TestGetHashCode_DifferentValueDifferentHash;
+var
+  PageA, PageB: TEhgkPage;
+begin
+  PageA := TEhgkPage.Create(nil);
+  PageB := TEhgkPage.Create(nil);
+  try
+    PageA.Value := 1;
+    PageB.Value := 2;
+    AssertFalse(
+      'Different values must produce different hashes',
+      PageA.GetHashCode = PageB.GetHashCode
+    );
+  finally
+    PageA.Free;
+    PageB.Free;
+  end;
+end;
+
+procedure TEqualsAndHashCodeTestCase.TestGetHashCode_ZeroValue;
+var
+  Page: TEhgkPage;
+begin
+  Page := TEhgkPage.Create(nil);
+  try
+    Page.Value := 0;
+    AssertEquals('Hash of Value=0 must be 0', 0, Page.GetHashCode);
+  finally
+    Page.Free;
+  end;
+end;
+
+procedure TEqualsAndHashCodeTestCase.TestGetHashCode_MaxValue;
+var
+  Page: TEhgkPage;
+begin
+  Page := TEhgkPage.Create(nil);
+  try
+    Page.Value := EHGK_PAGE_VALUE_MAX;
+    AssertEquals(
+      'Hash of Value=MAX must equal the Value',
+      PtrInt(EHGK_PAGE_VALUE_MAX),
+      Page.GetHashCode
+    );
+  finally
+    Page.Free;
+  end;
+end;
+
+procedure TEqualsAndHashCodeTestCase.TestGetHashCode_NoCollisions;
+var
+  PageA, PageB: TEhgkPage;
+  V1, V2: TEhgkPageValue;
+begin
+  PageA := TEhgkPage.Create(nil);
+  PageB := TEhgkPage.Create(nil);
+  try
+    // Test several value pairs to verify no collisions
+    V1 := 0;
+    V2 := 1;
+    PageA.Value := V1;
+    PageB.Value := V2;
+    AssertFalse('No collision: 0 vs 1', PageA.GetHashCode = PageB.GetHashCode);
+
+    V1 := $FF;
+    V2 := $100;
+    PageA.Value := V1;
+    PageB.Value := V2;
+    AssertFalse('No collision: $FF vs $100', PageA.GetHashCode = PageB.GetHashCode);
+
+    V1 := $FFFFFFFF;
+    V2 := $100000000;
+    PageA.Value := V1;
+    PageB.Value := V2;
+    AssertFalse('No collision: high bits', PageA.GetHashCode = PageB.GetHashCode);
+
+    V1 := EHGK_PAGE_VALUE_MAX;
+    V2 := EHGK_PAGE_VALUE_MAX - 1;
+    PageA.Value := V1;
+    PageB.Value := V2;
+    AssertFalse('No collision: MAX vs MAX-1', PageA.GetHashCode = PageB.GetHashCode);
+  finally
+    PageA.Free;
+    PageB.Free;
+  end;
+end;
+
 initialization
 
   RegisterTest(TCreateEhgkPageTestCase);
   RegisterTest(TBitsEhgkPageTestCase);
+  RegisterTest(TEqualsAndHashCodeTestCase);
 end.
 

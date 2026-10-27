@@ -58,6 +58,9 @@ type
     const LedCount = EHGK_LED_COUNT_MAX;
     constructor Create(AOwner: TComponent); override;
 
+    function Equals(Obj: TObject): Boolean; override;
+    function GetHashCode: PtrInt; override;
+
     procedure TurnOnLed(const Index: TEhgkLedNumber);
     procedure TurnOffLed(const Index: TEhgkLedNumber);
     procedure ToggleLed(const Index: TEhgkLedNumber);
@@ -107,6 +110,22 @@ constructor TEhgkPage.Create(AOwner: TComponent);
 begin
   inherited Create(AOwner);
   FValue := 0;
+end;
+
+// Two pages are equal if they have the same LED state (Value).
+// Owner, name, and other TComponent fields are not considered.
+function TEhgkPage.Equals(Obj: TObject): Boolean;
+begin
+  if Obj = Self then
+    Exit(True);
+  if not (Obj is TEhgkPage) then
+    Exit(False);
+  Result := FValue = TEhgkPage(Obj).FValue;
+end;
+
+function TEhgkPage.GetHashCode: PtrInt;
+begin
+  Result := PtrInt(FValue);
 end;
 
 procedure TEhgkPage.SetValue(const AValue: TEhgkPageValue);
