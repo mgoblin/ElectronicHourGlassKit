@@ -40,8 +40,11 @@ type
 
   { The state of all the LEDs is called a EhgkPage }
 
-  { TEhgkPage }
-
+  {
+   Represents the state of all 57 LEDs on the electronic hourglass circuit board.
+   Each LED corresponds to one bit in the Value property (LED 1 = bit 0, LED 57 = bit 56).
+   Provides methods to manipulate individual LEDs or all LEDs at once.
+  }
   TEhgkPage = class(TComponent)
   private
     FValue: TEhgkPageValue;
@@ -66,11 +69,17 @@ type
     { Returns the current LED state (Value) as the hash code. Two equal pages always have the same hash. }
     function GetHashCode: PtrInt; override;
 
+    { Turns on the LED at the specified index (1..57) }
     procedure TurnOnLed(const Index: TEhgkLedNumber);
+    { Turns off the LED at the specified index (1..57) }
     procedure TurnOffLed(const Index: TEhgkLedNumber);
+    { Toggles the state of the LED at the specified index (1..57): on becomes off, off becomes on }
     procedure ToggleLed(const Index: TEhgkLedNumber);
+    { Returns True if the LED at the specified index (1..57) is currently turned on }
     function IsLedOn(const Index: TEhgkLedNumber): Boolean;
+    { Turns on all 57 LEDs on the circuit board }
     procedure TurnOnAllLeds;
+    { Turns off all 57 LEDs on the circuit board }
     procedure TurnOffAllLeds;
 
     property Led[Index: TEhgkLedNumber]: Boolean read IsLedOn write SetLedState;
