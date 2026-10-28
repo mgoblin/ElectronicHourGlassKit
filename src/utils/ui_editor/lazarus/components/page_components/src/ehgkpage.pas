@@ -55,10 +55,15 @@ type
     procedure DoOnChange; virtual;
 
   public
+    { Total number of LEDs on the circuit board }
     const LedCount = EHGK_LED_COUNT_MAX;
+    { Creates an instance of TEhgkPage with initial Value set to 0 (all LEDs off) }
     constructor Create(AOwner: TComponent); override;
 
+    { Compares this page with another object. Returns True if the other object is a TEhgkPage
+      with the same LED state (Value). Owner, name, and other TComponent fields are ignored. }
     function Equals(Obj: TObject): Boolean; override;
+    { Returns the current LED state (Value) as the hash code. Two equal pages always have the same hash. }
     function GetHashCode: PtrInt; override;
 
     procedure TurnOnLed(const Index: TEhgkLedNumber);
