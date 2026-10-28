@@ -16,3 +16,6 @@ src/utils/ui_editor/lazarus/ehgk_editor/src/ehgk_editor
 
 src/utils/ui_editor/lazarus/app/ehgk_editor/src/ehgk_editor-linux-x86_64*
 
+# Lazarus IDE session files
+*.lps
+

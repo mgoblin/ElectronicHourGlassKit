@@ -24,6 +24,7 @@ type
   TSimplifiedLed = class(TCustomControl)
   private
     FBitmaps: array[TLedState] of TBitmap;
+    FEditable: Boolean;
     FState: TLedState;
     procedure SetState(AValue: TLedState);
     procedure BitmapChanged(Sender: TObject);
@@ -49,6 +50,8 @@ type
     /// Toggles the LED state between ``On`` and ``Off``.
     procedure DblClick; override;
   published
+    /// Controls whether the LED reacts to double-click and keyboard state changes.
+    property Editable: Boolean read FEditable write FEditable default True;
     /// Current LED state. Defaults to ``lsOff``.
     property State: TLedState read FState write SetState default lsOff;
     /// Indicates whether the control can receive focus via tab navigation.
@@ -86,6 +89,7 @@ begin
   FBitmaps[lsOn].OnChange  := @BitmapChanged;
 
   FState := lsOff;
+  FEditable := True;
   TabStop := True;
   DoubleBuffered := True;
 
@@ -224,7 +228,7 @@ begin
   inherited KeyDown(Key, Shift);
 
   // Toggle state on Space only
-  if Key = VK_SPACE then
+  if FEditable and (Key = VK_SPACE) then
   begin
     if FState = lsOff then State := lsOn
     else State := lsOff;
@@ -248,9 +252,12 @@ procedure TSimplifiedLed.DblClick;
 begin
   inherited DblClick;
 
-  // Toggle state on double click
-  if FState = lsOff then State := lsOn
-  else State := lsOff;
+  if FEditable then
+  begin
+    // Toggle state on double click
+    if FState = lsOff then State := lsOn
+    else State := lsOff;
+  end;
 end;
 
 procedure Register;

@@ -7,13 +7,13 @@ object MainForm: TMainForm
   Caption = 'EHGK Editor'
   ClientHeight = 573
   ClientWidth = 446
-  LCLVersion = '4.0.0.4'
   OnCreate = FormCreate
   object LED1: TSimplifiedLed
     Left = 10
     Height = 32
     Top = 10
     Width = 32
+    Editable = False
   end
   object LED2: TSimplifiedLed
     Left = 42
