@@ -82,12 +82,15 @@ type
     { Turns off all 57 LEDs on the circuit board }
     procedure TurnOffAllLeds;
 
+    { Accesses the state of an individual LED by its index (1..57). Returns True if the LED is on, or sets the LED state. }
     property Led[Index: TEhgkLedNumber]: Boolean read IsLedOn write SetLedState;
 
   published // Properties
+    { The combined state of all 57 LEDs as a 57-bit value. LED 1 corresponds to bit 0, LED 57 to bit 56. Valid range: 0..2^57-1 }
     property Value: TEhgkPageValue read FValue write SetValue;
 
   published // Events
+    { Event triggered when the Value property changes (i.e., when any LED state is modified) }
     property OnChange: TNotifyEvent read FOnChange write FOnChange;
   end;
 
