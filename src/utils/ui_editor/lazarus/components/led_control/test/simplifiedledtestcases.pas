@@ -5,7 +5,8 @@ unit SimplifiedLedTestCases;
 interface
 
 uses
-  Classes, SysUtils, fpcunit, testregistry, jsonparser, SimplifiedLed;
+  Classes, SysUtils, fpcunit, testregistry, jsonparser, SimplifiedLed,
+  LCLType, Controls;
 
 type
 
@@ -28,8 +29,37 @@ type
     procedure TestDblClickTwice;
   end;
 
+  { TSimplifiedLedEditableTestCase }
+
+  TSimplifiedLedEditableTestCase = class(TTestCase)
+  protected
+    LED: TSimplifiedLed;
+    procedure SetUp; override;    // Called before each test
+    procedure TearDown; override; // Called after each test
+  published
+    procedure TestEditableDefaultsToTrue;
+    procedure TestDblClickWithEditableTrue;
+    procedure TestDblClickWithEditableFalse;
+    procedure TestKeyDownSpaceWithEditableTrue;
+    procedure TestKeyDownSpaceWithEditableFalse;
+    procedure TestKeyDownOtherKeyIgnored;
+  end;
+
+  { TSimplifiedLedAccess — friend class to access protected KeyDown }
+
+  TSimplifiedLedAccess = class(TSimplifiedLed)
+  public
+    procedure TestKeyDown(var Key: Word; Shift: TShiftState);
+  end;
 
 implementation
+
+{ TSimplifiedLedAccess }
+
+procedure TSimplifiedLedAccess.TestKeyDown(var Key: Word; Shift: TShiftState);
+begin
+  inherited KeyDown(Key, Shift);
+end;
 
 procedure TSimplifiedLedConstructorTestCase.TestConstructor;
 var
@@ -106,9 +136,97 @@ begin
   AssertTrue('LED state should be toggled back after second dbl click', LED.State = TLEDState.lsOff);
 end;
 
+procedure TSimplifiedLedEditableTestCase.SetUp;
+begin
+  LED := TSimplifiedLed.Create(Nil);
+end;
+
+procedure TSimplifiedLedEditableTestCase.TearDown;
+begin
+  FreeAndNil(LED);
+end;
+
+procedure TSimplifiedLedEditableTestCase.TestEditableDefaultsToTrue;
+begin
+  AssertTrue('Editable property should default to True', LED.Editable);
+end;
+
+procedure TSimplifiedLedEditableTestCase.TestDblClickWithEditableTrue;
+begin
+  LED.Editable := True;
+  LED.State := lsOff;
+
+  LED.DblClick;
+  AssertTrue('LED should toggle on double-click when Editable=True', LED.State = lsOn);
+end;
+
+procedure TSimplifiedLedEditableTestCase.TestDblClickWithEditableFalse;
+begin
+  LED.Editable := False;
+  LED.State := lsOff;
+
+  LED.DblClick;
+  AssertTrue('LED should NOT toggle on double-click when Editable=False', LED.State = lsOff);
+end;
+
+procedure TSimplifiedLedEditableTestCase.TestKeyDownSpaceWithEditableTrue;
+var
+  LedAccess: TSimplifiedLedAccess;
+  Key: Word;
+begin
+  LedAccess := TSimplifiedLedAccess.Create(Nil);
+  try
+    LedAccess.Editable := True;
+    LedAccess.State := lsOff;
+    Key := VK_SPACE;
+
+    LedAccess.TestKeyDown(Key, []);
+    AssertTrue('LED should toggle on Space when Editable=True', LedAccess.State = lsOn);
+  finally
+    LedAccess.Free;
+  end;
+end;
+
+procedure TSimplifiedLedEditableTestCase.TestKeyDownSpaceWithEditableFalse;
+var
+  LedAccess: TSimplifiedLedAccess;
+  Key: Word;
+begin
+  LedAccess := TSimplifiedLedAccess.Create(Nil);
+  try
+    LedAccess.Editable := False;
+    LedAccess.State := lsOff;
+    Key := VK_SPACE;
+
+    LedAccess.TestKeyDown(Key, []);
+    AssertTrue('LED should NOT toggle on Space when Editable=False', LedAccess.State = lsOff);
+  finally
+    LedAccess.Free;
+  end;
+end;
+
+procedure TSimplifiedLedEditableTestCase.TestKeyDownOtherKeyIgnored;
+var
+  LedAccess: TSimplifiedLedAccess;
+  Key: Word;
+begin
+  LedAccess := TSimplifiedLedAccess.Create(Nil);
+  try
+    LedAccess.Editable := True;
+    LedAccess.State := lsOff;
+    Key := Ord('A');
+
+    LedAccess.TestKeyDown(Key, []);
+    AssertTrue('LED should NOT toggle on non-Space key', LedAccess.State = lsOff);
+  finally
+    LedAccess.Free;
+  end;
+end;
+
 initialization
+  RegisterTest(TSimplifiedLedConstructorTestCase);
   RegisterTest(TSimplifiedLedClickTestCase);
+  RegisterTest(TSimplifiedLedEditableTestCase);
 
 
 end.
-
