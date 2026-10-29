@@ -33,6 +33,15 @@
         <HasRegisterProc Value="True"/>
         <UnitName Value="EhgkPageContainer"/>
       </Item>
+      <Item>
+        <Filename Value="ehgkfileloader.pas"/>
+        <HasRegisterProc Value="True"/>
+        <UnitName Value="EhgkFileLoader"/>
+      </Item>
+      <Item>
+        <Filename Value="ehgksaveload.lrs"/>
+        <Type Value="LRS"/>
+      </Item>
     </Files>
     <RequiredPkgs>
       <Item>

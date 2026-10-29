@@ -10,7 +10,7 @@
         <EditorIndex Value="-1"/>
         <TopLine Value="13"/>
         <CursorPos X="59" Y="33"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="50"/>
       </Unit>
       <Unit>
         <Filename Value="main.pas"/>
@@ -19,10 +19,9 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="Form"/>
         <UnitName Value="Main"/>
-        <IsVisibleTab Value="True"/>
         <TopLine Value="124"/>
         <CursorPos Y="134"/>
-        <UsageCount Value="49"/>
+        <UsageCount Value="50"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit>
@@ -33,12 +32,10 @@
         <HasResources Value="True"/>
         <ResourceBaseClass Value="DataModule"/>
         <UnitName Value="DataModule"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="16"/>
         <CursorPos X="34" Y="35"/>
-        <UsageCount Value="49"/>
-        <Loaded Value="True"/>
-        <LoadedDesigner Value="True"/>
+        <UsageCount Value="50"/>
       </Unit>
       <Unit>
         <Filename Value="../../page_components/src/ehgkpage.pas"/>
@@ -219,11 +216,10 @@
       <Unit>
         <Filename Value="../../../components/led_control/src/simplifiedled.pas"/>
         <UnitName Value="SimplifiedLed"/>
-        <EditorIndex Value="1"/>
+        <EditorIndex Value="-1"/>
         <TopLine Value="243"/>
         <CursorPos X="3" Y="260"/>
         <UsageCount Value="14"/>
-        <Loaded Value="True"/>
       </Unit>
       <Unit>
         <Filename Value="/usr/lib/lazarus/4.0/lcl/stdctrls.pp"/>
@@ -250,9 +246,9 @@
       <Unit>
         <Filename Value="../../../components/page_components/src/ehgkpage.pas"/>
         <UnitName Value="EhgkPage"/>
-        <EditorIndex Value="3"/>
-        <TopLine Value="112"/>
-        <CursorPos X="29" Y="126"/>
+        <EditorIndex Value="2"/>
+        <TopLine Value="221"/>
+        <CursorPos X="21" Y="242"/>
         <UsageCount Value="10"/>
         <Loaded Value="True"/>
       </Unit>
@@ -263,11 +259,21 @@
         <CursorPos X="39" Y="255"/>
         <UsageCount Value="10"/>
       </Unit>
+      <Unit>
+        <Filename Value="../../../components/page_components/src/ehgkfileloader.pas"/>
+        <UnitName Value="EhgkFileLoader"/>
+        <IsVisibleTab Value="True"/>
+        <EditorIndex Value="1"/>
+        <TopLine Value="9"/>
+        <CursorPos X="19" Y="32"/>
+        <UsageCount Value="10"/>
+        <Loaded Value="True"/>
+      </Unit>
     </Units>
     <Debugger>
       <Backend Value="{0BBD7FF9-8EF4-4034-B203-24A74C72370E}"/>
     </Debugger>
-    <JumpHistory HistoryIndex="29">
+    <JumpHistory HistoryIndex="13">
       <Position>
         <Filename Value="main.pas"/>
         <Caret Line="135" Column="20" TopLine="125"/>
@@ -319,70 +325,6 @@
       <Position>
         <Filename Value="main.pas"/>
         <Caret Line="96" Column="15" TopLine="85"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../components/page_components/src/ehgkpage.pas"/>
-        <Caret Line="61" Column="24" TopLine="50"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../components/page_components/src/ehgkpage.pas"/>
-        <Caret Line="127" Column="49" TopLine="114"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../components/page_components/src/ehgkpage.pas"/>
-        <Caret Line="62" Column="16" TopLine="51"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../components/page_components/src/ehgkpage.pas"/>
-        <Caret Line="61" Column="17" TopLine="51"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../components/page_components/src/ehgkpage.pas"/>
-        <Caret Line="62" Column="32" TopLine="51"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../components/page_components/src/ehgkpage.pas"/>
-        <Caret Line="132" Column="13" TopLine="120"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../components/led_control/src/simplifiedled.pas"/>
-        <Caret Line="35" Column="18" TopLine="19"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../components/led_control/src/simplifiedled.pas"/>
-        <Caret Line="36" Column="18" TopLine="22"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../components/led_control/src/simplifiedled.pas"/>
-        <Caret Line="29" Column="22" TopLine="24"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../components/led_control/src/simplifiedled.pas"/>
-        <Caret Line="36" Column="19" TopLine="26"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../components/led_control/src/simplifiedled.pas"/>
-        <Caret Line="221" Column="3" TopLine="217"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../components/led_control/src/simplifiedled.pas"/>
-        <Caret Line="38" Column="15" TopLine="26"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../components/led_control/src/simplifiedled.pas"/>
-        <Caret Line="241" Column="3" TopLine="238"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../components/led_control/src/simplifiedled.pas"/>
-        <Caret Line="51" Column="15" TopLine="49"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../components/led_control/src/simplifiedled.pas"/>
-        <Caret Line="255" Column="8" TopLine="245"/>
-      </Position>
-      <Position>
-        <Filename Value="../../../components/led_control/src/simplifiedled.pas"/>
-        <Caret Line="8" Column="61"/>
       </Position>
       <Position>
         <Filename Value="main.pas"/>

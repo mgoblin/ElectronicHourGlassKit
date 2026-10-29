@@ -4,10 +4,11 @@
 
 unit PageComponents;
 
+{$warn 5023 off : no warning about unused units}
 interface
 
 uses
-  EhgkPage, EhgkPageContainer, LazarusPackageIntf;
+  EhgkPage, EhgkPageContainer, EhgkFileLoader, LazarusPackageIntf;
 
 implementation
 
@@ -15,6 +16,7 @@ procedure Register;
 begin
   RegisterUnit('EhgkPage', @EhgkPage.Register);
   RegisterUnit('EhgkPageContainer', @EhgkPageContainer.Register);
+  RegisterUnit('EhgkFileLoader', @EhgkFileLoader.Register);
 end;
 
 initialization
