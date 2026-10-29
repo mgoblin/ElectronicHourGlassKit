@@ -271,7 +271,7 @@ begin
          WriteLn(Format('One LED line: %d', [yyval.yyUInt64]));
        end;
     7: begin
-         yyval.yyUInt64 := yyv[yysp-2].yyUInt64 + yyv[yysp-0].yyUInt64;
+         yyval.yyUInt64 := yyv[yysp-2].yyUInt64 or yyv[yysp-0].yyUInt64;
          WriteLn(Format('Multi LEDs line: %d', [yyval.yyUInt64]));
        end;
     8: begin

@@ -56,7 +56,7 @@ leds  :   led   {
                 }
         | leds '|' led  
                 { 
-                  $$ := $1 + $3;
+                  $$ := $1 or $3;
                   WriteLn(Format('Multi LEDs line: %d', [$$])); 
                 }
       ;
