@@ -42,6 +42,14 @@
         <Filename Value="ehgksaveload.lrs"/>
         <Type Value="LRS"/>
       </Item>
+      <Item>
+        <Filename Value="ehgkparser.pas"/>
+        <UnitName Value="EhgkParser"/>
+      </Item>
+      <Item>
+        <Filename Value="ehgklexer.pas"/>
+        <UnitName Value="ehgklexer"/>
+      </Item>
     </Files>
     <RequiredPkgs>
       <Item>
