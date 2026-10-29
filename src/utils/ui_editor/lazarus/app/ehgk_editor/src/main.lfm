@@ -20,336 +20,392 @@ object MainForm: TMainForm
     Height = 32
     Top = 10
     Width = 32
+    Editable = False
   end
   object LED3: TSimplifiedLed
     Left = 74
     Height = 32
     Top = 10
     Width = 32
+    Editable = False
   end
   object LED4: TSimplifiedLed
     Left = 106
     Height = 32
     Top = 10
     Width = 32
+    Editable = False
   end
   object LED5: TSimplifiedLed
     Left = 138
     Height = 32
     Top = 10
     Width = 32
+    Editable = False
   end
   object LED6: TSimplifiedLed
     Left = 168
     Height = 32
     Top = 10
     Width = 32
+    Editable = False
   end
   object LED7: TSimplifiedLed
     Left = 200
     Height = 32
     Top = 10
     Width = 32
+    Editable = False
   end
   object LED8: TSimplifiedLed
     Left = 24
     Height = 32
     Top = 46
     Width = 32
+    Editable = False
   end
   object LED9: TSimplifiedLed
     Left = 56
     Height = 32
     Top = 46
     Width = 32
+    Editable = False
   end
   object LED10: TSimplifiedLed
     Left = 88
     Height = 32
     Top = 46
     Width = 32
+    Editable = False
   end
   object LED11: TSimplifiedLed
     Left = 120
     Height = 32
     Top = 46
     Width = 32
+    Editable = False
   end
   object LED12: TSimplifiedLed
     Left = 152
     Height = 32
     Top = 46
     Width = 32
+    Editable = False
   end
   object LED13: TSimplifiedLed
     Left = 184
     Height = 32
     Top = 46
     Width = 32
+    Editable = False
   end
   object LED14: TSimplifiedLed
     Left = 38
     Height = 32
     Top = 82
     Width = 32
+    Editable = False
   end
   object LED15: TSimplifiedLed
     Left = 70
     Height = 32
     Top = 82
     Width = 32
+    Editable = False
   end
   object LED16: TSimplifiedLed
     Left = 102
     Height = 32
     Top = 82
     Width = 32
+    Editable = False
   end
   object LED17: TSimplifiedLed
     Left = 134
     Height = 32
     Top = 82
     Width = 32
+    Editable = False
   end
   object LED18: TSimplifiedLed
     Left = 166
     Height = 32
     Top = 82
     Width = 32
+    Editable = False
   end
   object LED19: TSimplifiedLed
     Left = 54
     Height = 32
     Top = 118
     Width = 32
+    Editable = False
   end
   object LED20: TSimplifiedLed
     Left = 86
     Height = 32
     Top = 118
     Width = 32
+    Editable = False
   end
   object LED21: TSimplifiedLed
     Left = 118
     Height = 32
     Top = 118
     Width = 32
+    Editable = False
   end
   object LED22: TSimplifiedLed
     Left = 150
     Height = 32
     Top = 118
     Width = 32
+    Editable = False
   end
   object LED23: TSimplifiedLed
     Left = 70
     Height = 32
     Top = 154
     Width = 32
+    Editable = False
   end
   object LED24: TSimplifiedLed
     Left = 102
     Height = 32
     Top = 154
     Width = 32
+    Editable = False
   end
   object LED25: TSimplifiedLed
     Left = 134
     Height = 32
     Top = 154
     Width = 32
+    Editable = False
   end
   object LED26: TSimplifiedLed
     Left = 86
     Height = 32
     Top = 190
     Width = 32
+    Editable = False
   end
   object LED27: TSimplifiedLed
     Left = 118
     Height = 32
     Top = 190
     Width = 32
+    Editable = False
   end
   object LED28: TSimplifiedLed
     Left = 102
     Height = 32
     Top = 226
     Width = 32
+    Editable = False
   end
   object LED29: TSimplifiedLed
     Left = 102
     Height = 32
     Top = 262
     Width = 32
+    Editable = False
   end
   object LED30: TSimplifiedLed
     Left = 102
     Height = 32
     Top = 298
     Width = 32
+    Editable = False
   end
   object LED31: TSimplifiedLed
     Left = 86
     Height = 32
     Top = 334
     Width = 32
+    Editable = False
   end
   object LED32: TSimplifiedLed
     Left = 118
     Height = 32
     Top = 334
     Width = 32
+    Editable = False
   end
   object LED33: TSimplifiedLed
     Left = 70
     Height = 32
     Top = 370
     Width = 32
+    Editable = False
   end
   object LED34: TSimplifiedLed
     Left = 102
     Height = 32
     Top = 370
     Width = 32
+    Editable = False
   end
   object LED35: TSimplifiedLed
     Left = 134
     Height = 32
     Top = 370
     Width = 32
+    Editable = False
   end
   object LED36: TSimplifiedLed
     Left = 54
     Height = 32
     Top = 406
     Width = 32
+    Editable = False
   end
   object LED37: TSimplifiedLed
     Left = 86
     Height = 32
     Top = 406
     Width = 32
+    Editable = False
   end
   object LED38: TSimplifiedLed
     Left = 118
     Height = 32
     Top = 406
     Width = 32
+    Editable = False
   end
   object LED39: TSimplifiedLed
     Left = 150
     Height = 32
     Top = 406
     Width = 32
+    Editable = False
   end
   object LED40: TSimplifiedLed
     Left = 38
     Height = 32
     Top = 442
     Width = 32
+    Editable = False
   end
   object LED41: TSimplifiedLed
     Left = 70
     Height = 32
     Top = 442
     Width = 32
+    Editable = False
   end
   object LED42: TSimplifiedLed
     Left = 102
     Height = 32
     Top = 442
     Width = 32
+    Editable = False
   end
   object LED43: TSimplifiedLed
     Left = 134
     Height = 32
     Top = 442
     Width = 32
+    Editable = False
   end
   object LED44: TSimplifiedLed
     Left = 166
     Height = 32
     Top = 442
     Width = 32
+    Editable = False
   end
   object LED45: TSimplifiedLed
     Left = 22
     Height = 32
     Top = 478
     Width = 32
+    Editable = False
   end
   object LED46: TSimplifiedLed
     Left = 54
     Height = 32
     Top = 478
     Width = 32
+    Editable = False
   end
   object LED47: TSimplifiedLed
     Left = 86
     Height = 32
     Top = 478
     Width = 32
+    Editable = False
   end
   object LED48: TSimplifiedLed
     Left = 118
     Height = 32
     Top = 478
     Width = 32
+    Editable = False
   end
   object LED49: TSimplifiedLed
     Left = 150
     Height = 32
     Top = 478
     Width = 32
+    Editable = False
   end
   object LED50: TSimplifiedLed
     Left = 182
     Height = 32
     Top = 478
     Width = 32
+    Editable = False
   end
   object LED51: TSimplifiedLed
     Left = 8
     Height = 32
     Top = 514
     Width = 32
+    Editable = False
   end
   object LED52: TSimplifiedLed
     Left = 38
     Height = 32
     Top = 514
     Width = 32
+    Editable = False
   end
   object LED53: TSimplifiedLed
     Left = 70
     Height = 32
     Top = 514
     Width = 32
+    Editable = False
   end
   object LED54: TSimplifiedLed
     Left = 102
     Height = 32
     Top = 514
     Width = 32
+    Editable = False
   end
   object LED55: TSimplifiedLed
     Left = 134
     Height = 32
     Top = 514
     Width = 32
+    Editable = False
   end
   object LED56: TSimplifiedLed
     Left = 166
     Height = 32
     Top = 514
     Width = 32
+    Editable = False
   end
   object LED57: TSimplifiedLed
     Left = 198
     Height = 32
     Top = 514
     Width = 32
+    Editable = False
   end
   object ButtonView: TButton
     Left = 166

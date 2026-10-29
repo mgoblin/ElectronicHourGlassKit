@@ -131,8 +131,6 @@ end;
 procedure TMainForm.OpenSerialPortButtonClick(Sender: TObject);
 const
   Hello: String = 'Hello';
-var
-  Response: String;
 begin
   if SerialPortsListBox.ItemIndex >= 0 then
   begin
