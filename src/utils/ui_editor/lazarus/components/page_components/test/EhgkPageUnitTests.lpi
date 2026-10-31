@@ -125,6 +125,9 @@
       <Item>
         <Name Value="InvalidLedException"/>
       </Item>
+      <Item>
+        <Name Value="UnterminatedBlockCommentException"/>
+      </Item>
     </Exceptions>
   </Debugging>
 </CONFIG>

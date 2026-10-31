@@ -24,8 +24,10 @@ type
     procedure TestParseLedBoundaries;
     procedure TestRejectInvalidLedIndex;
     procedure TestRejectInvalidLedIndexInPageList;
+    procedure TestRejectInvalidLedIndexReportsLine;
     procedure TestRejectIncompletePageList;
     procedure TestRejectUnterminatedBlockComment;
+    procedure TestParserStateResetsAfterErrors;
   end;
 
 implementation
@@ -194,6 +196,13 @@ begin
     'Line 1: LED index out of bounds 1..57: L99');
 end;
 
+procedure TPdParserTestCase.TestRejectInvalidLedIndexReportsLine;
+begin
+  AssertInvalidLed('L1, // line comment' + LineEnding +
+    '/* block comment' + LineEnding + 'continued */ L58',
+    'Line 3: LED index out of bounds 1..57: L58');
+end;
+
 procedure TPdParserTestCase.TestRejectIncompletePageList;
 var
   Pages: TPagesList;
@@ -232,6 +241,36 @@ begin
           'Line 2: Unterminated block comment', E.Message);
     end;
     AssertEquals('An invalid input should not append pages', 0, Pages.Count);
+  finally
+    Pages.Free;
+  end;
+end;
+
+procedure TPdParserTestCase.TestParserStateResetsAfterErrors;
+var
+  Pages: TPagesList;
+begin
+  Pages := TPagesList.Create;
+  try
+    AssertInvalidLed('L58', 'Line 1: LED index out of bounds 1..57: L58');
+    AssertTrue('A valid parse should work after an invalid LED',
+      ParseInput('L3', Pages));
+    AssertEquals('The valid parse after an invalid LED should be added',
+      '4', UIntToStr(Pages[0]));
+
+    Pages.Clear;
+    try
+      ParseInput('L1' + LineEnding + '/* unfinished', Pages);
+      Fail('An unterminated comment should raise its exception');
+    except
+      on E: UnterminatedBlockCommentException do
+        ;
+    end;
+
+    AssertTrue('A valid parse should work after an unterminated comment',
+      ParseInput('L2', Pages));
+    AssertEquals('The valid parse after an unterminated comment should be added',
+      '2', UIntToStr(Pages[0]));
   finally
     Pages.Free;
   end;
