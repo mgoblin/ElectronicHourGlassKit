@@ -25,6 +25,7 @@ type
     procedure TestRejectInvalidLedIndex;
     procedure TestRejectInvalidLedIndexInPageList;
     procedure TestRejectInvalidLedIndexReportsLine;
+    procedure TestParseWindowsLineEndings;
     procedure TestRejectIncompletePageList;
     procedure TestRejectUnterminatedBlockComment;
     procedure TestParserStateResetsAfterErrors;
@@ -48,14 +49,14 @@ end;
 function TPdParserTestCase.ParseInput(const Input: string;
   Pages: TPagesList): Boolean;
 var
-  InputLines: TStringList;
+  InputFile: TFileStream;
 begin
-  InputLines := TStringList.Create;
+  InputFile := TFileStream.Create(FInputFileName, fmCreate);
   try
-    InputLines.Text := Input;
-    InputLines.SaveToFile(FInputFileName);
+    if Input <> '' then
+      InputFile.WriteBuffer(Input[1], Length(Input));
   finally
-    InputLines.Free;
+    InputFile.Free;
   end;
 
   Result := ParsePages(FInputFileName, Pages);
@@ -200,6 +201,13 @@ procedure TPdParserTestCase.TestRejectInvalidLedIndexReportsLine;
 begin
   AssertInvalidLed('L1, // line comment' + LineEnding +
     '/* block comment' + LineEnding + 'continued */ L58',
+    'Line 3: LED index out of bounds 1..57: L58');
+end;
+
+procedure TPdParserTestCase.TestParseWindowsLineEndings;
+begin
+  AssertInvalidLed('L1, // line comment' + #13#10 +
+    '/* block comment' + #13#10 + 'continued */ L58',
     'Line 3: LED index out of bounds 1..57: L58');
 end;
 

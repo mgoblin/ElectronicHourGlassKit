@@ -39,11 +39,13 @@ var
 %x LINE_COMMENT 
 %x BLOCK_COMMENT 
 
+NL (\r\n|\r|\n)
+
 %%
   { Rules section: comments and tokens }
 
 "//"                  begin start(LINE_COMMENT); end;
-<LINE_COMMENT>\n      begin Inc(LineNo); start(0); end;
+<LINE_COMMENT>{NL}    begin Inc(LineNo); start(0); end;
 <LINE_COMMENT>.       begin end;
 
 "/*"                  begin
@@ -52,7 +54,7 @@ var
                         start(BLOCK_COMMENT);
                       end;
 <BLOCK_COMMENT>"*/"   begin InBlockComment := False; start(0); end;
-<BLOCK_COMMENT>\n     begin Inc(LineNo); end;
+<BLOCK_COMMENT>{NL}   begin Inc(LineNo); end;
 <BLOCK_COMMENT>.      begin end;
 
 L[0-9]+               begin
@@ -76,7 +78,7 @@ EMPTY_PAGE            begin
                       end;                        
 
 [ \t]                 ;                          // spaces and tabs — ignore
-\n                    begin Inc(LineNo); end;    // newline — bump line counter
+{NL}                  begin Inc(LineNo); end;   // newline — bump line counter
 
 .                     begin yyerror('Character unexpected'); end;
 
