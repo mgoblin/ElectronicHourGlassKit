@@ -33,6 +33,7 @@ var
   InvalidLedReason: string = '';       // shared with lexer via {$include}
   LineNo: Integer = 1;                 // current line number
   BlockCommentStartLine: Integer = 0;  // line where /* started
+  InputClosedByLexer: Boolean = False;
 
 procedure yyerror(s: string);  // Called by yyparse on error
 begin
@@ -51,6 +52,9 @@ end;
 
 function ParserYyWrap: Boolean;
 begin
+  if TextRec(yyinput).Mode <> fmClosed then
+    CloseFile(yyinput);
+  InputClosedByLexer := True;
   Result := True;
 end;
 
@@ -466,6 +470,7 @@ begin
   LineNo := 1;
   BlockCommentStartLine := 0;
   InBlockComment := False;
+  InputClosedByLexer := False;
   PreviousYyWrap := yywrap;
   yywrap := @ParserYyWrap;
   try
@@ -490,9 +495,11 @@ begin
     end;
   finally
     try
-      if TextRec(yyinput).Mode <> fmClosed then
+      if not InputClosedByLexer and
+        (TextRec(yyinput).Mode <> fmClosed) then
         CloseFile(yyinput);
     finally
+      InputClosedByLexer := False;
       yywrap := PreviousYyWrap;
     end;
   end;
