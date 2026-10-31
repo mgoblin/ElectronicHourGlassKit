@@ -26,37 +26,18 @@ function ParsePages(const inputFileName: String; pages: TPagesList): Boolean;
 
 implementation
 
-uses Classes, yacclib, lexlib;
-
-type
-  TGetCharFunc = function: Char;
-  TUngetCharProc = procedure(c: Char);
+uses yacclib, lexlib;
 
 var
   PagesList: TPagesList;   
   InvalidLedReason: string = '';       // shared with lexer via {$include}
   LineNo: Integer = 1;                 // current line number
   BlockCommentStartLine: Integer = 0;  // line where /* started
-  ParserInput: RawByteString = '';
-  ParserInputPosition: SizeInt = 1;
-
-function ParserGetChar: Char;
-begin
-  if ParserInputPosition > Length(ParserInput) then
-    Exit(#0);
-  Result := ParserInput[ParserInputPosition];
-  Inc(ParserInputPosition);
-end;
-
-procedure ParserUngetChar(c: Char);
-begin
-  if c <> #0 then
-    Dec(ParserInputPosition);
-end;
 
 procedure yyerror(s: string);  // Called by yyparse on error
 begin
-  WriteLn(Format('Error at line %d: %s', [LineNo, s]));
+  if IsConsole then
+    WriteLn(Format('Error at line %d: %s', [LineNo, s]));
 end;
 
 // Debug logging — enabled only when compiled with -dDEBUG.
@@ -471,9 +452,6 @@ var
   i: Integer;
   ParserStage: string;
   PreviousYyWrap: yywrap_t;
-  PreviousGetChar: TGetCharFunc;
-  PreviousUngetChar: TUngetCharProc;
-  InputStream: TFileStream;
 begin
   Result := False;
   try
@@ -483,30 +461,18 @@ begin
     ParserStage := 'check input file';
     if not FileExists(inputFileName) then
     begin
-      WriteLn(Format('Error: file not found: %s', [inputFileName]));
+      if IsConsole then
+        WriteLn(Format('Error: file not found: %s', [inputFileName]));
       Exit;
     end;
 
-    ParserStage := 'read input file';
-    InputStream := TFileStream.Create(inputFileName, fmOpenRead);
-    try
-      SetLength(ParserInput, InputStream.Size);
-      if Length(ParserInput) > 0 then
-        InputStream.ReadBuffer(ParserInput[1], Length(ParserInput));
-    finally
-      InputStream.Free;
-    end;
-
-    ParserStage := 'initialize lexer';
-    ParserInputPosition := 1;
+    ParserStage := 'open input file';
+    Assign(yyinput, inputFileName);
+    Reset(yyinput);
     yyclear;
     LineNo := 1;
     BlockCommentStartLine := 0;
     InBlockComment := False;
-    PreviousGetChar := get_char;
-    PreviousUngetChar := unget_char;
-    get_char := @ParserGetChar;
-    unget_char := @ParserUngetChar;
     PreviousYyWrap := yywrap;
     yywrap := @ParserYyWrap;
     try
@@ -533,10 +499,11 @@ begin
         FreeAndNil(PagesList);
       end;
     finally
-      ParserInput := '';
-      get_char := PreviousGetChar;
-      unget_char := PreviousUngetChar;
-      yywrap := PreviousYyWrap;
+      try
+        CloseFile(yyinput);
+      finally
+        yywrap := PreviousYyWrap;
+      end;
     end;
   except
     on E: EInOutError do

@@ -218,6 +218,7 @@ var
   Pages: TPagesList;
   InvalidInputs: array[0..2] of string;
   ParseSucceeded: Boolean;
+  PreviousIsConsole: Boolean;
   i: Integer;
 begin
   InvalidInputs[0] := 'L1,';
@@ -225,7 +226,9 @@ begin
   InvalidInputs[2] := ',L1';
 
   Pages := TPagesList.Create;
+  PreviousIsConsole := IsConsole;
   try
+    IsConsole := False;
     for i := Low(InvalidInputs) to High(InvalidInputs) do
     begin
       try
@@ -241,6 +244,7 @@ begin
       AssertEquals('A failed parse should not append pages', 0, Pages.Count);
     end;
   finally
+    IsConsole := PreviousIsConsole;
     Pages.Free;
   end;
 end;
