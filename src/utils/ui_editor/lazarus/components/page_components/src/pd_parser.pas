@@ -26,25 +26,32 @@ function ParsePages(const inputFileName: String; pages: TPagesList): Boolean;
 
 implementation
 
-uses yacclib, lexlib;
+uses Classes, yacclib, lexlib;
 
 type
   TGetCharFunc = function: Char;
+  TUngetCharProc = procedure(c: Char);
 
 var
   PagesList: TPagesList;   
   InvalidLedReason: string = '';       // shared with lexer via {$include}
   LineNo: Integer = 1;                 // current line number
   BlockCommentStartLine: Integer = 0;  // line where /* started
-  ParserOriginalGetChar: TGetCharFunc;
-  ParserAtEndOfInput: Boolean = False;
+  ParserInput: RawByteString = '';
+  ParserInputPosition: SizeInt = 1;
 
 function ParserGetChar: Char;
 begin
-  if ParserAtEndOfInput then
+  if ParserInputPosition > Length(ParserInput) then
     Exit(#0);
-  Result := ParserOriginalGetChar();
-  ParserAtEndOfInput := Result = #0;
+  Result := ParserInput[ParserInputPosition];
+  Inc(ParserInputPosition);
+end;
+
+procedure ParserUngetChar(c: Char);
+begin
+  if c <> #0 then
+    Dec(ParserInputPosition);
 end;
 
 procedure yyerror(s: string);  // Called by yyparse on error
@@ -463,6 +470,9 @@ function ParsePages(const inputFileName: String; pages: TPagesList): Boolean;
 var 
   i: Integer;
   PreviousYyWrap: yywrap_t;
+  PreviousGetChar: TGetCharFunc;
+  PreviousUngetChar: TUngetCharProc;
+  InputStream: TFileStream;
 begin
   Result := False;
   InvalidLedReason := '';   // reset before parsing
@@ -473,15 +483,24 @@ begin
     Exit;
   end;
 
-  Assign(yyinput, inputFileName);
-  Reset(yyinput);
+  InputStream := TFileStream.Create(inputFileName, fmOpenRead);
+  try
+    SetLength(ParserInput, InputStream.Size);
+    if Length(ParserInput) > 0 then
+      InputStream.ReadBuffer(ParserInput[1], Length(ParserInput));
+  finally
+    InputStream.Free;
+  end;
+
+  ParserInputPosition := 1;
   yyclear;
   LineNo := 1;
   BlockCommentStartLine := 0;
   InBlockComment := False;
-  ParserAtEndOfInput := False;
-  ParserOriginalGetChar := get_char;
+  PreviousGetChar := get_char;
+  PreviousUngetChar := unget_char;
   get_char := @ParserGetChar;
+  unget_char := @ParserUngetChar;
   PreviousYyWrap := yywrap;
   yywrap := @ParserYyWrap;
   try
@@ -505,13 +524,10 @@ begin
       FreeAndNil(PagesList);
     end;
   finally
-    try
-      CloseFile(yyinput);
-    finally
-      ParserAtEndOfInput := False;
-      get_char := ParserOriginalGetChar;
-      yywrap := PreviousYyWrap;
-    end;
+    ParserInput := '';
+    get_char := PreviousGetChar;
+    unget_char := PreviousUngetChar;
+    yywrap := PreviousYyWrap;
   end;
 end;
 
