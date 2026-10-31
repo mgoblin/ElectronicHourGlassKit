@@ -28,12 +28,24 @@ implementation
 
 uses yacclib, lexlib;
 
+type
+  TGetCharFunc = function: Char;
+
 var
   PagesList: TPagesList;   
   InvalidLedReason: string = '';       // shared with lexer via {$include}
   LineNo: Integer = 1;                 // current line number
   BlockCommentStartLine: Integer = 0;  // line where /* started
-  InputClosedByLexer: Boolean = False;
+  ParserOriginalGetChar: TGetCharFunc;
+  ParserAtEndOfInput: Boolean = False;
+
+function ParserGetChar: Char;
+begin
+  if ParserAtEndOfInput then
+    Exit(#0);
+  Result := ParserOriginalGetChar();
+  ParserAtEndOfInput := Result = #0;
+end;
 
 procedure yyerror(s: string);  // Called by yyparse on error
 begin
@@ -52,9 +64,6 @@ end;
 
 function ParserYyWrap: Boolean;
 begin
-  if TextRec(yyinput).Mode <> fmClosed then
-    CloseFile(yyinput);
-  InputClosedByLexer := True;
   Result := True;
 end;
 
@@ -470,7 +479,9 @@ begin
   LineNo := 1;
   BlockCommentStartLine := 0;
   InBlockComment := False;
-  InputClosedByLexer := False;
+  ParserAtEndOfInput := False;
+  ParserOriginalGetChar := get_char;
+  get_char := @ParserGetChar;
   PreviousYyWrap := yywrap;
   yywrap := @ParserYyWrap;
   try
@@ -495,11 +506,10 @@ begin
     end;
   finally
     try
-      if not InputClosedByLexer and
-        (TextRec(yyinput).Mode <> fmClosed) then
-        CloseFile(yyinput);
+      CloseFile(yyinput);
     finally
-      InputClosedByLexer := False;
+      ParserAtEndOfInput := False;
+      get_char := ParserOriginalGetChar;
       yywrap := PreviousYyWrap;
     end;
   end;

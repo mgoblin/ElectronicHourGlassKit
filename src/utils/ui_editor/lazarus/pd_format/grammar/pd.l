@@ -11,20 +11,25 @@
 function ParseLedIndex(const s: string): Integer;
 const
   MAX_LED_INDEX = 57;
+var
+  LedIndex: Int64;
 begin
-  if not TryStrToInt(Copy(s, 2, Length(s) - 1), Result) then
-  begin
-    if InvalidLedReason = '' then
-      InvalidLedReason := Format('Line %d: Invalid LED index: %s', [LineNo, s]);
-    Result := 0;
-  end
-  else if (Result < 1) or (Result > MAX_LED_INDEX) then
+  if not TryStrToInt64(Copy(s, 2, Length(s) - 1), LedIndex) then
   begin
     if InvalidLedReason = '' then
       InvalidLedReason := Format('Line %d: LED index out of bounds 1..%d: %s',
                                  [LineNo, MAX_LED_INDEX, s]);
     Result := 0;
-  end;
+  end
+  else if (LedIndex < 1) or (LedIndex > MAX_LED_INDEX) then
+  begin
+    if InvalidLedReason = '' then
+      InvalidLedReason := Format('Line %d: LED index out of bounds 1..%d: %s',
+                                 [LineNo, MAX_LED_INDEX, s]);
+    Result := 0;
+  end
+  else
+    Result := Integer(LedIndex);
 end;
 
 var

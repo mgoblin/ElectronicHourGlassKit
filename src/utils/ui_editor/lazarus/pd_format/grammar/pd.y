@@ -24,11 +24,24 @@ implementation
 
 uses yacclib, lexlib;
 
+type
+  TGetCharFunc = function: Char;
+
 var
   PagesList: TPagesList;   
   InvalidLedReason: string = '';       // shared with lexer via {$include}
   LineNo: Integer = 1;                 // current line number
   BlockCommentStartLine: Integer = 0;  // line where /* started
+  ParserOriginalGetChar: TGetCharFunc;
+  ParserAtEndOfInput: Boolean = False;
+
+function ParserGetChar: Char;
+begin
+  if ParserAtEndOfInput then
+    Exit(#0);
+  Result := ParserOriginalGetChar();
+  ParserAtEndOfInput := Result = #0;
+end;
 
 procedure yyerror(s: string);  // Called by yyparse on error
 begin
@@ -123,6 +136,9 @@ begin
   LineNo := 1;
   BlockCommentStartLine := 0;
   InBlockComment := False;
+  ParserAtEndOfInput := False;
+  ParserOriginalGetChar := get_char;
+  get_char := @ParserGetChar;
   PreviousYyWrap := yywrap;
   yywrap := @ParserYyWrap;
   try
@@ -149,6 +165,8 @@ begin
     try
       CloseFile(yyinput);
     finally
+      ParserAtEndOfInput := False;
+      get_char := ParserOriginalGetChar;
       yywrap := PreviousYyWrap;
     end;
   end;

@@ -187,6 +187,8 @@ begin
   AssertInvalidLed('L58', 'Line 1: LED index out of bounds 1..57: L58');
   AssertInvalidLed('L99999999999',
     'Line 1: LED index out of bounds 1..57: L99999999999');
+  AssertInvalidLed('L9999999999999999999999999',
+    'Line 1: LED index out of bounds 1..57: L9999999999999999999999999');
 end;
 
 procedure TPdParserTestCase.TestRejectInvalidLedIndexInPageList;
