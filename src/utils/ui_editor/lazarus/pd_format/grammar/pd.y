@@ -18,7 +18,7 @@ type
   InvalidLedException = class(Exception)
   end;
 
-function ParsePages(inputString: String; pages: TPagesList): Boolean;
+function ParsePages(const inputFileName: String; pages: TPagesList): Boolean;
 
 implementation
 
@@ -98,40 +98,21 @@ empty: EMPTY_PAGE { $$ := $1; DebugLog(Format('EMPTY_PAGE value: %d', [$$])); };
 
 {$include pd_lexer.pas}
 
-function ReadStdin(): String;
-var
-  FullInput: String;
-  Line: String;
-begin
-  FullInput := '';
-
-  while not EOF do
-  begin
-    Readln(Line);
-    FullInput := FullInput + Line + LineEnding;
-  end;
-  Result := FullInput;
-end;
-
-function ParsePages(inputString: String; pages: TPagesList): Boolean;
-const
-  fileName: String = 'parse.txt';
+function ParsePages(const inputFileName: String; pages: TPagesList): Boolean;
 var 
-  srcWrite, srcRead: TextFile;  
+  srcRead: TextFile;  
   i: Integer;
 begin
   Result := False;
   InvalidLedReason := '';   // reset before parsing
 
-  Assign(srcWrite, fileName);
-  try
-    Rewrite(srcWrite);
-    Write(srcWrite, inputString);
-  finally
-    CloseFile(srcWrite);
+  if not FileExists(inputFileName) then
+  begin
+    WriteLn(Format('Error: file not found: %s', [inputFileName]));
+    Exit;
   end;
 
-  Assign(srcRead, fileName);
+  Assign(srcRead, inputFileName);
   try
     Reset(srcRead);
     PagesList := TPagesList.Create();
