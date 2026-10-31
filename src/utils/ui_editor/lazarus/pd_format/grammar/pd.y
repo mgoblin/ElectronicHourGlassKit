@@ -126,65 +126,80 @@ empty: EMPTY_PAGE { $$ := $1; DebugLog(Format('EMPTY_PAGE value: %d', [$$])); };
 function ParsePages(const inputFileName: String; pages: TPagesList): Boolean;
 var 
   i: Integer;
+  ParserStage: string;
   PreviousYyWrap: yywrap_t;
   PreviousGetChar: TGetCharFunc;
   PreviousUngetChar: TUngetCharProc;
   InputStream: TFileStream;
 begin
   Result := False;
-  InvalidLedReason := '';   // reset before parsing
-
-  if not FileExists(inputFileName) then
-  begin
-    WriteLn(Format('Error: file not found: %s', [inputFileName]));
-    Exit;
-  end;
-
-  InputStream := TFileStream.Create(inputFileName, fmOpenRead);
   try
-    SetLength(ParserInput, InputStream.Size);
-    if Length(ParserInput) > 0 then
-      InputStream.ReadBuffer(ParserInput[1], Length(ParserInput));
-  finally
-    InputStream.Free;
-  end;
+    ParserStage := 'reset parser state';
+    InvalidLedReason := '';
 
-  ParserInputPosition := 1;
-  yyclear;
-  LineNo := 1;
-  BlockCommentStartLine := 0;
-  InBlockComment := False;
-  PreviousGetChar := get_char;
-  PreviousUngetChar := unget_char;
-  get_char := @ParserGetChar;
-  unget_char := @ParserUngetChar;
-  PreviousYyWrap := yywrap;
-  yywrap := @ParserYyWrap;
-  try
-    PagesList := TPagesList.Create();
+    ParserStage := 'check input file';
+    if not FileExists(inputFileName) then
+    begin
+      WriteLn(Format('Error: file not found: %s', [inputFileName]));
+      Exit;
+    end;
+
+    ParserStage := 'read input file';
+    InputStream := TFileStream.Create(inputFileName, fmOpenRead);
     try
-      if yyparse() = 0 then
-      begin
-        if InvalidLedReason <> '' then
-          raise InvalidLedException.Create(InvalidLedReason);
-        
-        if InBlockComment then
-          raise UnterminatedBlockCommentException.Create(
-            Format('Line %d: Unterminated block comment', [BlockCommentStartLine]));
-        
-        for i := 0 to PagesList.Count-1 do
-          pages.Add(PagesList[i]);
-        
-        Result := True;
+      SetLength(ParserInput, InputStream.Size);
+      if Length(ParserInput) > 0 then
+        InputStream.ReadBuffer(ParserInput[1], Length(ParserInput));
+    finally
+      InputStream.Free;
+    end;
+
+    ParserStage := 'initialize lexer';
+    ParserInputPosition := 1;
+    yyclear;
+    LineNo := 1;
+    BlockCommentStartLine := 0;
+    InBlockComment := False;
+    PreviousGetChar := get_char;
+    PreviousUngetChar := unget_char;
+    get_char := @ParserGetChar;
+    unget_char := @ParserUngetChar;
+    PreviousYyWrap := yywrap;
+    yywrap := @ParserYyWrap;
+    try
+      PagesList := TPagesList.Create();
+      try
+        ParserStage := 'parse input';
+        if yyparse() = 0 then
+        begin
+          ParserStage := 'validate parsed input';
+          if InvalidLedReason <> '' then
+            raise InvalidLedException.Create(InvalidLedReason);
+
+          if InBlockComment then
+            raise UnterminatedBlockCommentException.Create(
+              Format('Line %d: Unterminated block comment',
+                [BlockCommentStartLine]));
+
+          for i := 0 to PagesList.Count - 1 do
+            pages.Add(PagesList[i]);
+
+          Result := True;
+        end;
+      finally
+        FreeAndNil(PagesList);
       end;
     finally
-      FreeAndNil(PagesList);
+      ParserInput := '';
+      get_char := PreviousGetChar;
+      unget_char := PreviousUngetChar;
+      yywrap := PreviousYyWrap;
     end;
-  finally
-    ParserInput := '';
-    get_char := PreviousGetChar;
-    unget_char := PreviousUngetChar;
-    yywrap := PreviousYyWrap;
+  except
+    on E: EInOutError do
+      raise EInOutError.CreateFmt(
+        'ParsePages failed during "%s" for "%s": %s',
+        [ParserStage, inputFileName, E.Message]);
   end;
 end;
 

@@ -217,6 +217,7 @@ procedure TPdParserTestCase.TestRejectIncompletePageList;
 var
   Pages: TPagesList;
   InvalidInputs: array[0..2] of string;
+  ParseSucceeded: Boolean;
   i: Integer;
 begin
   InvalidInputs[0] := 'L1,';
@@ -227,8 +228,16 @@ begin
   try
     for i := Low(InvalidInputs) to High(InvalidInputs) do
     begin
+      try
+        ParseSucceeded := ParseInput(InvalidInputs[i], Pages);
+      except
+        on E: EInOutError do
+          raise EInOutError.CreateFmt(
+            'Invalid input #%d (%s) raised %s: %s',
+            [i, QuotedStr(InvalidInputs[i]), E.ClassName, E.Message]);
+      end;
       AssertFalse('Malformed page list should fail to parse: ' +
-        InvalidInputs[i], ParseInput(InvalidInputs[i], Pages));
+        InvalidInputs[i], ParseSucceeded);
       AssertEquals('A failed parse should not append pages', 0, Pages.Count);
     end;
   finally
