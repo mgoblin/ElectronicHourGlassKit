@@ -1,5 +1,5 @@
 %{
-program pd_parser;
+unit pd_parser;
 
 {$mode ObjFPC}
 {$inline on}
@@ -7,7 +7,9 @@ program pd_parser;
 {$push}
 {$WARN 6058 off}
 
-uses SysUtils, yacclib, lexlib, fgl;
+interface
+
+uses SysUtils, fgl;
 
 type
   TPagesList = class(specialize TFPGList<UInt64>);
@@ -15,6 +17,12 @@ type
   end; 
   InvalidLedException = class(Exception)
   end;
+
+function ParsePages(inputString: String; pages: TPagesList): Boolean;
+
+implementation
+
+uses yacclib, lexlib;
 
 var
   PagesList: TPagesList;   
@@ -151,32 +159,4 @@ begin
   end;
 end;
 
-var
-  i: Integer;
-  inputString: String;
-  pages: TPagesList; 
-begin
-  pages := TPagesList.Create();
-  try
-    try
-      inputString := ReadStdin();
-      if ParsePages(inputString, pages) then
-      begin
-        WriteLn(Format('%d pages parsed', [pages.Count]));
-        for i := 0 to pages.Count-1 do
-        begin
-          WriteLn(Format('%d => %d', [i + 1, pages[i]]));
-        end;
-      end;
-    except
-      on E: InvalidLedException do
-        WriteLn(Format('Error: %s', [E.Message]));
-      on E: UnterminatedBlockCommentException do
-        WriteLn(Format('Error: %s', [E.Message]));
-      on E: Exception do
-        WriteLn(Format('Unexpected error (%s): %s', [E.ClassName, E.Message]));
-    end;
-  finally
-    FreeAndNil(pages);
-  end;  
 end.
