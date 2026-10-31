@@ -18,11 +18,13 @@ type
 
 var
   PagesList: TPagesList;   
-  InvalidLedReason: string = '';   // shared with lexer via {$include}
+  InvalidLedReason: string = '';       // shared with lexer via {$include}
+  LineNo: Integer = 1;                 // current line number
+  BlockCommentStartLine: Integer = 0;  // line where /* started
 
-procedure yyerror(s: string);  // Called by yyparse on error <- overload !
+procedure yyerror(s: string);  // Called by yyparse on error
 begin
-  WriteLn(Format('Error: %s', [s]));
+  WriteLn(Format('Error at line %d: %s', [LineNo, s]));
 end;
 
 // Debug logging — enabled only when compiled with -dDEBUG.
@@ -76,9 +78,7 @@ leds  :   led   {
                 }
       ;
       
-led   : LED { if InvalidLedReason <> '' then
-                yyabort;   // invalid LED: abort parsing immediately
-              if $1 >= 1 then
+led   : LED { if $1 >= 1 then
                 $$ := UInt64(1) shl ($1 - 1)
               else
                 $$ := 0;
@@ -105,13 +105,16 @@ begin
   Result := FullInput;
 end;
 
-procedure ParsePages(inputString: String; pages: TPagesList);
+function ParsePages(inputString: String; pages: TPagesList): Boolean;
 const
   fileName: String = 'parse.txt';
 var 
   srcWrite, srcRead: TextFile;  
   i: Integer;
 begin
+  Result := False;
+  InvalidLedReason := '';   // reset before parsing
+
   Assign(srcWrite, fileName);
   try
     Rewrite(srcWrite);
@@ -126,16 +129,20 @@ begin
     PagesList := TPagesList.Create();
     try
       yyinput := srcRead;
-      yyparse();
-
-      if InvalidLedReason <> '' then
-        raise InvalidLedException.Create(InvalidLedReason);
-      
-      if InBlockComment then
-        raise UnterminatedBlockCommentException.Create('Unterminated block comment');
-      
-      for i := 0 to PagesList.Count-1 do
-        pages.Add(PagesList[i]);
+      if yyparse() = 0 then
+      begin
+        if InvalidLedReason <> '' then
+          raise InvalidLedException.Create(InvalidLedReason);
+        
+        if InBlockComment then
+          raise UnterminatedBlockCommentException.Create(
+            Format('Line %d: Unterminated block comment', [BlockCommentStartLine]));
+        
+        for i := 0 to PagesList.Count-1 do
+          pages.Add(PagesList[i]);
+        
+        Result := True;
+      end;
     finally
       FreeAndNil(PagesList);
     end;
@@ -143,6 +150,7 @@ begin
     // CloseFile(srcRead); <- lexlib closes yyinput itself
   end;
 end;
+
 var
   i: Integer;
   inputString: String;
@@ -152,12 +160,13 @@ begin
   try
     try
       inputString := ReadStdin();
-      ParsePages(inputString, pages);
-      
-      WriteLn(Format('%d pages parsed', [pages.Count]));
-      for i := 0 to pages.Count-1 do
+      if ParsePages(inputString, pages) then
       begin
-        WriteLn(Format('%d => %d', [i + 1, pages[i]]));
+        WriteLn(Format('%d pages parsed', [pages.Count]));
+        for i := 0 to pages.Count-1 do
+        begin
+          WriteLn(Format('%d => %d', [i + 1, pages[i]]));
+        end;
       end;
     except
       on E: InvalidLedException do
