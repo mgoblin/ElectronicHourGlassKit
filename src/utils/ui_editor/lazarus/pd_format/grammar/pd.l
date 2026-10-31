@@ -12,14 +12,15 @@ function ParseLedIndex(const s: string): Integer;
 const
   MAX_LED_INDEX = 57;
 begin
+  InvalidLedReason := '';
   if not TryStrToInt(Copy(s, 2, Length(s) - 1), Result) then
   begin
-    yyerror(Format('Invalid LED index: %s', [s]));
+    InvalidLedReason := Format('Invalid LED index: %s', [s]);
     Result := 0;
   end
   else if (Result < 1) or (Result > MAX_LED_INDEX) then
   begin
-    yyerror(Format('LED index out of bounds 1..%d: %s', [MAX_LED_INDEX, s]));
+    InvalidLedReason := Format('LED index out of bounds 1..%d: %s', [MAX_LED_INDEX, s]);
     Result := 0;
   end;
 end;
@@ -48,15 +49,15 @@ var
 <BLOCK_COMMENT>.      begin end;
 
 L[0-9]+               begin
-						{$IFDEF DEBUG} WriteLn(Format('LED: %s', [yytext])); {$ENDIF}
+                        {$IFDEF DEBUG} WriteLn(Format('LED: %s', [yytext])); {$ENDIF}
                         yylval.yyInteger := ParseLedIndex(yytext);
-						return(LED);
+                        return(LED);
                       end;
 
 EMPTY_PAGE            begin 
-					    {$IFDEF DEBUG} WriteLn(yytext); {$ENDIF}
-					    yylval.yyInteger := 0;
-					    return(EMPTY_PAGE);
+                        {$IFDEF DEBUG} WriteLn(yytext); {$ENDIF}
+                        yylval.yyInteger := 0;
+                        return(EMPTY_PAGE);
                       end; 
 
 "|"                   begin
@@ -69,7 +70,6 @@ EMPTY_PAGE            begin
 
 [ \t\n]               ;
 
-.   				  begin yyerror('Character unexpected'); end;
+.                     begin yyerror('Character unexpected'); end;
 
 %%
-

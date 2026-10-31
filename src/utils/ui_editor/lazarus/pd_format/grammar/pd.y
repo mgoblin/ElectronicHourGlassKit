@@ -13,13 +13,26 @@ type
   TPagesList = class(specialize TFPGList<UInt64>);
   UnterminatedBlockCommentException = class(Exception)
   end; 
+  InvalidLedException = class(Exception)
+  end;
 
 var
   PagesList: TPagesList;   
+  InvalidLedReason: string = '';   // shared with lexer via {$include}
 
 procedure yyerror(s: string);  // Called by yyparse on error <- overload !
 begin
   WriteLn(Format('Error: %s', [s]));
+end;
+
+// Debug logging — enabled only when compiled with -dDEBUG.
+// Kept outside grammar actions because P Yacc does not understand
+// {$IFDEF} directives inside { ... } action blocks.
+procedure DebugLog(const msg: string);
+begin
+  {$IFDEF DEBUG}
+  WriteLn(msg);
+  {$ENDIF}
 end;
 
 %}    
@@ -34,7 +47,7 @@ end;
 %type <UInt64> page_line
 
 %%
-start : pages { Writeln('Done'); }
+start : pages { DebugLog('Done'); }
       ;
 
 pages :   page_line             { 
@@ -48,31 +61,30 @@ pages :   page_line             {
 page_line :   leds 
             | empty { 
                 $$ := $1; 
-                WriteLn(Format('Empty LEDs line: %d', [$$])); 
+                DebugLog(Format('Empty LEDs line: %d', [$$])); 
               }
           ;
 
 leds  :   led   { 
                   $$ := $1;
-                  WriteLn(Format('One LED line: %d', [$$])); 
+                  DebugLog(Format('One LED line: %d', [$$])); 
                 }
         | leds '|' led  
                 { 
                   $$ := $1 or $3;
-                  WriteLn(Format('Multi LEDs line: %d', [$$])); 
+                  DebugLog(Format('Multi LEDs line: %d', [$$])); 
                 }
       ;
       
-led	  : LED { if ($1 > 0) and ($1 < 58) then
-              begin
-                $$ := UInt64(1) shl ($1 - 1); 
-                WriteLn(Format('L%d value: %d', [$1, $$])); 
-              end else
-              begin
+led   : LED { if InvalidLedReason <> '' then
+                yyabort;   // invalid LED: abort parsing immediately
+              if $1 >= 1 then
+                $$ := UInt64(1) shl ($1 - 1)
+              else
                 $$ := 0;
-              end;  };
+            };
 
-empty: EMPTY_PAGE { $$ := $1; WriteLn(Format('EMPTY_PAGE value: %d', [$$])); };
+empty: EMPTY_PAGE { $$ := $1; DebugLog(Format('EMPTY_PAGE value: %d', [$$])); };
 
 %%
 
@@ -100,7 +112,6 @@ var
   srcWrite, srcRead: TextFile;  
   i: Integer;
 begin
- 
   Assign(srcWrite, fileName);
   try
     Rewrite(srcWrite);
@@ -109,7 +120,6 @@ begin
     CloseFile(srcWrite);
   end;
 
- 
   Assign(srcRead, fileName);
   try
     Reset(srcRead);
@@ -117,6 +127,9 @@ begin
     try
       yyinput := srcRead;
       yyparse();
+
+      if InvalidLedReason <> '' then
+        raise InvalidLedException.Create(InvalidLedReason);
       
       if InBlockComment then
         raise UnterminatedBlockCommentException.Create('Unterminated block comment');
@@ -127,10 +140,9 @@ begin
       FreeAndNil(PagesList);
     end;
   finally
-    // CloseFile(srcRead); <- lexlib close file
+    // CloseFile(srcRead); <- lexlib closes yyinput itself
   end;
 end;
-
 var
   i: Integer;
   inputString: String;
@@ -138,21 +150,24 @@ var
 begin
   pages := TPagesList.Create();
   try
-	  try
-		inputString := ReadStdin();
-		ParsePages(inputString, pages);
-		
-		WriteLn(Format('%d pages parsed', [pages.Count]));
-		for i := 0 to pages.Count-1 do
-		begin
-		  WriteLn(Format('%d => %d', [i + 1, pages[i]]));
-		end;
-	  except
-		on E: UnterminatedBlockCommentException do
-		  WriteLn(Format('Error: %s', [E.Message]));
-	  end;
+    try
+      inputString := ReadStdin();
+      ParsePages(inputString, pages);
+      
+      WriteLn(Format('%d pages parsed', [pages.Count]));
+      for i := 0 to pages.Count-1 do
+      begin
+        WriteLn(Format('%d => %d', [i + 1, pages[i]]));
+      end;
+    except
+      on E: InvalidLedException do
+        WriteLn(Format('Error: %s', [E.Message]));
+      on E: UnterminatedBlockCommentException do
+        WriteLn(Format('Error: %s', [E.Message]));
+      on E: Exception do
+        WriteLn(Format('Unexpected error (%s): %s', [E.ClassName, E.Message]));
+    end;
   finally
     FreeAndNil(pages);
   end;  
 end.
-
