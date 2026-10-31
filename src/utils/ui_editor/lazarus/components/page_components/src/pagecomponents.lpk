@@ -43,12 +43,12 @@
         <Type Value="LRS"/>
       </Item>
       <Item>
-        <Filename Value="ehgkparser.pas"/>
-        <UnitName Value="EhgkParser"/>
+        <Filename Value="pd_lexer.pas"/>
+        <Type Value="Include"/>
       </Item>
       <Item>
-        <Filename Value="ehgklexer.pas"/>
-        <UnitName Value="ehgklexer"/>
+        <Filename Value="pd_parser.pas"/>
+        <UnitName Value="pd_parser"/>
       </Item>
     </Files>
     <RequiredPkgs>

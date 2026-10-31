@@ -8,8 +8,7 @@ unit PageComponents;
 interface
 
 uses
-  EhgkPage, EhgkPageContainer, EhgkFileLoader, EhgkParser, EhgkLexer, 
-  LazarusPackageIntf;
+  EhgkPage, EhgkPageContainer, EhgkFileLoader, pd_parser, LazarusPackageIntf;
 
 implementation
 
