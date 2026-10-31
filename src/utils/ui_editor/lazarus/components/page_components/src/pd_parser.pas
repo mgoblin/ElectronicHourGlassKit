@@ -490,7 +490,8 @@ begin
     end;
   finally
     try
-      CloseFile(yyinput);
+      if TextRec(yyinput).Mode <> fmClosed then
+        CloseFile(yyinput);
     finally
       yywrap := PreviousYyWrap;
     end;
