@@ -11,6 +11,8 @@ uses SysUtils, yacclib, lexlib, fgl;
 
 type
   TPagesList = class(specialize TFPGList<UInt64>);
+  UnterminatedBlockCommentException = class(Exception)
+  end; 
 
 var
   PagesList: TPagesList;   
@@ -32,7 +34,7 @@ end;
 %type <UInt64> page_line
 
 %%
-start : pages { Writeln('Done'); yyaccept; }
+start : pages { Writeln('Done'); }
       ;
 
 pages :   page_line             { 
@@ -61,13 +63,13 @@ leds  :   led   {
                 }
       ;
       
-led: LED { if ($1 > 0) and ($1 < 58) then
+led	  : LED { if ($1 > 0) and ($1 < 58) then
               begin
-                $$ := 1 shl ($1 - 1); 
+                $$ := UInt64(1) shl ($1 - 1); 
                 WriteLn(Format('L%d value: %d', [$1, $$])); 
               end else
               begin
-                yyerror(Format('LED index %d is out of bounds 1..56', [$1]));
+                $$ := 0;
               end;  };
 
 empty: EMPTY_PAGE { $$ := $1; WriteLn(Format('EMPTY_PAGE value: %d', [$$])); };
@@ -95,31 +97,38 @@ procedure ParsePages(inputString: String; pages: TPagesList);
 const
   fileName: String = 'parse.txt';
 var 
-  srcText: TextFile;
+  srcWrite, srcRead: TextFile;  
   i: Integer;
 begin
-  Assign(srcText, fileName);
+ 
+  Assign(srcWrite, fileName);
   try
-    Rewrite(srcText);
-    Write(srcText, inputString);
+    Rewrite(srcWrite);
+    Write(srcWrite, inputString);
   finally
-    CloseFile(srcText);
+    CloseFile(srcWrite);
   end;
 
-  Reset(srcText);
-
-  PagesList := TPagesList.Create();
+ 
+  Assign(srcRead, fileName);
   try
-    yyinput := srcText;
-    yyparse ();
-    
-    for i := 0 to PagesList.Count-1 do
-    begin
-      pages.Add(PagesList[i]);
+    Reset(srcRead);
+    PagesList := TPagesList.Create();
+    try
+      yyinput := srcRead;
+      yyparse();
+      
+      if InBlockComment then
+        raise UnterminatedBlockCommentException.Create('Unterminated block comment');
+      
+      for i := 0 to PagesList.Count-1 do
+        pages.Add(PagesList[i]);
+    finally
+      FreeAndNil(PagesList);
     end;
   finally
-    FreeAndNil(PagesList);
-  end;  
+    // CloseFile(srcRead); <- lexlib close file
+  end;
 end;
 
 var
@@ -129,14 +138,19 @@ var
 begin
   pages := TPagesList.Create();
   try
-    inputString := ReadStdin();
-    ParsePages(inputString, pages);
-    
-    WriteLn(Format('%d pages parsed', [pages.Count]));
-    for i := 0 to pages.Count-1 do
-    begin
-      WriteLn(Format('%d => %d', [i + 1, pages[i]]));
-    end;
+	  try
+		inputString := ReadStdin();
+		ParsePages(inputString, pages);
+		
+		WriteLn(Format('%d pages parsed', [pages.Count]));
+		for i := 0 to pages.Count-1 do
+		begin
+		  WriteLn(Format('%d => %d', [i + 1, pages[i]]));
+		end;
+	  except
+		on E: UnterminatedBlockCommentException do
+		  WriteLn(Format('Error: %s', [E.Message]));
+	  end;
   finally
     FreeAndNil(pages);
   end;  
