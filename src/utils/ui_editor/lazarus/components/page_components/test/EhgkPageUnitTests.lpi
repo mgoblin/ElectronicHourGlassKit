@@ -58,6 +58,10 @@
         <Filename Value="EhgkPageNavigatableContainerTestCase.pas"/>
         <IsPartOfProject Value="True"/>
       </Unit>
+      <Unit>
+        <Filename Value="PdParserTestCases.pas"/>
+        <IsPartOfProject Value="True"/>
+      </Unit>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -114,6 +118,12 @@
       </Item>
       <Item>
         <Name Value="HandlerException"/>
+      </Item>
+      <Item>
+        <Name Value="RunError(103)"/>
+      </Item>
+      <Item>
+        <Name Value="InvalidLedException"/>
       </Item>
     </Exceptions>
   </Debugging>

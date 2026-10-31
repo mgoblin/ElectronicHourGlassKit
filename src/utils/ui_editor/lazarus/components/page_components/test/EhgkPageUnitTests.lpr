@@ -5,7 +5,8 @@ program EhgkPageUnitTests;
 uses
   Interfaces, SysUtils, Forms, GuiTestRunner, EhgkPageTestCases,
   EhgkPageValuePropertyTestCase, EhgkPageLedsIndexedPropertyTestCase,
-  EhgkPageContainerTestCase, EhgkPageNavigatableContainerTestCase;
+  EhgkPageContainerTestCase, EhgkPageNavigatableContainerTestCase,
+  PdParserTestCases;
 
 {$R *.res}
 const
@@ -35,4 +36,3 @@ begin
   // Or force application termination
   Application.Terminate;
 end.
-

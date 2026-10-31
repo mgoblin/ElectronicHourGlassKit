@@ -49,6 +49,11 @@ begin
   {$ENDIF}
 end;
 
+function ParserYyWrap: Boolean;
+begin
+  Result := True;
+end;
+
 const LED = 257;
 const EMPTY_PAGE = 258;
 
@@ -443,8 +448,8 @@ end(*yyparse*);
 
 function ParsePages(const inputFileName: String; pages: TPagesList): Boolean;
 var 
-  srcRead: TextFile;  
   i: Integer;
+  PreviousYyWrap: yywrap_t;
 begin
   Result := False;
   InvalidLedReason := '';   // reset before parsing
@@ -455,12 +460,17 @@ begin
     Exit;
   end;
 
-  Assign(srcRead, inputFileName);
+  Assign(yyinput, inputFileName);
+  Reset(yyinput);
+  yyclear;
+  LineNo := 1;
+  BlockCommentStartLine := 0;
+  InBlockComment := False;
+  PreviousYyWrap := yywrap;
+  yywrap := @ParserYyWrap;
   try
-    Reset(srcRead);
     PagesList := TPagesList.Create();
     try
-      yyinput := srcRead;
       if yyparse() = 0 then
       begin
         if InvalidLedReason <> '' then
@@ -479,7 +489,11 @@ begin
       FreeAndNil(PagesList);
     end;
   finally
-    // CloseFile(srcRead); <- lexlib closes yyinput itself
+    try
+      CloseFile(yyinput);
+    finally
+      yywrap := PreviousYyWrap;
+    end;
   end;
 end;
 
